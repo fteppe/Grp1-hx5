@@ -8,6 +8,6 @@ public class main {
 		System.out.println("yolo");
 		System.out.println("je suis youssef chettar!");
 		
-		System.out.println("Bonjour, je m'appelle Thibault, je sais compter 2 par 2 mais ce putain de truc ne veut pas push");
+		System.out.println("Bonjour, je m'appelle Thibault, je sais compter 2 par 2 ce putain de truc ne veut pas push");
 	}
 }
