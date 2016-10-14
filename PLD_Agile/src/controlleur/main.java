@@ -6,5 +6,6 @@ public class main {
 	public static void main(String[] args){
 		Fenetre fenetre = new Fenetre("optimod",400,400);
 		System.out.println("yolo");
+		System.out.println("je suis youssef chettar!");
 	}
 }
