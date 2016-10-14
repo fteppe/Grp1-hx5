@@ -85,6 +85,24 @@ public class DeserialiseurXML {
     
 
     private static void construireLivraisonsAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
+    	Element eltEntrepot = (Element)noeudDOMRacine.getElementsByTagName("entrepot").item(0);
+    	NodeList listeLivraisons = noeudDOMRacine.getElementsByTagName("livraison");
+    	
+    	int adresseEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
+    	String heureDepartEntrepot = eltEntrepot.getAttribute("heureDepart");
+    	
+    	// TODO - Envoyer adresseEntrepot et heureDepartEntrepot au plan pour creer l'entrepôt
+    	
+    	for(int i = 0 ; i < listeLivraisons.getLength() ; i++){
+    		Element eltLivraison = (Element) listeLivraisons.item(i);
+    		int adresse = Integer.parseInt(eltLivraison.getAttribute("adresse"));
+    		int duree = Integer.parseInt(eltLivraison.getAttribute("duree"));
+    		String debutPlage = eltLivraison.getAttribute("debutPlage");
+    		String finPlage = eltLivraison.getAttribute("finPlage");
+    		
+    		// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
+    		//		- pour créer la livraison
+    	}
     	
     }
     
