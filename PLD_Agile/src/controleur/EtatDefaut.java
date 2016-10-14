@@ -16,5 +16,5 @@ public abstract class EtatDefaut implements Etat {
 
 	public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 
-	public void clicGauche(Fenetre fenetre, Plan plan){}
+	public void clicGauche(Plan plan, Fenetre fenetre){}
 }

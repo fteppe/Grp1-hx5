@@ -46,5 +46,5 @@ public interface Etat {
 	 * @param fenetre
 	 * @param plan
 	 */
-	public void clicGauche(Fenetre fenetre, Plan plan);
+	public void clicGauche(Plan plan, Fenetre fenetre);
 }

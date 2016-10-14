@@ -38,7 +38,7 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic sur le bouton "Charger plan"
 	 */
 	public void chargerPlan() {
-		//etatCourant.chargerPlan(this, plan, fenetre);
+		etatCourant.chargerPlan(this, plan, fenetre);
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournée"
 	 */
-	public void calculTournée() {
-		//etatCourant.genererFeuilleDeRoute(this, plan, fenetre);
+	public void calculTournee() {
+		etatCourant.genererFeuilleDeRoute(plan, fenetre);
 	}
 	
 
@@ -74,7 +74,8 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
 	public void clicGauche() {
-		//etatCourant.clicGauche(plan, fenetre);
+		etatCourant.clicGauche(plan, fenetre);
 	}
-	
+
+
 }

@@ -25,4 +25,5 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre) {
 		
 	}
+
 }
