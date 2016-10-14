@@ -11,7 +11,9 @@ public class Fenetre extends JFrame{
 	private static String titrethis;
 	private Point dimensions;
 	private RootPaneUI panneauRacine;
-	JPanel panneau;
+	private Menu panneau;
+	//private BarreDesTaches barreDesTaches;
+	
 	
 	
 	public Fenetre(String titre,int hauteur,int largeur){
@@ -22,9 +24,10 @@ public class Fenetre extends JFrame{
 	    this.setSize(dimensions.x,dimensions.y);
 	    this.setLocationRelativeTo(null);
 	    
-	    panneau = new JPanel();
-	    panneau.setBackground(Color.red);
-	    this.setContentPane(panneau);
+	    panneau = new Menu();
+	    //barreDesTaches = new BarreDesTaches();
+	    //this.add(barreDesTaches);
+	    this.setJMenuBar(panneau);
 	    
 	}
 
