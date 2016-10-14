@@ -16,5 +16,6 @@ public class main {
 		
 		
 		System.out.println("Ceci n'est pas une phrase.");
+		System.out.println("yolo");
 	}
 }
