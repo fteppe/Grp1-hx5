@@ -1,20 +1,31 @@
 package vue;
 
-import javax.swing.JFrame;
+import java.awt.Color;
 
-public class Fenetre {
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.plaf.RootPaneUI;
+
+public class Fenetre extends JFrame{
 	
-	private static String titreFenetre;
+	private static String titrethis;
 	private Point dimensions;
+	private RootPaneUI panneauRacine;
+	JPanel panneau;
 	
 	
 	public Fenetre(String titre,int hauteur,int largeur){
-		titreFenetre = titre;
-	    JFrame fenetre = new JFrame();
-	    fenetre.setVisible(true);
-	    fenetre.setTitle(titreFenetre);
-	    fenetre.setSize(hauteur,largeur);
-	    fenetre.setLocationRelativeTo(null);
+		titrethis = titre;
+		dimensions = new Point(largeur,hauteur);
+	    this.setVisible(true);
+	    this.setTitle(titrethis);
+	    this.setSize(dimensions.x,dimensions.y);
+	    this.setLocationRelativeTo(null);
+	    
+	    panneau = new JPanel();
+	    panneau.setBackground(Color.red);
+	    this.setContentPane(panneau);
+	    
 	}
 
 }
