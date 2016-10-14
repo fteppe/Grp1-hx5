@@ -64,19 +64,21 @@ public class DeserialiseurXML {
     		int x = Integer.parseInt(eltNoeud.getAttribute("x"));
     		int y = Integer.parseInt(eltNoeud.getAttribute("y"));
     		
+    		System.out.println("Noeud : id = \""+id+"\" - x = \""+x+"\" - y = \""+y+"\"");
     		// TODO - Envoyer id , x et y à plan pour créer l'intersection
     		
     	}
     	NodeList listeTroncons = noeudDOMRacine.getElementsByTagName("troncon");
     	for(int i = 0 ; i < listeTroncons.getLength() ; i++){
-    		Element eltTroncon = (Element) listeNoeuds.item(i);
+    		Element eltTroncon = (Element) listeTroncons.item(i);
     		
     		int destination = Integer.parseInt(eltTroncon.getAttribute("destination"));
     		int origine = Integer.parseInt(eltTroncon.getAttribute("origine"));
     		int longueur = Integer.parseInt(eltTroncon.getAttribute("longueur"));
     		int vitesse = Integer.parseInt(eltTroncon.getAttribute("vitesse"));
     		String nomRue = eltTroncon.getAttribute("nomRue");
-    		
+
+    		System.out.println("Troncon : origine = \""+origine+"\" - destination = \""+destination+"\" - longueur = \""+longueur+"\" - vitesse = \""+vitesse+"\" - nomRue = \""+nomRue+"\"");
     		// TODO - Envoyer destination, origine, longueur, vitesse et nomRue
     		// 		- à plan pour créer le troncon.
     		
@@ -91,6 +93,7 @@ public class DeserialiseurXML {
     	int adresseEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
     	String heureDepartEntrepot = eltEntrepot.getAttribute("heureDepart");
     	
+    	System.out.println("Entrepot : adresse =\""+adresseEntrepot+"\" - heureDepart = \""+heureDepartEntrepot+"\"");
     	// TODO - Envoyer adresseEntrepot et heureDepartEntrepot au plan pour creer l'entrepôt
     	
     	for(int i = 0 ; i < listeLivraisons.getLength() ; i++){
@@ -100,6 +103,7 @@ public class DeserialiseurXML {
     		String debutPlage = eltLivraison.getAttribute("debutPlage");
     		String finPlage = eltLivraison.getAttribute("finPlage");
     		
+    		System.out.println("Livraison : adresse = \""+adresse+"\" - duree = \""+duree+"\" - debutPlage = \""+debutPlage+"\" - finPlage = \""+finPlage+"\"");
     		// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
     		//		- pour créer la livraison
     	}
