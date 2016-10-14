@@ -57,7 +57,30 @@ public class DeserialiseurXML {
 	}
 	
     private static void construirePlanAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
-    	
+    	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("noeud");
+    	for(int i = 0 ; i < listeNoeuds.getLength() ; i++){
+    		Element eltNoeud = (Element) listeNoeuds.item(i);
+    		int id = Integer.parseInt(eltNoeud.getAttribute("id"));
+    		int x = Integer.parseInt(eltNoeud.getAttribute("x"));
+    		int y = Integer.parseInt(eltNoeud.getAttribute("y"));
+    		
+    		// TODO - Envoyer id , x et y à plan pour créer l'intersection
+    		
+    	}
+    	NodeList listeTroncons = noeudDOMRacine.getElementsByTagName("troncon");
+    	for(int i = 0 ; i < listeTroncons.getLength() ; i++){
+    		Element eltTroncon = (Element) listeNoeuds.item(i);
+    		
+    		int destination = Integer.parseInt(eltTroncon.getAttribute("destination"));
+    		int origine = Integer.parseInt(eltTroncon.getAttribute("origine"));
+    		int longueur = Integer.parseInt(eltTroncon.getAttribute("longueur"));
+    		int vitesse = Integer.parseInt(eltTroncon.getAttribute("vitesse"));
+    		String nomRue = eltTroncon.getAttribute("nomRue");
+    		
+    		// TODO - Envoyer destination, origine, longueur, vitesse et nomRue
+    		// 		- à plan pour créer le troncon.
+    		
+    	}
     }
     
 
