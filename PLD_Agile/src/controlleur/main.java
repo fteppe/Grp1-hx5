@@ -4,8 +4,9 @@ import vue.Fenetre;
 
 public class main {
 	public static void main(String[] args){
-		System.out.println("scrum manager");
 		Fenetre fenetre = new Fenetre("optimod",400,400);
-		
+		System.out.println("yolo");
+		System.out.println("je suis youssef chettar!");
+		System.out.println("je suis dieu");
 	}
 }
