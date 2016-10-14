@@ -16,6 +16,8 @@ public class Troncon extends Observable {
 	this.longueur = longueur;
 	this.vitesseMoy = vitesseMoy;
 	this.setTpsParcours();
+	this.origine = origine;
+	this.destination = destination;
     }
     
     private void setTpsParcours() {
