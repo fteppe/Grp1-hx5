@@ -10,6 +10,7 @@ public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections;
    private HashMap<Integer, List<Troncon>> listeTroncons;
    private DemandeDeLivraison demandeDeLivraison;
+   private Tournee tournee;
    
    public Plan(){
        this.listeIntersections = new HashMap<Integer, Intersection>();
