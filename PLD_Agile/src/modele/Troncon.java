@@ -31,5 +31,13 @@ public class Troncon extends Observable {
     public double getTpsParcours(){
 	return this.tpsParcours;
     }
+    
+    public Intersection getOrigine(){
+	return this.origine;
+    }
+    
+    public Intersection getDestination(){
+	return this.destination;
+    }
 
 }
