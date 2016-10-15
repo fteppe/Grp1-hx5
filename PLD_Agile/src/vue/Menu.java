@@ -19,8 +19,6 @@ public class Menu extends JMenuBar{
 	public Menu(){
 		  fichiers = new JMenu("fichier"); 
 		  edition = new JMenu("edition");
-		  
-		
 		  this.add(fichiers);
 		  this.add(edition);
 		  ajouterElementsMenu();

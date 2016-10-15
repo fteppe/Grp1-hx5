@@ -19,5 +19,6 @@ public class BarreDesTaches extends JToolBar{
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
 		
+		
 	}
 }
