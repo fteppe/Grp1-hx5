@@ -7,6 +7,12 @@ public class Intersection extends Observable {
     private int longitude;
     private int latitude;
     
+    /**
+     * Cree une intersection de coordonnees (longitude, latitude)
+     * @param id L'identifiant de l'intersection
+     * @param longitude Longitude de l'intersection
+     * @param latitude Latitude de l'intersection
+     */
     public Intersection(int id, int longitude, int latitude){
 	this.id = id;
 	this.longitude = longitude;

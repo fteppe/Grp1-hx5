@@ -7,15 +7,24 @@ import java.util.List;
 import java.util.Observable;
 
 public class Plan extends Observable {
-   private HashMap<Integer, Intersection> listeIntersections;
-   private HashMap<Integer, List<Troncon>> listeTroncons;
+   private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
+   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classées selon l'identifiant de leur origine
    private DemandeDeLivraison demandeDeLivraison;
    
+   /**
+    * Cree un Plan ne possedant aucune intersection et aucun tronçon
+    */
    public Plan(){
        this.listeIntersections = new HashMap<Integer, Intersection>();
        this.listeTroncons = new HashMap<Integer, List<Troncon>>();
    }
    
+   /**
+    * Cree et ajoute une intersection au Plan courant
+    * @param id Identifiant de l'intersection a ajouter
+    * @param longitude Longitude de l'intersection a ajouter
+    * @param latitude Latitude de l'intersection a ajouter
+    */
    public void ajouterIntersection(int id, int longitude, int latitude) {
        Intersection nouvIntersection = 
 	       new Intersection (id, longitude, latitude);
@@ -25,6 +34,15 @@ public class Plan extends Observable {
        //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
    }
    
+   /**
+    * Cree et ajoute un troncon au Plan courant
+    * @param nom Nom du troncon a ajouter
+    * @param longueur Longueur (en decimetres) du troncon a ajouter
+    * @param vitMoyenne Vitesse moyenne de circulation
+    * 				(en decimetres/seconde) du troncon a ajouter
+    * @param origine Origine du troncon a ajouter
+    * @param destination Destination du troncon a ajouter
+    */
    public void ajouterTroncon(String nom, int longueur, int vitMoyenne,
 	   int origine, int destination) {
        Troncon nouvTroncon = new Troncon (nom,
@@ -41,6 +59,15 @@ public class Plan extends Observable {
        notifyObservers(nouvTroncon);
    }
    
+   /**
+    * Cree et ajoute une demande de livraison au plan courant
+    * @param heureDepart Heure de depart de l'entrepot
+    * @param entrepot Identifiant de l'entrepot
+    * @param adresses Liste des identifiants 
+    * 			des intersections correspondant 
+    * 				aux livraisons a effectuer
+    * @param durees Liste des durees des livraisons a effectuer
+    */
    public void ajouterDemandeDeLivraison(Time heureDepart, int entrepot,
 	   int[] adresses, int[] durees) {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
