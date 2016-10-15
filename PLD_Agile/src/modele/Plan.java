@@ -16,11 +16,10 @@ public class Plan extends Observable {
    
    public void ajouterIntersection(int id, int longitude, int latitude) {
        Intersection nouvIntersection = new Intersection (id, longitude, latitude);
-       if(this.listeIntersections.containsKey(id)){
-	   this.listeIntersections.put(id, nouvIntersection);
-       } else {
-	       //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
-       }
+       this.listeIntersections.put(id, nouvIntersection);
+       setChanged();
+       notifyObservers(nouvIntersection);
+       //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
    }
    
    public void ajouterTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination) {
@@ -32,6 +31,16 @@ public class Plan extends Observable {
 	   nouvListeTroncons.add(nouvTroncon);
 	   this.listeTroncons.put(origine, nouvListeTroncons);
        }
+       setChanged();
+       notifyObservers(nouvTroncon);
+   }
+   
+   public Intersection getIntersection (int id) {
+       return this.listeIntersections.get(id);
+   }
+   
+   public List<Troncon> getTroncons (int id) {
+       return this.listeTroncons.get(id);
    }
 
 }
