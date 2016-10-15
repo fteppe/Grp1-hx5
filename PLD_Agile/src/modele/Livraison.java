@@ -1,8 +1,9 @@
 package modele;
 
 import java.sql.Time;
+import java.util.Observable;
 
-public class Livraison {
+public class Livraison extends Observable {
     
     private int duree;
     private Time heureDepart;

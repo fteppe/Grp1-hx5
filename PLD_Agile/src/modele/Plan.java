@@ -45,12 +45,12 @@ public class Plan extends Observable {
 	   int[] adresses, int[] durees) {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
+       setChanged();
+       notifyObservers(this.demandeDeLivraison);
        for(int i = 0; i < adresses.length; i++){
 	   this.demandeDeLivraison.ajouterLivraison(durees[i],
 		   this.listeIntersections.get(adresses[i]));
        }
-       setChanged();
-       notifyObservers(this.demandeDeLivraison);
    }
    
    public Intersection getIntersection (int id) {
