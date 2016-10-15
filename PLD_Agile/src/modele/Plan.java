@@ -30,7 +30,7 @@ public class Plan extends Observable {
 	       new Intersection (id, longitude, latitude);
        this.listeIntersections.put(id, nouvIntersection);
        setChanged();
-       notifyObservers(nouvIntersection);
+       notifyObservers();
        //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
    }
    
@@ -56,7 +56,7 @@ public class Plan extends Observable {
 	   this.listeTroncons.put(origine, nouvListeTroncons);
        }
        setChanged();
-       notifyObservers(nouvTroncon);
+       notifyObservers();
    }
    
    /**
