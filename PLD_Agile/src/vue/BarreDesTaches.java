@@ -1,5 +1,8 @@
 package vue;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -19,6 +22,44 @@ public class BarreDesTaches extends JToolBar{
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
 		
+		ajouterEcouteurs();
+	}
+	
+	public void ajouterEcouteurs(){
+		chargerPlan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				actionChargerPlan();
+			}
+		});
 		
+		chargerDemandeLivraison.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				actionChargerDemandeDeLivraison();
+			}
+		});
+		
+		calculTournee.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				actionCalculDeTournée();
+			}
+		});
+	}
+	
+	public void actionChargerPlan(){
+		System.out.println("bouton charger plan cliqué");
+	}
+	
+	public void actionChargerDemandeDeLivraison(){
+		System.out.println("bouton chargement demande de livraison cliqué");
+	}
+	
+	public void actionCalculDeTournée(){
+		System.out.println("calcul de tournée bouton cliqué");
 	}
 }

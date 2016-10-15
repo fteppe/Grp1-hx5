@@ -55,6 +55,7 @@ public class Fenetre extends JFrame{
 		panneauNord.add(barreDesTaches, BorderLayout.SOUTH);
 		panneauNord.add(menu, BorderLayout.NORTH);
 		panneauEst.add(zoneDeTexte,BorderLayout.CENTER);
+		
 	}
 
 }
