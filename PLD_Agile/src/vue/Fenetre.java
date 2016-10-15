@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JFrame;
@@ -8,27 +9,39 @@ import javax.swing.plaf.RootPaneUI;
 
 public class Fenetre extends JFrame{
 	
-	private static String titrethis;
+	private static String titreFenetre;
 	private Point dimensions;
 	private RootPaneUI panneauRacine;
-	private Menu panneau;
-	//private BarreDesTaches barreDesTaches;
+	private Menu menu;
+	private BarreDesTaches barreDesTaches;
+	private JPanel top;
 	
 	
 	
 	public Fenetre(String titre,int hauteur,int largeur){
-		titrethis = titre;
+		titreFenetre = titre;
 		dimensions = new Point(largeur,hauteur);
+		top = new JPanel();
+		
 	    this.setVisible(true);
-	    this.setTitle(titrethis);
+	    this.setTitle(titreFenetre);
 	    this.setSize(dimensions.x,dimensions.y);
 	    this.setLocationRelativeTo(null);
+	    menu = new Menu();
+	    barreDesTaches = new BarreDesTaches();
 	    
-	    panneau = new Menu();
-	    //barreDesTaches = new BarreDesTaches();
-	    //this.add(barreDesTaches);
-	    this.setJMenuBar(panneau);
+	    placerComposant();
 	    
+	}
+	
+	public void placerComposant()
+	{
+		top.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
+		this.add(top,BorderLayout.NORTH);
+		top.add(barreDesTaches, BorderLayout.SOUTH);
+		top.add(menu, BorderLayout.NORTH);
+		
 	}
 
 }

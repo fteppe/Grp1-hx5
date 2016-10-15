@@ -12,7 +12,7 @@ import xml.ExceptionXML;
 
 public class main {
 	public static void main(String[] args){
-		Fenetre fenetre = new Fenetre("optimod",400,400);
+		Fenetre fenetre = new Fenetre("optimod",400,600);
 		
 		try {
 			DeserialiseurXML.chargerPlan(null);
