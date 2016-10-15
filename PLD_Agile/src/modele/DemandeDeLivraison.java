@@ -14,7 +14,8 @@ public class DemandeDeLivraison extends Observable {
      * Cree une demande de livraison a partir de l'heure de depart 
      * et de son entrepot
      * @param heureDepart Heure de depart de l'entrepot
-     * @param entrepot Intersection correspondant a l'entrepot de la livraison
+     * @param entrepot Intersection correspondant a l'entrepot 
+     * 			de la demande de livraison
      */
     public DemandeDeLivraison(Time heureDepart, Intersection entrepot) {
 	this.heureDepart = heureDepart;
