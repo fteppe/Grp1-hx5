@@ -63,25 +63,33 @@ public class Plan extends Observable {
        notifyObservers();
    }
    
+   
    /**
-    * Cree et ajoute une demande de livraison au plan courant
+    * Cree et ajoute une DemandeDeLivraison au Plan
     * @param heureDepart Heure de depart de l'entrepot
-    * @param entrepot Identifiant de l'entrepot
-    * @param adresses Liste des identifiants 
-    * 			des intersections correspondant 
-    * 				aux livraisons a effectuer
-    * @param durees Liste des durees des livraisons a effectuer
+    * @param entrepot Identifiant de l'intersection
+    * 			correspondant a l'entrepot
     */
-   public void ajouterDemandeDeLivraison(Time heureDepart, int entrepot,
-	   int[] adresses, int[] durees) {
+   public void creerDemandeDeLivraison(Time heureDepart, int entrepot)
+   {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
        setChanged();
-       notifyObservers(this.demandeDeLivraison);
-       for(int i = 0; i < adresses.length; i++){
-	   this.demandeDeLivraison.ajouterLivraison(durees[i],
-		   this.listeIntersections.get(adresses[i]));
-       }
+       notifyObservers();
+   }
+   
+   /**
+    * Cree et ajoute une livraison a la demande associee au Plan
+    * @param adresses Identifiant de l'intersection correspondant 
+    * 				a la livraisons a effectuer
+    * @param durees Duree de la livraison a effectuer
+    */
+   public void ajouterLivraison(int adresse, int duree)
+   {
+       this.demandeDeLivraison.ajouterLivraison(duree,
+		   this.listeIntersections.get(adresse));
+       setChanged();
+       notifyObservers();
    }
    
    public void calculerTournee() {
