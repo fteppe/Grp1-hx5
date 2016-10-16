@@ -35,7 +35,7 @@ public class Plan extends Observable {
        this.listeIntersections.put(id, nouvIntersection);
        setChanged();
        notifyObservers();
-       //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
+       //Gestion d'une exception si deux intersections ont le même numéro de sommet ?
    }
    
    /**
@@ -94,37 +94,57 @@ public class Plan extends Observable {
    
    public void calculerTournee() {
        int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       int[] listeSommets = completionTableauLivraison(nbrLivraisons);
-       calculerDijkstra(this.demandeDeLivraison, this.listeTroncons, listeSommets);
+       int[] listeIdLivraisons = completionTableauLivraison(nbrLivraisons);
+       calculerDijkstra(listeIdLivraisons);
    }
    
-   private Object [] calculerDijkstra(DemandeDeLivraison demandeDeLivraison,
-	   		HashMap<Integer, List<Troncon>> listeTroncons, int[]listeSommets){
-
-       int[][] couts = new int[listeSommets.length+2][listeSommets.length+2];
+   /**
+    * Calcul du plus court chemin selon Dijkstra a partir d'une liste de sommets définis
+    * @param listeIdLivraisons
+    * @return
+    */
+   private Object [] calculerDijkstra(int[] listeIdLivraisons){
+       int nbrSommets = listeIdLivraisons.length+1;
+       double[][] couts = new double[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
-       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[listeSommets.length+2][listeSommets.length+2];
-       for(int i = 0; i < listeSommets.length; i++){
-	   Object[] resultDijkstra = calculerDijkstraUnit(listeSommets[i], demandeDeLivraison, listeTroncons);
-	   Troncon[] pi = (Troncon[]) resultDijkstra[0];
-	   int[] cout = (int[]) resultDijkstra[1];
-	   couts[i]=cout;
-	   ArrayList<Troncon>[] trajetsUnit = triTableauPi(pi);
-	   trajets[i]=trajetsUnit;
+       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[nbrSommets][nbrSommets];
+       for(int i = 0; i < listeIdLivraisons.length + 1; i++){
+	   Object[] resultDijkstra = calculerDijkstra(listeIdLivraisons[i], listeIdLivraisons);
+	   double[] cout = (double[]) resultDijkstra[0];
+	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
+	   couts[i] = cout;
+	   List<Troncon>[] trajetsUnit = triTableauPi(pi);
+	   trajets[i] = trajetsUnit;
        }
        return new Object[]{couts, trajets};
    }
    
-   private Object[] calculerDijkstraUnit(int id, DemandeDeLivraison demandeDeLivraison, HashMap<Integer, List<Troncon>> listeTroncons){
-       return null;
+   /**
+    * Calcul du plus court chemin selon Dijkstra a partir d'un sommet défini
+    * @param id
+    * @param nbrSommets
+    * @return
+    */
+   private Object[] calculerDijkstra(int sourceId, int[] listeIdLivraisons){
+       double couts[] = new double[listeIdLivraisons.length];
+       Troncon[] pi = new Troncon[listeIdLivraisons.length];
+       
+       return new Object[]{couts, pi};
    }
    
-   private ArrayList<Troncon>[] triTableauPi(Troncon[] pi){
+   /**
+    * Mise en place de la liste des troncons correspondant aux plus courts 
+    * chemins calcules selon l'algorithme de Dijkstra a partir d'un 
+    * sommet defini
+    * @param pi
+    * @return
+    */
+   private List<Troncon>[] triTableauPi(Troncon[] pi){
        @SuppressWarnings("unchecked")
-       ArrayList<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
+       List<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
        for(int i = 0; i < pi.length; i++)
        {
-	   ArrayList<Troncon> trajet = new ArrayList<Troncon>();
+	   List<Troncon> trajet = new ArrayList<Troncon>();
 	   int j=i;
 	   while(pi[j]!=null){
 	      trajet.add(0, pi[j]);;
@@ -135,11 +155,16 @@ public class Plan extends Observable {
        return trajetsUnit;
    }
    
+   /**
+    * Creation d'un tableau faisant correspondre l'identifiant de chaque sommet 
+    * avec sa place dans le tableau des couts des plus courts chemins
+    * @param nbrLivraisons
+    * @return
+    */
    private int[] completionTableauLivraison(int nbrLivraisons){
-       int i = 0;
-       int[] sommets = new int[nbrLivraisons+2];
+       int i = 1;
+       int[] sommets = new int[nbrLivraisons+1];
        sommets[0] = demandeDeLivraison.getEntrepot().getId();
-       sommets[nbrLivraisons+1] = demandeDeLivraison.getEntrepot().getId();
        Set<Integer> cles = this.listeIntersections.keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
