@@ -15,7 +15,15 @@ public class Tournee extends Observable{
 	itineraires = new ArrayList<Itineraire>();
     }
     
-    protected void ajouterItineraire(Livraison depart, Livraison arrivee, List<Troncon> troncons)
+    /**
+     * Cree un nouvel Itineraire et l'ajoute a la liste d'Itineraires
+     * de la Tournee
+     * @param depart Livraison de depart de l'Itineraire
+     * @param arrivee Livraison d'arrivee
+     * @param troncons Ensemble des troncons a parcourir entre
+     * le depart et l'arrivee
+     */
+    public void ajouterItineraire(Livraison depart, Livraison arrivee, List<Troncon> troncons)
     {
 	itineraires.add(new Itineraire(depart, arrivee, troncons));
 	setChanged();
