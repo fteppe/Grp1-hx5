@@ -3,12 +3,15 @@ package modele;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+import java.util.Vector;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
-   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classées selon l'identifiant de leur origine
+   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classés selon l'identifiant de leur origine
    private DemandeDeLivraison demandeDeLivraison;
    private Tournee tournee;
    
@@ -81,11 +84,69 @@ public class Plan extends Observable {
        }
    }
    
-   public Intersection getIntersection (int id) {
+   public void calculerTournee() {
+       int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
+       int[] listeSommets = completionTableauLivraison(nbrLivraisons);
+       calculerDijkstra(this.demandeDeLivraison, this.listeTroncons, listeSommets);
+   }
+   
+   private Object [] calculerDijkstra(DemandeDeLivraison demandeDeLivraison,
+	   		HashMap<Integer, List<Troncon>> listeTroncons, int[]listeSommets){
+
+       int[][] couts = new int[listeSommets.length+2][listeSommets.length+2];
+       @SuppressWarnings("unchecked")
+       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[listeSommets.length+2][listeSommets.length+2];
+       for(int i = 0; i < listeSommets.length; i++){
+	   Object[] resultDijkstra = calculerDijkstraUnit(listeSommets[i], demandeDeLivraison, listeTroncons);
+	   Troncon[] pi = (Troncon[]) resultDijkstra[0];
+	   int[] cout = (int[]) resultDijkstra[1];
+	   couts[i]=cout;
+	   ArrayList<Troncon>[] trajetsUnit = triTableauPi(pi);
+	   trajets[i]=trajetsUnit;
+       }
+       return new Object[]{couts, trajets};
+   }
+   
+   private Object[] calculerDijkstraUnit(int id, DemandeDeLivraison demandeDeLivraison, HashMap<Integer, List<Troncon>> listeTroncons){
+       return null;
+   }
+   
+   private ArrayList<Troncon>[] triTableauPi(Troncon[] pi){
+       @SuppressWarnings("unchecked")
+       ArrayList<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
+       for(int i = 0; i < pi.length; i++)
+       {
+	   ArrayList<Troncon> trajet = new ArrayList<Troncon>();
+	   int j=i;
+	   while(pi[j]!=null){
+	      trajet.add(0, pi[j]);;
+	      j=pi[j].getOrigine().getId();
+	   }
+	   trajetsUnit[i]=trajet;
+       }
+       return trajetsUnit;
+   }
+   
+   private int[] completionTableauLivraison(int nbrLivraisons){
+       int i = 0;
+       int[] sommets = new int[nbrLivraisons+2];
+       sommets[0] = demandeDeLivraison.getEntrepot().getId();
+       sommets[nbrLivraisons+1] = demandeDeLivraison.getEntrepot().getId();
+       Set<Integer> cles = this.listeIntersections.keySet();
+       Iterator<Integer> it = cles.iterator();
+       while (it.hasNext()){
+          Integer cle = it.next();
+	  sommets[i] = cle;
+	  i++;
+       }
+       return sommets;
+   }
+   
+   public Intersection getIntersection(int id) {
        return this.listeIntersections.get(id);
    }
    
-   public List<Troncon> getTroncons (int id) {
+   public List<Troncon> getTroncons(int id) {
        return this.listeTroncons.get(id);
    }
 

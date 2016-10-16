@@ -43,6 +43,10 @@ public class DemandeDeLivraison extends Observable {
 	return this.entrepot;
     }
     
+    public int getNbrLivraisons(){
+	return this.livraisons.size();
+    }
+    
     public Time getHeureDepart(){
 	return this.heureDepart;
     }
