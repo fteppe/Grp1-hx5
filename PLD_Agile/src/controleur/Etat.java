@@ -13,7 +13,7 @@ public interface Etat {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre);
 	
 	/**
-	 * Methode appelee par controleur apres un clic sur le bouton "Calculer Tournée"
+	 * Methode appelee par controleur apres un clic sur le bouton "Calculer Tournee"
 	 * @param controleur 
 	 * @param plan
 	 * @param fenetre
@@ -31,7 +31,7 @@ public interface Etat {
 	 * @param plan
 	 * @param fenetre
 	 */
-	public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre);
+	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre);
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Charger un plan"

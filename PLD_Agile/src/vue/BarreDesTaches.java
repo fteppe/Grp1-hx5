@@ -46,7 +46,7 @@ public class BarreDesTaches extends JToolBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionCalculDeTournée();
+				actionCalculDeTournee();
 			}
 		});
 	}
@@ -59,7 +59,7 @@ public class BarreDesTaches extends JToolBar{
 		System.out.println("bouton chargement demande de livraison cliqué");
 	}
 	
-	public void actionCalculDeTournée(){
+	public void actionCalculDeTournee(){
 		System.out.println("calcul de tournée bouton cliqué");
 	}
 }
