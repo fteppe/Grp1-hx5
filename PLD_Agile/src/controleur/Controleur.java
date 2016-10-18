@@ -58,15 +58,18 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille de route"
 	 */
+	// Pour seconde itération
+	/* 
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(plan, fenetre);
 	}
+	*/
 	
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournée"
+	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournee"
 	 */
 	public void calculTournee() {
-		etatCourant.genererFeuilleDeRoute(plan, fenetre);
+		etatCourant.calculerTournee(this, plan, fenetre);
 	}
 	
 

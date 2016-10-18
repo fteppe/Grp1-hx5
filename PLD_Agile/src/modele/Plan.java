@@ -72,7 +72,7 @@ public class Plan extends Observable {
     * @param entrepot Identifiant de l'intersection
     * 			correspondant a l'entrepot
     */
-   public void creerDemandeDeLivraison(Time heureDepart, int entrepot)
+   public void creerDemandeDeLivraison(Heure heureDepart, int entrepot)
    {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
@@ -166,7 +166,7 @@ public class Plan extends Observable {
    
    private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, double[] couts){
        double nouveauCout = origine.getCout() + antecedent.getTpsParcours();
-       if(destination.getCout() < nouveauCout){
+       if(destination.getCout() > nouveauCout){
 	   destination.setCout(nouveauCout);
 	   pi[destination.getPosition()] = antecedent;
 	   couts[destination.getPosition()] = nouveauCout;
