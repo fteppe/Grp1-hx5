@@ -191,7 +191,7 @@ public class Plan extends Observable {
 	      trajet.add(0, pi[j]);;
 	      j=idSommets.indexOf(pi[j].getOrigine().getId());
 	   }
-	   Itineraire iti = new Itineraire(demandeDeLivraison.getLivraison(idSommets.get(j)), demandeDeLivraison.getLivraison(idSommets.get(i)), trajet);
+	   Itineraire iti = new Itineraire(listeIntersections.get((idSommets.get(j)), listeIntersections.get(idSommets.get(i)), trajet));
 	   trajetsUnit[i]=iti;
        }
        return trajetsUnit;
@@ -215,7 +215,7 @@ public class Plan extends Observable {
        return sommets;
    }
    
-   private void creerTournee(List<Livraison> livraisons, List<Troncon> troncons) {
+   private void creerTournee(List<Intersection> livraisons, List<Troncon> troncons) {
        tournee = new Tournee(demandeDeLivraison);
        for(int i = 0; i < livraisons.size()-2; i++)
        {
