@@ -1,8 +1,6 @@
 package modele;
 
-import java.util.Observable;
-
-public class Troncon extends Observable {
+public class Troncon {
     
     private String nom;
     private Intersection origine;

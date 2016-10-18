@@ -9,6 +9,7 @@ import java.util.Observer;
 import org.junit.Before;
 import org.junit.Test;
 
+import modele.Heure;
 import modele.Plan;
 
 public class PlanTest {
@@ -48,7 +49,7 @@ public class PlanTest {
 	plan.ajouterIntersection(3, 142, 784);
 	plan.ajouterTroncon("Rue du Chataîgnier", 500, 50, 3, 4);
 	plan.ajouterTroncon("Rue des Paril", 500, 50, 4, 3);
-	Time heureDepart = new Time(15622523);
+	Heure heureDepart = new Heure("08:00:00");
 	int[] adresses = {4};
 	int[] durees = {50};
 	plan.creerDemandeDeLivraison(heureDepart, 3);
