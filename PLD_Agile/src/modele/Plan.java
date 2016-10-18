@@ -9,7 +9,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
 
-//import tsp.TSP1;
+import tsp.TSP1;
+
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan class�es selon leur identifiant
@@ -105,7 +106,7 @@ public class Plan extends Observable {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
        
-       /*TSP1 tsp = new TSP1();
+       TSP1 tsp = new TSP1();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
        tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
@@ -125,8 +126,7 @@ public class Plan extends Observable {
        }
        else {
 	   return false;
-       }*/
-       return true;
+       }
    }
    
    /**
@@ -286,6 +286,20 @@ public class Plan extends Observable {
        
        setChanged();
        notifyObservers(tournee);
+   }
+   
+   /**
+    * Vide le Plan, remet a zero les listes d'intersection,
+    * de troncon et nullifie la demande de livraison et la tournee
+    */
+   public void viderPlan()
+   {
+       this.listeIntersections = new HashMap<Integer, Intersection>();
+       this.listeTroncons = new HashMap<Integer, List<Troncon>>();
+       this.demandeDeLivraison = null;
+       this.tournee = null;
+       setChanged();
+       notifyObservers();
    }
    
    public Intersection getIntersection(int id) {
