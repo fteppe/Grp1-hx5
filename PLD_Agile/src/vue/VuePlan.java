@@ -13,6 +13,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import modele.Intersection;
+import modele.Livraison;
 import modele.Plan;
 import modele.Troncon;
 
@@ -40,19 +41,32 @@ public class VuePlan extends JPanel implements Observer {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		//on doit peindre le plan;
-		dessinerListeIntersections();
+		dessinerListeIntersections(g);
+		dessinerListeTroncons(g);
+		dessinerListeLivraisons(g);
 	}
 	
-	public void dessinerListeTroncon(){
+	public void dessinerListeTroncons(Graphics g){
 		
 	}
 	
-	public void dessinerListeIntersections(){
+	public void dessinerListeIntersections(Graphics g){
 		HashMap<Integer, Intersection> intersections = plan.getListeIntersections();
-		for(Integer i : intersections.keySet())
+		for(Intersection i : intersections.values())
 		{
-			dessinerIntersection(g, intersections.get(i));
+			dessinerIntersection(g, i);
 		}
+	}
+	
+	public void dessinerListeLivraisons(Graphics g){
+		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
+		if (livraisons != null){
+			for(Livraison l : livraisons.values())
+			{
+				dessinerLivraison(g,l);
+			}
+		}
+
 	}
 
 	@Override
@@ -73,6 +87,12 @@ public class VuePlan extends JPanel implements Observer {
 	private void dessinerIntersection(Graphics g, Intersection i){
 		
 		g.setColor(Color.blue);
+		g.fillOval((int) (i.getLongitude() * e - diametreIntersection / 2),(int) (i.getLatitude() * e - diametreIntersection/2), diametreIntersection, diametreIntersection);
+	}
+	
+	private void dessinerLivraison(Graphics g, Livraison l){
+		g.setColor(Color.yellow);
+		Intersection i = l.getAdresse();
 		g.fillOval((int) (i.getLongitude() * e - diametreIntersection / 2),(int) (i.getLatitude() * e - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 
