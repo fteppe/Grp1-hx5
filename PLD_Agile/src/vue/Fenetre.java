@@ -1,14 +1,9 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.plaf.RootPaneUI;
 
 public class Fenetre extends JFrame{
 	
@@ -17,7 +12,6 @@ public class Fenetre extends JFrame{
 	private Menu menu;
 	private BarreDesTaches barreDesTaches;
 	private ZoneDeTexte zoneDeTexte;
-	private JTextArea text = new JTextArea();
 	private JPanel panneauNord;
 	private JPanel panneauEst;
 	
@@ -30,7 +24,7 @@ public class Fenetre extends JFrame{
 		panneauNord = new JPanel();
 		panneauEst = new JPanel();
 		
-	    this.setVisible(true);
+	    
 	    this.setTitle(titreFenetre);
 	    this.setSize(dimensions.x,dimensions.y);
 	    this.setLocationRelativeTo(null);
@@ -42,6 +36,7 @@ public class Fenetre extends JFrame{
 	    System.out.println("coposants créés");
 	    placerComposants();
 	    System.out.println("composants placés");
+	    this.setVisible(true);
 	    
 	}
 	
