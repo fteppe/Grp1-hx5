@@ -37,7 +37,7 @@ public class Fenetre extends JFrame{
 	    this.setLocationRelativeTo(null);
 	    
 	    vuePlan = new VuePlan(plan);
-    	zoneDeTexte = new ZoneDeTexte(dimensions.x/3,dimensions.y-30);
+    	zoneDeTexte = new ZoneDeTexte(dimensions.x/3,dimensions.y-30, plan);
 	    menu = new Menu(controleur);
 	    barreDesTaches = new BarreDesTaches(controleur);
 	    placerComposants();

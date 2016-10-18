@@ -22,7 +22,7 @@ public class Controleur {
 	public Controleur(Plan plan) {
 		this.plan = plan;
 		etatCourant = etatInitial;
-		String titre = "titre fenetre";
+		String titre = "Optimod";
 		int longueur = 600;
 		int largeur = 800;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
