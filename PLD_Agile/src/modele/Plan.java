@@ -3,12 +3,15 @@ package modele;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+import java.util.Vector;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
-   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classées selon l'identifiant de leur origine
+   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classés selon l'identifiant de leur origine
    private DemandeDeLivraison demandeDeLivraison;
    private Tournee tournee;
    
@@ -32,7 +35,7 @@ public class Plan extends Observable {
        this.listeIntersections.put(id, nouvIntersection);
        setChanged();
        notifyObservers();
-       //Gestion d'une exception si deux intersections ont le même numéero de sommet ?
+       //Gestion d'une exception si deux intersections ont le même numéro de sommet ?
    }
    
    /**
@@ -89,11 +92,94 @@ public class Plan extends Observable {
        notifyObservers();
    }
    
-   public Intersection getIntersection (int id) {
+   public void calculerTournee() {
+       int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
+       int[] listeIdLivraisons = completionTableauLivraison(nbrLivraisons);
+       calculerDijkstra(listeIdLivraisons);
+   }
+   
+   /**
+    * Calcul du plus court chemin selon Dijkstra a partir d'une liste de sommets définis
+    * @param listeIdLivraisons
+    * @return
+    */
+   private Object [] calculerDijkstra(int[] listeIdLivraisons){
+       int nbrSommets = listeIdLivraisons.length+1;
+       double[][] couts = new double[nbrSommets][nbrSommets];
+       @SuppressWarnings("unchecked")
+       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[nbrSommets][nbrSommets];
+       for(int i = 0; i < listeIdLivraisons.length + 1; i++){
+	   Object[] resultDijkstra = calculerDijkstra(listeIdLivraisons[i], listeIdLivraisons);
+	   double[] cout = (double[]) resultDijkstra[0];
+	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
+	   couts[i] = cout;
+	   List<Troncon>[] trajetsUnit = triTableauPi(pi);
+	   trajets[i] = trajetsUnit;
+       }
+       return new Object[]{couts, trajets};
+   }
+   
+   /**
+    * Calcul du plus court chemin selon Dijkstra a partir d'un sommet défini
+    * @param id
+    * @param nbrSommets
+    * @return
+    */
+   private Object[] calculerDijkstra(int sourceId, int[] listeIdLivraisons){
+       double couts[] = new double[listeIdLivraisons.length];
+       Troncon[] pi = new Troncon[listeIdLivraisons.length];
+       
+       return new Object[]{couts, pi};
+   }
+   
+   /**
+    * Mise en place de la liste des troncons correspondant aux plus courts 
+    * chemins calcules selon l'algorithme de Dijkstra a partir d'un 
+    * sommet defini
+    * @param pi
+    * @return
+    */
+   private List<Troncon>[] triTableauPi(Troncon[] pi){
+       @SuppressWarnings("unchecked")
+       List<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
+       for(int i = 0; i < pi.length; i++)
+       {
+	   List<Troncon> trajet = new ArrayList<Troncon>();
+	   int j=i;
+	   while(pi[j]!=null){
+	      trajet.add(0, pi[j]);;
+	      j=pi[j].getOrigine().getId();
+	   }
+	   trajetsUnit[i]=trajet;
+       }
+       return trajetsUnit;
+   }
+   
+   /**
+    * Creation d'un tableau faisant correspondre l'identifiant de chaque sommet 
+    * avec sa place dans le tableau des couts des plus courts chemins
+    * @param nbrLivraisons
+    * @return
+    */
+   private int[] completionTableauLivraison(int nbrLivraisons){
+       int i = 1;
+       int[] sommets = new int[nbrLivraisons+1];
+       sommets[0] = demandeDeLivraison.getEntrepot().getId();
+       Set<Integer> cles = this.listeIntersections.keySet();
+       Iterator<Integer> it = cles.iterator();
+       while (it.hasNext()){
+          Integer cle = it.next();
+	  sommets[i] = cle;
+	  i++;
+       }
+       return sommets;
+   }
+   
+   public Intersection getIntersection(int id) {
        return this.listeIntersections.get(id);
    }
    
-   public List<Troncon> getTroncons (int id) {
+   public List<Troncon> getTroncons(int id) {
        return this.listeTroncons.get(id);
    }
 

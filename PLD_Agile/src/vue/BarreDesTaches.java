@@ -60,6 +60,6 @@ public class BarreDesTaches extends JToolBar{
 	}
 	
 	public void actionCalculDeTournee(){
-		System.out.println("calcul de tournée bouton cliqué");
+		System.out.println("calcul de tournée bouton clique");
 	}
 }
