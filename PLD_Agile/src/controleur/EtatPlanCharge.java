@@ -23,7 +23,8 @@ public class EtatPlanCharge extends EtatDefaut {
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    controleur.setEtatCourant(controleur.EtatDemandeLivraisonCharge);
+	    fenetre.afficherMessage("Demande de livraison chargée");
+	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
 	@Override
