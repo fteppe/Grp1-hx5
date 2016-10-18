@@ -80,10 +80,12 @@ public class Menu extends JMenuBar{
 
 	public void actionQuitter(){
 		System.out.println("menu quitter cliqué");
+		
 	}
 	
 	public void actionChargerPlan(){
 		System.out.println("menu charger plan cliqué");
+		
 	}
 	public void actionChargerDemandeLivraison(){
 		System.out.println("menu charger deande livraison cliqué");
