@@ -21,9 +21,10 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		
 	}
 	
+	/*
 	@Override
 	public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre) {
 		
 	}
-
+	*/
 }

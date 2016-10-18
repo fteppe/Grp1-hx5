@@ -17,7 +17,7 @@ public class BarreDesTaches extends JToolBar{
 		
 		chargerPlan = new JButton("charger plan");
 		chargerDemandeLivraison = new JButton("charger demande de livraison");
-		calculTournee = new JButton("calcul de tournee");
+		calculTournee = new JButton("calcul de tournée");
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
@@ -52,7 +52,7 @@ public class BarreDesTaches extends JToolBar{
 	}
 	
 	public void actionChargerPlan(){
-		System.out.println("bouton charger plan clique");
+		System.out.println("bouton charger plan cliqué");
 	}
 	
 	public void actionChargerDemandeDeLivraison(){
