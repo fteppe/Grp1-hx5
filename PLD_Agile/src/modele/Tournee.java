@@ -6,11 +6,12 @@ import java.util.Observable;
 
 public class Tournee extends Observable{
     
-    private DemandeDeLivraison demandeDeLivraison;
+    private int duree;
+
     private List<Itineraire> itineraires;
     
-    public Tournee(DemandeDeLivraison uneDemande) {
-	this.demandeDeLivraison = uneDemande;
+    public Tournee(int duree) {
+	this.duree = duree;
 	itineraires = new ArrayList<Itineraire>();
     }
     
@@ -22,13 +23,21 @@ public class Tournee extends Observable{
      * @param troncons Ensemble des troncons a parcourir entre
      * le depart et l'arrivee
      */
-    public void ajouterItineraire(Livraison depart, Livraison arrivee, List<Troncon> troncons) {
-	itineraires.add(new Itineraire(depart, arrivee, troncons));
+    public void ajouterItineraire(Itineraire itineraire) {
+	itineraires.add(itineraire);
 	setChanged();
 	notifyObservers();
     }
     
     public List<Itineraire> getItineraires() {
 	return itineraires;
+    }    
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
 }

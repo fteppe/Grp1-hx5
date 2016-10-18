@@ -7,7 +7,7 @@ public class Troncon {
     private Intersection destination;
     private int longueur;
     private int vitesseMoy;
-    private double tpsParcours;
+    private int tpsParcours;
     
     /**
      * Cree un troncon a partir de son nom, sa longueur, 
@@ -40,7 +40,7 @@ public class Troncon {
 	return this.nom;
     }
     
-    public double getTpsParcours(){
+    public int getTpsParcours(){
 	return this.tpsParcours;
     }
     
@@ -51,5 +51,40 @@ public class Troncon {
     public Intersection getDestination(){
 	return this.destination;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Troncon other = (Troncon) obj;
+		if (destination == null) {
+			if (other.destination != null)
+				return false;
+		} else if (!destination.equals(other.destination))
+			return false;
+		if (longueur != other.longueur)
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (origine == null) {
+			if (other.origine != null)
+				return false;
+		} else if (!origine.equals(other.origine))
+			return false;
+		if (Double.doubleToLongBits(tpsParcours) != Double.doubleToLongBits(other.tpsParcours))
+			return false;
+		if (vitesseMoy != other.vitesseMoy)
+			return false;
+		return true;
+	}
+    
+    
 
 }

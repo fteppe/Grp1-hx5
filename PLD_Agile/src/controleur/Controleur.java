@@ -25,9 +25,9 @@ public class Controleur {
 		etatCourant = ETAT_INITIAL;
 		tempsLimite = 20;
 		String titre = "titre fenetre";
-		int longueur = 800;
-		int largeur = 1600;
-		fenetre = new Fenetre(titre,longueur,largeur, plan);
+		int longueur = 600;
+		int largeur = 800;
+		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
 	}
 	
 	/**

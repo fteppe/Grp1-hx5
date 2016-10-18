@@ -12,7 +12,7 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatPlanCharge extends EtatDefaut {
-		// Etat après que l'utilisateur ait chargé un plan
+		// Etat aprï¿½s que l'utilisateur ait chargï¿½ un plan
 	
 	@Override
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
