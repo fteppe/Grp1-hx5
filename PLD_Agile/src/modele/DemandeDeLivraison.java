@@ -6,7 +6,7 @@ import java.util.Observable;
 
 public class DemandeDeLivraison extends Observable {
     
-    private Time heureDepart;
+    private Heure heureDepart;
     private Intersection entrepot;
     private HashMap<Integer, Livraison> livraisons; // Liste des livraisons classées selon l'identifiant de leur adresse
     
@@ -17,7 +17,7 @@ public class DemandeDeLivraison extends Observable {
      * @param entrepot Intersection correspondant a l'entrepot 
      * 			de la demande de livraison
      */
-    public DemandeDeLivraison(Time heureDepart, Intersection entrepot) {
+    public DemandeDeLivraison(Heure heureDepart, Intersection entrepot) {
 	this.heureDepart = heureDepart;
 	this.livraisons = new HashMap<Integer, Livraison>();
 	this.entrepot = entrepot;
@@ -39,6 +39,11 @@ public class DemandeDeLivraison extends Observable {
 	return this.livraisons.get(id);
     }
     
+    public HashMap<Integer, Livraison> getListeLivraisons()
+    {
+	return this.livraisons;
+    }
+    
     public Intersection getEntrepot(){
 	return this.entrepot;
     }
@@ -47,7 +52,7 @@ public class DemandeDeLivraison extends Observable {
 	return this.livraisons.size();
     }
     
-    public Time getHeureDepart(){
+    public Heure getHeureDepart(){
 	return this.heureDepart;
     }
 }
