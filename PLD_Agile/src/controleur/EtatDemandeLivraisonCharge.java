@@ -22,8 +22,9 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
+		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage(e);
+	  
 	    controleur.setEtatCourant(controleur.EtatDemandeLivraisonCharge);
 	}
 	
