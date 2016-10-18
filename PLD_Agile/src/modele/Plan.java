@@ -96,7 +96,7 @@ public class Plan extends Observable {
    
    public void calculerTournee() {
        int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       int[] idSommets = completionTableauLivraison(nbrLivraisons);
+       ArrayList<Integer> idSommets = completionTableauLivraison(nbrLivraisons);
        Object[] resultDijkstra = calculerDijkstra(idSommets);
    }
    
@@ -105,17 +105,17 @@ public class Plan extends Observable {
     * @param idSommets
     * @return
     */
-   private Object [] calculerDijkstra(int[] idSommets){
-       int nbrSommets = idSommets.length;
+   private Object [] calculerDijkstra(ArrayList<Integer> idSommets){
+       int nbrSommets = idSommets.size();
        double[][] couts = new double[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
-       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[nbrSommets][nbrSommets];
-       for(int i = 0; i < idSommets.length; i++){
-	   Object[] resultDijkstra = calculerDijkstra(idSommets[i], idSommets);
+       Itineraire[][] trajets = new Itineraire[nbrSommets][nbrSommets];
+       for(Integer i : idSommets){
+	   Object[] resultDijkstra = calculerDijkstra(i, idSommets);
 	   double[] cout = (double[]) resultDijkstra[0];
 	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
 	   couts[i] = cout;
-	   List<Troncon>[] trajetsUnit = triTableauPi(pi);
+	   Itineraire[] trajetsUnit = triTableauPi(pi, idSommets);
 	   trajets[i] = trajetsUnit;
        }
        return new Object[]{couts, trajets};
@@ -127,19 +127,19 @@ public class Plan extends Observable {
     * @param nbrSommets
     * @return
     */
-   private Object[] calculerDijkstra(int sourceId, int[] idSommets){
-       double couts[] = new double[idSommets.length];
-       Troncon[] pi = new Troncon[idSommets.length];
+   private Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets){
+       double couts[] = new double[idSommets.size()];
+       Troncon[] pi = new Troncon[idSommets.size()];
        HashMap<Integer, Sommet> listeSommets = new HashMap<>();
        NavigableSet<Sommet> sommetsGris = new TreeSet<>();
        
-       for(int i = 0; i < idSommets.length; i++){
-	   int id = idSommets[i];
+       for(Integer id : idSommets){
+	   int position = idSommets.indexOf(id);
 	   Sommet nouveauSommet;
 	   if(id != sourceId){
-	       nouveauSommet = new Sommet(id, i, Double.POSITIVE_INFINITY, Etat.BLANC);
+	       nouveauSommet = new Sommet(id, position, Double.POSITIVE_INFINITY, Etat.BLANC);
 	   } else {
-	       nouveauSommet = new Sommet(id, i, 0, Etat.GRIS);
+	       nouveauSommet = new Sommet(id, position, 0, Etat.GRIS);
 	       sommetsGris.add(nouveauSommet);
 	   }
 	   listeSommets.put(id, nouveauSommet);
@@ -180,18 +180,19 @@ public class Plan extends Observable {
     * @param pi
     * @return
     */
-   private List<Troncon>[] triTableauPi(Troncon[] pi){
+   private Itineraire[] triTableauPi(Troncon[] pi, ArrayList<Integer> idSommets){
        @SuppressWarnings("unchecked")
-       List<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
+       Itineraire[] trajetsUnit = new Itineraire[pi.length];
        for(int i = 0; i < pi.length; i++)
        {
 	   List<Troncon> trajet = new ArrayList<Troncon>();
 	   int j=i;
 	   while(pi[j]!=null){
 	      trajet.add(0, pi[j]);;
-	      j=pi[j].getOrigine().getId();
+	      j=idSommets.indexOf(pi[j].getOrigine().getId());
 	   }
-	   trajetsUnit[i]=trajet;
+	   Itineraire iti = new Itineraire(demandeDeLivraison.getLivraison(idSommets.get(j)), demandeDeLivraison.getLivraison(idSommets.get(i)), trajet);
+	   trajetsUnit[i]=iti;
        }
        return trajetsUnit;
    }
@@ -202,15 +203,15 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private int[] completionTableauLivraison(int nbrLivraisons) {
+   private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
        int i = 1;
-       int[] sommets = new int[nbrLivraisons+1];
-       sommets[0] = demandeDeLivraison.getEntrepot().getId();
+       ArrayList<Integer> sommets = new ArrayList<>();
+       sommets.add(demandeDeLivraison.getEntrepot().getId());
        Set<Integer> cles = this.listeIntersections.keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
           Integer cle = it.next();
-	  sommets[i] = cle;
+	  sommets.add(cle);
 	  i++;
        }
        return sommets;
