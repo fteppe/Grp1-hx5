@@ -7,21 +7,23 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import controleur.Controleur;
+
 public class BarreDesTaches extends JToolBar{
 	private JButton chargerPlan;
 	private JButton chargerDemandeLivraison;
 	private JButton calculTournee;
+	private Controleur controleur;
 	
-	public BarreDesTaches(){
+	public BarreDesTaches(Controleur controleur){
 		this.setFloatable(false);
-		
+		this.controleur = controleur;
 		chargerPlan = new JButton("charger plan");
 		chargerDemandeLivraison = new JButton("charger demande de livraison");
 		calculTournee = new JButton("calcul de tournée");
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
-		
 		ajouterEcouteurs();
 	}
 	
@@ -53,13 +55,16 @@ public class BarreDesTaches extends JToolBar{
 	
 	public void actionChargerPlan(){
 		System.out.println("bouton charger plan cliqué");
+		controleur.chargerPlan();
 	}
 	
 	public void actionChargerDemandeDeLivraison(){
 		System.out.println("bouton chargement demande de livraison cliqué");
+		controleur.chargerDemandeLivraison();
 	}
 	
 	public void actionCalculDeTournee(){
 		System.out.println("calcul de tournée bouton clique");
+		controleur.calculTournee();
 	}
 }

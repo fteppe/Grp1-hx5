@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 
+import controleur.Controleur;
+
 public class Menu extends JMenuBar{
 	
 	private JMenu fichiers; 
@@ -17,10 +19,12 @@ public class Menu extends JMenuBar{
 	private JMenuItem chargerDemandeLivraison;
 	private JMenuItem quitter;
 	private JMenuItem calculerTournee;
+	private Controleur controleur;
 	
-	public Menu(){
+	public Menu(Controleur controleur){
 		  fichiers = new JMenu("fichier"); 
 		  edition = new JMenu("edition");
+		  this.controleur = controleur;
 		  this.add(fichiers);
 		  this.add(edition);
 		  ajouterElementsMenu();
@@ -73,25 +77,29 @@ public class Menu extends JMenuBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionCalculerItineraire();
+				actionCalculerTournee();
 			}
 		});
 	}
 
 	public void actionQuitter(){
 		System.out.println("menu quitter cliqué");
+		controleur.quitter();
 		
 	}
 	
 	public void actionChargerPlan(){
 		System.out.println("menu charger plan cliqué");
+		controleur.chargerPlan();
 		
 	}
 	public void actionChargerDemandeLivraison(){
 		System.out.println("menu charger deande livraison cliqué");
+		controleur.chargerDemandeLivraison();
 		
 	}
-	public void actionCalculerItineraire(){
-		System.out.println("menu calcul itinéraire cliqué");
+	public void actionCalculerTournee(){
+		System.out.println("menu calcul tournee cliqué");
+		controleur.calculTournee();
 	}
 }
