@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import modele.DemandeDeLivraison;
+import modele.Heure;
 import modele.Intersection;
 import modele.Plan;
 
@@ -29,7 +30,7 @@ public class DemandeDeLivraisonTest {
     @Test
     public void testAjouterLivraison() {
 	Intersection entrepot = new Intersection(5, 214, 584);
-	Time heureDepart = new Time(15622523);
+	Heure heureDepart = new Heure("00:05:00");
 	DemandeDeLivraison demandeDeLivraison = 
 		new DemandeDeLivraison (heureDepart, entrepot);
 	Intersection intersection = new Intersection(7, 417, 976);

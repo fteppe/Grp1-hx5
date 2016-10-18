@@ -6,8 +6,8 @@ import java.util.Observable;
 public class Livraison extends Observable {
     
     private int duree;
-    private Time heureDepart;
-    private Time heureArrivee;
+    private Heure heureDepart;
+    private Heure heureArrivee;
     private Intersection adresse;
     
     /**
@@ -24,11 +24,11 @@ public class Livraison extends Observable {
 	return this.duree;
     }
     
-    public Time getheureDepart(){
+    public Heure getheureDepart(){
    	return this.heureDepart;
     }
     
-    public Time getheureArrivee(){
+    public Heure getheureArrivee(){
    	return this.heureArrivee;
     }
     
@@ -36,12 +36,12 @@ public class Livraison extends Observable {
    	return this.adresse;
     }
     
-    public void setHeureArrivee(Time heureArrivee)
+    public void setHeureArrivee(Heure heureArrivee)
     {
 	this.heureArrivee = heureArrivee;
     }
     
-    public void setHeureDepart(Time heureDepart)
+    public void setHeureDepart(Heure heureDepart)
     {
 	this.heureDepart = heureDepart;
     }

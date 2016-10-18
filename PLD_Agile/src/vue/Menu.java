@@ -73,7 +73,7 @@ public class Menu extends JMenuBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionCalculerItinÈraire();
+				actionCalculerItineraire();
 			}
 		});
 	}
@@ -89,7 +89,7 @@ public class Menu extends JMenuBar{
 		System.out.println("menu charger deande livraison cliqu√©");
 		
 	}
-	public void actionCalculerItinÈraire(){
+	public void actionCalculerItineraire(){
 		System.out.println("menu calcul itin√©raire cliqu√©");
 	}
 }
