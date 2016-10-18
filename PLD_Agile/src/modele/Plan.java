@@ -12,13 +12,13 @@ import java.util.TreeSet;
 //import tsp.TSP1;
 
 public class Plan extends Observable {
-   private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
-   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classés selon l'identifiant de leur origine
+   private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classï¿½es selon leur identifiant
+   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classï¿½s selon l'identifiant de leur origine
    private DemandeDeLivraison demandeDeLivraison;
    private Tournee tournee;
    
    /**
-    * Cree un Plan ne possedant aucune intersection et aucun tronçon
+    * Cree un Plan ne possedant aucune intersection et aucun tronï¿½on
     */
    public Plan(){
        this.listeIntersections = new HashMap<Integer, Intersection>();
@@ -37,7 +37,7 @@ public class Plan extends Observable {
        this.listeIntersections.put(id, nouvIntersection);
        setChanged();
        notifyObservers();
-       //Gestion d'une exception si deux intersections ont le même numéro de sommet ?
+       //Gestion d'une exception si deux intersections ont le mï¿½me numï¿½ro de sommet ?
    }
    
    /**
@@ -123,7 +123,7 @@ public class Plan extends Observable {
    }
    
    /**
-    * Calcul du plus court chemin selon Dijkstra a partir d'une liste de sommets définis
+    * Calcul du plus court chemin selon Dijkstra a partir d'une liste de sommets dï¿½finis
     * @param idSommets
     * @return
     */
@@ -144,7 +144,7 @@ public class Plan extends Observable {
    }
    
    /**
-    * Calcul du plus court chemin selon Dijkstra a partir d'un sommet défini
+    * Calcul du plus court chemin selon Dijkstra a partir d'un sommet dï¿½fini
     * @param id
     * @param nbrSommets
     * @return
@@ -240,7 +240,7 @@ public class Plan extends Observable {
    private int[] recupererDurees(List<Integer> idSommets)
    {
        int[] durees = new int[idSommets.size()];
-       durees[0] = 0; //temps à passer à l'entrepot
+       durees[0] = 0; //temps ï¿½ passer ï¿½ l'entrepot
        for(int i=1; i<idSommets.size(); i++) {
 	   durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
        }
@@ -290,15 +290,33 @@ public class Plan extends Observable {
    }
    
    public HashMap<Integer, Livraison> getListeLivraisons() {
-       return demandeDeLivraison.getListeLivraisons();
+	   if(demandeDeLivraison != null){
+		   return demandeDeLivraison.getListeLivraisons();
+	   }
+	   else{
+		   return null;
+	   }
+       
    }
    
    public Intersection getEntrepot() {
-       return demandeDeLivraison.getEntrepot();
+	   if(demandeDeLivraison != null){
+	       return demandeDeLivraison.getEntrepot();
+	   }
+	   else{
+		   return null;
+	   }
    }
    
    public List<Itineraire> getItineraires() {
-       return tournee.getItineraires();
+	   if(tournee != null)
+	   {
+		   return tournee.getItineraires();
+	   }
+	   else{
+		   return null;
+	   }
+       
    }
    
    private enum Etat {
