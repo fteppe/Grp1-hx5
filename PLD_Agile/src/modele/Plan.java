@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import tsp.TSP1;
+
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
    private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classés selon l'identifiant de leur origine
@@ -94,10 +96,31 @@ public class Plan extends Observable {
        notifyObservers();
    }
    
-   public void calculerTournee() {
-       int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       ArrayList<Integer> idSommets = completionTableauLivraison(nbrLivraisons);
+   public boolean calculerTournee(int tpsLimite) {
+       ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
+       // TODO
+       TSP1 tsp = new TSP1();
+       int[] durees = recupererDurees(idSommets);
+       int[][] couts = (int[][]) resultDijkstra[0];
+       tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
+       
+       if(!tsp.getTempsLimiteAtteint()) {
+	   int dureeTournee = tsp.getCoutMeilleureSolution();
+	   int[] ordreTournee = new int[idSommets.size()+1]; //idSommets.size()+1 car retour a l'entrepot ?
+	   for(int i=0; i<idSommets.size()+1; i++)
+	   {
+	       ordreTournee[i] = tsp.getMeilleureSolution(i);
+	   }
+	   
+	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
+	   creerTournee(dureeTournee, ordreTournee, trajets);
+	   
+	   return true;
+       }
+       else {
+	   return false;
+       }
    }
    
    /**
@@ -203,10 +226,10 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
+   private ArrayList<Integer> completionTableauLivraison() {
        ArrayList<Integer> sommets = new ArrayList<>();
        sommets.add(demandeDeLivraison.getEntrepot().getId());
-       Set<Integer> cles = this.listeIntersections.keySet();
+       Set<Integer> cles = this.getListeLivraisons().keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
           Integer cle = it.next();
@@ -215,13 +238,25 @@ public class Plan extends Observable {
        return sommets;
    }
    
-   private void creerTournee(List<Intersection> livraisons, List<Troncon> troncons) {
-       tournee = new Tournee(demandeDeLivraison);
-       for(int i = 0; i < livraisons.size()-2; i++)
-       {
-	   tournee.ajouterItineraire(livraisons.get(i), livraisons.get(i+1), troncons);
+   private int[] recupererDurees(List<Integer> idSommets)
+   {
+       int[] durees = new int[idSommets.size()];
+       durees[0] = 0; //temps à passer à l'entrepot
+       for(int i=1; i<idSommets.size(); i++) {
+	   durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
        }
-       // TODO
+       return durees;
+   }
+   
+   private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
+       tournee = new Tournee(duree);
+       for(int i = 0; i < livraisons.length-1; i++)
+       {
+	   tournee.ajouterItineraire(itineraires[i][i+1]);
+       }
+       
+       setChanged();
+       notifyObservers(tournee);
    }
    
    public Intersection getIntersection(int id) {
