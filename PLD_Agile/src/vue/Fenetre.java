@@ -21,7 +21,7 @@ public class Fenetre extends JFrame{
 	private JPanel panneauNord;
 	private JPanel panneauEst;
 	
-	private Controleur controleur;
+	protected Controleur controleur;
 	
 	
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
@@ -38,12 +38,10 @@ public class Fenetre extends JFrame{
 	    
 	    vuePlan = new VuePlan(plan);
     	zoneDeTexte = new ZoneDeTexte(dimensions.x/3,dimensions.y-30);
-	    menu = new Menu();
-	    barreDesTaches = new BarreDesTaches();
+	    menu = new Menu(controleur);
+	    barreDesTaches = new BarreDesTaches(controleur);
 	    placerComposants();
 	    this.setVisible(true);
-	    dessinerPlan();
-	    
 	}
 	
 	public void placerComposants(){
@@ -62,11 +60,4 @@ public class Fenetre extends JFrame{
 	public void afficherMessage(String message){
 		zoneDeTexte.afficherTexte(message);
 	}
-	
-	public void dessinerPlan(){
-		vuePlan.setBackground(Color.BLACK);
-		vuePlan.creerVuePlan();
-		vuePlan.dessinerPlan(vuePlan.getGraphics());
-	}
-
 }

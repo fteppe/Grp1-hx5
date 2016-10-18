@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +8,6 @@ import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import tsp.TSP1;
 
@@ -99,7 +97,7 @@ public class Plan extends Observable {
    public boolean calculerTournee(int tpsLimite) {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
-       // TODO
+       
        TSP1 tsp = new TSP1();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
@@ -130,12 +128,12 @@ public class Plan extends Observable {
     */
    private Object [] calculerDijkstra(ArrayList<Integer> idSommets){
        int nbrSommets = idSommets.size();
-       double[][] couts = new double[nbrSommets][nbrSommets];
+       int[][] couts = new int[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
        Itineraire[][] trajets = new Itineraire[nbrSommets][nbrSommets];
        for(Integer i : idSommets){
 	   Object[] resultDijkstra = calculerDijkstra(i, idSommets);
-	   double[] cout = (double[]) resultDijkstra[0];
+	   int[] cout = (int[]) resultDijkstra[0];
 	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
 	   couts[i] = cout;
 	   Itineraire[] trajetsUnit = triTableauPi(pi, idSommets);
@@ -151,7 +149,7 @@ public class Plan extends Observable {
     * @return
     */
    private Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets){
-       double couts[] = new double[idSommets.size()];
+       int couts[] = new int[idSommets.size()];
        Troncon[] pi = new Troncon[idSommets.size()];
        HashMap<Integer, Sommet> listeSommets = new HashMap<>();
        NavigableSet<Sommet> sommetsGris = new TreeSet<>();
@@ -160,7 +158,7 @@ public class Plan extends Observable {
 	   int position = idSommets.indexOf(id);
 	   Sommet nouveauSommet;
 	   if(id != sourceId){
-	       nouveauSommet = new Sommet(id, position, Double.POSITIVE_INFINITY, Etat.BLANC);
+	       nouveauSommet = new Sommet(id, position, Integer.MAX_VALUE, Etat.BLANC);
 	   } else {
 	       nouveauSommet = new Sommet(id, position, 0, Etat.GRIS);
 	       sommetsGris.add(nouveauSommet);
@@ -187,8 +185,8 @@ public class Plan extends Observable {
        return new Object[]{couts, pi};
    }
    
-   private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, double[] couts){
-       double nouveauCout = origine.getCout() + antecedent.getTpsParcours();
+   private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, int[] couts){
+       int nouveauCout = origine.getCout() + antecedent.getTpsParcours();
        if(destination.getCout() > nouveauCout){
 	   destination.setCout(nouveauCout);
 	   pi[destination.getPosition()] = antecedent;
@@ -248,6 +246,14 @@ public class Plan extends Observable {
        return durees;
    }
    
+   public ArrayList<Integer> methodeTest() {
+       return completionTableauLivraison();
+   }
+   
+   public Itineraire[] methodeTest2(Troncon[] pi, ArrayList<Integer> idSommets) {
+       return triTableauPi(pi, idSommets);
+   }
+   
    private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
        tournee = new Tournee(duree);
        for(int i = 0; i < livraisons.length-1; i++)
@@ -297,10 +303,10 @@ public class Plan extends Observable {
 
        private int id;
        private int position;
-       private double cout;
+       private int cout;
        private Etat etat;
        
-       public Sommet(int id, int position, double cout, Etat etat){
+       public Sommet(int id, int position, int cout, Etat etat){
    	this.id = id;
    	this.position = position;
    	this.cout = cout;
@@ -321,7 +327,7 @@ public class Plan extends Observable {
            return position;
        }
 
-       public double getCout() {
+       public int getCout() {
            return cout;
        }
        
@@ -333,7 +339,7 @@ public class Plan extends Observable {
    	this.etat = nouvelEtat;
        }
        
-       public void setCout(double nouveauCout) {
+       public void setCout(int nouveauCout) {
    	this.cout = nouveauCout;
        }
        

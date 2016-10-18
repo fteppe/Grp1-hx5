@@ -10,46 +10,42 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import modele.Plan;
+import modele.Troncon;
 
 public class VuePlan extends JPanel implements Observer {
 	
+	private double echelle;
 	private Plan planDuModele;
-	List<VueTroncon> listeVueTroncon;
+	private List<Troncon> listeTroncon;
 	
 	public VuePlan(Plan plan)
 	{
+		echelle = 0.05;
 		planDuModele = plan; 
 		plan.addObserver(this);
 	}
 	
+	
 	public void creerVuePlan(){
-		listeVueTroncon= new ArrayList<VueTroncon>();
-		
-		//juste pour voir si ça marche
-		listeVueTroncon.add(new VueTroncon(2, 2, 50, 50));
 	}
 	
-
-	
-	public void dessinerPlan(Graphics g){
-
-		paintComponent(g);
+	public void paintComponent(Graphics g) {
+		// TODO Auto-generated method stub
+		super.paintComponent(g);
+		//on doit peindre le plan;
 		
-
-	}
-	
-	public void paintComponent(Graphics g){
-		g.setColor(Color.white);
-		g.fillOval(20, 20, 100, 100);
-		
-		for(int i=0; i<listeVueTroncon.size(); i++){
-			listeVueTroncon.get(i).dessiner(g);
-		}
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(Observable obs, Object arg) {
 		// TODO Auto-generated method stub
+		System.out.println("update plan");
+		if(arg != null){
+			System.out.println(obs);
+			System.out.println(arg);
+
+		}
+		repaint();
 		
 	}
 
