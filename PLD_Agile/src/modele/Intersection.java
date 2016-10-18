@@ -1,8 +1,6 @@
 package modele;
 
-import java.util.Observable;
-
-public class Intersection extends Observable {
+public class Intersection {
     private int id;
     private int longitude;
     private int latitude;

@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.Observable;
 
 public class Livraison extends Observable {
@@ -39,10 +38,11 @@ public class Livraison extends Observable {
     public void setHeureArrivee(Heure heureArrivee)
     {
 	this.heureArrivee = heureArrivee;
+	//this.heureDepart = heureArrivee + this.duree;
     }
     
-    public void setHeureDepart(Heure heureDepart)
+    public void setDuree(int duree)
     {
-	this.heureDepart = heureDepart;
+	this.duree = duree;
     }
 }

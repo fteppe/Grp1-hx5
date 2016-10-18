@@ -77,7 +77,7 @@ public class Plan extends Observable {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
        setChanged();
-       notifyObservers();
+       notifyObservers(demandeDeLivraison);
    }
    
    /**
@@ -96,8 +96,8 @@ public class Plan extends Observable {
    
    public void calculerTournee() {
        int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       int[] idSommets = completionTableauLivraison(nbrLivraisons);
-       Object [] resultDijkstra = calculerDijkstra(idSommets);
+       ArrayList<Integer> idSommets = completionTableauLivraison(nbrLivraisons);
+       Object[] resultDijkstra = calculerDijkstra(idSommets);
    }
    
    /**
@@ -105,17 +105,17 @@ public class Plan extends Observable {
     * @param idSommets
     * @return
     */
-   private Object [] calculerDijkstra(int[] idSommets){
-       int nbrSommets = idSommets.length;
+   private Object [] calculerDijkstra(ArrayList<Integer> idSommets){
+       int nbrSommets = idSommets.size();
        double[][] couts = new double[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
-       List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[nbrSommets][nbrSommets];
-       for(int i = 0; i < idSommets.length; i++){
-	   Object[] resultDijkstra = calculerDijkstra(idSommets[i], idSommets);
+       Itineraire[][] trajets = new Itineraire[nbrSommets][nbrSommets];
+       for(Integer i : idSommets){
+	   Object[] resultDijkstra = calculerDijkstra(i, idSommets);
 	   double[] cout = (double[]) resultDijkstra[0];
 	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
 	   couts[i] = cout;
-	   List<Troncon>[] trajetsUnit = triTableauPi(pi);
+	   Itineraire[] trajetsUnit = triTableauPi(pi, idSommets);
 	   trajets[i] = trajetsUnit;
        }
        return new Object[]{couts, trajets};
@@ -127,19 +127,19 @@ public class Plan extends Observable {
     * @param nbrSommets
     * @return
     */
-   private Object[] calculerDijkstra(int sourceId, int[] idSommets){
-       double couts[] = new double[idSommets.length];
-       Troncon[] pi = new Troncon[idSommets.length];
+   private Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets){
+       double couts[] = new double[idSommets.size()];
+       Troncon[] pi = new Troncon[idSommets.size()];
        HashMap<Integer, Sommet> listeSommets = new HashMap<>();
        NavigableSet<Sommet> sommetsGris = new TreeSet<>();
        
-       for(int i = 0; i < idSommets.length; i++){
-	   int id = idSommets[i];
+       for(Integer id : idSommets){
+	   int position = idSommets.indexOf(id);
 	   Sommet nouveauSommet;
 	   if(id != sourceId){
-	       nouveauSommet = new Sommet(id, i, Double.POSITIVE_INFINITY, Etat.BLANC);
+	       nouveauSommet = new Sommet(id, position, Double.POSITIVE_INFINITY, Etat.BLANC);
 	   } else {
-	       nouveauSommet = new Sommet(id, i, 0, Etat.GRIS);
+	       nouveauSommet = new Sommet(id, position, 0, Etat.GRIS);
 	       sommetsGris.add(nouveauSommet);
 	   }
 	   listeSommets.put(id, nouveauSommet);
@@ -180,18 +180,19 @@ public class Plan extends Observable {
     * @param pi
     * @return
     */
-   private List<Troncon>[] triTableauPi(Troncon[] pi){
+   private Itineraire[] triTableauPi(Troncon[] pi, ArrayList<Integer> idSommets){
        @SuppressWarnings("unchecked")
-       List<Troncon>[] trajetsUnit = (ArrayList<Troncon>[]) new ArrayList[pi.length];
+       Itineraire[] trajetsUnit = new Itineraire[pi.length];
        for(int i = 0; i < pi.length; i++)
        {
 	   List<Troncon> trajet = new ArrayList<Troncon>();
 	   int j=i;
 	   while(pi[j]!=null){
 	      trajet.add(0, pi[j]);;
-	      j=pi[j].getOrigine().getId();
+	      j=idSommets.indexOf(pi[j].getOrigine().getId());
 	   }
-	   trajetsUnit[i]=trajet;
+	   Itineraire iti = new Itineraire(listeIntersections.get(idSommets.get(j)), listeIntersections.get(idSommets.get(i)), trajet);
+	   trajetsUnit[i]=iti;
        }
        return trajetsUnit;
    }
@@ -202,34 +203,105 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private int[] completionTableauLivraison(int nbrLivraisons){
-       int i = 1;
-       int[] sommets = new int[nbrLivraisons+1];
-       sommets[0] = demandeDeLivraison.getEntrepot().getId();
+   private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
+       ArrayList<Integer> sommets = new ArrayList<>();
+       sommets.add(demandeDeLivraison.getEntrepot().getId());
        Set<Integer> cles = this.listeIntersections.keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
           Integer cle = it.next();
-	  sommets[i] = cle;
-	  i++;
+	  sommets.add(cle);
        }
        return sommets;
+   }
+   
+   private void creerTournee(List<Intersection> livraisons, List<Troncon> troncons) {
+       tournee = new Tournee(demandeDeLivraison);
+       for(int i = 0; i < livraisons.size()-2; i++)
+       {
+	   tournee.ajouterItineraire(livraisons.get(i), livraisons.get(i+1), troncons);
+       }
+       // TODO
    }
    
    public Intersection getIntersection(int id) {
        return this.listeIntersections.get(id);
    }
    
-   public List<Troncon> getTroncons(int id) {
-       return this.listeTroncons.get(id);
+   public List<Troncon> getTronconsParIntersection(int idIntersection) {
+       return this.listeTroncons.get(idIntersection);
    }
 
-   public DemandeDeLivraison getDemandeDeLivraison(){
-	   return this.demandeDeLivraison;
+   public HashMap<Integer, List<Troncon>> getListeTroncons() {
+       return this.listeTroncons;
    }
    
-   public Tournee getTournee(){
-	   return this.tournee;
+   public HashMap<Integer, Intersection> getListeIntersections() {
+       return this.listeIntersections;
    }
    
+   public HashMap<Integer, Livraison> getListeLivraisons() {
+       return demandeDeLivraison.getListeLivraisons();
+   }
+   
+   public Intersection getEntrepot() {
+       return demandeDeLivraison.getEntrepot();
+   }
+   
+   public List<Itineraire> getItineraires() {
+       return tournee.getItineraires();
+   }
+   
+   private enum Etat {
+       GRIS,
+       NOIR,
+       BLANC
+   }
+   
+   private class Sommet implements Comparable<Sommet> {
+
+       private int id;
+       private int position;
+       private double cout;
+       private Etat etat;
+       
+       public Sommet(int id, int position, double cout, Etat etat){
+   	this.id = id;
+   	this.position = position;
+   	this.cout = cout;
+   	this.etat = etat;
+       }
+       
+       @Override
+       public int compareTo(Sommet autre) {
+   	// TODO Auto-generated method stub
+   	return Double.compare(this.cout, autre.cout);
+       }
+
+       public int getId() {
+           return id;
+       }
+
+       public int getPosition() {
+           return position;
+       }
+
+       public double getCout() {
+           return cout;
+       }
+       
+       public Etat getEtat() {
+           return etat;
+       }
+       
+       public void setEtat(Etat nouvelEtat) {
+   	this.etat = nouvelEtat;
+       }
+       
+       public void setCout(double nouveauCout) {
+   	this.cout = nouveauCout;
+       }
+       
+
+   }
 }

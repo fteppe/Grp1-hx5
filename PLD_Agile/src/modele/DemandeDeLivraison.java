@@ -39,6 +39,11 @@ public class DemandeDeLivraison extends Observable {
 	return this.livraisons.get(id);
     }
     
+    public HashMap<Integer, Livraison> getListeLivraisons()
+    {
+	return this.livraisons;
+    }
+    
     public Intersection getEntrepot(){
 	return this.entrepot;
     }
