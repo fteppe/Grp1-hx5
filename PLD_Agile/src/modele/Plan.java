@@ -72,7 +72,7 @@ public class Plan extends Observable {
     * @param entrepot Identifiant de l'intersection
     * 			correspondant a l'entrepot
     */
-   public void creerDemandeDeLivraison(Time heureDepart, int entrepot)
+   public void creerDemandeDeLivraison(Heure heureDepart, int entrepot)
    {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
