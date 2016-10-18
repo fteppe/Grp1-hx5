@@ -22,7 +22,7 @@ public class Controleur {
 	 */
 	public Controleur(Plan plan) {
 		this.plan = plan;
-		etatCourant = etatInitial;
+		etatCourant = ETAT_INITIAL;
 		String titre = "Optimod";
 
 		int longueur = 600;
