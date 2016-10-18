@@ -1,14 +1,11 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.plaf.RootPaneUI;
+
+import modele.Plan;
 
 public class Fenetre extends JFrame{
 	
@@ -17,31 +14,30 @@ public class Fenetre extends JFrame{
 	private Menu menu;
 	private BarreDesTaches barreDesTaches;
 	private ZoneDeTexte zoneDeTexte;
-	private JTextArea text = new JTextArea();
+	private VuePlan vuePlan;
 	private JPanel panneauNord;
 	private JPanel panneauEst;
 	
 	
 	
-	public Fenetre(String titre,int hauteur,int largeur){
+	public Fenetre(String titre,int hauteur,int largeur, Plan plan){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
 		dimensions = new Point(largeur,hauteur);
 		panneauNord = new JPanel();
 		panneauEst = new JPanel();
 		
-	    this.setVisible(true);
+	    
 	    this.setTitle(titreFenetre);
 	    this.setSize(dimensions.x,dimensions.y);
 	    this.setLocationRelativeTo(null);
-
+	    
+	    vuePlan = new VuePlan(plan);
     	zoneDeTexte = new ZoneDeTexte(dimensions.x/3,dimensions.y-30);
-
 	    menu = new Menu();
 	    barreDesTaches = new BarreDesTaches();
-	    System.out.println("coposants créés");
 	    placerComposants();
-	    System.out.println("composants placés");
+	    this.setVisible(true);
 	    
 	}
 	
