@@ -62,6 +62,7 @@ public class DeserialiseurXML {
 	
     private static void construirePlanAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
     	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("noeud");
+    	plan.viderPlan();
     	for(int i = 0 ; i < listeNoeuds.getLength() ; i++){
     		Element eltNoeud = (Element) listeNoeuds.item(i);
     		int id = Integer.parseInt(eltNoeud.getAttribute("id"));
@@ -69,7 +70,7 @@ public class DeserialiseurXML {
     		int y = Integer.parseInt(eltNoeud.getAttribute("y"));
     		
     		//System.out.println("Noeud : id = \""+id+"\" - x = \""+x+"\" - y = \""+y+"\"");
-    		// TODO - Envoyer id , x et y à plan pour créer l'intersection
+    		// TODO - Envoyer id , x et y ï¿½ plan pour crï¿½er l'intersection
     		plan.ajouterIntersection(id, x, y);
     	}
     	NodeList listeTroncons = noeudDOMRacine.getElementsByTagName("troncon");
@@ -84,7 +85,7 @@ public class DeserialiseurXML {
 
     		//System.out.println("Troncon : origine = \""+origine+"\" - destination = \""+destination+"\" - longueur = \""+longueur+"\" - vitesse = \""+vitesse+"\" - nomRue = \""+nomRue+"\"");
     		// TODO - Envoyer destination, origine, longueur, vitesse et nomRue
-    		// 		- à plan pour créer le troncon.
+    		// 		- ï¿½ plan pour crï¿½er le troncon.
     		plan.ajouterTroncon(nomRue, longueur, vitesse, origine, destination);
     		
     	}
@@ -99,7 +100,7 @@ public class DeserialiseurXML {
     	String heureDepartEntrepot = eltEntrepot.getAttribute("heureDepart");
     	
     	//System.out.println("Entrepot : adresse =\""+adresseEntrepot+"\" - heureDepart = \""+heureDepartEntrepot+"\"");
-    	// TODO - Envoyer adresseEntrepot et heureDepartEntrepot au plan pour creer l'entrepôt
+    	// TODO - Envoyer adresseEntrepot et heureDepartEntrepot au plan pour creer l'entrepï¿½t
     	
 		plan.creerDemandeDeLivraison(new Heure(heureDepartEntrepot), adresseEntrepot);
 		
@@ -113,7 +114,7 @@ public class DeserialiseurXML {
     		
     		//System.out.println("Livraison : adresse = \""+adresse+"\" - duree = \""+duree+"\" - debutPlage = \""+debutPlage+"\" - finPlage = \""+finPlage+"\"");
     		// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
-    		//		- pour créer la livraison
+    		//		- pour crï¿½er la livraison
     		plan.ajouterLivraison(adresse, duree);
     	}
     	

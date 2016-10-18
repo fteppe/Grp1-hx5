@@ -11,7 +11,6 @@ import java.util.TreeSet;
 
 import tsp.TSP1;
 
-
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan class�es selon leur identifiant
    private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan class�s selon l'identifiant de leur origine
