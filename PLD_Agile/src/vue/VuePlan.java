@@ -24,9 +24,12 @@ public class VuePlan extends JPanel implements Observer {
 	private double echelle;
 	private Plan plan;
 	private List<Troncon> listeTroncon; 
-	private double e = 0.5;
+	private double e = 0.65;
 	private static int diametreIntersection = 10;
 	private static Color couleurTroncon = Color.blue;
+	private static Color couleurEntrepot = Color.red;
+	private static Color couleurLivraison = Color.blue;
+	private static Color couleurIntersection = couleurTroncon;
 	
 	
 	public VuePlan(Plan plan)
@@ -45,10 +48,9 @@ public class VuePlan extends JPanel implements Observer {
 		dessinerListeLivraisons(g);
 		dessinerListeItinereraires(g, plan.getItineraires());
 		Intersection entrepot = plan.getEntrepot();
-		System.out.println(entrepot);
 		if(entrepot != null)
 		{
-			dessinerIntersection(g, plan.getEntrepot(), Color.RED);
+			dessinerIntersection(g, plan.getEntrepot(), couleurEntrepot);
 		}
 		
 	}
@@ -76,7 +78,7 @@ public class VuePlan extends JPanel implements Observer {
 		HashMap<Integer, Intersection> intersections = plan.getListeIntersections();
 		for(Intersection i : intersections.values())
 		{
-			dessinerIntersection(g, i, Color.blue);
+			dessinerIntersection(g, i, couleurIntersection);
 		}
 	}
 	

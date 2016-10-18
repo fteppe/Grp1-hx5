@@ -35,7 +35,7 @@ public class Menu extends JMenuBar{
 		chargerPlan = new JMenuItem("charger un plan");
 		quitter = new JMenuItem("quitter");
 		chargerDemandeLivraison = new JMenuItem("charger demande de livraison");
-		calculerTournee = new JMenuItem("calcul de tournée");
+		calculerTournee = new JMenuItem("calcul de tournee");
 		
 		fichiers.add(chargerPlan);
 		fichiers.add(chargerDemandeLivraison);
