@@ -204,7 +204,6 @@ public class Plan extends Observable {
     * @return
     */
    private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
-       int i = 1;
        ArrayList<Integer> sommets = new ArrayList<>();
        sommets.add(demandeDeLivraison.getEntrepot().getId());
        Set<Integer> cles = this.listeIntersections.keySet();
@@ -212,7 +211,6 @@ public class Plan extends Observable {
        while (it.hasNext()){
           Integer cle = it.next();
 	  sommets.add(cle);
-	  i++;
        }
        return sommets;
    }
