@@ -22,7 +22,11 @@ public class Controleur {
 	public Controleur(Plan plan) {
 		this.plan = plan;
 		etatCourant = etatInitial;
+		String titre = "titre fenetre";
+		int longueur = 600;
+		int largeur = 800;
 		//fenetre = new Fenetre(plan, this);
+		fenetre = new Fenetre(titre,longueur,largeur, plan);
 	}
 	
 	/**
@@ -58,7 +62,7 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille de route"
 	 */
-	// Pour seconde itération
+	// Pour seconde itï¿½ration
 	/* 
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(plan, fenetre);
