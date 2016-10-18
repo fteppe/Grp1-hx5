@@ -53,5 +53,9 @@ public class Fenetre extends JFrame{
 		panneauEst.add(zoneDeTexte,BorderLayout.CENTER);
 		
 	}
+	
+	public void afficherMessage(String message){
+		zoneDeTexte.afficherTexte(message);
+	}
 
 }
