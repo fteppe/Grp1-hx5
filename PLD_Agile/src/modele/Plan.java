@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
@@ -239,8 +240,15 @@ public class Plan extends Observable {
        return this.listeTroncons.get(idIntersection);
    }
 
-   public HashMap<Integer, List<Troncon>> getListeTroncons() {
-       return this.listeTroncons;
+   public List<Troncon> getListeTroncons() {
+       List<Troncon> listeNonOrdonneeTroncons = new ArrayList<Troncon>();
+       Set<Integer> cles = this.listeTroncons.keySet();
+       Iterator<Integer> it = cles.iterator();
+       while (it.hasNext()){
+          Integer cle = it.next();
+	  listeNonOrdonneeTroncons.addAll(this.listeTroncons.get(cle));
+       }
+       return listeNonOrdonneeTroncons;
    }
    
    public HashMap<Integer, Intersection> getListeIntersections() {
