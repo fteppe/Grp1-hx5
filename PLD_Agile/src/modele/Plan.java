@@ -97,7 +97,7 @@ public class Plan extends Observable {
    public void calculerTournee() {
        int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
        int[] idSommets = completionTableauLivraison(nbrLivraisons);
-       Object[] resultDijkstra = calculerDijkstra(idSommets);
+       Object [] resultDijkstra = calculerDijkstra(idSommets);
    }
    
    /**
@@ -224,4 +224,12 @@ public class Plan extends Observable {
        return this.listeTroncons.get(id);
    }
 
+   public DemandeDeLivraison getDemandeDeLivraison(){
+	   return this.demandeDeLivraison;
+   }
+   
+   public Tournee getTournee(){
+	   return this.tournee;
+   }
+   
 }

@@ -54,4 +54,39 @@ public class Troncon extends Observable {
 	return this.destination;
     }
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Troncon other = (Troncon) obj;
+		if (destination == null) {
+			if (other.destination != null)
+				return false;
+		} else if (!destination.equals(other.destination))
+			return false;
+		if (longueur != other.longueur)
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (origine == null) {
+			if (other.origine != null)
+				return false;
+		} else if (!origine.equals(other.origine))
+			return false;
+		if (Double.doubleToLongBits(tpsParcours) != Double.doubleToLongBits(other.tpsParcours))
+			return false;
+		if (vitesseMoy != other.vitesseMoy)
+			return false;
+		return true;
+	}
+    
+    
+
 }

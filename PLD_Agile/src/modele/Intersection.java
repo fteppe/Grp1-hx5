@@ -30,4 +30,24 @@ public class Intersection extends Observable {
     public int getLatitude(){
 	return this.latitude;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Intersection other = (Intersection) obj;
+		if (id != other.id)
+			return false;
+		if (latitude != other.latitude)
+			return false;
+		if (longitude != other.longitude)
+			return false;
+		return true;
+	}
+    
+    
 }
