@@ -25,8 +25,7 @@ public class Controleur {
 		String titre = "titre fenetre";
 		int longueur = 600;
 		int largeur = 800;
-		//fenetre = new Fenetre(plan, this);
-		fenetre = new Fenetre(titre,longueur,largeur, plan);
+		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
 	}
 	
 	/**
