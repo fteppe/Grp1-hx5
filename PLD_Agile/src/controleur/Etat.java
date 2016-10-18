@@ -18,7 +18,7 @@ public interface Etat {
 	 * @param plan
 	 * @param fenetre
 	 */
-	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre);
+	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite);
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Quitter"
@@ -46,5 +46,7 @@ public interface Etat {
 	 * @param fenetre
 	 * @param plan
 	 */
+	/*
 	public void clicGauche(Plan plan, Fenetre fenetre);
+	*/
 }
