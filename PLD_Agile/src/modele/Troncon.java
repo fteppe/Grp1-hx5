@@ -7,7 +7,7 @@ public class Troncon {
     private Intersection destination;
     private int longueur;
     private int vitesseMoy;
-    private double tpsParcours;
+    private int tpsParcours;
     
     /**
      * Cree un troncon a partir de son nom, sa longueur, 
@@ -40,7 +40,7 @@ public class Troncon {
 	return this.nom;
     }
     
-    public double getTpsParcours(){
+    public int getTpsParcours(){
 	return this.tpsParcours;
     }
     
