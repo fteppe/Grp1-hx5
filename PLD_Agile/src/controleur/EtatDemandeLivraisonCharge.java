@@ -23,7 +23,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
 	    }
-	 // fenetre.afficherMessage(e);
+	    fenetre.afficherMessage(e);
 	    controleur.setEtatCourant(controleur.EtatDemandeLivraisonCharge);
 	}
 	
@@ -34,7 +34,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre) {
-	    // fenetre.afficherMessage("Lancement du calcul de la tournee");
+	    fenetre.afficherMessage("Lancement du calcul de la tournee");
 	    plan.calculerTournee();
 	    controleur.setEtatCourant(controleur.EtatTourneeCalculee);
 	}

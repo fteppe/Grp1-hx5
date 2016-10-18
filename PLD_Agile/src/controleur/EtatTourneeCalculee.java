@@ -22,7 +22,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
 	    }
-	    // fenetre.afficherMessage(e);
+	    fenetre.afficherMessage(e);
 	    controleur.setEtatCourant(controleur.EtatDemandeLivraisonCharge);
 	}
 	

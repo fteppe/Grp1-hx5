@@ -22,7 +22,7 @@ public abstract class EtatDefaut implements Etat {
 				| SAXException | IOException 
 				| ExceptionXML | NumberFormatException e) {
 		}
-		// fenetre.afficherMessage(e);
+		fenetre.afficherMessage(e);
 		controleur.setEtatCourant(controleur.EtatPlanCharge);
 	}
 	

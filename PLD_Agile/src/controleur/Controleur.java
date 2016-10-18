@@ -26,7 +26,7 @@ public class Controleur {
 		int longueur = 100;
 		int largeur = 200;
 		//fenetre = new Fenetre(plan, this);
-		fenetre = new Fenetre(titre,longueur,largeur);
+		fenetre = new Fenetre(titre,longueur,largeur, plan);
 	}
 	
 	/**
