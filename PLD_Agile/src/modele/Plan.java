@@ -9,6 +9,8 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.print.attribute.standard.Destination;
+
 import tsp.TSP1;
 
 public class Plan extends Observable {
@@ -138,13 +140,14 @@ public class Plan extends Observable {
        int[][] couts = new int[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
        Itineraire[][] trajets = new Itineraire[nbrSommets][nbrSommets];
+       int position = 0;
        for(Integer i : idSommets){
 	   Object[] resultDijkstra = calculerDijkstra(i, idSommets);
 	   int[] cout = (int[]) resultDijkstra[0];
-	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
-	   couts[i] = cout;
-	   Itineraire[] trajetsUnit = triTableauPi(pi, idSommets);
-	   trajets[i] = trajetsUnit;
+	   Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
+	   couts[position] = cout;
+	   trajets[position] = trajetsUnit;
+	   position ++;
        }
        return new Object[]{couts, trajets};
    }
@@ -156,13 +159,11 @@ public class Plan extends Observable {
     * @return
     */
    private Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets){
-       int couts[] = new int[idSommets.size()];
-       Troncon[] pi = new Troncon[idSommets.size()];
+       int coutsSommets[] = new int[idSommets.size()];
        HashMap<Integer, Sommet> listeSommets = new HashMap<>();
        NavigableSet<Sommet> sommetsGris = new TreeSet<>();
-       
-       for(Integer id : idSommets){
-	   int position = idSommets.indexOf(id);
+       int position = 0;
+       for(int id : this.listeIntersections.keySet()){
 	   Sommet nouveauSommet;
 	   if(id != sourceId){
 	       nouveauSommet = new Sommet(id, position, Integer.MAX_VALUE, Etat.BLANC);
@@ -171,33 +172,47 @@ public class Plan extends Observable {
 	       sommetsGris.add(nouveauSommet);
 	   }
 	   listeSommets.put(id, nouveauSommet);
+	   position ++;
        }
-       
        while(!sommetsGris.isEmpty()){
 	   Sommet premierSommet = sommetsGris.first();
-	   for(Troncon t : this.listeTroncons.get(premierSommet.getId())){
-	       Sommet destination = listeSommets.get(t.getDestination().getId());
-	       Etat etat = destination.getEtat();
-	       if(etat != Etat.NOIR){
-		   relacher(premierSommet, destination, t, pi, couts);
-		   if(etat == Etat.BLANC){
-		       destination.setEtat(Etat.GRIS);
-		       sommetsGris.add(destination);
-		   }
-	       }
+	   if(this.listeTroncons.get(premierSommet.getId()) != null){
+	       for(Troncon t : this.listeTroncons.get(premierSommet.getId())){
+		   Sommet destination = listeSommets.get(t.getDestination().getId());
+		   Etat etat = destination.getEtat();
+		   if(etat != Etat.NOIR){
+		       relacher(premierSommet, destination, t);
+	    	       if(etat == Etat.BLANC){
+	    		   destination.setEtat(Etat.GRIS);
+	    		   sommetsGris.add(destination);
+	    		   /*System.out.println("++++++" + destination.getId());
+	    		   for(Sommet s : sommetsGris){
+	    		       System.out.println(s.getId());
+	    		   }*/
+	    	       }
+	    	   }      
+    	       }	  
 	   }
 	   premierSommet.setEtat(Etat.NOIR);
 	   sommetsGris.remove(premierSommet);
+	   if(idSommets.contains(premierSommet.getId())){
+	       
+	   }
        }
-       return new Object[]{couts, pi};
+       position = 0;
+       for(int id : idSommets){
+	   coutsSommets[position] = listeSommets.get(id).getCout();
+	   position ++;
+       }
+       Itineraire[] tableauPiTrie = triTableauPi(idSommets, listeSommets, sourceId);
+       return new Object[]{coutsSommets, tableauPiTrie};
    }
 
-   private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, int[] couts){
+   private void relacher(Sommet origine, Sommet destination, Troncon antecedent){
        int nouveauCout = origine.getCout() + antecedent.getTpsParcours();
        if(destination.getCout() > nouveauCout){
 	   destination.setCout(nouveauCout);
-	   pi[destination.getPosition()] = antecedent;
-	   couts[destination.getPosition()] = nouveauCout;
+	   destination.setAntecedent(antecedent);
        }
    }
    
@@ -208,22 +223,27 @@ public class Plan extends Observable {
     * @param pi
     * @return
     */
-   private Itineraire[] triTableauPi(Troncon[] pi, ArrayList<Integer> idSommets){
+   private Itineraire[] triTableauPi(ArrayList<Integer> idSommets, HashMap<Integer, Sommet> listeSommets, int sourceId){
        @SuppressWarnings("unchecked")
-       Itineraire[] trajetsUnit = new Itineraire[pi.length];
-       for(int i = 0; i < pi.length; i++)
+       int nbrSommets = idSommets.size();
+       Itineraire[] trajetsUnit = new Itineraire[nbrSommets];
+       int position = 0;
+       for(Integer id : idSommets)
        {
 	   List<Troncon> trajet = new ArrayList<Troncon>();
-	   int j=i;
-	   while(pi[j]!=null){
-	      trajet.add(0, pi[j]);
-	      j=idSommets.indexOf(pi[j].getOrigine().getId());
+	   Troncon antecedent = listeSommets.get(id).antecedent;
+	   int idSommetCourant = id;
+	   while(antecedent != null){
+	      trajet.add(0, antecedent);
+	      idSommetCourant = antecedent.getOrigine().getId();
+	      antecedent = listeSommets.get(antecedent.getOrigine().getId()).getAntecedent();
 	   }
-	   if(j != 0){
+	   if(idSommetCourant != sourceId){
 	       trajet.clear();
 	   }
-	   Itineraire iti = new Itineraire(listeIntersections.get(idSommets.get(0)), listeIntersections.get(idSommets.get(i)), trajet);
-	   trajetsUnit[i]=iti;
+	   Itineraire iti = new Itineraire(this.listeIntersections.get(sourceId), this.listeIntersections.get(id), trajet);
+	   trajetsUnit[position]=iti;
+	   position ++;
        }
        return trajetsUnit;
    }
@@ -266,8 +286,8 @@ public class Plan extends Observable {
        return completionTableauLivraison();
    }
    
-   public Itineraire[] methodeTest2(Troncon[] pi, ArrayList<Integer> idSommets) {
-       return triTableauPi(pi, idSommets);
+   public Object[] methodeTest2(ArrayList<Integer> idSommets) {
+       return calculerDijkstra(idSommets);
    }
    
    /**
@@ -366,6 +386,7 @@ public class Plan extends Observable {
        private int position;
        private int cout;
        private Etat etat;
+       private Troncon antecedent;
        
        public Sommet(int id, int position, int cout, Etat etat){
    	this.id = id;
@@ -377,23 +398,31 @@ public class Plan extends Observable {
        @Override
        public int compareTo(Sommet autre) {
    	// TODO Auto-generated method stub
-   	return Double.compare(this.cout, autre.cout);
+	int coutCompare = this.cout - autre.cout;
+	if(coutCompare == 0){
+	    coutCompare = this.id - autre.id;
+	}
+   	return coutCompare;
        }
 
        public int getId() {
-           return id;
+           return this.id;
        }
 
        public int getPosition() {
-           return position;
+           return this.position;
        }
 
        public int getCout() {
-           return cout;
+           return this.cout;
        }
        
        public Etat getEtat() {
-           return etat;
+           return this.etat;
+       }
+       
+       public Troncon getAntecedent() {
+	   return this.antecedent;
        }
        
        public void setEtat(Etat nouvelEtat) {
@@ -402,6 +431,10 @@ public class Plan extends Observable {
        
        public void setCout(int nouveauCout) {
    	this.cout = nouveauCout;
+       }
+       
+       public void setAntecedent(Troncon nouvelAntecedent) {
+	  this.antecedent = nouvelAntecedent;
        }
        
 
