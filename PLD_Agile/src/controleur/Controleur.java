@@ -8,12 +8,13 @@ public class Controleur {
 	private Plan plan;
 	private Fenetre fenetre;
 	private Etat etatCourant;
+	private int tempsLimite;
 	
 	// Instances associees a chaque etat possible du controleur
-	protected final EtatInitial etatInitial = new EtatInitial();
-	protected final EtatPlanCharge EtatPlanCharge = new EtatPlanCharge();
-	protected final EtatDemandeLivraisonCharge EtatDemandeLivraisonCharge = new EtatDemandeLivraisonCharge();
-	protected final EtatTourneeCalculee EtatTourneeCalculee = new EtatTourneeCalculee();
+	protected final EtatInitial ETAT_INITIAL = new EtatInitial();
+	protected final EtatPlanCharge ETAT_PLAN_CHARGE = new EtatPlanCharge();
+	protected final EtatDemandeLivraisonCharge ETAT_DEMANDE_LIVRAISON_CHARGE = new EtatDemandeLivraisonCharge();
+	protected final EtatTourneeCalculee ETAT_TOURNEE_CALCULEE = new EtatTourneeCalculee();
 
 	/**
 	 * Cree le controleur de l'application
@@ -22,7 +23,8 @@ public class Controleur {
 	public Controleur(Plan plan) {
 		this.plan = plan;
 		etatCourant = etatInitial;
-		String titre = "titre fenetre";
+		String titre = "Optimod";
+
 		int longueur = 600;
 		int largeur = 800;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
@@ -61,7 +63,7 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille de route"
 	 */
-	// Pour seconde itï¿½ration
+	// Pour seconde itération
 	/* 
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(plan, fenetre);
@@ -72,16 +74,17 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournee"
 	 */
 	public void calculTournee() {
-		etatCourant.calculerTournee(this, plan, fenetre);
+		etatCourant.calculerTournee(this, plan, fenetre, tempsLimite);
 	}
 	
-
+ 
 	/**
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
+	/*
 	public void clicGauche() {
 		etatCourant.clicGauche(plan, fenetre);
 	}
-
+	*/
 
 }

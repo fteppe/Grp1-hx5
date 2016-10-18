@@ -307,6 +307,20 @@ public class Plan extends Observable {
        notifyObservers(tournee);
    }
    
+   /**
+    * Vide le Plan, remet a zero les listes d'intersection,
+    * de troncon et nullifie la demande de livraison et la tournee
+    */
+   public void viderPlan()
+   {
+       this.listeIntersections = new HashMap<Integer, Intersection>();
+       this.listeTroncons = new HashMap<Integer, List<Troncon>>();
+       this.demandeDeLivraison = null;
+       this.tournee = null;
+       setChanged();
+       notifyObservers();
+   }
+   
    public Intersection getIntersection(int id) {
        return this.listeIntersections.get(id);
    }

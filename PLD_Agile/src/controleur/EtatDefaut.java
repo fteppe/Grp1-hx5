@@ -23,17 +23,17 @@ public abstract class EtatDefaut implements Etat {
 				| ExceptionXML | NumberFormatException e) {
 		    fenetre.afficherMessage(e.getMessage());
 		}
-		
-		controleur.setEtatCourant(controleur.EtatPlanCharge);
+		fenetre.afficherMessage("Plan Chargé");
+		controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 	}
 	
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre){}
 
-	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre){}
+	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite){}
 
 	public void quitter(){}
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 
-	public void clicGauche(Plan plan, Fenetre fenetre){}
+	//public void clicGauche(Plan plan, Fenetre fenetre){}
 }
