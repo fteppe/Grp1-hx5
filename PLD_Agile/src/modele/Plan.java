@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +9,8 @@ import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
+
+import tsp.TSP1;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classées selon leur identifiant
@@ -95,9 +95,31 @@ public class Plan extends Observable {
        notifyObservers();
    }
    
-   public void calculerTournee() {
+   public boolean calculerTournee(int tpsLimite) {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
+       
+       TSP1 tsp = new TSP1();
+       int[] durees = recupererDurees(idSommets);
+       int[][] couts = (int[][]) resultDijkstra[0];
+       tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
+       
+       if(!tsp.getTempsLimiteAtteint()) {
+	   int dureeTournee = tsp.getCoutMeilleureSolution();
+	   int[] ordreTournee = new int[idSommets.size()+1]; //idSommets.size()+1 car retour a l'entrepot ?
+	   for(int i=0; i<idSommets.size()+1; i++)
+	   {
+	       ordreTournee[i] = tsp.getMeilleureSolution(i);
+	   }
+	   
+	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
+	   creerTournee(dureeTournee, ordreTournee, trajets);
+	   
+	   return true;
+       }
+       else {
+	   return false;
+       }
    }
    
    /**
@@ -215,6 +237,16 @@ public class Plan extends Observable {
        return sommets;
    }
    
+   private int[] recupererDurees(List<Integer> idSommets)
+   {
+       int[] durees = new int[idSommets.size()];
+       durees[0] = 0; //temps à passer à l'entrepot
+       for(int i=1; i<idSommets.size(); i++) {
+	   durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
+       }
+       return durees;
+   }
+   
    public ArrayList<Integer> methodeTest() {
        return completionTableauLivraison();
    }
@@ -223,13 +255,15 @@ public class Plan extends Observable {
        return triTableauPi(pi, idSommets);
    }
    
-   private void creerTournee(List<Intersection> livraisons, List<Troncon> troncons) {
-       tournee = new Tournee(demandeDeLivraison);
-       for(int i = 0; i < livraisons.size()-2; i++)
+   private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
+       tournee = new Tournee(duree);
+       for(int i = 0; i < livraisons.length-1; i++)
        {
-	   tournee.ajouterItineraire(livraisons.get(i), livraisons.get(i+1), troncons);
+	   tournee.ajouterItineraire(itineraires[i][i+1]);
        }
-       // TODO
+       
+       setChanged();
+       notifyObservers(tournee);
    }
    
    public Intersection getIntersection(int id) {

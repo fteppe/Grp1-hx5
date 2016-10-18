@@ -35,8 +35,8 @@ public class DemandeDeLivraison extends Observable {
 	notifyObservers(nouvLivraison);
     }
     
-    public Livraison getLivraison(int id){
-	return this.livraisons.get(id);
+    public Livraison getLivraison(int adresse){
+	return this.livraisons.get(adresse);
     }
     
     public HashMap<Integer, Livraison> getListeLivraisons()
