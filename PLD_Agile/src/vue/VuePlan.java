@@ -15,6 +15,8 @@ public class VuePlan extends JPanel implements Observeur {
 	
 	public void creerVuePlan(){
 		listeVueTroncon= new ArrayList<VueTroncon>();
+		
+		//juste pour voir si ça marche
 		listeVueTroncon.add(new VueTroncon(2, 2, 50, 50));
 	}
 	

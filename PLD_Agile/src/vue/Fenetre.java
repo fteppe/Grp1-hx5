@@ -41,13 +41,13 @@ public class Fenetre extends JFrame{
 	    
 	}
 	
-	public void placerComposants()
-	{
+	public void placerComposants(){
 		panneauNord.setLayout(new BorderLayout());
 		panneauEst.setLayout(new BorderLayout());
 		setLayout(new BorderLayout());
 		add(panneauNord,BorderLayout.NORTH);
 		add(panneauEst, BorderLayout.EAST);
+		add(vuePlan, BorderLayout.CENTER);
 		panneauNord.add(barreDesTaches, BorderLayout.SOUTH);
 		panneauNord.add(menu, BorderLayout.NORTH);
 		panneauEst.add(zoneDeTexte,BorderLayout.CENTER);
@@ -56,6 +56,10 @@ public class Fenetre extends JFrame{
 	
 	public void afficherMessage(String message){
 		zoneDeTexte.afficherTexte(message);
+	}
+	
+	public void dessinerPlan(){
+		
 	}
 
 }

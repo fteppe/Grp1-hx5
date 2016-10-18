@@ -11,6 +11,7 @@ public class VueTroncon extends VueArc{
 	}
 
 	public void dessiner(Graphics g){
+		g.setColor(couleur);
 		g.drawLine(origine.x, origine.y, destination.x, destination.y);
 	}
 }
