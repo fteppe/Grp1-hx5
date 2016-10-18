@@ -9,7 +9,7 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
 
-//import tsp.TSP1;
+import tsp.TSP1;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan class�es selon leur identifiant
@@ -98,7 +98,7 @@ public class Plan extends Observable {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
        
-       /*TSP1 tsp = new TSP1();
+       TSP1 tsp = new TSP1();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
        tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
@@ -118,8 +118,7 @@ public class Plan extends Observable {
        }
        else {
 	   return false;
-       }*/
-       return true;
+       }
    }
    
    /**
