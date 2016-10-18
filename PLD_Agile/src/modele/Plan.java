@@ -95,8 +95,7 @@ public class Plan extends Observable {
    }
    
    public void calculerTournee() {
-       int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       ArrayList<Integer> idSommets = completionTableauLivraison(nbrLivraisons);
+       ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
    }
    
@@ -203,10 +202,10 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
+   public ArrayList<Integer> completionTableauLivraison() {
        ArrayList<Integer> sommets = new ArrayList<>();
        sommets.add(demandeDeLivraison.getEntrepot().getId());
-       Set<Integer> cles = this.listeIntersections.keySet();
+       Set<Integer> cles = this.getListeLivraisons().keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
           Integer cle = it.next();
