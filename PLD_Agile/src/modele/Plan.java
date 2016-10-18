@@ -94,6 +94,13 @@ public class Plan extends Observable {
        notifyObservers();
    }
    
+   /**
+    * Calcule la tournee (algo Dijkstra et TSP) si possible
+    * et la cree
+    * @param tpsLimite Temps maximum en millisecondes pour le calcul du parcours optimal
+    * @return true si le calcul s'est bien deroule
+    * false si le calcul a ete stoppe par la limite de temps
+    */
    public boolean calculerTournee(int tpsLimite) {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
@@ -239,10 +246,16 @@ public class Plan extends Observable {
        return sommets;
    }
    
+   /**
+    * Recupere les durees des sommets donnes
+    * @param idSommets Liste des sommets dont il faut les durees
+    * @return Tableau des durees ordonnees selon l'ordre
+    * des sommets en entree
+    */
    private int[] recupererDurees(List<Integer> idSommets)
    {
        int[] durees = new int[idSommets.size()];
-       durees[0] = 0; //temps ï¿½ passer ï¿½ l'entrepot
+       durees[0] = 0; //temps a passer a l'entrepot
        for(int i=1; i<idSommets.size(); i++) {
 	   durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
        }
@@ -257,6 +270,12 @@ public class Plan extends Observable {
        return triTableauPi(pi, idSommets);
    }
    
+   /**
+    * Cree la Tournee suivant la liste des livraisons et les itineraires associes
+    * @param duree Duree totale de la tournee
+    * @param livraisons Liste ordonnee des livraisons a effectuer
+    * @param itineraires Tableau des itineraires pour aller de la livraison i à la livraison j
+    */
    private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
        tournee = new Tournee(duree);
        for(int i = 0; i < livraisons.length-1; i++)
