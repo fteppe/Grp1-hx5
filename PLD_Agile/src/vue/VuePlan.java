@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.DefaultSingleSelectionModel;
 import javax.swing.JPanel;
 
 import modele.Intersection;
+import modele.Itineraire;
 import modele.Livraison;
 import modele.Plan;
 import modele.Troncon;
@@ -24,6 +26,7 @@ public class VuePlan extends JPanel implements Observer {
 	private List<Troncon> listeTroncon; 
 	private double e = 0.5;
 	private static int diametreIntersection = 10;
+	private static Color couleurTroncon = Color.blue;
 	
 	
 	public VuePlan(Plan plan)
@@ -33,41 +36,59 @@ public class VuePlan extends JPanel implements Observer {
 		plan.addObserver(this);
 	}
 	
-	
-	public void creerVuePlan(){
-	}
-	
 	public void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		//on doit peindre le plan;
 		dessinerListeIntersections(g);
-		dessinerListeTroncons(g);
+		dessinerListeTroncons(g,plan.getListeTroncons(), couleurTroncon);
 		dessinerListeLivraisons(g);
+		dessinerListeItinereraires(g, plan.getItineraires());
+		Intersection entrepot = plan.getEntrepot();
+		System.out.println(entrepot);
+		if(entrepot != null)
+		{
+			dessinerIntersection(g, plan.getEntrepot(), Color.RED);
+		}
+		
+	}
+	public void dessinerListeItinereraires(Graphics g, List<Itineraire> itineraires){
+		
+		if(itineraires != null){
+			for(Itineraire it: itineraires){
+				if(it != null)
+				{
+					dessinerListeTroncons(g, it.getTroncons(), Color.red);
+				}
+			}
+			
+		}
+
 	}
 	
-	public void dessinerListeTroncons(Graphics g){
-		
+	public void dessinerListeTroncons(Graphics g,List<Troncon> troncons, Color c){
+		for(Troncon t : troncons){
+			dessinerTroncon(g, t, c);
+		}
 	}
 	
 	public void dessinerListeIntersections(Graphics g){
 		HashMap<Integer, Intersection> intersections = plan.getListeIntersections();
 		for(Intersection i : intersections.values())
 		{
-			dessinerIntersection(g, i);
+			dessinerIntersection(g, i, Color.blue);
 		}
 	}
 	
 	public void dessinerListeLivraisons(Graphics g){
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if (livraisons != null){
-			for(Livraison l : livraisons.values())
-			{
+			for(Livraison l : livraisons.values()){
 				dessinerLivraison(g,l);
 			}
 		}
-
 	}
+	
 
 	@Override
 	public void update(Observable obs, Object arg) {
@@ -78,22 +99,22 @@ public class VuePlan extends JPanel implements Observer {
 		
 	}
 	
-	private void dessinerTroncon(Graphics g, Troncon t){
+	private void dessinerTroncon(Graphics g, Troncon t, Color c){
 		
-		g.setColor(Color.BLUE);
+		g.setColor(c);
 		g.drawLine((int)(t.getOrigine().getLongitude() * e),(int) (t.getOrigine().getLatitude() * e),(int) (t.getDestination().getLongitude() * e),(int) (t.getDestination().getLatitude() * e));
 	}
 	
-	private void dessinerIntersection(Graphics g, Intersection i){
+	
+	private void dessinerIntersection(Graphics g, Intersection i, Color c){
 		
-		g.setColor(Color.blue);
+		g.setColor(c);
 		g.fillOval((int) (i.getLongitude() * e - diametreIntersection / 2),(int) (i.getLatitude() * e - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 	
 	private void dessinerLivraison(Graphics g, Livraison l){
-		g.setColor(Color.yellow);
 		Intersection i = l.getAdresse();
-		g.fillOval((int) (i.getLongitude() * e - diametreIntersection / 2),(int) (i.getLatitude() * e - diametreIntersection/2), diametreIntersection, diametreIntersection);
+		dessinerIntersection(g, i, Color.yellow);
 	}
 
 }
