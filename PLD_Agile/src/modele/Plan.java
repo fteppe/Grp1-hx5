@@ -95,8 +95,7 @@ public class Plan extends Observable {
    }
    
    public void calculerTournee() {
-       int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       ArrayList<Integer> idSommets = completionTableauLivraison(nbrLivraisons);
+       ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
    }
    
@@ -191,7 +190,7 @@ public class Plan extends Observable {
 	      trajet.add(0, pi[j]);;
 	      j=idSommets.indexOf(pi[j].getOrigine().getId());
 	   }
-	   Itineraire iti = new Itineraire(demandeDeLivraison.getLivraison(idSommets.get(j)), demandeDeLivraison.getLivraison(idSommets.get(i)), trajet);
+	   Itineraire iti = new Itineraire(listeIntersections.get(idSommets.get(j)), listeIntersections.get(idSommets.get(i)), trajet);
 	   trajetsUnit[i]=iti;
        }
        return trajetsUnit;
@@ -203,10 +202,10 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private ArrayList<Integer> completionTableauLivraison(int nbrLivraisons) {
+   public ArrayList<Integer> completionTableauLivraison() {
        ArrayList<Integer> sommets = new ArrayList<>();
        sommets.add(demandeDeLivraison.getEntrepot().getId());
-       Set<Integer> cles = this.listeIntersections.keySet();
+       Set<Integer> cles = this.getListeLivraisons().keySet();
        Iterator<Integer> it = cles.iterator();
        while (it.hasNext()){
           Integer cle = it.next();
@@ -215,7 +214,7 @@ public class Plan extends Observable {
        return sommets;
    }
    
-   private void creerTournee(List<Livraison> livraisons, List<Troncon> troncons) {
+   private void creerTournee(List<Intersection> livraisons, List<Troncon> troncons) {
        tournee = new Tournee(demandeDeLivraison);
        for(int i = 0; i < livraisons.size()-2; i++)
        {

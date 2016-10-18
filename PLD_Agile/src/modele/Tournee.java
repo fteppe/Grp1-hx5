@@ -22,7 +22,7 @@ public class Tournee extends Observable{
      * @param troncons Ensemble des troncons a parcourir entre
      * le depart et l'arrivee
      */
-    public void ajouterItineraire(Livraison depart, Livraison arrivee, List<Troncon> troncons) {
+    public void ajouterItineraire(Intersection depart, Intersection arrivee, List<Troncon> troncons) {
 	itineraires.add(new Itineraire(depart, arrivee, troncons));
 	setChanged();
 	notifyObservers();
