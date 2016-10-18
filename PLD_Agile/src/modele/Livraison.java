@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.Observable;
 
 public class Livraison extends Observable {
