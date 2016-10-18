@@ -77,7 +77,7 @@ public class Plan extends Observable {
        this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
 	       this.listeIntersections.get(entrepot));
        setChanged();
-       notifyObservers();
+       notifyObservers(demandeDeLivraison);
    }
    
    /**
@@ -202,7 +202,7 @@ public class Plan extends Observable {
     * @param nbrLivraisons
     * @return
     */
-   private int[] completionTableauLivraison(int nbrLivraisons){
+   private int[] completionTableauLivraison(int nbrLivraisons) {
        int i = 1;
        int[] sommets = new int[nbrLivraisons+1];
        sommets[0] = demandeDeLivraison.getEntrepot().getId();
@@ -216,12 +216,40 @@ public class Plan extends Observable {
        return sommets;
    }
    
+   private void creerTournee(List<Livraison> livraisons, List<Troncon> troncons) {
+       tournee = new Tournee(demandeDeLivraison);
+       for(int i = 0; i < livraisons.size()-2; i++)
+       {
+	   tournee.ajouterItineraire(livraisons.get(i), livraisons.get(i+1), troncons);
+       }
+       // TODO
+   }
+   
    public Intersection getIntersection(int id) {
        return this.listeIntersections.get(id);
    }
    
-   public List<Troncon> getTroncons(int id) {
-       return this.listeTroncons.get(id);
+   public List<Troncon> getTronconsParIntersection(int idIntersection) {
+       return this.listeTroncons.get(idIntersection);
    }
 
+   public HashMap<Integer, List<Troncon>> getListeTroncons() {
+       return this.listeTroncons;
+   }
+   
+   public HashMap<Integer, Intersection> getListeIntersections() {
+       return this.listeIntersections;
+   }
+   
+   public HashMap<Integer, Livraison> getListeLivraisons() {
+       return demandeDeLivraison.getListeLivraisons();
+   }
+   
+   public Intersection getEntrepot() {
+       return demandeDeLivraison.getEntrepot();
+   }
+   
+   public List<Itineraire> getItineraires() {
+       return tournee.getItineraires();
+   }
 }

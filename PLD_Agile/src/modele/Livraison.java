@@ -36,13 +36,11 @@ public class Livraison extends Observable {
    	return this.adresse;
     }
     
-    public void setHeureArrivee(Time heureArrivee)
-    {
+    public void setHeureArrivee(Time heureArrivee){
 	this.heureArrivee = heureArrivee;
     }
     
-    public void setHeureDepart(Time heureDepart)
-    {
+    public void setHeureDepart(Time heureDepart){
 	this.heureDepart = heureDepart;
     }
 }
