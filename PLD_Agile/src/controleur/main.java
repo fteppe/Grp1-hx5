@@ -11,10 +11,10 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class main {
-	public static void main(String[] args){
+    /*public static void main(String[] args){
 		
 		//Fenetre fenetre = new Fenetre("optimod",400,600);
-		/*
+		
 		try {
 			DeserialiseurXML.chargerPlan(null);
 			DeserialiseurXML.chargerLivraisons(null);
@@ -31,6 +31,6 @@ public class main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
 	}
+		*/
 }
