@@ -51,7 +51,10 @@ public class PlanTest {
 	Time heureDepart = new Time(15622523);
 	int[] adresses = {4};
 	int[] durees = {50};
-	plan.ajouterDemandeDeLivraison(heureDepart, 3, adresses, durees);
+	plan.creerDemandeDeLivraison(heureDepart, 3);
+	for(int i = 0; i < adresses.length; i++){
+	    plan.ajouterLivraison(adresses[i], durees[i]);
+	}
     	assert(updateAppele);
     }
 

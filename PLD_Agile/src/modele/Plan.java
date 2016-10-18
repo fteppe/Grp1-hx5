@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 public class Plan extends Observable {
@@ -94,22 +96,22 @@ public class Plan extends Observable {
    
    public void calculerTournee() {
        int nbrLivraisons = demandeDeLivraison.getNbrLivraisons();
-       int[] listeIdLivraisons = completionTableauLivraison(nbrLivraisons);
-       calculerDijkstra(listeIdLivraisons);
+       int[] idSommets = completionTableauLivraison(nbrLivraisons);
+       Object[] resultDijkstra = calculerDijkstra(idSommets);
    }
    
    /**
     * Calcul du plus court chemin selon Dijkstra a partir d'une liste de sommets définis
-    * @param listeIdLivraisons
+    * @param idSommets
     * @return
     */
-   private Object [] calculerDijkstra(int[] listeIdLivraisons){
-       int nbrSommets = listeIdLivraisons.length+1;
+   private Object [] calculerDijkstra(int[] idSommets){
+       int nbrSommets = idSommets.length;
        double[][] couts = new double[nbrSommets][nbrSommets];
        @SuppressWarnings("unchecked")
        List<Troncon>[][] trajets = (ArrayList<Troncon>[][])new ArrayList[nbrSommets][nbrSommets];
-       for(int i = 0; i < listeIdLivraisons.length + 1; i++){
-	   Object[] resultDijkstra = calculerDijkstra(listeIdLivraisons[i], listeIdLivraisons);
+       for(int i = 0; i < idSommets.length; i++){
+	   Object[] resultDijkstra = calculerDijkstra(idSommets[i], idSommets);
 	   double[] cout = (double[]) resultDijkstra[0];
 	   Troncon[] pi = (Troncon[]) resultDijkstra[1];
 	   couts[i] = cout;
@@ -125,11 +127,50 @@ public class Plan extends Observable {
     * @param nbrSommets
     * @return
     */
-   private Object[] calculerDijkstra(int sourceId, int[] listeIdLivraisons){
-       double couts[] = new double[listeIdLivraisons.length];
-       Troncon[] pi = new Troncon[listeIdLivraisons.length];
+   private Object[] calculerDijkstra(int sourceId, int[] idSommets){
+       double couts[] = new double[idSommets.length];
+       Troncon[] pi = new Troncon[idSommets.length];
+       HashMap<Integer, Sommet> listeSommets = new HashMap<>();
+       NavigableSet<Sommet> sommetsGris = new TreeSet<>();
        
+       for(int i = 0; i < idSommets.length; i++){
+	   int id = idSommets[i];
+	   Sommet nouveauSommet;
+	   if(id != sourceId){
+	       nouveauSommet = new Sommet(id, i, Double.POSITIVE_INFINITY, Etat.BLANC);
+	   } else {
+	       nouveauSommet = new Sommet(id, i, 0, Etat.GRIS);
+	       sommetsGris.add(nouveauSommet);
+	   }
+	   listeSommets.put(id, nouveauSommet);
+       }
+       
+       while(!sommetsGris.isEmpty()){
+	   Sommet premierSommet = sommetsGris.first();
+	   for(Troncon t : this.listeTroncons.get(premierSommet.getId())){
+	       Sommet destination = listeSommets.get(t.getDestination().getId());
+	       Etat etat = destination.getEtat();
+	       if(etat != Etat.NOIR){
+		   relacher(premierSommet, destination, t, pi, couts);
+		   if(etat == Etat.BLANC){
+		       destination.setEtat(Etat.GRIS);
+		       sommetsGris.add(destination);
+		   }
+	       }
+	   }
+	   premierSommet.setEtat(Etat.NOIR);
+	   sommetsGris.remove(premierSommet);
+       }
        return new Object[]{couts, pi};
+   }
+   
+   private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, double[] couts){
+       double nouveauCout = origine.getCout() + antecedent.getTpsParcours();
+       if(destination.getCout() < nouveauCout){
+	   destination.setCout(nouveauCout);
+	   pi[destination.getPosition()] = antecedent;
+	   couts[destination.getPosition()] = nouveauCout;
+       }
    }
    
    /**
