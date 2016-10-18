@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
@@ -186,7 +185,7 @@ public class Plan extends Observable {
        }
        return new Object[]{couts, pi};
    }
-   
+
    private void relacher(Sommet origine, Sommet destination, Troncon antecedent, Troncon[] pi, int[] couts){
        int nouveauCout = origine.getCout() + antecedent.getTpsParcours();
        if(destination.getCout() > nouveauCout){
@@ -211,10 +210,13 @@ public class Plan extends Observable {
 	   List<Troncon> trajet = new ArrayList<Troncon>();
 	   int j=i;
 	   while(pi[j]!=null){
-	      trajet.add(0, pi[j]);;
+	      trajet.add(0, pi[j]);
 	      j=idSommets.indexOf(pi[j].getOrigine().getId());
 	   }
-	   Itineraire iti = new Itineraire(listeIntersections.get(idSommets.get(j)), listeIntersections.get(idSommets.get(i)), trajet);
+	   if(j != 0){
+	       trajet.clear();
+	   }
+	   Itineraire iti = new Itineraire(listeIntersections.get(idSommets.get(0)), listeIntersections.get(idSommets.get(i)), trajet);
 	   trajetsUnit[i]=iti;
        }
        return trajetsUnit;
