@@ -36,8 +36,10 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournee");
-	    plan.calculerTournee(tempsLimite);
-	    fenetre.afficherMessage("Tournée calculée");
+	    if(plan.calculerTournee(tempsLimite))
+		fenetre.afficherMessage("Tournée calculée");
+	    else
+		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 

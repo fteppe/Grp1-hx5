@@ -28,6 +28,8 @@ public class Controleur {
 		int longueur = 600;
 		int largeur = 800;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
+		
+		tempsLimite = 60000;
 	}
 	
 	/**
