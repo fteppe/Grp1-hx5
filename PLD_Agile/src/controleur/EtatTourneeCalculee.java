@@ -24,7 +24,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargée");
+	    fenetre.afficherMessage("Demande de livraison chargee");
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	

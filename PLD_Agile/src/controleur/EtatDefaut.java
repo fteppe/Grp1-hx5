@@ -23,7 +23,7 @@ public abstract class EtatDefaut implements Etat {
 				| ExceptionXML | NumberFormatException e) {
 		    fenetre.afficherMessage(e.getMessage());
 		}
-		fenetre.afficherMessage("Plan Chargé");
+		fenetre.afficherMessage("Plan Charge");
 		controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 	}
 	
