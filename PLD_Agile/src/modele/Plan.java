@@ -106,12 +106,10 @@ public class Plan extends Observable {
    public boolean calculerTournee(int tpsLimite) {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
-       
        TSP1 tsp = new TSP1();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
        tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
-       
        if(!tsp.getTempsLimiteAtteint()) {
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   int[] ordreTournee = new int[idSommets.size()]; //idSommets.size()+1 car retour a l'entrepot ?
@@ -121,7 +119,6 @@ public class Plan extends Observable {
 	   }
 	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 	   creerTournee(dureeTournee, ordreTournee, trajets);
-	   
 	   return true;
        }
        else {
@@ -180,23 +177,21 @@ public class Plan extends Observable {
 		   Sommet destination = listeSommets.get(t.getDestination().getId());
 		   Etat etat = destination.getEtat();
 		   if(etat != Etat.NOIR){
+		       sommetsGris.remove(destination);
 		       relacher(premierSommet, destination, t);
 	    	       if(etat == Etat.BLANC){
 	    		   destination.setEtat(Etat.GRIS);
-	    		   sommetsGris.add(destination);
 	    		   /*System.out.println("++++++" + destination.getId());
 	    		   for(Sommet s : sommetsGris){
 	    		       System.out.println(s.getId());
 	    		   }*/
 	    	       }
+	    	       sommetsGris.add(destination);
 	    	   }      
     	       }	  
 	   }
-	   premierSommet.setEtat(Etat.NOIR);
 	   sommetsGris.remove(premierSommet);
-	   if(idSommets.contains(premierSommet.getId())){
-	       
-	   }
+	   premierSommet.setEtat(Etat.NOIR);
        }
        position = 0;
        for(int id : idSommets){
