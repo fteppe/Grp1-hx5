@@ -24,7 +24,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargée");
+	    fenetre.afficherMessage("Demande de livraison chargee");
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
@@ -37,7 +37,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournee");
 	    plan.calculerTournee(tempsLimite);
-	    fenetre.afficherMessage("Tournée calculée");
+	    fenetre.afficherMessage("Tournee calculee");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 

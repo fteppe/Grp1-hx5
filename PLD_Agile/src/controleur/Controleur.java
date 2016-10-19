@@ -24,7 +24,7 @@ public class Controleur {
 		this.plan = plan;
 		etatCourant = ETAT_INITIAL;
 		String titre = "Optimod";
-
+		tempsLimite = 60000;
 		int longueur = 600;
 		int largeur = 800;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
