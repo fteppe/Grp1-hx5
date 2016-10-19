@@ -106,23 +106,19 @@ public class Plan extends Observable {
    public boolean calculerTournee(int tpsLimite) {
        ArrayList<Integer> idSommets = completionTableauLivraison();
        Object[] resultDijkstra = calculerDijkstra(idSommets);
-       
        TSP1 tsp = new TSP1();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
        tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
-       
        if(!tsp.getTempsLimiteAtteint()) {
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
-	   int[] ordreTournee = new int[idSommets.size()+1]; //idSommets.size()+1 car retour a l'entrepot ?
-	   for(int i=0; i<idSommets.size()+1; i++)
+	   int[] ordreTournee = new int[idSommets.size()]; //idSommets.size()+1 car retour a l'entrepot ?
+	   for(int i=0; i<idSommets.size(); i++)
 	   {
 	       ordreTournee[i] = tsp.getMeilleureSolution(i);
 	   }
-	   
 	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 	   creerTournee(dureeTournee, ordreTournee, trajets);
-	   
 	   return true;
        }
        else {
@@ -181,23 +177,21 @@ public class Plan extends Observable {
 		   Sommet destination = listeSommets.get(t.getDestination().getId());
 		   Etat etat = destination.getEtat();
 		   if(etat != Etat.NOIR){
+		       sommetsGris.remove(destination);
 		       relacher(premierSommet, destination, t);
 	    	       if(etat == Etat.BLANC){
 	    		   destination.setEtat(Etat.GRIS);
-	    		   sommetsGris.add(destination);
 	    		   /*System.out.println("++++++" + destination.getId());
 	    		   for(Sommet s : sommetsGris){
 	    		       System.out.println(s.getId());
 	    		   }*/
 	    	       }
+	    	       sommetsGris.add(destination);
 	    	   }      
     	       }	  
 	   }
-	   premierSommet.setEtat(Etat.NOIR);
 	   sommetsGris.remove(premierSommet);
-	   if(idSommets.contains(premierSommet.getId())){
-	       
-	   }
+	   premierSommet.setEtat(Etat.NOIR);
        }
        position = 0;
        for(int id : idSommets){
@@ -290,6 +284,17 @@ public class Plan extends Observable {
        return calculerDijkstra(idSommets);
    }
    
+   public Object[] methodeTest3(int tpsMax) {
+       boolean fini = calculerTournee(tpsMax);
+       if(fini){
+       return new Object[]{this.tournee.getDuree(), this.tournee.getItineraires()};
+       }
+       else {
+	   System.out.println("Pas fini.");
+	   return null;
+       }
+   }
+   
    /**
     * Cree la Tournee suivant la liste des livraisons et les itineraires associes
     * @param duree Duree totale de la tournee
@@ -300,9 +305,9 @@ public class Plan extends Observable {
        tournee = new Tournee(duree);
        for(int i = 0; i < livraisons.length-1; i++)
        {
-	   tournee.ajouterItineraire(itineraires[i][i+1]);
+	   tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i+1]]);
        }
-       
+       tournee.ajouterItineraire(itineraires[livraisons[livraisons.length-1]][livraisons[0]]);
        setChanged();
        notifyObservers(tournee);
    }

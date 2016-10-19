@@ -33,7 +33,7 @@ public class Troncon {
      * Calcule et modifie le temps de parcours moyen du troncon courant
      */
     private void setTpsParcours() {
-	this.tpsParcours = this.longueur/this.vitesseMoy;
+	this.tpsParcours = Math.round(this.longueur/this.vitesseMoy);
     }
     
     public String getNom(){
