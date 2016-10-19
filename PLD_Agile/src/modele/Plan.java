@@ -308,7 +308,6 @@ public class Plan extends Observable {
 	   tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i+1]]);
        }
        tournee.ajouterItineraire(itineraires[livraisons[livraisons.length-1]][livraisons[0]]);
-       
        setChanged();
        notifyObservers(tournee);
    }
