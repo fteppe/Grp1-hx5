@@ -402,7 +402,11 @@ public class Plan extends Observable {
 	   }
    }
    
-   public Integer getDureeTournee() {
+   public void setTournee(Tournee tournee) {
+	this.tournee = tournee;
+}
+
+public Integer getDureeTournee() {
 	   if(tournee != null) {
 		   return tournee.getDuree();
 	   } else {

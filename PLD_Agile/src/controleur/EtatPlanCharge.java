@@ -18,6 +18,7 @@ public class EtatPlanCharge extends EtatDefaut {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
+		plan.setTournee(null);
 		fenetre.afficherMessage("Demande de livraison chargée");
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
