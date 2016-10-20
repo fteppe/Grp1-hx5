@@ -25,7 +25,7 @@ public class VuePlan extends JPanel implements Observer {
 	private Plan plan;
 	private List<Troncon> listeTroncon; 
 	private double e = 0.65;
-	private int tailleFleche = 7;
+	private int tailleFleche = 8;
 	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.blue;
 	private static Color COULEUR_ENTREPOT = Color.red;
@@ -132,21 +132,19 @@ public class VuePlan extends JPanel implements Observer {
 		Vecteur origine = new Vecteur((t.getOrigine().getLongitude() * e),(t.getOrigine().getLatitude() * e));
 		Vecteur direction = new Vecteur(pointeFleche).add(origine.multiply(-1));
 		
-		System.out.println(pointeFleche);
 		//System.out.println(origine);
 		//System.out.println(direction);
 		double normeDirection = direction.norme();
 		
 		direction = direction.multiply(1/normeDirection);
-		pointeFleche = pointeFleche.add(direction.multiply(-1).multiply(diametreIntersection/2)); 
+		//pointeFleche = pointeFleche.add(direction.multiply(-1).multiply(diametreIntersection/2)); 
 		Vecteur orthDir = new Vecteur(direction.y, - direction.x);
 		
 		
 		
 		Vecteur coteFleche1 = new Vecteur(pointeFleche).add(direction.multiply(-1).multiply(tailleFleche)).add(orthDir.multiply(tailleFleche/2));
 		Vecteur coteFleche2 = new Vecteur(coteFleche1).add(orthDir.multiply(-1).multiply(tailleFleche));
-		System.out.println(coteFleche1);
-		System.out.println(coteFleche2);
+
 		int[] tabx = new int[]{(int)pointeFleche.x,(int) coteFleche1.x,(int)coteFleche2.x};
 		int[] taby = new int[]{(int)pointeFleche.y,(int)coteFleche1.y,(int)coteFleche2.y};
 		

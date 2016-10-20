@@ -18,12 +18,12 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 
 	private Plan plan;
 	public ZoneDeTexte(int largeur, int hauteur, Plan plan){
+		super(30,25);
 		this.plan = plan;
 		plan.addObserver(this);
 		setLineWrap(true);
 		setWrapStyleWord(true);
 		setEditable(false);
-		setSize(largeur,hauteur);
 	}
 	
 	
