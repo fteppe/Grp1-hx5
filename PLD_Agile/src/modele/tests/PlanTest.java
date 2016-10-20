@@ -2,6 +2,7 @@ package modele.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import modele.Heure;
+import modele.Itineraire;
 import modele.Plan;
 
 public class PlanTest {
@@ -58,4 +60,56 @@ public class PlanTest {
     	assert(updateAppele);
     }
 
+    @Test
+	/*
+	 * Graphe composé de 5 livraisons dont la tournée doit être calculée correctement
+	 */
+	public void testCalculerTournee() {
+	    Plan p  = new Plan();
+	    p.ajouterIntersection(1, 412, 574);
+	    p.ajouterIntersection(2, 217, 574);
+	    p.ajouterIntersection(3, 325, 574);
+	    p.ajouterIntersection(4, 412, 544);
+	    p.ajouterIntersection(5, 742, 574);
+	    p.ajouterIntersection(6, 451, 174);
+	    p.ajouterIntersection(7, 418, 974);
+	    p.ajouterIntersection(8, 442, 484);
+	    p.ajouterTroncon("h0", 75, 25, 1, 2);
+	    p.ajouterTroncon("h1", 50, 25, 2, 3);
+	    p.ajouterTroncon("h2", 25, 25, 3, 8);
+	    p.ajouterTroncon("h3", 100, 25, 4, 1);
+	    p.ajouterTroncon("h4", 150, 25, 1, 5);
+	    p.ajouterTroncon("h5", 25, 25, 5, 6);
+	    p.ajouterTroncon("h6", 200, 25, 6, 7);
+	    p.ajouterTroncon("h7", 25, 25, 6, 7);
+	    p.ajouterTroncon("h8", 50, 25, 7, 2);
+	    p.ajouterTroncon("h0", 50, 25, 2, 1);
+	    p.ajouterTroncon("h3", 50, 25, 1, 4);
+	    Heure heure = new Heure("21:05:00");
+	    p.creerDemandeDeLivraison(heure, 4);
+	    p.ajouterLivraison(1, 20);
+	    p.ajouterLivraison(2, 10);
+	    p.ajouterLivraison(5, 8);
+	    p.ajouterLivraison(6, 10);
+	    p.ajouterLivraison(7, 14);
+	    boolean calculReussi = p.calculerTournee(60000);
+	    int dureeTotale = p.getDureeTournee();
+	    List<Itineraire> listeItineraires= p.getItineraires();
+	    int[] listeSommetsTourneePoss1 = {4,1,5,6,7,2,4};
+	    int[] listeSommetsTourneePoss2 = {4,5,6,7,2,1,4};
+	    int position = 0;
+	    assertTrue(calculReussi);
+	    for (Itineraire i : listeItineraires) {
+		assertTrue(i.getDepart().getId() 
+			== listeSommetsTourneePoss1[position] 
+			|| i.getDepart().getId()
+			== listeSommetsTourneePoss2[position]);
+		assertTrue(i.getArrivee().getId() 
+			== listeSommetsTourneePoss1[position+1] 
+			|| i.getArrivee().getId()
+			== listeSommetsTourneePoss2[position+1]);
+		position ++;
+	    }
+	    assertTrue(dureeTotale == 80);
+	}
 }

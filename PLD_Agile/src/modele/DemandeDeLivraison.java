@@ -28,31 +28,30 @@ public class DemandeDeLivraison extends Observable {
      * @param duree Duree de la livraison a ajouter
      * @param adresse Intersection correspondant a la livraison a ajouter
      */
-    public void ajouterLivraison (int duree, Intersection adresse){
+    public void ajouterLivraison (int duree, Intersection adresse) {
 	Livraison nouvLivraison = new Livraison(duree, adresse);
 	this.livraisons.put(adresse.getId(), nouvLivraison);
 	setChanged();
 	notifyObservers(nouvLivraison);
     }
     
-    public Livraison getLivraison(int adresse){
+    public Livraison getLivraison(int adresse) {
 	return this.livraisons.get(adresse);
     }
     
-    public HashMap<Integer, Livraison> getListeLivraisons()
-    {
+    public HashMap<Integer, Livraison> getListeLivraisons() {
 	return this.livraisons;
     }
     
-    public Intersection getEntrepot(){
+    public Intersection getEntrepot() {
 	return this.entrepot;
     }
     
-    public int getNbrLivraisons(){
+    public int getNbrLivraisons() {
 	return this.livraisons.size();
     }
     
-    public Heure getHeureDepart(){
+    public Heure getHeureDepart() {
 	return this.heureDepart;
     }
 }

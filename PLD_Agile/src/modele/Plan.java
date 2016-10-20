@@ -59,7 +59,7 @@ public class Plan extends Observable {
        if(this.listeTroncons.containsKey(origine)) {
 	   this.listeTroncons.get(origine).add(nouvTroncon);
        } else {
-	   List<Troncon> nouvListeTroncons = new ArrayList<Troncon> ();
+	   List<Troncon> nouvListeTroncons = new ArrayList<Troncon>();
 	   nouvListeTroncons.add(nouvTroncon);
 	   this.listeTroncons.put(origine, nouvListeTroncons);
        }
