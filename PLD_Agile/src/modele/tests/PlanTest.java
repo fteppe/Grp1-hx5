@@ -2,7 +2,6 @@ package modele.tests;
 
 import static org.junit.Assert.*;
 
-import java.sql.Time;
 import java.util.Observable;
 import java.util.Observer;
 
