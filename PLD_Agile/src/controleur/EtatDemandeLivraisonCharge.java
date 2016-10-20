@@ -12,7 +12,7 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatDemandeLivraisonCharge extends EtatDefaut {
-		// Etat après que l'utilisateur ait chargé une demande de livraison
+		// Etat aprï¿½s que l'utilisateur ait chargï¿½ une demande de livraison
 	
 	
 	@Override
@@ -24,7 +24,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargée");
+	    fenetre.afficherMessage("Demande de livraison chargï¿½e");
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
@@ -36,10 +36,12 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournee");
-	    if(plan.calculerTournee(tempsLimite))
-		fenetre.afficherMessage("Tournée calculée");
+	    if(plan.calculerTournee(tempsLimite)){
+			fenetre.afficherMessage("Tournï¿½e calculï¿½e");
+		    fenetre.afficherFeuilleDeRoute();
+	    }
 	    else
-		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
+		fenetre.afficherMessage("Erreur : aucune tournï¿½e possible trouvï¿½e");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 

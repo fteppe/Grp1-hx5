@@ -13,7 +13,7 @@ import modele.Plan;
 public class Fenetre extends JFrame{
 	
 	private static String titreFenetre;
-	private Point dimensions;
+	private Vecteur dimensions;
 	private Menu menu;
 	private BarreDesTaches barreDesTaches;
 	private ZoneDeTexte zoneDeTexte;
@@ -27,17 +27,17 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
-		dimensions = new Point(largeur,hauteur);
+		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
 		panneauEst = new JPanel();
 		
 	    this.controleur = controleur;
 	    this.setTitle(titreFenetre);
-	    this.setSize(dimensions.x,dimensions.y);
+	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
 	    
 	    vuePlan = new VuePlan(plan);
-    	zoneDeTexte = new ZoneDeTexte(dimensions.x/3,dimensions.y-30, plan);
+    	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan);
 	    menu = new Menu(controleur);
 	    barreDesTaches = new BarreDesTaches(controleur);
 	    placerComposants();
@@ -59,5 +59,9 @@ public class Fenetre extends JFrame{
 	
 	public void afficherMessage(String message){
 		zoneDeTexte.afficherTexte(message);
+	}
+	
+	public void afficherFeuilleDeRoute(){
+		zoneDeTexte.afficherFeuilleDeRoute();
 	}
 }

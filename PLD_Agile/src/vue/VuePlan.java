@@ -25,11 +25,12 @@ public class VuePlan extends JPanel implements Observer {
 	private Plan plan;
 	private List<Troncon> listeTroncon; 
 	private double e = 0.65;
+	private int tailleFleche = 7;
 	private static int diametreIntersection = 10;
-	private static Color couleurTroncon = Color.blue;
-	private static Color couleurEntrepot = Color.red;
-	private static Color couleurLivraison = Color.blue;
-	private static Color couleurIntersection = couleurTroncon;
+	private static Color COULEUR_TRONCON = Color.blue;
+	private static Color COULEUR_ENTREPOT = Color.red;
+	private static Color COULEUR_LIVRAISON = Color.blue;
+	private static Color COULEUR_INTERSECTION = COULEUR_TRONCON;
 	
 	
 	public VuePlan(Plan plan)
@@ -44,13 +45,13 @@ public class VuePlan extends JPanel implements Observer {
 		super.paintComponent(g);
 		//on doit peindre le plan;
 		dessinerListeIntersections(g);
-		dessinerListeTroncons(g,plan.getListeTroncons(), couleurTroncon);
+		dessinerListeTroncons(g,plan.getListeTroncons(), COULEUR_TRONCON);
 		dessinerListeLivraisons(g);
 		dessinerListeItinereraires(g, plan.getItineraires());
 		Intersection entrepot = plan.getEntrepot();
 		if(entrepot != null)
 		{
-			dessinerIntersection(g, plan.getEntrepot(), couleurEntrepot);
+			dessinerIntersection(g, plan.getEntrepot(), COULEUR_ENTREPOT);
 		}
 		
 	}
@@ -60,12 +61,11 @@ public class VuePlan extends JPanel implements Observer {
 			for(Itineraire it: itineraires){
 				if(it != null)
 				{
-					dessinerListeTroncons(g, it.getTroncons(), Color.red);
+					dessinerListeTronconsItineraire(g, it.getTroncons(), Color.red );
 				}
 			}
 			
 		}
-
 	}
 	
 	public void dessinerListeTroncons(Graphics g,List<Troncon> troncons, Color c){
@@ -74,11 +74,18 @@ public class VuePlan extends JPanel implements Observer {
 		}
 	}
 	
+	public void dessinerListeTronconsItineraire(Graphics g,List<Troncon> troncons, Color c){
+		for(Troncon t : troncons){
+			dessinerTroncon(g, t, c);
+			dessinerFlecheTroncon(g, t, c);
+		}
+	}
+	
 	public void dessinerListeIntersections(Graphics g){
 		HashMap<Integer, Intersection> intersections = plan.getListeIntersections();
 		for(Intersection i : intersections.values())
 		{
-			dessinerIntersection(g, i, couleurIntersection);
+			dessinerIntersection(g, i, COULEUR_INTERSECTION);
 		}
 	}
 	
@@ -117,6 +124,35 @@ public class VuePlan extends JPanel implements Observer {
 	private void dessinerLivraison(Graphics g, Livraison l){
 		Intersection i = l.getAdresse();
 		dessinerIntersection(g, i, Color.yellow);
+	}
+	
+	private void dessinerFlecheTroncon(Graphics g,Troncon t,Color c){
+		System.out.println("Fleche");
+		Vecteur pointeFleche = new Vecteur((t.getDestination().getLongitude()* e),( t.getDestination().getLatitude() * e));
+		Vecteur origine = new Vecteur((t.getOrigine().getLongitude() * e),(t.getOrigine().getLatitude() * e));
+		Vecteur direction = new Vecteur(pointeFleche).add(origine.multiply(-1));
+		
+		System.out.println(pointeFleche);
+		//System.out.println(origine);
+		//System.out.println(direction);
+		double normeDirection = direction.norme();
+		
+		direction = direction.multiply(1/normeDirection);
+		pointeFleche = pointeFleche.add(direction.multiply(-1).multiply(diametreIntersection/2)); 
+		Vecteur orthDir = new Vecteur(direction.y, - direction.x);
+		
+		
+		
+		Vecteur coteFleche1 = new Vecteur(pointeFleche).add(direction.multiply(-1).multiply(tailleFleche)).add(orthDir.multiply(tailleFleche/2));
+		Vecteur coteFleche2 = new Vecteur(coteFleche1).add(orthDir.multiply(-1).multiply(tailleFleche));
+		System.out.println(coteFleche1);
+		System.out.println(coteFleche2);
+		int[] tabx = new int[]{(int)pointeFleche.x,(int) coteFleche1.x,(int)coteFleche2.x};
+		int[] taby = new int[]{(int)pointeFleche.y,(int)coteFleche1.y,(int)coteFleche2.y};
+		
+		g.setColor(c);
+		g.fillPolygon(tabx,taby ,3);
+				
 	}
 
 }

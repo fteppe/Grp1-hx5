@@ -12,8 +12,8 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatTourneeCalculee extends EtatDefaut {
-	// Etat atteint après que le plan et la livraison aient été chargé 
-    	// et que la tournée soit calculée
+	// Etat atteint aprï¿½s que le plan et la livraison aient ï¿½tï¿½ chargï¿½ 
+    	// et que la tournï¿½e soit calculï¿½e
 
 	@Override
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
@@ -24,7 +24,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargée");
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	

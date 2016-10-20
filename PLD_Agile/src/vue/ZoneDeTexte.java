@@ -2,14 +2,17 @@ package vue;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import modele.Itineraire;
 import modele.Livraison;
 import modele.Plan;
+import modele.Troncon;
 
 public class ZoneDeTexte extends JTextArea implements Observer{
 
@@ -37,7 +40,19 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 		append(ligne+'\n');
 	}
 	
-	public void afficherInformationDemandeLivraison(){
+	public void afficherFeuilleDeRoute(){
+		System.out.println("gene feuille de route");
+		ajouterLigne("feuille de route");
+		List<Itineraire> itineraires = plan.getItineraires();
+		for(Itineraire it : itineraires){
+			for(Troncon t : it.getTroncons()){
+				ajouterLigne(t.getNom());
+			}
+		}
+		
+	}
+	
+	private void afficherInformationDemandeLivraison(){
 		
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
@@ -51,8 +66,8 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		viderZoneDeTexte();
-		afficherInformationDemandeLivraison();
+		//viderZoneDeTexte();
+		//afficherInformationDemandeLivraison();
 		
 	}
 }
