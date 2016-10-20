@@ -13,6 +13,7 @@ public class Itineraire {
 	this.depart = depart;
 	this.arrivee = arrivee;
 	this.troncons = troncons;
+	this.calculTpsParcours();
     }
 
     public Intersection getDepart() {
@@ -27,6 +28,16 @@ public class Itineraire {
 	return troncons;
     }
     
+    private void calculTpsParcours() {
+	int tpsParcours = 0;
+	if (this.troncons != null) {
+	    for(Troncon t : this.troncons) {
+		tpsParcours += t.getTpsParcours();    
+	    }
+	}
+	this.tpsParcours = tpsParcours;
+    }
+	
     public String toString() {
 	return "Itinéraire entre la livraison en " + depart.getId()
 		+ " et " + arrivee.getId() + " :";

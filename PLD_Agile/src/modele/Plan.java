@@ -183,7 +183,8 @@ public class Plan extends Observable {
     * Calcul du plus court chemin selon Dijkstra a partir d'un sommet defini
     * @param sourceId Identifiant du sommet de depart 
     * @param idSommets Identifiants des sommets constituant la tournee finale
-    * @return
+    * @return Deux tableaux contenant l'ensemble des couts et des itineraires optimaux
+    * resultant des calculs de plus court chemin effectues a partir d'un unique sommet
     */
    private Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets) {
        int coutsSommets[] = new int[idSommets.size()];
@@ -229,6 +230,7 @@ public class Plan extends Observable {
        //On recupere seulement les couts des sommets devant etre
        //presents dans la tournee 
        for(int id : idSommets) {
+	   int cout = listeSommets.get(id).getCout();
 	   coutsSommets[position] = listeSommets.get(id).getCout();
 	   position ++;
        }
