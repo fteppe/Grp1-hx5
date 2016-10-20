@@ -12,6 +12,7 @@ import org.junit.Test;
 import modele.Heure;
 import modele.Itineraire;
 import modele.Plan;
+import modele.Troncon;
 
 public class PlanTest {
 
@@ -62,7 +63,7 @@ public class PlanTest {
 
     @Test
 	/*
-	 * Graphe composé de 5 livraisons dont la tournée doit être calculée correctement
+	 * Graphe compose de 5 livraisons dont la tournee doit etre calculee correctement
 	 */
 	public void testCalculerTournee() {
 	    Plan p  = new Plan();
@@ -109,14 +110,15 @@ public class PlanTest {
 			|| i.getArrivee().getId()
 			== listeSommetsTourneePoss2[position+1]);
 		position ++;
+		System.out.println(i.getDepart().getId());
 	    }
 	    assertTrue(dureeTotale == 80);
 	}
     
     @Test
 	/*
-	 * Graphe composé de 5 livraisons dont le calcul de tournée ne doit pas
-	 * s'opérer correctement, le temps limite étant de 0 secondes
+	 * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
+	 * s'operer correctement, le temps limite etant de 0 secondes
 	 */
 	public void testCalculerTournee2() {
 	    Plan p  = new Plan();
@@ -150,53 +152,13 @@ public class PlanTest {
 	    assert(calculReussi == false);
     }
     
-    @Test
-	/*
-	 * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
-	 * s'operer correctement, aucun trace n'étant realisable. Le cout est donc
-	 * negatif.
-	 */
-	public void testCalculerTournee3() {
-	    Plan p  = new Plan();
-	    p.ajouterIntersection(1, 412, 574);
-	    p.ajouterIntersection(2, 217, 574);
-	    p.ajouterIntersection(3, 325, 574);
-	    p.ajouterIntersection(4, 412, 544);
-	    p.ajouterIntersection(5, 742, 574);
-	    p.ajouterIntersection(6, 451, 174);
-	    p.ajouterIntersection(7, 418, 974);
-	    p.ajouterIntersection(8, 442, 484);
-	    p.ajouterTroncon("h0", 75, 25, 1, 2);
-	    p.ajouterTroncon("h1", 50, 25, 2, 3);
-	    p.ajouterTroncon("h2", 25, 25, 3, 8);
-	    p.ajouterTroncon("h3", 100, 25, 4, 1);
-	    p.ajouterTroncon("h4", 150, 25, 1, 5);
-	    p.ajouterTroncon("h5", 25, 25, 5, 6);
-	    p.ajouterTroncon("h6", 200, 25, 6, 7);
-	    p.ajouterTroncon("h7", 25, 25, 6, 7);
-	    p.ajouterTroncon("h8", 50, 25, 7, 2);
-	    p.ajouterTroncon("h0", 50, 25, 2, 1);
-	    p.ajouterTroncon("h3", 50, 25, 1, 4);
-	    Heure heure = new Heure("21:05:00");
-	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraison(1, 20);
-	    p.ajouterLivraison(2, 10);
-	    p.ajouterLivraison(5, 8);
-	    p.ajouterLivraison(6, 10);
-	    p.ajouterLivraison(7, 14);
-	    p.ajouterLivraison(3, 10);
-	    boolean calculReussi = p.calculerTournee(2000);
-	    int dureeTotale = p.getDureeTournee();
-	    assert(dureeTotale < 0);
-    }
     
     @Test
 	/*
-	 * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
-	 * s'operer correctement, aucun trace n'étant realisable. Le cout est donc
-	 * negatif.
+	 * Graphe compose de 5 livraisons dont la tournee possede un cout de 
+	 * 0, n'etant composee que de l'entrepot.
 	 */
-	public void testCalculerTournee4() {
+	public void testCalculerTournee3() {
 	    Plan p  = new Plan();
 	    p.ajouterIntersection(1, 412, 574);
 	    p.ajouterIntersection(2, 217, 574);
@@ -224,6 +186,7 @@ public class PlanTest {
 	    System.out.println(dureeTotale);
 	    assert(calculReussi == true);
 	    assert(dureeTotale == 0);
-}
+    }
+
 }
 

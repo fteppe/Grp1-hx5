@@ -13,6 +13,7 @@ public class Itineraire {
 	this.depart = depart;
 	this.arrivee = arrivee;
 	this.troncons = troncons;
+	this.calculTpsParcours();
     }
 
     public Intersection getDepart() {
@@ -25,6 +26,16 @@ public class Itineraire {
     
     public List<Troncon> getTroncons() {
 	return troncons;
+    }
+    
+    private void calculTpsParcours() {
+	int tpsParcours = 0;
+	if (this.troncons != null) {
+	    for(Troncon t : this.troncons) {
+		tpsParcours += t.getTpsParcours();    
+	    }
+	}
+	this.tpsParcours = tpsParcours;
     }
 
 	@Override
