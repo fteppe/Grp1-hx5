@@ -18,13 +18,13 @@ public class EtatPlanCharge extends EtatDefaut {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
+		fenetre.afficherMessage("Demande de livraison chargée");
+		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargee");
-	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
 	@Override
