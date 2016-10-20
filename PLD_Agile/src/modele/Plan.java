@@ -469,7 +469,6 @@ public class Plan extends Observable {
        
        public void setAntecedent(Troncon nouvelAntecedent) {
 	  this.antecedent = nouvelAntecedent;
-       }
-       
+       } 
    }
 }

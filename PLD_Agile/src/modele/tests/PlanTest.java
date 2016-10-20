@@ -112,4 +112,42 @@ public class PlanTest {
 	    }
 	    assertTrue(dureeTotale == 80);
 	}
+    
+    @Test
+	/*
+	 * Graphe composé de 5 livraisons dont le calcul de tournée ne doit pas
+	 * s'opérer correctement, le temps limite étant de 0 secondes
+	 */
+	public void testCalculerTournee2() {
+	    Plan p  = new Plan();
+	    p.ajouterIntersection(1, 412, 574);
+	    p.ajouterIntersection(2, 217, 574);
+	    p.ajouterIntersection(3, 325, 574);
+	    p.ajouterIntersection(4, 412, 544);
+	    p.ajouterIntersection(5, 742, 574);
+	    p.ajouterIntersection(6, 451, 174);
+	    p.ajouterIntersection(7, 418, 974);
+	    p.ajouterIntersection(8, 442, 484);
+	    p.ajouterTroncon("h0", 75, 25, 1, 2);
+	    p.ajouterTroncon("h1", 50, 25, 2, 3);
+	    p.ajouterTroncon("h2", 25, 25, 3, 8);
+	    p.ajouterTroncon("h3", 100, 25, 4, 1);
+	    p.ajouterTroncon("h4", 150, 25, 1, 5);
+	    p.ajouterTroncon("h5", 25, 25, 5, 6);
+	    p.ajouterTroncon("h6", 200, 25, 6, 7);
+	    p.ajouterTroncon("h7", 25, 25, 6, 7);
+	    p.ajouterTroncon("h8", 50, 25, 7, 2);
+	    p.ajouterTroncon("h0", 50, 25, 2, 1);
+	    p.ajouterTroncon("h3", 50, 25, 1, 4);
+	    Heure heure = new Heure("21:05:00");
+	    p.creerDemandeDeLivraison(heure, 4);
+	    p.ajouterLivraison(1, 20);
+	    p.ajouterLivraison(2, 10);
+	    p.ajouterLivraison(5, 8);
+	    p.ajouterLivraison(6, 10);
+	    p.ajouterLivraison(7, 14);
+	    boolean calculReussi = p.calculerTournee(0);
+	    assert(calculReussi == false);
+    }
 }
+
