@@ -118,8 +118,7 @@ public class Plan extends Observable {
 	   //ainsi que le cout correspondant
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   int[] ordreTournee = new int[idSommets.size()];
-	   for(int i=0; i<idSommets.size(); i++)
-	   {
+	   for(int i=0; i<idSommets.size(); i++) {
 	       ordreTournee[i] = tsp.getMeilleureSolution(i);
 	   }
 	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
