@@ -42,11 +42,12 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 	
 	public void afficherFeuilleDeRoute(){
 		System.out.println("gene feuille de route");
-		ajouterLigne("feuille de route");
+		afficherTexte("Feuille de route :");
 		List<Itineraire> itineraires = plan.getItineraires();
 		for(Itineraire it : itineraires){
+		    ajouterLigne("\r\n" + it.toString());
 			for(Troncon t : it.getTroncons()){
-				ajouterLigne(t.getNom());
+				ajouterLigne(t.toString());
 			}
 		}
 		

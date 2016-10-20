@@ -37,7 +37,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournée");
 	    if(plan.calculerTournee(tempsLimite)){
-			fenetre.afficherMessage("Tournée calculée");
+			//fenetre.afficherMessage("Tournée calculée");
 		    fenetre.afficherFeuilleDeRoute();
 	    }
 	    else

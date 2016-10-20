@@ -37,6 +37,11 @@ public class Itineraire {
 	}
 	this.tpsParcours = tpsParcours;
     }
+	
+    public String toString() {
+	return "Itinéraire entre la livraison en " + depart.getId()
+		+ " et " + arrivee.getId() + " :";
+    }
 
 	@Override
 	public boolean equals(Object obj) {

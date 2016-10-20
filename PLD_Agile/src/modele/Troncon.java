@@ -51,6 +51,11 @@ public class Troncon {
     public Intersection getDestination() {
 	return this.destination;
     }
+    
+    public String toString() {
+	return " - Troncon " + nom + " de l'intersection " + origine.getId()
+		+ " à l'intersection " + destination.getId();
+    }
 
 	@Override
 	public boolean equals(Object obj) {
