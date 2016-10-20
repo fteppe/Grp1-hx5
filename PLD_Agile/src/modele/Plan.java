@@ -20,7 +20,7 @@ public class Plan extends Observable {
    private Tournee tournee;
    
    /**
-    * Cree un Plan ne possedant aucune intersection et aucun tron�on
+    * Cree un Plan ne possedant aucune intersection et aucun troncon
     */
    public Plan(){
        this.listeIntersections = new HashMap<Integer, Intersection>();

@@ -7,6 +7,7 @@ public class Itineraire {
     private Intersection depart;
     private Intersection arrivee;
     private List<Troncon> troncons;
+    private int tpsParcours;
     
     public Itineraire(Intersection depart, Intersection arrivee, List<Troncon> troncons) {
 	this.depart = depart;
