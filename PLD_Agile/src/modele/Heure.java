@@ -10,7 +10,7 @@ public class Heure {
 	 * Constructeur par défaut.
 	 * Crée une heure 00:00:00 
 	 */
-	public Heure(){
+	public Heure() {
 		this.heure = 0;
 		this.minutes = 0;
 		this.secondes = 0;
@@ -20,7 +20,7 @@ public class Heure {
 	 * Constructeur de copie
 	 * @param h heure a copier
 	 */
-	public Heure(Heure h){
+	public Heure(Heure h) {
 		this.heure = h.heure;
 		this.minutes = h.minutes;
 		this.secondes = h.secondes;
@@ -30,7 +30,7 @@ public class Heure {
 	 * heure comprise entre 00:00:00 et 23:59:59
 	 * @param secondes
 	 */
-	public Heure(int secondes){
+	public Heure(int secondes) {
 		int reste = secondes;
 		this.secondes = reste%60;
 		reste-= this.secondes;
@@ -45,7 +45,7 @@ public class Heure {
 	 * Crée une heure à partir d'une heure formatée
 	 * @param heureFormatee heure au format "hh:mm:ss"
 	 */
-	public Heure(String heureFormatee) throws IndexOutOfBoundsException{
+	public Heure(String heureFormatee) throws IndexOutOfBoundsException {
 		String[] splits = heureFormatee.split(":");
 		this.heure = Integer.parseInt(splits[0]);
 		this.minutes = Integer.parseInt(splits[1]);
@@ -57,7 +57,7 @@ public class Heure {
 	 * @param h une heure à ajouter
 	 * @return cette heure modifiée
 	 */
-	public Heure ajouterHeure(Heure h){
+	public Heure ajouterHeure(Heure h) {
 		this.secondes += h.secondes;
 		if(secondes >= 60 ){
 			this.secondes -= 60;
@@ -78,12 +78,15 @@ public class Heure {
 	 * @param secondes les secondes à ajouter
 	 * @return cette heure modifiée
 	 */
-	public Heure ajouterSecondes(int secondes){
+	public Heure ajouterSecondes(int secondes) {
 		this.ajouterHeure(new Heure(secondes));
 		return this;
 	}
 	
-	public String toString(){
-		return (this.heure>=10?"":"0")+this.heure+":"+(this.minutes>=10?"":"0")+this.minutes+":"+(this.secondes>=10?"":"0")+this.secondes;
+	public String toString() {
+		return (this.heure >= 10 ? "" : "0") + this.heure 
+			+ ":" + (this.minutes >= 10 ? "" : "0") 
+			+ this.minutes+":" + (this.secondes >= 10?"" : "0") 
+			+ this.secondes;
 	}
 }

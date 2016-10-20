@@ -19,30 +19,28 @@ public class Livraison extends Observable {
 	this.adresse = adresse;
     }
     
-    public int getDuree(){
+    public int getDuree() {
 	return this.duree;
     }
     
-    public Heure getheureDepart(){
+    public Heure getheureDepart() {
    	return this.heureDepart;
     }
     
-    public Heure getheureArrivee(){
+    public Heure getheureArrivee() {
    	return this.heureArrivee;
     }
     
-    public Intersection getAdresse(){
+    public Intersection getAdresse() {
    	return this.adresse;
     }
     
-    public void setHeureArrivee(Heure heureArrivee)
-    {
+    public void setHeureArrivee(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
 	//this.heureDepart = heureArrivee + this.duree;
     }
     
-    public void setDuree(int duree)
-    {
+    public void setDuree(int duree) {
 	this.duree = duree;
     }
 }
