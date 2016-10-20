@@ -119,11 +119,9 @@ public class Plan extends Observable {
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   if(dureeTournee < 0) //dureeTournee est negatif donc pas de chemin possible
 	       return false;
-	   else
-	   {
+	   else {
 	       int[] ordreTournee = new int[idSommets.size()];
-	       for(int i=0; i<idSommets.size(); i++)
-	       {
+	       for(int i=0; i<idSommets.size(); i++) {
 		   ordreTournee[i] = tsp.getMeilleureSolution(i);
 	       }
 	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
