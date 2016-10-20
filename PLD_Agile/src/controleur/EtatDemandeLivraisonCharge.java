@@ -19,13 +19,13 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
+		fenetre.afficherMessage("Demande de livraison chargée");
+		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
 		fenetre.afficherMessage(e.getMessage());
 	    }
-	    fenetre.afficherMessage("Demande de livraison chargï¿½e");
-	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
 	@Override
@@ -35,13 +35,13 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
-	    fenetre.afficherMessage("Lancement du calcul de la tournee");
+	    fenetre.afficherMessage("Lancement du calcul de la tournée");
 	    if(plan.calculerTournee(tempsLimite)){
-			fenetre.afficherMessage("Tournï¿½e calculï¿½e");
+			fenetre.afficherMessage("Tournée calculée");
 		    fenetre.afficherFeuilleDeRoute();
 	    }
 	    else
-		fenetre.afficherMessage("Erreur : aucune tournï¿½e possible trouvï¿½e");
+		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 

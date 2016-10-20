@@ -18,9 +18,9 @@ public class BarreDesTaches extends JToolBar{
 	public BarreDesTaches(Controleur controleur){
 		this.setFloatable(false);
 		this.controleur = controleur;
-		chargerPlan = new JButton("charger plan");
-		chargerDemandeLivraison = new JButton("charger demande de livraison");
-		calculTournee = new JButton("calcul de tournÃ©e");
+		chargerPlan = new JButton("Charger un plan");
+		chargerDemandeLivraison = new JButton("Charger une demande de livraison");
+		calculTournee = new JButton("Calculer une tournée");
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);

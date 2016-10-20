@@ -19,13 +19,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
+		fenetre.afficherMessage("Demande de livraison chargée");
+		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
 			| ExceptionXML | NumberFormatException e) {
-		fenetre.afficherMessage(e.getMessage());
+		// fenetre.afficherMessage(e.getMessage());
+		// On n'affiche pas le message pour ne pas effacer la feuille de route
 	    }
-
-	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	}
 	
 	@Override

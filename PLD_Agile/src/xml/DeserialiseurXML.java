@@ -29,7 +29,13 @@ public class DeserialiseurXML {
 	 * @throws ExceptionXML
 	 */
 	public static void chargerPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
-		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+	    File xml;
+	    try {
+		 xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+	    }
+	    catch (Exception e) {
+		throw new ExceptionXML("Chargement annulé");
+	    }
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
         Document document = docBuilder.parse(xml);
         Element racine = document.getDocumentElement();
