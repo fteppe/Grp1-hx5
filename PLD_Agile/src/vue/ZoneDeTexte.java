@@ -18,7 +18,7 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 
 	private Plan plan;
 	public ZoneDeTexte(int largeur, int hauteur, Plan plan){
-		super(30,25);
+		super(30, 30);
 		this.plan = plan;
 		plan.addObserver(this);
 		setLineWrap(true);
