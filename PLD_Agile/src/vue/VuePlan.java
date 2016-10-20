@@ -127,7 +127,6 @@ public class VuePlan extends JPanel implements Observer {
 	}
 	
 	private void dessinerFlecheTroncon(Graphics g,Troncon t,Color c){
-		System.out.println("Fleche");
 		Vecteur pointeFleche = new Vecteur((t.getDestination().getLongitude()* e),( t.getDestination().getLatitude() * e));
 		Vecteur origine = new Vecteur((t.getOrigine().getLongitude() * e),(t.getOrigine().getLatitude() * e));
 		Vecteur direction = new Vecteur(pointeFleche).add(origine.multiply(-1));
