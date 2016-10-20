@@ -1,7 +1,10 @@
 package vue;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +27,7 @@ public class VuePlan extends JPanel implements Observer {
 	private double echelle;
 	private Plan plan;
 	private List<Troncon> listeTroncon; 
-	private double e = 0.65;
+	private double e = 0.8;
 	private int tailleFleche = 8;
 	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.blue;
@@ -109,9 +112,10 @@ public class VuePlan extends JPanel implements Observer {
 	}
 	
 	private void dessinerTroncon(Graphics g, Troncon t, Color c){
-		
-		g.setColor(c);
-		g.drawLine((int)(t.getOrigine().getLongitude() * e),(int) (t.getOrigine().getLatitude() * e),(int) (t.getDestination().getLongitude() * e),(int) (t.getDestination().getLatitude() * e));
+	    Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(c);
+            g2.setStroke(new BasicStroke(2));
+            g2.draw(new Line2D.Float((int)(t.getOrigine().getLongitude() * e),(int) (t.getOrigine().getLatitude() * e),(int) (t.getDestination().getLongitude() * e),(int) (t.getDestination().getLatitude() * e)));
 	}
 	
 	
