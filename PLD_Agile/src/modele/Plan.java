@@ -117,14 +117,19 @@ public class Plan extends Observable {
 	   //On recupere la liste ordonnee des itineraires calculee par le TSP 
 	   //ainsi que le cout correspondant
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
-	   int[] ordreTournee = new int[idSommets.size()];
-	   for(int i=0; i<idSommets.size(); i++)
+	   if(dureeTournee < 0) //dureeTournee est negatif donc pas de chemin possible
+	       return false;
+	   else
 	   {
-	       ordreTournee[i] = tsp.getMeilleureSolution(i);
+	       int[] ordreTournee = new int[idSommets.size()];
+	       for(int i=0; i<idSommets.size(); i++)
+	       {
+		   ordreTournee[i] = tsp.getMeilleureSolution(i);
+	       }
+	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
+	       creerTournee(dureeTournee, ordreTournee, trajets);
+	       return true;
 	   }
-	   Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
-	   creerTournee(dureeTournee, ordreTournee, trajets);
-	   return true;
        } else {
 	   return false;
        }
