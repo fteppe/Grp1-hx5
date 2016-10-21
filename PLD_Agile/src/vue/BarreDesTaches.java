@@ -10,11 +10,17 @@ import javax.swing.JToolBar;
 import controleur.Controleur;
 
 public class BarreDesTaches extends JToolBar{
+	/*La classe barre destache comporte les différents boutons nécessaire au actions principales de l'application
+	 * 
+	 */
 	private JButton chargerPlan;
 	private JButton chargerDemandeLivraison;
 	private JButton calculTournee;
 	private Controleur controleur;
 	
+	/*Constructeur, va créer le lien avec le controleur
+	 * Et va ajouter les différents boutons, ainsi que leur associer des écouteurs de souris
+	 */
 	public BarreDesTaches(Controleur controleur){
 		this.setFloatable(false);
 		this.controleur = controleur;
@@ -27,6 +33,9 @@ public class BarreDesTaches extends JToolBar{
 		ajouterEcouteurs();
 	}
 	
+	/*Ajoute les écouteurs de souris nécessaires pour activer les actions associées aux boutons
+	 * 
+	 */
 	public void ajouterEcouteurs(){
 		chargerPlan.addActionListener(new ActionListener() {
 			

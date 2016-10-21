@@ -21,6 +21,10 @@ public class Menu extends JMenuBar{
 	private JMenuItem calculerTournee;
 	private Controleur controleur;
 	
+	/*Constructeur
+	 * Création des différents menu et ajout des elements dans le menu
+	 * ajouts des ecouteurs d'action utilisateurs qui sont mappés sur des actions du controleur
+	 */
 	public Menu(Controleur controleur){
 		  fichiers = new JMenu("Fichier"); 
 		  edition = new JMenu("Edition");
@@ -30,7 +34,7 @@ public class Menu extends JMenuBar{
 		  ajouterElementsMenu();
 		  
 		  }
-	public void ajouterElementsMenu()
+	private void ajouterElementsMenu()
 	{
 		chargerPlan = new JMenuItem("Charger un plan");
 		quitter = new JMenuItem("Quitter");
@@ -45,7 +49,7 @@ public class Menu extends JMenuBar{
 		ajouterLesEcouteurs();
 	}
 	
-	public void ajouterLesEcouteurs(){
+	private void ajouterLesEcouteurs(){
 		
 		
 		quitter.addActionListener(new ActionListener() {
@@ -82,22 +86,31 @@ public class Menu extends JMenuBar{
 		});
 	}
 
+	/*
+	 * Lorsqu'on clique sur cliquer dans le menu. Appel de l'action correspondante du controleur
+	 */
 	public void actionQuitter(){
 		System.out.println("menu quitter cliqué");
 		controleur.quitter();
-		
 	}
 	
+	/*
+	 * Lorsqu'on clique sur le bouton chargerPlan du menu. Appel de l'action correspondante du controleur
+	 */
 	public void actionChargerPlan(){
 		System.out.println("menu charger plan cliqué");
 		controleur.chargerPlan();
-		
 	}
+	/*
+	 * Lorsqu'on clique sur le bouton demande de livraison du menu. Appel de l'action correspondante du controleur
+	 */
 	public void actionChargerDemandeLivraison(){
 		System.out.println("menu charger deande livraison cliqué");
 		controleur.chargerDemandeLivraison();
-		
 	}
+	/*
+	 * Lorsqu'on clique sur le bouton cacul de tournee du menu. Appel de l'action correspondante du controleur
+	 */
 	public void actionCalculerTournee(){
 		System.out.println("menu calcul tournee cliqué");
 		controleur.calculTournee();

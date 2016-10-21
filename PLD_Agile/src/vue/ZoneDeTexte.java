@@ -26,20 +26,32 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 		setEditable(false);
 	}
 	
-	
+	/*remplace le texte actuellement affiché par le parametre
+	 * 
+	 * @param texte le texte qui sera affiché par la zone de texte
+	 */
 	public void afficherTexte(String texte)
 	{
 		setText(texte);
 	}
 	
+	/*
+	 * vide la zone de texte
+	 */
 	public void viderZoneDeTexte(){
 		afficherTexte("");
 	}
-	
+	/*Ajoute une ligne à la fin de la zone de texte
+	 * 
+	 * @param ligne le texte qui sera ajouté au bout de la zone de texte
+	 */
 	public void ajouterLigne(String ligne){
 		append(ligne+'\n');
 	}
 	
+	/*fonction qui génère et affiche la feuille de route
+	 * 
+	 */
 	public void afficherFeuilleDeRoute(){
 		System.out.println("gene feuille de route");
 		afficherTexte("Feuille de route :");
@@ -53,6 +65,9 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 		
 	}
 	
+	/*Fonction qui génère et affiche les informations d'une demande de livraison
+	 * 
+	 */
 	private void afficherInformationDemandeLivraison(){
 		
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
