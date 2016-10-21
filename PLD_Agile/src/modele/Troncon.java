@@ -20,7 +20,7 @@ public class Troncon {
      * 				(en decimetres/seconde) du troncon
      */
     public Troncon(String nom, Intersection origine, Intersection destination, 
-	    int longueur, int vitesseMoy){
+	    int longueur, int vitesseMoy) {
 	this.nom = nom;
 	this.longueur = longueur;
 	this.vitesseMoy = vitesseMoy;
@@ -36,20 +36,28 @@ public class Troncon {
 	this.tpsParcours = Math.round(this.longueur/this.vitesseMoy);
     }
     
-    public String getNom(){
+    public String getNom() {
 	return this.nom;
     }
     
-    public int getTpsParcours(){
+    public int getTpsParcours() {
 	return this.tpsParcours;
     }
     
-    public Intersection getOrigine(){
+    public Intersection getOrigine() {
 	return this.origine;
     }
     
-    public Intersection getDestination(){
+    public Intersection getDestination() {
 	return this.destination;
+    }
+    
+    /**
+     * Affiche textuellement le troncon courant
+     */
+    public String toString() {
+	return " - Troncon " + nom + " de l'intersection " + origine.getId()
+		+ " à l'intersection " + destination.getId();
     }
 
 	@Override

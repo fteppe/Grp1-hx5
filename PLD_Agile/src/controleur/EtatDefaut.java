@@ -18,13 +18,13 @@ public abstract class EtatDefaut implements Etat {
 	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre) {
 		try {
 			DeserialiseurXML.chargerPlan(plan);
+			fenetre.afficherMessage("Plan chargé avec succès");
+			controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 		} catch (ParserConfigurationException 
 				| SAXException | IOException 
 				| ExceptionXML | NumberFormatException e) {
 		    fenetre.afficherMessage(e.getMessage());
 		}
-		fenetre.afficherMessage("Plan Charge");
-		controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 	}
 	
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre){}
@@ -32,6 +32,11 @@ public abstract class EtatDefaut implements Etat {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite){}
 
 	public void quitter(){}
+	
+	public void undo(ListeDeCdes listeDeCdes){}
+	
+	public void redo(ListeDeCdes listeDeCdes) {}
+
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 

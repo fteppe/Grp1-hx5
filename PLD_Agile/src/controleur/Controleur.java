@@ -9,6 +9,7 @@ public class Controleur {
 	private Fenetre fenetre;
 	private Etat etatCourant;
 	private int tempsLimite;
+	private ListeDeCdes listeDeCdes;
 	
 	// Instances associees a chaque etat possible du controleur
 	protected final EtatInitial ETAT_INITIAL = new EtatInitial();
@@ -25,8 +26,8 @@ public class Controleur {
 		etatCourant = ETAT_INITIAL;
 		String titre = "Optimod";
 		tempsLimite = 60000;
-		int longueur = 600;
-		int largeur = 800;
+		int longueur = 720;
+		int largeur = 1024;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
 		
 		tempsLimite = 60000;
@@ -65,7 +66,7 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille de route"
 	 */
-	// Pour seconde itération
+	// Pour seconde itï¿½ration
 	/* 
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(plan, fenetre);

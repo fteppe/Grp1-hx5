@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import modele.Heure;
+import modele.Intersection;
 import modele.Itineraire;
 import modele.Livraison;
 import modele.Plan;
@@ -21,7 +23,7 @@ public class TestDjikstra {
 	
 	private static Plan p;
 
-	@BeforeClass
+	/*@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		p = new Plan();
 		try{
@@ -30,9 +32,9 @@ public class TestDjikstra {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void testCalculerDijkstra() {
 		Livraison livraison_addresse_2 = p.getListeLivraisons().get(2);
 		Livraison livraison_addresse_3 = p.getListeLivraisons().get(3);
@@ -52,13 +54,13 @@ public class TestDjikstra {
 		troncons_3_e.add(p.getListeTroncons().get(5).get(0));
 		Itineraire i_3_vers_e = new Itineraire(livraison_addresse_3.getAdresse(),p.getEntrepot(),troncons_3_e);
 		
-		p.calculerTournee();
-
+		boolean calculReussi = p.calculerTournee(60000);
+		assert(calculReussi);
 		assertTrue(p.getItineraires().get(0).equals(i_e_vers_2));
 		assertTrue(p.getItineraires().get(1).equals(i_2_vers_3));
 		assertTrue(p.getItineraires().get(2).equals(i_3_vers_e));
 		
 		fail("Not yet implemented");
-	}
+	}*/
 
 }
