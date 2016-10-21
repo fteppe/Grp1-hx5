@@ -32,6 +32,11 @@ public abstract class EtatDefaut implements Etat {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite){}
 
 	public void quitter(){}
+	
+	public void undo(ListeDeCdes listeDeCdes){}
+	
+	public void redo(ListeDeCdes listeDeCdes) {}
+
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 
