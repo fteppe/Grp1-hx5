@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -8,11 +7,11 @@ public class DemandeDeLivraison extends Observable {
     
     private Heure heureDepart;
     private Intersection entrepot;
-    private HashMap<Integer, Livraison> livraisons; // Liste des livraisons classées selon l'identifiant de leur adresse
+    private HashMap<Integer, Livraison> livraisons; // Liste des livraisons classees selon l'identifiant de leur adresse
     
     /**
-     * Cree une demande de livraison a partir de l'heure de depart 
-     * et de son entrepot
+     * Cree une demande de livraison a partir d'une heure de depart 
+     * et d'un entrepot
      * @param heureDepart Heure de depart de l'entrepot
      * @param entrepot Intersection correspondant a l'entrepot 
      * 			de la demande de livraison
@@ -31,6 +30,8 @@ public class DemandeDeLivraison extends Observable {
     public void ajouterLivraison (int duree, Intersection adresse) {
 	Livraison nouvLivraison = new Livraison(duree, adresse);
 	this.livraisons.put(adresse.getId(), nouvLivraison);
+	//On indique au Controleur que la demande de livraison a ete 
+	//mise a jour
 	setChanged();
 	notifyObservers(nouvLivraison);
     }

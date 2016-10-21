@@ -7,8 +7,8 @@ public class Heure {
 	private int secondes;
 	
 	/**
-	 * Constructeur par défaut.
-	 * Crée une heure 00:00:00 
+	 * Constructeur par defaut.
+	 * Cree une heure 00:00:00 
 	 */
 	public Heure() {
 		this.heure = 0;
@@ -18,7 +18,7 @@ public class Heure {
 	
 	/**
 	 * Constructeur de copie
-	 * @param h heure a copier
+	 * @param h Heure a copier
 	 */
 	public Heure(Heure h) {
 		this.heure = h.heure;
@@ -26,8 +26,8 @@ public class Heure {
 		this.secondes = h.secondes;
 	}
 	/**
-	 * Crée une heure à partir d'un temps en secondes
-	 * heure comprise entre 00:00:00 et 23:59:59
+	 * Cree une heure a partir d'un temps en secondes
+	 * Precondition : Heure comprise entre 00:00:00 et 23:59:59
 	 * @param secondes
 	 */
 	public Heure(int secondes) {
@@ -41,9 +41,10 @@ public class Heure {
 		reste = reste%24;
 		this.heure = reste;
 	}
+	
 	/**
-	 * Crée une heure à partir d'une heure formatée
-	 * @param heureFormatee heure au format "hh:mm:ss"
+	 * Cree une heure a partir d'une heure formatee
+	 * @param heureFormatee Heure au format "hh:mm:ss"
 	 */
 	public Heure(String heureFormatee) throws IndexOutOfBoundsException {
 		String[] splits = heureFormatee.split(":");
@@ -53,9 +54,9 @@ public class Heure {
 	}
 	
 	/**
-	 * Ajoute une heure à l'heure actuelle
-	 * @param h une heure à ajouter
-	 * @return cette heure modifiée
+	 * Ajoute une heure a l'heure actuelle
+	 * @param h Une heure a ajouter
+	 * @return L'heure modifiÃ©e
 	 */
 	public Heure ajouterHeure(Heure h) {
 		this.secondes += h.secondes;
@@ -74,15 +75,18 @@ public class Heure {
 	}
 	
 	/**
-	 * Ajoutes des secondes à l'heure actuelle
-	 * @param secondes les secondes à ajouter
-	 * @return cette heure modifiée
+	 * Ajoute des secondes a l'heure actuelle
+	 * @param secondes Nombre de secondes a ajouter
+	 * @return L'heure modifiee
 	 */
 	public Heure ajouterSecondes(int secondes) {
 		this.ajouterHeure(new Heure(secondes));
 		return this;
 	}
 	
+	/**
+	 * Affiche l'heure courante sous la forme "hh:mm:ss"
+	 */
 	public String toString() {
 		return (this.heure >= 10 ? "" : "0") + this.heure 
 			+ ":" + (this.minutes >= 10 ? "" : "0") 

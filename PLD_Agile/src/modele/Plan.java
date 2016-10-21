@@ -14,8 +14,8 @@ import javax.print.attribute.standard.Destination;
 import tsp.TSP1;
 
 public class Plan extends Observable {
-   private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classï¿½es selon leur identifiant
-   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classï¿½s selon l'identifiant de leur origine
+   private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classees selon leur identifiant
+   private HashMap<Integer, List<Troncon>> listeTroncons; //Liste des troncons du plan classes selon l'identifiant de leur origine
    private DemandeDeLivraison demandeDeLivraison;
    private Tournee tournee;
    
@@ -105,7 +105,7 @@ public class Plan extends Observable {
        //On recupere la liste des identifiants des sommets devant constituer le
        //graphe complet analyse par le TSP
        ArrayList<Integer> idSommets = completionTableauLivraison();
-       //On cherche a constituer un graphe complet grace à l'algorithme
+       //On cherche a constituer un graphe complet grace ï¿½ l'algorithme
        //de Dijkstra
        Object[] resultDijkstra = calculerDijkstra(idSommets);
        TSP1 tsp = new TSP1();
@@ -312,7 +312,7 @@ public class Plan extends Observable {
     * Cree la Tournee suivant la liste des livraisons et les itineraires associes
     * @param duree Duree totale de la tournee
     * @param livraisons Liste ordonnee des livraisons a effectuer
-    * @param itineraires Tableau des itineraires pour aller de la livraison i à la livraison j
+    * @param itineraires Tableau des itineraires pour aller de la livraison i ï¿½ la livraison j
     */
    private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
        tournee = new Tournee(duree);

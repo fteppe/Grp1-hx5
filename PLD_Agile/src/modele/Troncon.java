@@ -52,9 +52,12 @@ public class Troncon {
 	return this.destination;
     }
     
+    /**
+     * Affiche textuellement le troncon courant
+     */
     public String toString() {
 	return " - Troncon " + nom + " de l'intersection " + origine.getId()
-		+ " à l'intersection " + destination.getId();
+		+ " Ã  l'intersection " + destination.getId();
     }
 
 	@Override
