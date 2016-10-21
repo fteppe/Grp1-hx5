@@ -13,6 +13,10 @@ import controleur.Controleur;
 import modele.Plan;
 
 public class Fenetre extends JFrame{
+	/*Classe principale du package vue, contient tout les objets de l'interface graphique
+	 * Qui comprend la zone de texte, la barre des taches,le menu et la vue du plan
+	 * 
+	 */
 	
 	private static String titreFenetre;
 	private Vecteur dimensions;
@@ -26,7 +30,15 @@ public class Fenetre extends JFrame{
 	
 	protected Controleur controleur;
 	
-	
+	/*Constructeur Il va creer les differents elements et les placer dans la fenetre
+	 * 
+	 * @param titre le titre de la fenetre
+	 * @param hauteur la hauteur de la fenetre
+	 * @param largeur largeur de la fenetre
+	 * @param plan le plan du modele pour la vue du plan
+	 * @param controleur le controleur qui est nécessaire pour pouvoir mapper des actions utilisateur
+	 * sur des actions du controleur
+	 */
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
@@ -48,7 +60,10 @@ public class Fenetre extends JFrame{
 	    this.setVisible(true);
 	}
 	
-	public void placerComposants(){
+	/*Les composants ont été crés et sont placés dans la fenetre
+	 * 
+	 */
+	private void placerComposants(){
 		panneauNord.setLayout(new BorderLayout());
 		panneauEst.setLayout(new BorderLayout());
 		setLayout(new BorderLayout());
