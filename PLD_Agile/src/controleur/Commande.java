@@ -7,6 +7,8 @@ public interface Commande {
 	 */
 	void doCde();
 	
+	
+	
 	/**
 	 * Execute la commande inverse a this
 	 */
