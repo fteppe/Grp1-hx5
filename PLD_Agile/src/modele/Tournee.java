@@ -20,7 +20,7 @@ public class Tournee extends Observable {
     }
     
     /**
-     * Ajoute un itineraire à la liste d'itineraires de la tournee
+     * Ajoute un itineraire à la liste d'itineraires de la tournee courante
      * @param itineraire Itineraire a ajouter à la tournee
      */
     public void ajouterItineraire(Itineraire itineraire) {
