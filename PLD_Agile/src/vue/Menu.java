@@ -26,8 +26,8 @@ public class Menu extends JMenuBar{
 	 * ajouts des ecouteurs d'action utilisateurs qui sont mappÃ©s sur des actions du controleur
 	 */
 	public Menu(Controleur controleur){
-		  fichiers = new JMenu("fichier"); 
-		  edition = new JMenu("edition");
+		  fichiers = new JMenu("Fichier"); 
+		  edition = new JMenu("Edition");
 		  this.controleur = controleur;
 		  this.add(fichiers);
 		  this.add(edition);
@@ -36,10 +36,10 @@ public class Menu extends JMenuBar{
 		  }
 	private void ajouterElementsMenu()
 	{
-		chargerPlan = new JMenuItem("charger un plan");
-		quitter = new JMenuItem("quitter");
-		chargerDemandeLivraison = new JMenuItem("charger demande de livraison");
-		calculerTournee = new JMenuItem("calcul de tournee");
+		chargerPlan = new JMenuItem("Charger un plan");
+		quitter = new JMenuItem("Quitter");
+		chargerDemandeLivraison = new JMenuItem("Charger une demande de livraison");
+		calculerTournee = new JMenuItem("Calculer une tournée");
 		
 		fichiers.add(chargerPlan);
 		fichiers.add(chargerDemandeLivraison);

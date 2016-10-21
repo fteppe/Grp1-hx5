@@ -11,21 +11,21 @@ public class Intersection {
      * @param longitude Longitude de l'intersection
      * @param latitude Latitude de l'intersection
      */
-    public Intersection(int id, int longitude, int latitude){
+    public Intersection(int id, int longitude, int latitude) {
 	this.id = id;
 	this.longitude = longitude;
 	this.latitude = latitude;
     }
     
-    public int getId(){
+    public int getId() {
 	return this.id;
     }
     
-    public int getLongitude(){
+    public int getLongitude() {
 	return this.longitude;
     }
     
-    public int getLatitude(){
+    public int getLatitude() {
 	return this.latitude;
     }
 

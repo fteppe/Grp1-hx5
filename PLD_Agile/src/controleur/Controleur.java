@@ -9,6 +9,7 @@ public class Controleur {
 	private Fenetre fenetre;
 	private Etat etatCourant;
 	private int tempsLimite;
+	private ListeDeCdes listeDeCdes;
 	
 	// Instances associees a chaque etat possible du controleur
 	protected final EtatInitial ETAT_INITIAL = new EtatInitial();

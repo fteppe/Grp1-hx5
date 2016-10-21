@@ -18,7 +18,7 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 
 	private Plan plan;
 	public ZoneDeTexte(int largeur, int hauteur, Plan plan){
-		super(30,25);
+		super(30, 30);
 		this.plan = plan;
 		plan.addObserver(this);
 		setLineWrap(true);
@@ -54,11 +54,12 @@ public class ZoneDeTexte extends JTextArea implements Observer{
 	 */
 	public void afficherFeuilleDeRoute(){
 		System.out.println("gene feuille de route");
-		ajouterLigne("feuille de route");
+		afficherTexte("Feuille de route :");
 		List<Itineraire> itineraires = plan.getItineraires();
 		for(Itineraire it : itineraires){
+		    ajouterLigne("\r\n" + it.toString());
 			for(Troncon t : it.getTroncons()){
-				ajouterLigne(t.getNom());
+				ajouterLigne(t.toString());
 			}
 		}
 		

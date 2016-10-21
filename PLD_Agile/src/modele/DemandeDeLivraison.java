@@ -1,6 +1,5 @@
 package modele;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -8,11 +7,11 @@ public class DemandeDeLivraison extends Observable {
     
     private Heure heureDepart;
     private Intersection entrepot;
-    private HashMap<Integer, Livraison> livraisons; // Liste des livraisons classées selon l'identifiant de leur adresse
+    private HashMap<Integer, Livraison> livraisons; // Liste des livraisons classees selon l'identifiant de leur adresse
     
     /**
-     * Cree une demande de livraison a partir de l'heure de depart 
-     * et de son entrepot
+     * Cree une demande de livraison a partir d'une heure de depart 
+     * et d'un entrepot
      * @param heureDepart Heure de depart de l'entrepot
      * @param entrepot Intersection correspondant a l'entrepot 
      * 			de la demande de livraison
@@ -28,31 +27,32 @@ public class DemandeDeLivraison extends Observable {
      * @param duree Duree de la livraison a ajouter
      * @param adresse Intersection correspondant a la livraison a ajouter
      */
-    public void ajouterLivraison (int duree, Intersection adresse){
+    public void ajouterLivraison (int duree, Intersection adresse) {
 	Livraison nouvLivraison = new Livraison(duree, adresse);
 	this.livraisons.put(adresse.getId(), nouvLivraison);
+	//On indique au Controleur que la demande de livraison a ete 
+	//mise a jour
 	setChanged();
 	notifyObservers(nouvLivraison);
     }
     
-    public Livraison getLivraison(int adresse){
+    public Livraison getLivraison(int adresse) {
 	return this.livraisons.get(adresse);
     }
     
-    public HashMap<Integer, Livraison> getListeLivraisons()
-    {
+    public HashMap<Integer, Livraison> getListeLivraisons() {
 	return this.livraisons;
     }
     
-    public Intersection getEntrepot(){
+    public Intersection getEntrepot() {
 	return this.entrepot;
     }
     
-    public int getNbrLivraisons(){
+    public int getNbrLivraisons() {
 	return this.livraisons.size();
     }
     
-    public Heure getHeureDepart(){
+    public Heure getHeureDepart() {
 	return this.heureDepart;
     }
 }
