@@ -23,6 +23,7 @@ public class Controleur {
 	 */
 	public Controleur(Plan plan) {
 		this.plan = plan;
+		listeDeCdes = new ListeDeCdes();
 		etatCourant = ETAT_INITIAL;
 		String titre = "Optimod";
 		tempsLimite = 60000;
@@ -85,9 +86,23 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
 	/*
-	public void clicGauche() {
-		etatCourant.clicGauche(plan, fenetre);
+	public void clicGauche(Point p) {
+		etatCourant.clicGauche(plan, fenetre, p);
 	}
 	*/
+	
+	/**
+	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton "Undo"
+	 */
+	public void undo(){
+		etatCourant.undo(listeDeCdes);
+	}
+
+	/**
+	 * Methode appelee par fenetre apres un clic sur le bouton "Redo"
+	 */
+	public void redo(){
+		etatCourant.redo(listeDeCdes);
+	}
 
 }

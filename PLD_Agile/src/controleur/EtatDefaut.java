@@ -1,6 +1,7 @@
 package controleur;
 
 import vue.Fenetre;
+//import modele.Point;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -18,7 +19,7 @@ public abstract class EtatDefaut implements Etat {
 	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre) {
 		try {
 			DeserialiseurXML.chargerPlan(plan);
-			fenetre.afficherMessage("Plan chargé avec succès");
+			fenetre.afficherMessage("Plan chargï¿½ avec succï¿½s");
 			controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 		} catch (ParserConfigurationException 
 				| SAXException | IOException 
@@ -39,6 +40,6 @@ public abstract class EtatDefaut implements Etat {
 
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
-
-	//public void clicGauche(Plan plan, Fenetre fenetre){}
+	
+	// public void clicGauche(  Plan plan, Fenetre fenetre, Point p) {}
 }

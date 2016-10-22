@@ -45,8 +45,22 @@ public interface Etat {
 	 * Methode appelee par controleur apres un clic gauche sur un point de la vue graphique
 	 * @param fenetre
 	 * @param plan
+	 * @param p
 	 */
 	/*
-	public void clicGauche(Plan plan, Fenetre fenetre);
+	public void clicGauche( Plan plan, Fenetre fenetre, Point p);
 	*/
+	
+	
+	/**
+	 * Methode appelee par controleur apres un clic sur le bouton "Undo"
+	 * @param listeDeCdes
+	 */
+	public void undo(ListeDeCdes listeDeCdes);
+	
+	/**
+	 * Methode appelee par controleur apres un clic sur le bouton "Redo"
+	 * @param listeDeCdes
+	 */
+	public void redo(ListeDeCdes listeDeCdes);
 }

@@ -19,7 +19,7 @@ public class EtatPlanCharge extends EtatDefaut {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison chargée");
+		fenetre.afficherMessage("Demande de livraison chargï¿½e");
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
@@ -31,5 +31,15 @@ public class EtatPlanCharge extends EtatDefaut {
 	@Override
 	public void quitter() {
 	    System.exit(0);
+	}
+	
+	@Override
+	public void undo(ListeDeCdes listeDeCdes){
+		listeDeCdes.undo();
+	}
+
+	@Override
+	public void redo(ListeDeCdes listeDeCdes){
+		listeDeCdes.redo();
 	}
 }

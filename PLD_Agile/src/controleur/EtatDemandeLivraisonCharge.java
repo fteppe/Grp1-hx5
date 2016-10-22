@@ -20,7 +20,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison chargée");
+		fenetre.afficherMessage("Demande de livraison chargï¿½e");
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
@@ -36,14 +36,24 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
-	    fenetre.afficherMessage("Lancement du calcul de la tournée");
+	    fenetre.afficherMessage("Lancement du calcul de la tournï¿½e");
 	    if(plan.calculerTournee(tempsLimite)){
-			//fenetre.afficherMessage("Tournée calculée");
+			//fenetre.afficherMessage("Tournï¿½e calculï¿½e");
 		    fenetre.afficherFeuilleDeRoute();
 	    }
 	    else
-		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
+		fenetre.afficherMessage("Erreur : aucune tournï¿½e possible trouvï¿½e");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+	}
+	
+	@Override
+	public void undo(ListeDeCdes listeDeCdes){
+		listeDeCdes.undo();
+	}
+
+	@Override
+	public void redo(ListeDeCdes listeDeCdes){
+		listeDeCdes.redo();
 	}
 
 }

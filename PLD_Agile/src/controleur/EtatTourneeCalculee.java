@@ -20,7 +20,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison chargée");
+		fenetre.afficherMessage("Demande de livraison chargï¿½e");
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
@@ -41,4 +41,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		
 	}
 	*/
+	
+	@Override
+	public void undo(ListeDeCdes listeDeCdes){
+		listeDeCdes.undo();
+	}
+
+	@Override
+	public void redo(ListeDeCdes listeDeCdes){
+		listeDeCdes.redo();
+	}
 }
