@@ -21,6 +21,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
 		fenetre.afficherMessage("Demande de livraison charg�e");
+		fenetre.afficherDetailDemandeLivraison();
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 

@@ -29,7 +29,7 @@ public class VuePlan extends JPanel implements Observer {
 	private List<Troncon> listeTroncon; 
 	private double e = 0.8;
 	private int tailleFleche = 8;
-	private static int diametreIntersection = 5;
+	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.blue;
 	private static Color COULEUR_ENTREPOT = Color.red;
 	private static Color COULEUR_LIVRAISON = Color.blue;
@@ -50,10 +50,10 @@ public class VuePlan extends JPanel implements Observer {
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	public void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paintComponent(g);
 		//on doit peindre le plan;
-		dessinerListeIntersections(g, plan.getListeIntersections());
+		
+		//dessinerListeIntersections(g, plan.getListeIntersections());
 		dessinerListeTroncons(g,plan.getListeTroncons(), COULEUR_TRONCON);
 		dessinerListeLivraisons(g, plan.getListeLivraisons());
 		dessinerListeItinereraires(g, plan.getItineraires());
@@ -140,7 +140,6 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
-		// TODO Auto-generated method stub
 		if(arg != null){
 		}
 		repaint();

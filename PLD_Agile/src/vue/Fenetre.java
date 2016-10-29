@@ -56,6 +56,7 @@ public class Fenetre extends JFrame{
 	    menu = new Menu(controleur);
 	    barreDesTaches = new BarreDesTaches(controleur);
 		scroll = new JScrollPane(zoneDeTexte);
+		//scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	    placerComposants();
 	    this.setVisible(true);
 	}
@@ -75,7 +76,9 @@ public class Fenetre extends JFrame{
 		panneauEst.add(scroll,BorderLayout.CENTER);
 		
 	}
-	
+	public void afficherDetailDemandeLivraison(){
+		zoneDeTexte.afficherInformationDemandeLivraison();
+	}
 	public void afficherMessage(String message){
 		zoneDeTexte.afficherTexte(message);
 	}
