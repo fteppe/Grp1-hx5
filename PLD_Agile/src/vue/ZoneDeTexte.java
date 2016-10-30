@@ -39,19 +39,18 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		contraintes.anchor = GridBagConstraints.PAGE_START;
 		contraintes.fill = GridBagConstraints.HORIZONTAL;
 		contraintes.gridy = 0;
+		
+		afficherInformations();
 	}
 	
 	private void ajouterZoneInformation(String information, int index){
 		InformationTextuelle info = new InformationTextuelle(information, index);
 		listeInformation.add(info);
-		info.ajouterInformationDansPanneau(this,contraintes, 0);
 	}
 	
-	private void ajouterZoneInformationPosition(String information, int indexInformation, int position){
+	private void insererZoneInformationPosition(String information, int indexInformation, int position){
 		InformationTextuelle info = new InformationTextuelle(information, indexInformation);
 		listeInformation.add(position, info);
-		contraintes.gridy = position;
-		info.ajouterInformationDansPanneau(this,contraintes, 0);
 	}
 	
 	/*remplace le texte actuellement affiché par le parametre
@@ -97,25 +96,42 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	 * 
 	 */
 	public void afficherInformationDemandeLivraison(){
-		
+		viderListeInfos();
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
 			ajouterLigne("\nLIVRAISONS :");
 			int i=1;
 			for(Livraison livraison : livraisons.values()){
 				contraintes.gridy = listeInformation.size();
-
+				System.out.println(contraintes.gridy);
 				ajouterZoneInformation("lol "+i, livraison.getAdresse().getId());
 			}
-			
-			ajouterZoneInformationPosition("lol des grosses barres", 12, 3);
+			afficherInformations();
 		}
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		//viderZoneDeTexte();
-		//afficherInformationDemandeLivraison();
-		
+	}
+	
+	private void supprimerInformation(int position){
+		listeInformation.remove(position);
+	}
+	
+	public void viderListeInfos(){
+		int nbElementSupprimer = listeInformation.size();
+		for(int i=1; i< nbElementSupprimer; i++){
+			supprimerInformation(1);
+		}
+		System.out.println("size liste info "+listeInformation.size());
+	}
+	public void afficherInformations(){
+		this.removeAll();
+		int i = 0;
+		for(InformationTextuelle info : listeInformation){
+			i++;
+			contraintes.gridy = i;
+			info.ajouterInformationDansPanneau(this, contraintes, 0);
+		}
 	}
 }
