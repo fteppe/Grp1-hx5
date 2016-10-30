@@ -31,22 +31,27 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		this.plan = plan;
 		plan.addObserver(this);
 		listeInformation = new ArrayList<InformationTextuelle>();
-		AjouterZoneInformation("", 0);
+		ajouterZoneInformation("", 0);
 		texte = listeInformation.get(0);
 		setLayout(new GridBagLayout());
 		contraintes = new GridBagConstraints();
 		contraintes.gridwidth = GridBagConstraints.REMAINDER;
 		contraintes.anchor = GridBagConstraints.PAGE_START;
 		contraintes.fill = GridBagConstraints.HORIZONTAL;
-		//contraintes.ipady = 3;
-		contraintes.gridy = 1;
+		contraintes.gridy = 0;
 	}
 	
-	private void AjouterZoneInformation(String information, int index){
+	private void ajouterZoneInformation(String information, int index){
 		InformationTextuelle info = new InformationTextuelle(information, index);
 		listeInformation.add(info);
 		info.ajouterInformationDansPanneau(this,contraintes, 0);
-		
+	}
+	
+	private void ajouterZoneInformationPosition(String information, int indexInformation, int position){
+		InformationTextuelle info = new InformationTextuelle(information, indexInformation);
+		listeInformation.add(position, info);
+		contraintes.gridy = position;
+		info.ajouterInformationDansPanneau(this,contraintes, 0);
 	}
 	
 	/*remplace le texte actuellement affiché par le parametre
@@ -95,11 +100,15 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
-			ajouterLigne("LIVRAISONS :");
-			
+			ajouterLigne("\nLIVRAISONS :");
+			int i=1;
 			for(Livraison livraison : livraisons.values()){
-				AjouterZoneInformation("lo                                                                            l", livraison.getAdresse().getId());;
+				contraintes.gridy = listeInformation.size();
+
+				ajouterZoneInformation("lol "+i, livraison.getAdresse().getId());
 			}
+			
+			ajouterZoneInformationPosition("lol des grosses barres", 12, 3);
 		}
 	}
 
