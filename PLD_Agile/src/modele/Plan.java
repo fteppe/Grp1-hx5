@@ -449,6 +449,13 @@ public class Plan extends Observable {
        
    }
    
+   /**
+    * Arrête le calcul de la tournée en cours si il existe
+    */
+   public void arreterCalculTournee(){
+       this.calculTourneeEnCours = false;
+   }
+   
    public Intersection getEntrepot() {
 	   if(demandeDeLivraison != null) {
 	       return demandeDeLivraison.getEntrepot();
