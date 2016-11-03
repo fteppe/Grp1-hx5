@@ -14,8 +14,8 @@ public class Tournee extends Observable {
      * Cree une tournee à partir de sa duree
      * @param duree Duree de la tournee (en secondes)
      */
-    public Tournee(int duree) {
-	this.duree = duree;
+    public Tournee() {
+	duree = Integer.MAX_VALUE;
 	itineraires = new ArrayList<Itineraire>();
     }
     
