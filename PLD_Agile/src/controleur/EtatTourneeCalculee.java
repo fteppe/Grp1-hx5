@@ -55,10 +55,10 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	    /*
 	    ObjetGraphique OG = plan.cherche(point);
 	    if (OG != null ) {
-		listeDeCdes.ajoute(new CdeInverse(new CdeAjout(plan, f)));
+		listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, OG)));
 	    }
 	    else if (OG != null){
-		listeDeCdes.ajoute(new CdeInverse(new CdeAjout(plan, f)));
+		listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, OG)));
 	    }
 	    */
 	}
