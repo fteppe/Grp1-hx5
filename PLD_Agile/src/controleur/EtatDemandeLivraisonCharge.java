@@ -47,14 +47,4 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	
-	@Override
-	public void undo(ListeDeCdes listeDeCdes){
-		listeDeCdes.undo();
-	}
-
-	@Override
-	public void redo(ListeDeCdes listeDeCdes){
-		listeDeCdes.redo();
-	}
-
 }

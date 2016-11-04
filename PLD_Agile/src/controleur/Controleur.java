@@ -15,7 +15,9 @@ public class Controleur {
 	protected final EtatInitial ETAT_INITIAL = new EtatInitial();
 	protected final EtatPlanCharge ETAT_PLAN_CHARGE = new EtatPlanCharge();
 	protected final EtatDemandeLivraisonCharge ETAT_DEMANDE_LIVRAISON_CHARGE = new EtatDemandeLivraisonCharge();
+	protected final EtatCalculEnCours ETAT_CALCUL_EN_COURS = new EtatCalculEnCours();
 	protected final EtatTourneeCalculee ETAT_TOURNEE_CALCULEE = new EtatTourneeCalculee();
+	
 
 	/**
 	 * Cree le controleur de l'application
@@ -103,6 +105,13 @@ public class Controleur {
 	 */
 	public void redo(){
 		etatCourant.redo(listeDeCdes);
+	}
+	
+	/**
+	 * Methode appelee par fenetre apres un clic sur le bouton "Redo"
+	 */
+	public void arreterCalculTournee(){
+	    	etatCourant.arreterCalcul(this, plan, fenetre);
 	}
 
 }

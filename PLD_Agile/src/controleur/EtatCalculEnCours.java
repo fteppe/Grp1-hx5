@@ -32,7 +32,14 @@ public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fe
     
     @Override
     public void quitter() {
-    System.exit(0);
+	System.exit(0);
+    }
+    
+    @Override
+    public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {
+	plan.arreterCalculTournee();
+	fenetre.afficherMessage("Calcul de tournée arrêté");
+	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
     
 
