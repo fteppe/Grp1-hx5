@@ -27,7 +27,7 @@ public class Plan extends Observable {
    private DemandeDeLivraison demandeDeLivraison;
    private Tournee tournee;
    private boolean calculTourneeEnCours;
-
+   private int tpsAttente = 1;
    /**
     * Cree un plan ne possedant aucune intersection et aucun troncon
     */
@@ -129,6 +129,8 @@ public class Plan extends Observable {
        tournee = new Tournee();
        boolean tpsLimiteAtteint = false;
 
+       
+       //On lance le calcul de la tournée dans un nouveau thread
        Callable<Boolean> calculTournee = () -> {
 	   //On cherche l'itineraire optimal via l'utilisation du TSP
 	   tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
@@ -142,7 +144,8 @@ public class Plan extends Observable {
        
        while(this.calculTourneeEnCours == true) {
 	   try {
-	       TimeUnit.SECONDS.sleep(1);
+	       //On récupère la meilleure tournée actuelle à intervalle de temps régulier
+	       TimeUnit.SECONDS.sleep(tpsAttente);
 	   } catch (InterruptedException e) {
 	       // TODO Auto-generated catch block
 	       e.printStackTrace();
@@ -156,6 +159,7 @@ public class Plan extends Observable {
 	       }
 	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 	       mettreAJourTournee(dureeTournee, ordreTournee, trajets);
+	       //Si le calcul est terminé, on arrête de chercher une nouvelle tournée
 	       if(calculTermine){
 		   this.calculTourneeEnCours=false;
 		   try {
@@ -563,4 +567,12 @@ public Integer getDureeTournee() {
        }
        
    }
+
+public void supprimerLivraison(int adresse, int duree) {
+	// TODO Auto-generated method stub
+	this.demandeDeLivraison.supprimerLivraison(duree,
+			   this.listeIntersections.get(adresse));
+	       setChanged();
+	       notifyObservers();
+}
 }
