@@ -138,8 +138,8 @@ public class Controleur {
 	 * Methode appelee par fenetre afin de savoir si elle peut afficher 
 	 * le menu de clique droit sur la zone textuelle.
 	 */
-	public void clicDroitZoneTextuellePossible(){
-	    etatCourant.clicDroitZoneTextuellePossible(this);
+	public boolean clicDroitZoneTextuellePossible(){
+	    return etatCourant.clicDroitZoneTextuellePossible(this);
 	}
 	
 	/**
