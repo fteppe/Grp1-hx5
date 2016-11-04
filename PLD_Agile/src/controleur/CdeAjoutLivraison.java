@@ -7,27 +7,31 @@ import modele.Plan;
 public class CdeAjoutLivraison implements Commande {
 	
 	private Plan plan;
+	private int idLivraison;
 	private Livraison livraison;
 	
-	public CdeAjoutLivraison(Plan p, Livraison l){
+	public CdeAjoutLivraison(Plan p, int idLivraison){
 		this.plan = p;
-		this.livraison = l;
+		this.idLivraison = idLivraison;
+	}
+	
+	public CdeAjoutLivraison(Plan p, Livraison livraison){
+		this.plan = p;
+		this.idLivraison = livraison.getAdresse().getId();
+		this.livraison = livraison;
 	}
 
 	
 
 	@Override
 	public void doCde() {
-		// TODO Auto-generated method stub
-		plan.ajouterLivraison(livraison.getAdresse().getId(), livraison.getDuree());
+		plan.ajouterLivraison(idLivraison, livraison.getDuree());
 
 	}
-
+	
 	@Override
 	public void undoCde() {
-		// TODO Auto-generated method stub
-		plan.supprimerLivraison(livraison.getAdresse().getId(),livraison.getDuree());
-
+		//plan.retirerLivraisonTournee(idLivraison);
 	}
 
 }

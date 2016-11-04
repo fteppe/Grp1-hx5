@@ -37,14 +37,13 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
-	    fenetre.afficherMessage("Lancement du calcul de la tourn�e");
+	    fenetre.afficherMessage("Lancement du calcul de la tournée");
 	    if(plan.calculerTournee(tempsLimite)){
-			//fenetre.afficherMessage("Tourn�e calcul�e");
+			//fenetre.afficherMessage("Tournée calculée");
 		    fenetre.afficherFeuilleDeRoute();
 	    }
 	    else
-		fenetre.afficherMessage("Erreur : aucune tourn�e possible trouv�e");
-	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
+	    controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
 	}
-	
 }

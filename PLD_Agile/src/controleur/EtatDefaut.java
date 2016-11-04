@@ -37,8 +37,20 @@ public abstract class EtatDefaut implements Etat {
 	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
 	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {}
+	
+	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {}
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 	
-	// public void clicGauche(  Plan plan, Fenetre fenetre, Point p) {}
+	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {}
+	
+	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
+	    Etat etat = controleur.getEtatCourant();
+	    if(etat == controleur.ETAT_TOURNEE_CALCULEE){
+		return true;
+	    }
+	    else {
+		return false;
+	    }
+	}
 }
