@@ -93,6 +93,6 @@ public class Fenetre extends JFrame{
 		controleur.clicDroitPlan(point);
 	}
 	protected void supprimerLivraison(int id){
-		//TODO appel fonction correspondante controleur;qsqsd
+		//TODO appel fonction correspondante controleur
 	}
 }

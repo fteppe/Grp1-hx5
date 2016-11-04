@@ -43,7 +43,7 @@ public class VuePlan extends JPanel implements Observer {
 	public VuePlan(Plan plan, Fenetre fenetre)
 	{
 		super();
-		echelle = 0.05;
+		echelle = 0.8;
 		this.fenetre = fenetre;
 		this.plan = plan; 
 		plan.addObserver(this);
