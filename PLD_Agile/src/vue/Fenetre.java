@@ -3,6 +3,7 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.ScrollPane;
 
 import javax.swing.JFrame;
@@ -80,10 +81,10 @@ public class Fenetre extends JFrame{
 		zoneDeTexte.afficherInformationDemandeLivraison();
 	}
 	public void afficherMessage(String message){
-		zoneDeTexte.afficherTexte(message);
+		zoneDeTexte.getTitre().afficher(message);
 	}
 	
-	public void afficherFeuilleDeRoute(){
-		zoneDeTexte.afficherFeuilleDeRoute();
+	protected void cliqueDroitPlan(Point point){
+		controleur.cliqueDroitPlan(point);
 	}
 }

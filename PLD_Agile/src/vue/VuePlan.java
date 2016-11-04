@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.sound.midi.ControllerEventListener;
 import javax.swing.DefaultSingleSelectionModel;
 import javax.swing.JPanel;
 
@@ -24,10 +27,10 @@ import modele.Troncon;
 
 public class VuePlan extends JPanel implements Observer {
 	
-	private double echelle;
 	private Plan plan;
+	private Fenetre fenetre;
 	private List<Troncon> listeTroncon; 
-	private double e = 0.8;
+	private double echelle;
 	private int tailleFleche = 8;
 	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.blue;
@@ -36,11 +39,51 @@ public class VuePlan extends JPanel implements Observer {
 	private static Color COULEUR_INTERSECTION = COULEUR_TRONCON;
 	
 	
-	public VuePlan(Plan plan)
+	public VuePlan(Plan plan, Fenetre fenetre)
 	{
+		super();
 		echelle = 0.05;
+		this.fenetre = fenetre;
 		this.plan = plan; 
 		plan.addObserver(this);
+		addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getButton() == MouseEvent.BUTTON1){
+					fenetre.cliqueDroitPlan(e.getPoint());
+				}
+				else if(e.getButton() == MouseEvent.BUTTON2){
+					
+				}
+				
+			}
+		});
 	}
 	
 	/*va peindre touts les composants à afficher
@@ -150,14 +193,14 @@ public class VuePlan extends JPanel implements Observer {
 	    Graphics2D g2 = (Graphics2D) g;
             g2.setColor(c);
             g2.setStroke(new BasicStroke(2));
-            g2.draw(new Line2D.Float((int)(t.getOrigine().getLongitude() * e),(int) (t.getOrigine().getLatitude() * e),(int) (t.getDestination().getLongitude() * e),(int) (t.getDestination().getLatitude() * e)));
+            g2.draw(new Line2D.Float((int)(t.getOrigine().getLongitude() * echelle),(int) (t.getOrigine().getLatitude() * echelle),(int) (t.getDestination().getLongitude() * echelle),(int) (t.getDestination().getLatitude() * echelle)));
 	}
 	
 	
 	private void dessinerIntersection(Graphics g, Intersection i, Color c){
 		
 		g.setColor(c);
-		g.fillOval((int) (i.getLongitude() * e - diametreIntersection / 2),(int) (i.getLatitude() * e - diametreIntersection/2), diametreIntersection, diametreIntersection);
+		g.fillOval((int) (i.getLongitude() * echelle - diametreIntersection / 2),(int) (i.getLatitude() * echelle - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 	
 	private void dessinerLivraison(Graphics g, Livraison l){
@@ -172,8 +215,8 @@ public class VuePlan extends JPanel implements Observer {
 	 * @param color la couleur de la fleche
 	 */
 	private void dessinerFlecheTroncon(Graphics g,Troncon t,Color c){
-		Vecteur pointeFleche = new Vecteur((t.getDestination().getLongitude()* e),( t.getDestination().getLatitude() * e));
-		Vecteur origine = new Vecteur((t.getOrigine().getLongitude() * e),(t.getOrigine().getLatitude() * e));
+		Vecteur pointeFleche = new Vecteur((t.getDestination().getLongitude()* echelle),( t.getDestination().getLatitude() * echelle));
+		Vecteur origine = new Vecteur((t.getOrigine().getLongitude() * echelle),(t.getOrigine().getLatitude() * echelle));
 		Vecteur direction = new Vecteur(pointeFleche).add(origine.multiply(-1));
 		
 		double normeDirection = direction.norme();
