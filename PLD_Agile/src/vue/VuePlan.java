@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
@@ -76,7 +77,10 @@ public class VuePlan extends JPanel implements Observer {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getButton() == MouseEvent.BUTTON1){
-					fenetre.cliqueDroitPlan(e.getPoint());
+					Point position = new Point(e.getX(), e.getY());
+					position.x/=echelle;
+					position.y/=echelle;
+					fenetre.clicDroitPlan(position);
 				}
 				else if(e.getButton() == MouseEvent.BUTTON2){
 					
