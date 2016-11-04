@@ -51,7 +51,8 @@ public class InformationTextuelle extends JPanel{
 				
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					if(SwingUtilities.isRightMouseButton(arg0) && fenetre.getControleur().cliqueDroitZoneTextuellePossible()){
+
+					if(SwingUtilities.isRightMouseButton(arg0) && fenetre.getControleur().clicDroitZoneTextuellePossible()){
 						popupMenu = new PopMenuLivraison(index, fenetre);
 						popupMenu.show(zoneInformation, arg0.getX(), arg0.getY());
 					}

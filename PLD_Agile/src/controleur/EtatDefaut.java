@@ -45,12 +45,6 @@ public abstract class EtatDefaut implements Etat {
 	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {}
 	
 	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
-	    Etat etat = controleur.getEtatCourant();
-	    if(etat == controleur.ETAT_TOURNEE_CALCULEE){
-		return true;
-	    }
-	    else {
 		return false;
-	    }
 	}
 }

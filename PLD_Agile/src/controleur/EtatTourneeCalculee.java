@@ -70,6 +70,10 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		fenetre.afficherMessage("Livraison supprimée de la tournée");
 	}
 	
+	@Override
+	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
+		return true;
+	}
 	/*
 	@Override
 	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison){
