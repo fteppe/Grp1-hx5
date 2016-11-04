@@ -1,16 +1,12 @@
 package controleur;
 
 import vue.Fenetre;
-//import modele.Point;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
-
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
+import java.awt.Point;
 import modele.Plan;
 
 public abstract class EtatDefaut implements Etat {
@@ -40,6 +36,7 @@ public abstract class EtatDefaut implements Etat {
 	
 	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
+	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {}
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 	

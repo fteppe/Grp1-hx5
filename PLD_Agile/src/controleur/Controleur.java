@@ -1,6 +1,9 @@
  package controleur;
 
 import vue.Fenetre;
+
+import java.awt.Point;
+
 import modele.Plan;
  
 public class Controleur {
@@ -108,10 +111,18 @@ public class Controleur {
 	}
 	
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Redo"
+	 * Methode appelee par fenetre apres un clic sur le bouton "Arreter" lors du calcul de la tournee
 	 */
 	public void arreterCalculTournee(){
 	    	etatCourant.arreterCalcul(this, plan, fenetre);
+	}
+	
+	/**
+	 * Methode appelee par fenetre apres un clic droit sur un point du plan 
+	 * une fois le calcul de la tournee termine.
+	 */
+	public void clicDroitPlan(Point point){
+	    	etatCourant.clicDroitPlan(plan, fenetre, listeDeCdes, point);
 	}
 
 }
