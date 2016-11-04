@@ -73,10 +73,10 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	/*
 	@Override
 	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison){
-	    	// On passe dans l'état d'ajout d'une livraison et on 
+	    	// On passe dans l'état d'ajout d'une livraison
 	    	fenetre.afficherMessage("Veuillez selectionner un point de livraison");
 		controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
 	}
-	  */
+	 */
 	
 }
