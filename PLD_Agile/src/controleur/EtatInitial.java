@@ -8,16 +8,5 @@ public class EtatInitial extends EtatDefaut {
 	public void quitter() {
 	    System.exit(0);
 	}
-	
-	@Override
-	public void undo(ListeDeCdes listeDeCdes){
-		listeDeCdes.undo();
-	}
-
-	@Override
-	public void redo(ListeDeCdes listeDeCdes){
-		listeDeCdes.redo();
-	}
-
 
 }

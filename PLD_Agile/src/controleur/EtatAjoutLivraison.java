@@ -1,5 +1,6 @@
 package controleur;
 
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,8 +12,8 @@ import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
-public class EtatDemandeLivraisonCharge extends EtatDefaut {
-		// Etat apr�s que l'utilisateur ait charg� une demande de livraison
+public class EtatAjoutLivraison extends EtatDefaut {
+		// Etat atteint lorsque l'utilisateur clique sur ajouter une nouvelle livraison
 	
 	
 	@Override
@@ -36,13 +37,16 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	}
 	
 	@Override
-	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
-	    fenetre.afficherMessage("Lancement du calcul de la tournée");
-	    if(plan.calculerTournee(tempsLimite)){
-			//fenetre.afficherMessage("Tournée calculée");
-	    }
-	    else
-		fenetre.afficherMessage("Erreur : aucune tournée possible trouvée");
-	    controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
+	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
+	    // 
+	    //listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idLivraison));
+	    fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	}
+	
+	@Override
+	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
+	    
+	}
+	
 }
+

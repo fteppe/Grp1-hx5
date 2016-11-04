@@ -20,6 +20,7 @@ public class Controleur {
 	protected final EtatDemandeLivraisonCharge ETAT_DEMANDE_LIVRAISON_CHARGE = new EtatDemandeLivraisonCharge();
 	protected final EtatCalculEnCours ETAT_CALCUL_EN_COURS = new EtatCalculEnCours();
 	protected final EtatTourneeCalculee ETAT_TOURNEE_CALCULEE = new EtatTourneeCalculee();
+	protected final EtatAjoutLivraison ETAT_AJOUT_LIVRAISON = new EtatAjoutLivraison();
 	
 
 	/**
@@ -43,6 +44,13 @@ public class Controleur {
 	 */
 	protected void setEtatCourant(Etat etat){
 		etatCourant = etat;
+	}
+	
+	/**
+	 * Retourne l'etat courant du controleur
+	 */
+	protected Etat getEtatCourant(){
+		return etatCourant;
 	}
 
 	// Methodes correspondant aux evenements utilisateur
@@ -70,7 +78,7 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille de route"
 	 */
-	// Pour seconde it�ration
+	// Pour seconde itération
 	/* 
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(plan, fenetre);
@@ -88,11 +96,11 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
-	/*
+	
 	public void clicGauche(Point p) {
-		etatCourant.clicGauche(plan, fenetre, p);
+		etatCourant.clicGauche(this, plan, fenetre, listeDeCdes, p);
 	}
-	*/
+	
 	
 	/**
 	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton "Undo"
@@ -118,9 +126,26 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre apres un clic droit sur un point du plan 
 	 * une fois le calcul de la tournee termine.
+	 * @param point Le point clique par l'utilisateur
 	 */
 	public void clicDroitPlan(Point point){
 	    	etatCourant.clicDroitPlan(plan, fenetre, listeDeCdes, point);
+	}
+	
+	/**
+	 * Methode appelee par fenetre afin de savoir si elle peut afficher 
+	 * le menu de clique droit sur la zone textuelle.
+	 */
+	public boolean clicDroitZoneTextuellePossible(){
+	    return etatCourant.clicDroitZoneTextuellePossible(this);
+	}
+	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur clique
+	 * sur supprimer apres avoir fait un clic droit sur une livraison.
+	 */
+	public void supprimerLivraison(int idLivraison){
+	    	etatCourant.supprimerLivraison(plan, fenetre, listeDeCdes, idLivraison);
 	}
 
 }

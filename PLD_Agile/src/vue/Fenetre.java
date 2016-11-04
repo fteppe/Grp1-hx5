@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.ScrollPane;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class Fenetre extends JFrame{
 	private JPanel panneauNord;
 	private JPanel panneauEst;
 	private JScrollPane scroll;
+	private PopMenu popupMenu;
 	
 	protected Controleur controleur;
 	
@@ -53,7 +55,7 @@ public class Fenetre extends JFrame{
 	    this.setLocationRelativeTo(null);
 	    
 	    vuePlan = new VuePlan(plan, this);
-    	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan);
+    	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan, this);
 	    menu = new Menu(controleur);
 	    barreDesTaches = new BarreDesTaches(controleur);
 		scroll = new JScrollPane(zoneDeTexte);
@@ -79,7 +81,10 @@ public class Fenetre extends JFrame{
 	}
 	
 	public void ouvrirMenuSupprimer(int id){
-		new PopMenuLivraison(id, this);
+		popupMenu = (PopMenuLivraison) popupMenu;
+		popupMenu = new PopMenuLivraison(id, this);
+		Point pos = this.getMousePosition();
+		popupMenu.show(this, pos.x, pos.y);
 	}
 	
 	public void afficherDetailDemandeLivraison(){
@@ -94,5 +99,8 @@ public class Fenetre extends JFrame{
 	}
 	protected void supprimerLivraison(int id){
 		//TODO appel fonction correspondante controleur
+	}
+	protected Controleur getControleur(){
+		return controleur;
 	}
 }
