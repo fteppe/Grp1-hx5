@@ -503,4 +503,12 @@ public Integer getDureeTournee() {
        }
        
    }
+
+public void supprimerLivraison(int adresse, int duree) {
+	// TODO Auto-generated method stub
+	this.demandeDeLivraison.supprimerLivraison(duree,
+			   this.listeIntersections.get(adresse));
+	       setChanged();
+	       notifyObservers();
+}
 }
