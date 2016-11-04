@@ -85,6 +85,13 @@ public class Heure {
 	}
 	
 	/**
+	 * Affiche une version en secondes de l'heure (00:00:00 -> 0)
+	 * @return L'heure en secondes depuis minuit
+	 */
+	public int toSeconds(){
+		return (((this.heure*60)+this.minutes)*60+this.secondes);
+	}
+	/**
 	 * Affiche l'heure courante sous la forme "hh:mm:ss"
 	 */
 	public String toString() {
