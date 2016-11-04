@@ -20,6 +20,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.print.attribute.standard.Destination;
 
 import tsp.TSP1;
+import tsp.TSPPlages;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classees selon leur identifiant
@@ -122,9 +123,19 @@ public class Plan extends Observable {
        //On constitue un graphe complet grace a l'algorithme
        //de Dijkstra
        Object[] resultDijkstra = calculerDijkstra(idSommets);
-       TSP1 tsp = new TSP1();
+       TSPPlages tsp = new TSPPlages();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
+
+       int[] plageDepart = new int[idSommets.size()];
+       int[] plageFin = new int[idSommets.size()];
+       
+       for(int i = 0 ; i < idSommets.size(); i++){
+    	   
+    	   // TODO - Gerer les plages horaires
+    	   plageDepart[i] = 0;
+    	   plageFin[i] = Integer.MAX_VALUE;
+       }
        
        tournee = new Tournee();
        boolean tpsLimiteAtteint = false;
@@ -133,7 +144,7 @@ public class Plan extends Observable {
        //On lance le calcul de la tournée dans un nouveau thread
        Callable<Boolean> calculTournee = () -> {
 	   //On cherche l'itineraire optimal via l'utilisation du TSP
-	   tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees);
+	   tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees,plageDepart,plageFin);
 	   return tsp.getTempsLimiteAtteint();
        };
 	
