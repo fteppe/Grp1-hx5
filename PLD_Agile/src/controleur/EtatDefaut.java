@@ -15,7 +15,7 @@ public abstract class EtatDefaut implements Etat {
 	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre) {
 		try {
 			DeserialiseurXML.chargerPlan(plan);
-			fenetre.afficherMessage("Plan charg� avec succ�s");
+			fenetre.afficherMessage("Plan chargé avec succés");
 			controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 		} catch (ParserConfigurationException 
 				| SAXException | IOException 
