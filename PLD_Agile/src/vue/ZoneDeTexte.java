@@ -76,7 +76,12 @@ public class ZoneDeTexte extends JPanel implements Observer{
 			for(Livraison livraison : livraisons.values()){
 				contraintes.gridy = listeInformation.size();
 				System.out.println(contraintes.gridy);
-				ajouterZoneInformation("livraison a l'adresse "+livraison.getAdresse().getId()+" de "+livraison.getheureArrivee()+" a "+livraison.getheureDepart(), livraison.getAdresse().getId());
+				String plage = "";
+				if(livraison.possedePlage()) {
+				    plage = " de " + livraison.getDebutPlage()+
+					    " a " + livraison.getFinPlage();
+				}
+				ajouterZoneInformation("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId());
 			}
 			afficherInformations();
 		}

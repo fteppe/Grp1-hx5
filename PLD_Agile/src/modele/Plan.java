@@ -95,6 +95,25 @@ public class Plan extends Observable {
        notifyObservers(demandeDeLivraison);
    }
    
+
+   /**
+    * Cree et ajoute une livraison possedant une plage horaire
+    * a la demande de livraison associee au Plan
+    * @param adresse Identifiant de l'intersection correspondant 
+    * 				a la livraison a effectuer
+    * @param duree Duree de la livraison a effectuer
+    * @param debutPlage Debut de la plage horaire de la livraison a effectuer
+    * @param finPlage Fin de la plage horaire de la livraison a effectuer
+    */
+   public void ajouterLivraison(int adresse, int duree, String debutPlage,
+	   String finPlage) {
+       this.demandeDeLivraison.ajouterLivraison(duree,
+		   this.listeIntersections.get(adresse),
+		   debutPlage, finPlage);
+       setChanged();
+       notifyObservers();
+   }
+   
    /**
     * Cree et ajoute une livraison a la demande de livraison associee au Plan
     * @param adresses Identifiant de l'intersection correspondant 
@@ -132,12 +151,24 @@ public class Plan extends Observable {
        int[] plageDepart = new int[idSommets.size()];
        int[] plageFin = new int[idSommets.size()];
        
-       for(int i = 0 ; i < idSommets.size(); i++){
+       plageDepart[0] = 0;
+       plageFin[0] = Integer.MAX_VALUE; 
+	       
+       for(int i = 1 ; i < idSommets.size(); i++){
     	   
-    	   // TODO - Gerer les plages horaires
-    	   plageDepart[i] = 0;
-    	   plageFin[i] = Integer.MAX_VALUE;
+	   if(this.getListeLivraisons()
+    		   .get(idSommets.get(i)).possedePlage()) {
+	       plageDepart[i] = this.getListeLivraisons()
+		       .get(idSommets.get(i)).getDebutPlage().toSeconds();
+	       plageFin[i] = this.getListeLivraisons()
+		       .get(idSommets.get(i)).getFinPlage().toSeconds();
+	   } else {
+	       plageDepart[i] = 0;
+               plageFin[i] = Integer.MAX_VALUE;
+	   }
        }
+       
+       System.out.println("Entree calcul tournée");
        
        tournee = new Tournee();
        boolean tpsLimiteAtteint = false;
