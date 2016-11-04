@@ -7,18 +7,21 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 public class InformationTextuelle extends JPanel{
 	
 	//un bloc d'informations qui réagit ou non à la souris
 	private JTextArea zoneInformation;
-	public InformationTextuelle(String information, int index, boolean cliquable){
+	private PopMenuLivraison popupMenu;
+	public InformationTextuelle(String information, int index,Fenetre fenetre, boolean cliquable){
 		super();
 		zoneInformation = new JTextArea(3,30);
 		zoneInformation.setEditable(false);
 		zoneInformation.setLineWrap(true);
 		zoneInformation.setWrapStyleWord(true);
 		zoneInformation.setText(information);
+		add(zoneInformation);
 		if(cliquable){
 			zoneInformation.addMouseListener(new MouseListener() {
 				
@@ -48,16 +51,19 @@ public class InformationTextuelle extends JPanel{
 				
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					// TODO Auto-generated method stub
+					if(SwingUtilities.isRightMouseButton(arg0) && fenetre.getControleur().cliqueDroitZoneTextuellePossible()){
+						popupMenu = new PopMenuLivraison(index, fenetre);
+						popupMenu.show(zoneInformation, arg0.getX(), arg0.getY());
+					}
 					
 				}
 			});
 		}
-		add(zoneInformation);
+
 	}
 	
-	public InformationTextuelle(String information, int index){
-		this(information, index, true);
+	public InformationTextuelle(String information, int index,Fenetre fenetre){
+		this(information, index,fenetre, true);
 	}
 	
 	public void ajouterInformationDansPanneau(JPanel panneau,GridBagConstraints contraintes, int i){

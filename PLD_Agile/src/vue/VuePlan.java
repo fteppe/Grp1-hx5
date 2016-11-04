@@ -19,6 +19,7 @@ import java.util.Observer;
 import javax.sound.midi.ControllerEventListener;
 import javax.swing.DefaultSingleSelectionModel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import modele.Intersection;
 import modele.Itineraire;
@@ -70,20 +71,19 @@ public class VuePlan extends JPanel implements Observer {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				// TODO Auto-generated method stub
-				if(e.getButton() == MouseEvent.BUTTON1){
+				if(SwingUtilities.isLeftMouseButton(e)){
+				}
+				else if(SwingUtilities.isRightMouseButton(e)){
 					Point position = new Point(e.getX(), e.getY());
 					position.x/=echelle;
 					position.y/=echelle;
 					fenetre.clicDroitPlan(position);
-				}
-				else if(e.getButton() == MouseEvent.BUTTON2){
-					
 				}
 				
 			}
