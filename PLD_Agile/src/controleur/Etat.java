@@ -63,4 +63,14 @@ public interface Etat {
 	 * @param listeDeCdes
 	 */
 	public void redo(ListeDeCdes listeDeCdes);
+	
+	
+	/**
+	 * Methode appelee par controleur lorsque l'utilisateur clique sur le bouton 
+	 * d'arret du calcul de tournee
+	 * @param controleur 
+	 * @param plan
+	 * @param fenetre
+	 */
+	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre);
 }

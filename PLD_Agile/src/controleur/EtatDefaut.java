@@ -37,6 +37,8 @@ public abstract class EtatDefaut implements Etat {
 	public void undo(ListeDeCdes listeDeCdes){}
 	
 	public void redo(ListeDeCdes listeDeCdes) {}
+	
+	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
