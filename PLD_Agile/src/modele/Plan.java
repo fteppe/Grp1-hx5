@@ -217,12 +217,20 @@ public class Plan extends Observable {
 	       if(calculTermine){
 		   System.out.println("Calcul terminé");
 		   this.calculTourneeEnCours=false;
-		       tpsLimiteAtteint = tsp.getTempsLimiteAtteint();
+		       try {
+			tpsLimiteAtteint = futureCalculTournee.get();
+		    } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    } catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    }
 		       System.out.println("tpsLimiteAtteint");
 	       }
        }
        }
-       
+       futureCalculTournee.cancel(true);
        return !tpsLimiteAtteint;
 	
        /*if(!tsp.getTempsLimiteAtteint()) {
