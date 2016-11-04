@@ -9,6 +9,18 @@ public class TSPPlages {
 	private int coutMeilleureSolution = 0;
 	private Boolean tempsLimiteAtteint;
 
+	private boolean lock = false;
+	
+	public void lock(){
+		while(lock){}
+		lock = true;
+	}
+	
+	public void unlock(){
+		lock = false;
+	}
+	
+	
 	/**
 	 * @return true si chercheSolution() s'est terminee parce que la limite de temps avait ete atteinte, avant d'avoir pu explorer tout l'espace de recherche,
 	 */
@@ -138,8 +150,10 @@ public class TSPPlages {
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
 	    	coutVus += cout[sommetCrt][0];
 	    	if (coutVus < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
+	    		lock();
 	    		vus.toArray(meilleureSolution);
 	    		coutMeilleureSolution = coutVus;
+	    		unlock();
 	    	}
 	    } else {
 	    	int nouveauCout = coutVus;
