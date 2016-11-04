@@ -27,7 +27,7 @@ public class DemandeDeLivraison extends Observable {
      * @param duree Duree de la livraison a ajouter
      * @param adresse Intersection correspondant a la livraison a ajouter
      */
-    public void ajouterLivraison (int duree, Intersection adresse) {
+    public void ajouterLivraison(int duree, Intersection adresse) {
 	Livraison nouvLivraison = new Livraison(duree, adresse);
 	this.livraisons.put(adresse.getId(), nouvLivraison);
 	//On indique au Controleur que la demande de livraison a ete 
