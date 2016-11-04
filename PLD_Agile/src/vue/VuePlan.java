@@ -187,6 +187,7 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
+	    System.out.println("update");
 		if(arg != null){
 		}
 		repaint();

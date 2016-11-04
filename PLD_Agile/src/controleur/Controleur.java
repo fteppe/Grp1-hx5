@@ -31,12 +31,10 @@ public class Controleur {
 		listeDeCdes = new ListeDeCdes();
 		etatCourant = ETAT_INITIAL;
 		String titre = "Optimod";
-		tempsLimite = 60000;
+		tempsLimite = 10000;
 		int longueur = 720;
 		int largeur = 1024;
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
-		
-		tempsLimite = 60000;
 	}
 	
 	/**

@@ -122,7 +122,9 @@ public class Plan extends Observable {
        
        //On constitue un graphe complet grace a l'algorithme
        //de Dijkstra
+       System.out.println(System.currentTimeMillis());
        Object[] resultDijkstra = calculerDijkstra(idSommets);
+       System.out.println(System.currentTimeMillis());
        TSPPlages tsp = new TSPPlages();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
@@ -153,37 +155,41 @@ public class Plan extends Observable {
        this.calculTourneeEnCours = true;
        Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
        
+       long timestamp = System.currentTimeMillis();
        while(this.calculTourneeEnCours == true) {
-	   try {
+	   /*try {
 	       //On récupère la meilleure tournée actuelle à intervalle de temps régulier
-	       TimeUnit.SECONDS.sleep(tpsAttente);
+	       //TimeUnit.SECONDS.sleep(tpsAttente);
 	   } catch (InterruptedException e) {
 	       // TODO Auto-generated catch block
 	       e.printStackTrace();
-	   }
+	   }*/
+	   if(timestamp + 1000 < System.currentTimeMillis()){
+	       timestamp = System.currentTimeMillis();
 	   boolean calculTermine = futureCalculTournee.isDone();
+	   tsp.lock();
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   if(this.tournee.getDuree() != dureeTournee) {
+	       System.out.println("Meilleur résultat");
+	       System.out.println(dureeTournee);
 	       int[] ordreTournee = new int[idSommets.size()];
 	       for(int i=0; i<idSommets.size(); i++) {
 		   ordreTournee[i] = tsp.getMeilleureSolution(i);
 	       }
+	       tsp.unlock();
 	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 	       mettreAJourTournee(dureeTournee, ordreTournee, trajets);
 	       //Si le calcul est terminé, on arrête de chercher une nouvelle tournée
-	       if(calculTermine){
-		   this.calculTourneeEnCours=false;
-		   try {
-		       tpsLimiteAtteint = futureCalculTournee.get();
-		   } catch (InterruptedException e) {
-		       // TODO Auto-generated catch block
-		       e.printStackTrace();
-		   } catch (ExecutionException e) {
-		       // TODO Auto-generated catch block
-		       e.printStackTrace();
-		   }
-	       }
+	   } else {
+	       tsp.unlock();
 	   }
+	       if(calculTermine){
+		   System.out.println("Calcul terminé");
+		   this.calculTourneeEnCours=false;
+		       tpsLimiteAtteint = tsp.getTempsLimiteAtteint();
+		       System.out.println("tpsLimiteAtteint");
+	       }
+       }
        }
        
        return !tpsLimiteAtteint;
@@ -391,13 +397,15 @@ public class Plan extends Observable {
     * @param itineraires Tableau des itineraires pour aller de la livraison i a la livraison j
     */
    private void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
+       tournee.viderTournee();
        for(int i = 0; i < livraisons.length-1; i++) {
 	   tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i+1]]);
        }
        tournee.ajouterItineraire(itineraires[livraisons[livraisons.length-1]][livraisons[0]]);
        tournee.setDuree(duree);
        setChanged();
-       notifyObservers(tournee);
+       notifyObservers();
+       System.out.println("Modifié");
    }
    
    /*public ArrayList<Integer> methodeTest() {

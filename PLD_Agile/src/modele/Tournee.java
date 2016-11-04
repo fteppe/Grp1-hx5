@@ -29,6 +29,10 @@ public class Tournee extends Observable {
 	notifyObservers();
     }
     
+    public void viderTournee(){
+	this.itineraires.clear();
+    }
+    
     public List<Itineraire> getItineraires() {
 	return itineraires;
     }    
