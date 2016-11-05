@@ -61,7 +61,7 @@ public class Fenetre extends JFrame{
 	    menu = new Menu(this);
 	    barreDesTaches = new BarreDesTaches(this);
 		scroll = new JScrollPane(zoneDeTexte);
-		//scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	    placerComposants();
 	    this.setVisible(true);
 	}
