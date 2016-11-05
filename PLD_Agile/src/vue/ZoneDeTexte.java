@@ -31,7 +31,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		this.plan = plan;
 		plan.addObserver(this);
 		listeInformation = new ArrayList<InformationTextuelle>();
-		ajouterZoneInformation("", 0);
+		ajouterZoneInformation("", 0, false);
 		texte = listeInformation.get(0);
 		setLayout(new GridBagLayout());
 		contraintes = new GridBagConstraints();
@@ -43,9 +43,12 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		afficherInformations();
 	}
 	
-	private void ajouterZoneInformation(String information, int index){
-		InformationTextuelle info = new InformationTextuelle(information, index);
+	private void ajouterZoneInformation(String information, int index, boolean cliquable){
+		InformationTextuelle info = new InformationTextuelle(information, index, cliquable);
 		listeInformation.add(info);
+	}
+	private void ajouterZoneInformation(String information, int index){
+		ajouterZoneInformation(information, index, true);
 	}
 	
 	private void insererZoneInformationPosition(String information, int indexInformation, int position){
@@ -53,45 +56,12 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		listeInformation.add(position, info);
 	}
 	
-	/*remplace le texte actuellement affiché par le parametre
-	 * 
-	 * @param texte le texte qui sera affiché par la zone de texte
-	 */
-	public void afficherTexte(String message)
+	public InformationTextuelle getTitre()
 	{
-		texte.afficher(message);
+		return texte;
 	}
 	
-	/*
-	 * vide la zone de texte
-	 */
-	public void viderZoneDeTexte(){
-		afficherTexte("");
-	}
-	/*Ajoute une ligne à la fin de la zone de texte
-	 * 
-	 * @param ligne le texte qui sera ajouté au bout de la zone de texte
-	 */
-	public void ajouterLigne(String ligne){
-		texte.ajouter(ligne+'\n');
-	}
-	
-	/*fonction qui génère et affiche la feuille de route
-	 * 
-	 */
-	public void afficherFeuilleDeRoute(){
-		System.out.println("gene feuille de route");
-		afficherTexte("Feuille de route :");
-		List<Itineraire> itineraires = plan.getItineraires();
-		for(Itineraire it : itineraires){
-		    ajouterLigne("\r\n" + it.toString());
-			for(Troncon t : it.getTroncons()){
-				ajouterLigne(t.toString());
-			}
-		}
-		
-	}
-	
+
 	/*Fonction qui génère et affiche les informations d'une demande de livraison
 	 * 
 	 */
@@ -99,7 +69,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		viderListeInfos();
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
-			ajouterLigne("\nLIVRAISONS :");
+			getTitre().ajouter("\nLivraisons");
 			int i=1;
 			for(Livraison livraison : livraisons.values()){
 				contraintes.gridy = listeInformation.size();
@@ -125,13 +95,14 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		}
 		System.out.println("size liste info "+listeInformation.size());
 	}
+	
 	public void afficherInformations(){
 		this.removeAll();
 		int i = 0;
 		for(InformationTextuelle info : listeInformation){
 			i++;
 			contraintes.gridy = i;
-			info.ajouterInformationDansPanneau(this, contraintes, 0);
+			add(info, contraintes);
 		}
 	}
 }

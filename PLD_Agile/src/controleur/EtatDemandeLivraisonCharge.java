@@ -40,21 +40,10 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    fenetre.afficherMessage("Lancement du calcul de la tourn�e");
 	    if(plan.calculerTournee(tempsLimite)){
 			//fenetre.afficherMessage("Tourn�e calcul�e");
-		    fenetre.afficherFeuilleDeRoute();
 	    }
 	    else
 		fenetre.afficherMessage("Erreur : aucune tourn�e possible trouv�e");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	
-	@Override
-	public void undo(ListeDeCdes listeDeCdes){
-		listeDeCdes.undo();
-	}
-
-	@Override
-	public void redo(ListeDeCdes listeDeCdes){
-		listeDeCdes.redo();
-	}
-
 }

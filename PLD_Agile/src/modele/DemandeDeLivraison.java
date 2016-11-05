@@ -55,4 +55,14 @@ public class DemandeDeLivraison extends Observable {
     public Heure getHeureDepart() {
 	return this.heureDepart;
     }
+
+	public void supprimerLivraison(int duree, Intersection adresse) {
+		// TODO Auto-generated method stub
+		//Livraison nouvLivraison = new Livraison(duree, adresse);
+		this.livraisons.remove(adresse.getId());
+		//On indique au Controleur que la demande de livraison a ete 
+		//mise a jour
+		setChanged();
+		notifyObservers();
+	}
 }

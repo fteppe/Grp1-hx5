@@ -1,11 +1,9 @@
 package controleur;
 
+import java.awt.Point;
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
 import modele.Plan;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
@@ -51,4 +49,19 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	public void redo(ListeDeCdes listeDeCdes){
 		listeDeCdes.redo();
 	}
+	
+	@Override
+	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point){
+	    /*
+	    ObjetGraphique OG = plan.cherche(point);
+	    if (OG != null ) {
+		listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, OG)));
+	    }
+	    else if (OG != null){
+		listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, OG)));
+	    }
+	    */
+	}
+	    
+	
 }

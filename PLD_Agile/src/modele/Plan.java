@@ -8,10 +8,19 @@ import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.print.attribute.standard.Destination;
 
 import tsp.TSP1;
+import tsp.TSPPlages;
 
 public class Plan extends Observable {
    private HashMap<Integer, Intersection> listeIntersections; //Liste des intersections du plan classees selon leur identifiant
@@ -22,13 +31,16 @@ public class Plan extends Observable {
    private Itineraire[][] trajets;
    private ArrayList<Integer> idSommets;
    private AlgoDijkstra algo;
-   
+   private boolean calculTourneeEnCours;
+   private int tpsAttente = 1;
+
    /**
     * Cree un plan ne possedant aucune intersection et aucun troncon
     */
    public Plan() {
        this.listeIntersections = new HashMap<Integer, Intersection>();
        this.listeTroncons = new HashMap<Integer, List<Troncon>>();
+       this.calculTourneeEnCours = false;
    }
    
    /**
@@ -146,29 +158,99 @@ public class Plan extends Observable {
        //On constitue un graphe complet grace a l'algorithme
        //de Dijkstra
        Object[] resultDijkstra = algo.calculerDijkstra(idSommets);
-       TSP1 tsp = new TSP1();
+       TSPPlages tsp = new TSPPlages();
        int[] durees = recupererDurees(idSommets);
-       this.couts = (int[][]) resultDijkstra[0];
-       //On cherche l'itineraire optimal via l'utilisation du TSP
-       tsp.chercheSolution(tpsLimite, idSommets.size(), this.couts, durees);
-       if(!tsp.getTempsLimiteAtteint()) {
+       int[][] couts = (int[][]) resultDijkstra[0];
+
+       int[] plageDepart = new int[idSommets.size()];
+       int[] plageFin = new int[idSommets.size()];
+       
+       for(int i = 0 ; i < idSommets.size(); i++){
+    	   
+    	   // TODO - Gerer les plages horaires
+    	   plageDepart[i] = 0;
+    	   plageFin[i] = Integer.MAX_VALUE;
+       }
+       
+       tournee = new Tournee();
+       boolean tpsLimiteAtteint = false;
+
+       
+       //On lance le calcul de la tournée dans un nouveau thread
+       Callable<Boolean> calculTournee = () -> {
+	   //On cherche l'itineraire optimal via l'utilisation du TSP
+	   tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees,plageDepart,plageFin);
+	   return tsp.getTempsLimiteAtteint();
+       };
+	
+       ExecutorService executorCalculTournee = Executors.newFixedThreadPool(1);
+
+       this.calculTourneeEnCours = true;
+       Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
+       
+       while(this.calculTourneeEnCours == true) {
+	   try {
+	       //On récupère la meilleure tournée actuelle à intervalle de temps régulier
+	       TimeUnit.SECONDS.sleep(tpsAttente);
+	   } catch (InterruptedException e) {
+	       // TODO Auto-generated catch block
+	       e.printStackTrace();
+	   }
+	   boolean calculTermine = futureCalculTournee.isDone();
+	   int dureeTournee = tsp.getCoutMeilleureSolution();
+	   if(this.tournee.getDuree() != dureeTournee) {
+	       int[] ordreTournee = new int[idSommets.size()];
+	       for(int i=0; i<idSommets.size(); i++) {
+		   ordreTournee[i] = tsp.getMeilleureSolution(i);
+	       }
+	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
+	       mettreAJourTournee(dureeTournee, ordreTournee, trajets);
+	       //Si le calcul est terminé, on arrête de chercher une nouvelle tournée
+	       if(calculTermine){
+		   this.calculTourneeEnCours=false;
+		   try {
+		       tpsLimiteAtteint = futureCalculTournee.get();
+		   } catch (InterruptedException e) {
+		       // TODO Auto-generated catch block
+		       e.printStackTrace();
+		   } catch (ExecutionException e) {
+		       // TODO Auto-generated catch block
+		       e.printStackTrace();
+		   }
+	       }
+	   }
+       }
+       
+       return !tpsLimiteAtteint;
+	
+       /*if(!tsp.getTempsLimiteAtteint()) {
+>>>>>>> branch 'develop' of https://github.com/tetramir/Grp1-hx5.git
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   if(dureeTournee < 0) //dureeTournee est negatif donc pas de chemin possible
 	       return false;
 	   else {
 	       //On recupere la liste ordonnee des livraisons calculee par le TSP 
 	       //et on lui associe une liste d'itineraires
+<<<<<<< HEAD
 	       int[] ordreTournee = new int[idSommets.size()];
 	       for(int i=0; i<idSommets.size(); i++) {
 		   ordreTournee[i] = tsp.getMeilleureSolution(i);
 	       }
 	       this.trajets = (Itineraire[][]) resultDijkstra[1];
 	       creerTournee(dureeTournee, ordreTournee, this.trajets);
+=======
+	       
+	       creerTournee(dureeTournee, ordreTournee, trajets);
+>>>>>>> branch 'develop' of https://github.com/tetramir/Grp1-hx5.git
 	       return true;
 	   }
        } else {
 	   return false;
+<<<<<<< HEAD
        }
+=======
+       }*/   
+  
    }
    
    /**
@@ -194,13 +276,13 @@ public class Plan extends Observable {
     * @param livraisons Liste ordonnee des intersections a visiter
     * @param itineraires Tableau des itineraires pour aller de la livraison i a la livraison j
     */
-   private void creerTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
-       tournee = new Tournee(duree);
+   private void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
        for(int i = 0; i < livraisons.length-1; i++) {
 	   Livraison prochLivr = demandeDeLivraison.getLivraison(livraisons[i+1]);
 	   tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i+1]], prochLivr);
        }
        tournee.ajouterItineraire(itineraires[livraisons[livraisons.length-1]][livraisons[0]], null);
+       tournee.setDuree(duree);
        setChanged();
        notifyObservers(tournee);
    }
@@ -269,6 +351,13 @@ public class Plan extends Observable {
        
    }
    
+   /**
+    * Arrête le calcul de la tournée en cours si il existe
+    */
+   public void arreterCalculTournee(){
+       this.calculTourneeEnCours = false;
+   }
+   
    public Intersection getEntrepot() {
 	   if(demandeDeLivraison != null) {
 	       return demandeDeLivraison.getEntrepot();
@@ -316,4 +405,12 @@ public class Plan extends Observable {
 	}
 	return sommets;
    }
+
+public void supprimerLivraison(int adresse, int duree) {
+	// TODO Auto-generated method stub
+	this.demandeDeLivraison.supprimerLivraison(duree,
+			   this.listeIntersections.get(adresse));
+	       setChanged();
+	       notifyObservers();
+}
 }

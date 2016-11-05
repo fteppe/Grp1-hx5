@@ -18,8 +18,8 @@ public class Tournee extends Observable {
      * @param entrepot Intersection de depart et d'arrivee
      * 		de la tournee
      */
-    public Tournee(int duree) {
-	this.duree = duree;
+    public Tournee() {
+	duree = Integer.MAX_VALUE;
 	itineraires = new ArrayList<Itineraire>();
 	livraisons = new ArrayList<Livraison>();
     }

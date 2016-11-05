@@ -11,11 +11,12 @@ import java.util.TreeSet;
 public class AlgoDijkstra {
 
     private static AlgoDijkstra instance = null;
-    private List<Sommet> sommets;
+    private HashMap<Integer, Sommet> sommets;
     private HashMap<Integer, List<Troncon>> troncons;
+    private HashMap<Integer, Intersection> intersections;
 
     private AlgoDijkstra() {
-	sommets = new ArrayList<Sommet>();
+	sommets = new HashMap<Integer, Sommet>();
 	troncons = new HashMap<Integer, List<Troncon>>();
     }
 
@@ -32,10 +33,11 @@ public class AlgoDijkstra {
 	// correspondant a la liste des intersections du plan
 	for (int id : intersections.keySet()) {
 	    Sommet nouveauSommet = new Sommet(id, position, Integer.MAX_VALUE, Etat.BLANC);
-	    sommets.add(nouveauSommet);
+	    sommets.put(id, nouveauSommet);
 	    position++;
 	}
 	// On initialise la liste de troncons
+	this.intersections = intersections;
 	this.troncons = troncons;
     }
 
@@ -83,25 +85,21 @@ public class AlgoDijkstra {
      *         unique sommet
      */
     public Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets) {
+	reinitialiserSommets();
 	int coutsSommets[] = new int[idSommets.size()];
-	HashMap<Integer, Sommet> listeSommets = new HashMap<>();
 	NavigableSet<Sommet> sommetsGris = new TreeSet<>();
 	int position = 0;
-	// On initialise l'ensemble des sommets a parcourir par l'algorithme,
-	// correspondant a la liste des intersections du plan
-	for (Sommet som : this.sommets) {
-	    if (som.id == sourceId) {
-		som.etat = Etat.GRIS;
-		som.cout = 0;
-		sommetsGris.add(som);
-		break;
-	    }
-	}
+	
+	// On initialise la liste des sommets gris en y mettant le sommet source
+	Sommet som = this.sommets.get(sourceId);
+	som.etat = Etat.GRIS;
+	som.cout = 0;
+	sommetsGris.add(som);
 	while (!sommetsGris.isEmpty()) {
 	    Sommet premierSommet = sommetsGris.first();
 	    if (this.troncons.get(premierSommet.getId()) != null) {
 		for (Troncon t : this.troncons.get(premierSommet.getId())) {
-		    Sommet destination = listeSommets.get(t.getDestination().getId());
+		    Sommet destination = sommets.get(t.getDestination().getId());
 		    Etat etat = destination.getEtat();
 		    if (etat != Etat.NOIR) {
 			// On enleve du tas binaire le sommet pret a etre
@@ -125,13 +123,12 @@ public class AlgoDijkstra {
 	// On recupere seulement les couts des sommets devant etre
 	// presents dans la tournee
 	for (int id : idSommets) {
-	    int cout = listeSommets.get(id).getCout();
-	    coutsSommets[position] = listeSommets.get(id).getCout();
+	    coutsSommets[position] = sommets.get(id).getCout();
 	    position++;
 	}
 	// On transforme la liste des sommets avec leur antecedent en un tableau
 	// d'itineraires
-	Itineraire[] tableauPiTrie = triTableauPi(idSommets, listeSommets, sourceId);
+	Itineraire[] tableauPiTrie = triTableauPi(idSommets, sommets, sourceId);
 	return new Object[] { coutsSommets, tableauPiTrie };
     }
 
@@ -191,12 +188,20 @@ public class AlgoDijkstra {
 	    if (idSommetCourant != sourceId) {
 		trajet.clear();
 	    }
-	    Itineraire iti = new Itineraire(this.listeIntersections.get(sourceId), this.listeIntersections.get(id),
+	    Itineraire iti = new Itineraire(this.intersections.get(sourceId), this.intersections.get(id),
 		    trajet);
 	    trajetsUnit[position] = iti;
 	    position++;
 	}
 	return trajetsUnit;
+    }
+    
+    private void reinitialiserSommets() {
+	for(Sommet som : sommets.values()) {
+	    som.cout = Integer.MAX_VALUE;
+	    som.antecedent = null;
+	    som.etat = Etat.BLANC;
+	}
     }
 
     /**

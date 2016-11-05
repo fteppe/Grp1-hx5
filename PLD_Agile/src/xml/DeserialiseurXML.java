@@ -34,7 +34,7 @@ public class DeserialiseurXML {
 		 xml = OuvreurDeFichierXML.getInstance().ouvre(true);
 	    }
 	    catch (Exception e) {
-		throw new ExceptionXML("Chargement annul�");
+		throw new ExceptionXML("Chargement annulé");
 	    }
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
         Document document = docBuilder.parse(xml);
@@ -76,7 +76,7 @@ public class DeserialiseurXML {
     		int y = Integer.parseInt(eltNoeud.getAttribute("y"));
     		
     		//System.out.println("Noeud : id = \""+id+"\" - x = \""+x+"\" - y = \""+y+"\"");
-    		// TODO - Envoyer id , x et y � plan pour cr�er l'intersection
+    		// TODO - Envoyer id , x et y  à plan pour créer l'intersection
     		plan.ajouterIntersection(id, x, y);
     	}
     	NodeList listeTroncons = noeudDOMRacine.getElementsByTagName("troncon");
@@ -91,7 +91,7 @@ public class DeserialiseurXML {
 
     		//System.out.println("Troncon : origine = \""+origine+"\" - destination = \""+destination+"\" - longueur = \""+longueur+"\" - vitesse = \""+vitesse+"\" - nomRue = \""+nomRue+"\"");
     		// TODO - Envoyer destination, origine, longueur, vitesse et nomRue
-    		// 		- � plan pour cr�er le troncon.
+    		// 		- à plan pour créer le troncon.
     		plan.ajouterTroncon(nomRue, longueur, vitesse, origine, destination);
     		
     	}
@@ -120,7 +120,7 @@ public class DeserialiseurXML {
     		
     		//System.out.println("Livraison : adresse = \""+adresse+"\" - duree = \""+duree+"\" - debutPlage = \""+debutPlage+"\" - finPlage = \""+finPlage+"\"");
     		// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
-    		//		- pour cr�er la livraison
+    		//		- pour créer la livraison
     		plan.ajouterLivraison(adresse, duree);
     	}
     	

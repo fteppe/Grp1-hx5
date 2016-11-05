@@ -3,6 +3,7 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.ScrollPane;
 
 import javax.swing.JFrame;
@@ -51,7 +52,7 @@ public class Fenetre extends JFrame{
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
 	    
-	    vuePlan = new VuePlan(plan);
+	    vuePlan = new VuePlan(plan, this);
     	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan);
 	    menu = new Menu(controleur);
 	    barreDesTaches = new BarreDesTaches(controleur);
@@ -76,14 +77,22 @@ public class Fenetre extends JFrame{
 		panneauEst.add(scroll,BorderLayout.CENTER);
 		
 	}
+	
+	public void ouvrirMenuSupprimer(int id){
+		new PopMenuLivraison(id, this);
+	}
+	
 	public void afficherDetailDemandeLivraison(){
 		zoneDeTexte.afficherInformationDemandeLivraison();
 	}
 	public void afficherMessage(String message){
-		zoneDeTexte.afficherTexte(message);
+		zoneDeTexte.getTitre().afficher(message);
 	}
 	
-	public void afficherFeuilleDeRoute(){
-		zoneDeTexte.afficherFeuilleDeRoute();
+	protected void clicDroitPlan(Point point){
+		controleur.clicDroitPlan(point);
+	}
+	protected void supprimerLivraison(int id){
+		//TODO appel fonction correspondante controleur
 	}
 }
