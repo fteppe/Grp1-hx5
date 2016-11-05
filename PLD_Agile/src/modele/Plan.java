@@ -99,7 +99,6 @@ public class Plan extends Observable {
        notifyObservers(demandeDeLivraison);
    }
    
-
    /**
     * Cree et ajoute une livraison possedant une plage horaire
     * a la demande de livraison associee au Plan
@@ -139,23 +138,24 @@ public class Plan extends Observable {
     */
    public Livraison retirerLivraisonTournee(int adresse) {
        // On recupere les ids du nouvel itineraire a creer
-       int[] nvItin = this.tournee.supprimerLivraison(adresse);
-       int indiceDepart = idSommets.indexOf(nvItin[0]);
-       int indiceArrivee = idSommets.indexOf(nvItin[1]);
-       tournee.insererItineraire(trajets[indiceDepart][indiceArrivee]);
+       Livraison livRetiree = this.tournee.supprimerLivraison(adresse);
        setChanged();
        notifyObservers();
        
-       // On recupere la livraison supprimee
-       return tournee.getLivraison(adresse);
+       // On renvoie la livraison supprimee
+       return livRetiree;
    }
    
-   public void insererLivraisonTournee(Livraison liv, int idPrec, int idSuiv) {
-       int indiceDepart = idSommets.indexOf(idPrec);
-       int indiceLivr = idSommets.indexOf(liv.getAdresse().getId());
-       int indiceArrivee = idSommets.indexOf(idSuiv);
-       tournee.insererItineraire(trajets[indiceDepart][indiceLivr]);
-       tournee.insererItineraire(trajets[indiceLivr][indiceArrivee]);
+   /**
+    * Insere la livraison entre les livraisons de
+    * la tournee aux adresses donnees
+    * 
+    * @param liv La livraison a inserer
+    * @param adrPrec L'adresse de la livraison precedente
+    * @param adrSuiv L'adresse de la livraison suivante
+    */
+   public void insererLivraisonTournee(Livraison liv, int adrPrec, int adrSuiv) {
+       tournee.ajouterLivraison(liv, adrPrec, adrSuiv);
        setChanged();
        notifyObservers();
    }

@@ -35,30 +35,53 @@ public class Tournee extends Observable {
 	notifyObservers();
     }
     
+    public void ajouterLivraison(Livraison liv, int adrPrec, int adrSuiv) {
+	// On ajoute la livraison dans la liste en respectant l'ordre
+	int i=0;
+	while(i < livraisons.size() 
+		&& livraisons.get(i).getAdresse().getId() != adrPrec) i++;
+	if(i < livraisons.size()) livraisons.add(i+1, liv);
+	
+	ArrayList<Integer> nvItineraires = new ArrayList<Integer>();
+	nvItineraires.add(adrPrec);
+	nvItineraires.add(liv.getAdresse().getId());
+	nvItineraires.add(adrSuiv);
+	AlgoDijkstra algo = AlgoDijkstra.getInstance();
+	Object[] resultAlgo = algo.calculerDijkstra(nvItineraires);
+	Itineraire[][] nvItin = (Itineraire [][]) resultAlgo[1];
+	this.insererItineraire(nvItin[0][1]);
+	this.insererItineraire(nvItin[1][2]);
+    }
+    
     /**
      * Supprime l'itineraire concernant la livraison a l'adresse specifiee
      * @param adresse Identifiant de l'intersection correspondante a la livraison
      * @return Tableau compose des identifiants de depart et d'arrivee
      * 		du nouvel Itineraire a construire
      */
-    public int[] supprimerLivraison(int adresse) {
+    public Livraison supprimerLivraison(int adresse) {
 	// On parcourt la liste d'itineraires pour supprimer
 	// les itineraires concernant la livraison
-	int[] nvItineraire = new int[2];
+	ArrayList<Integer> nvItineraire = new ArrayList<Integer>();
 	Iterator<Itineraire> iter = itineraires.iterator();
 	while(iter.hasNext()) {
 	    Itineraire itin = iter.next();
 	    if(itin.getArrivee().getId() == adresse) {
-		nvItineraire[0] = itin.getDepart().getId();
+		nvItineraire.add(itin.getDepart().getId());
 		itineraires.remove(itin);
 	    }
 	    else if(itin.getDepart().getId() == adresse) {
-		nvItineraire[1] = itin.getArrivee().getId();
+		nvItineraire.add(itin.getArrivee().getId());
 		itineraires.remove(itin);
-		break; // CECI EST UN TEST
+		break;
 	    }
 	}
-	return nvItineraire;
+	AlgoDijkstra algo = AlgoDijkstra.getInstance();
+	Object[] resultAlgo = algo.calculerDijkstra(nvItineraire);
+	Itineraire[][] nvItin = (Itineraire [][]) resultAlgo[1];
+	this.insererItineraire(nvItin[0][1]);
+	
+	return livraisons.remove(adresse);
     }
     
     public void insererItineraire(Itineraire nvItineraire) {
@@ -73,8 +96,6 @@ public class Tournee extends Observable {
 	for( ; i < itineraires.size(); i++) {
 	    // TODO Modification des horaires
 	}
-	setChanged();
-	notifyObservers();
     }
     
     public void viderTournee(){

@@ -46,7 +46,8 @@ public class AlgoDijkstra {
      * l'algorithme de Dijkstra
      * 
      * @param idSommets
-     *            Identifiants des intersections constituant la tournee finale
+     *            Identifiants des intersections depuis lesquels il faut calculer
+     *            les plus courts chemins
      * @return Deux tableaux contenant l'ensemble des couts et des itineraires
      *         optimaux resultant des calculs de plus court chemin effectues
      */
@@ -79,16 +80,18 @@ public class AlgoDijkstra {
      * @param sourceId
      *            Identifiant du sommet de depart
      * @param idSommets
-     *            Identifiants des intersections constituant la tournee finale
+     *            Identifiants des intersections vers lesquelles il faut trouver
+     *            les plus courts chemins
      * @return Deux tableaux contenant l'ensemble des couts et des itineraires
      *         optimaux resultant des calculs de plus court chemin partant d'un
      *         unique sommet
      */
     public Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets) {
+	// On réinitialise les etats, antecedents et couts des sommets pour recalculer
 	reinitialiserSommets();
+	
 	int coutsSommets[] = new int[idSommets.size()];
 	NavigableSet<Sommet> sommetsGris = new TreeSet<>();
-	int position = 0;
 	
 	// On initialise la liste des sommets gris en y mettant le sommet source
 	Sommet som = this.sommets.get(sourceId);
@@ -119,16 +122,18 @@ public class AlgoDijkstra {
 	    sommetsGris.remove(premierSommet);
 	    premierSommet.setEtat(Etat.NOIR);
 	}
-	position = 0;
+	
 	// On recupere seulement les couts des sommets devant etre
 	// presents dans la tournee
+	int position = 0;
 	for (int id : idSommets) {
 	    coutsSommets[position] = sommets.get(id).getCout();
 	    position++;
 	}
+	
 	// On transforme la liste des sommets avec leur antecedent en un tableau
 	// d'itineraires
-	Itineraire[] tableauPiTrie = triTableauPi(idSommets, sommets, sourceId);
+	Itineraire[] tableauPiTrie = convertirTableauItineraires(idSommets, sommets, sourceId);
 	return new Object[] { coutsSommets, tableauPiTrie };
     }
 
@@ -164,7 +169,7 @@ public class AlgoDijkstra {
      * @return Tableau d'itineraires correpondant aux plus courts chemins entre
      *         le sommet de depart et les sommets constituant la tournee finale
      */
-    private Itineraire[] triTableauPi(ArrayList<Integer> idSommets, HashMap<Integer, Sommet> listeSommets,
+    private Itineraire[] convertirTableauItineraires(ArrayList<Integer> idSommets, HashMap<Integer, Sommet> listeSommets,
 	    int sourceId) {
 	@SuppressWarnings("unchecked")
 	int nbrSommets = idSommets.size();
