@@ -42,13 +42,11 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    // Operations effectuees dans l'etat calcul en cours
 	    if(plan.calculerTournee(tempsLimite)){
 			fenetre.afficherMessage("Tournée calculée");
-			controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	    }
 	    else {
 		fenetre.afficherMessage("Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
-		controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	    }
-		
+	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	    	
 	}
 }
