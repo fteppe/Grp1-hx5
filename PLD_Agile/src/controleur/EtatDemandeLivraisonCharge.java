@@ -12,7 +12,7 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatDemandeLivraisonCharge extends EtatDefaut {
-		// Etat apr�s que l'utilisateur ait charg� une demande de livraison
+		// Etat après que l'utilisateur ait chargé une demande de livraison
 	
 	
 	@Override

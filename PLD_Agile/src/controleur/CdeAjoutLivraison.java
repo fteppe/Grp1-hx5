@@ -31,7 +31,7 @@ public class CdeAjoutLivraison implements Commande {
 	
 	@Override
 	public void undoCde() {
-		//plan.retirerLivraisonTournee(idLivraison);
+		plan.retirerLivraisonTournee(idLivraison);
 	}
 
 }

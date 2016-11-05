@@ -143,9 +143,20 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre lorsque l'utilisateur clique
 	 * sur supprimer apres avoir fait un clic droit sur une livraison.
+	 * @param idLivraison
 	 */
 	public void supprimerLivraison(int idLivraison){
 	    	etatCourant.supprimerLivraison(plan, fenetre, listeDeCdes, idLivraison);
+	}
+	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur clique
+	 * sur ajouter une nouvelle livraison.
+	 * @param idLivraison
+	 * @param duree
+	 */
+	public void ajouterLivraison(int idLivraison, int duree){
+	    	etatCourant.ajouterLivraison(this, plan, fenetre, idLivraison, duree);
 	}
 
 }
