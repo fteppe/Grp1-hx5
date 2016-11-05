@@ -9,15 +9,17 @@ public class TSPPlages {
 	private int coutMeilleureSolution = 0;
 	private Boolean tempsLimiteAtteint;
 
-	private boolean lock = false;
+	private static boolean locked = false;
 	
 	public void lock(){
-		while(lock){}
-		lock = true;
+		while(locked){}
+		locked = true;
+		System.out.println("lock");
 	}
 	
 	public void unlock(){
-		lock = false;
+		locked = false;
+		System.out.println("unlock");
 	}
 	
 	

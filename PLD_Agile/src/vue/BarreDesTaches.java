@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingWorker;
 
 import controleur.Controleur;
 
@@ -26,7 +27,7 @@ public class BarreDesTaches extends JToolBar{
 		this.controleur = controleur;
 		chargerPlan = new JButton("Charger un plan");
 		chargerDemandeLivraison = new JButton("Charger une demande de livraison");
-		calculTournee = new JButton("Calculer une tournée");
+		calculTournee = new JButton("Calculer une tournï¿½e");
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
@@ -57,7 +58,15 @@ public class BarreDesTaches extends JToolBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionCalculDeTournee();
+			    SwingWorker<Boolean,Object> worker = new SwingWorker<Boolean,Object>(){
+
+				@Override
+				protected Boolean doInBackground() throws Exception {
+				    return actionCalculDeTournee();
+				}
+				
+			    };
+			    worker.execute();
 			}
 		});
 	}
@@ -72,8 +81,9 @@ public class BarreDesTaches extends JToolBar{
 		controleur.chargerDemandeLivraison();
 	}
 	
-	public void actionCalculDeTournee(){
+	public boolean actionCalculDeTournee(){
 		System.out.println("calcul de tournÃ©e bouton clique");
 		controleur.calculTournee();
+		return true;
 	}
 }

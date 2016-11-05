@@ -23,6 +23,25 @@ public class DemandeDeLivraison extends Observable {
     }
     
     /**
+     * Cree et ajoute une livraison possedant une plage horaire
+     * a la demande de livraison courante
+     * @param duree Duree de la livraison a ajouter
+     * @param adresse Intersection correspondant a la livraison a ajouter
+     * @param debutPlage Debut de la plage horaire de la livraison a ajouter
+     * @param finPlage Fin de la plage horaire de la livraison a ajouter
+     */
+    public void ajouterLivraison (int duree, Intersection adresse, String debutPlage,
+	    String finPlage) {
+	Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage,
+		finPlage);
+	this.livraisons.put(adresse.getId(), nouvLivraison);
+	//On indique au Controleur que la demande de livraison a ete 
+	//mise a jour
+	setChanged();
+	notifyObservers(nouvLivraison);
+    }
+    
+    /**
      * Cree et ajoute une livraison a la demande de livraison courante
      * @param duree Duree de la livraison a ajouter
      * @param adresse Intersection correspondant a la livraison a ajouter

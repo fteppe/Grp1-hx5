@@ -77,6 +77,10 @@ public class Tournee extends Observable {
 	notifyObservers();
     }
     
+    public void viderTournee(){
+	this.itineraires.clear();
+    }
+    
     public Livraison getLivraison(int adresse) {
 	for (Livraison liv : livraisons) {
 	    if (liv.getAdresse().getId() == adresse) return liv;

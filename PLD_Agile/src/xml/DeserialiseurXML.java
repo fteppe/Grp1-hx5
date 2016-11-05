@@ -115,13 +115,18 @@ public class DeserialiseurXML {
     		Element eltLivraison = (Element) listeLivraisons.item(i);
     		int adresse = Integer.parseInt(eltLivraison.getAttribute("adresse"));
     		int duree = Integer.parseInt(eltLivraison.getAttribute("duree"));
-    		String debutPlage = eltLivraison.getAttribute("debutPlage");
-    		String finPlage = eltLivraison.getAttribute("finPlage");
-    		
+    		System.out.println(eltLivraison.getAttribute("debutPlage"));
+    		if(eltLivraison.getAttribute("debutPlage") != null && 
+    			eltLivraison.getAttribute("debutPlage") != "") {
+    		    String debutPlage = eltLivraison.getAttribute("debutPlage");
+    		    String finPlage = eltLivraison.getAttribute("finPlage");
+    		    plan.ajouterLivraison(adresse, duree, debutPlage, finPlage);
+    		} else {
     		//System.out.println("Livraison : adresse = \""+adresse+"\" - duree = \""+duree+"\" - debutPlage = \""+debutPlage+"\" - finPlage = \""+finPlage+"\"");
-    		// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
-    		//		- pour créer la livraison
-    		plan.ajouterLivraison(adresse, duree);
+        	// TODO - Envoyer adresse, duree, debutPLage et finPlage au plan
+        	//		- pour créer la livraison
+    		    plan.ajouterLivraison(adresse, duree);
+    		}
     	}
     	
     }

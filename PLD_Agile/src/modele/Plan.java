@@ -99,6 +99,25 @@ public class Plan extends Observable {
        notifyObservers(demandeDeLivraison);
    }
    
+
+   /**
+    * Cree et ajoute une livraison possedant une plage horaire
+    * a la demande de livraison associee au Plan
+    * @param adresse Identifiant de l'intersection correspondant 
+    * 				a la livraison a effectuer
+    * @param duree Duree de la livraison a effectuer
+    * @param debutPlage Debut de la plage horaire de la livraison a effectuer
+    * @param finPlage Fin de la plage horaire de la livraison a effectuer
+    */
+   public void ajouterLivraison(int adresse, int duree, String debutPlage,
+	   String finPlage) {
+       this.demandeDeLivraison.ajouterLivraison(duree,
+		   this.listeIntersections.get(adresse),
+		   debutPlage, finPlage);
+       setChanged();
+       notifyObservers();
+   }
+   
    /**
     * Cree et ajoute une livraison a la demande de livraison associee au Plan
     * @param adresses Identifiant de l'intersection correspondant 
@@ -157,7 +176,9 @@ public class Plan extends Observable {
        idSommets = completionTableauLivraison();
        //On constitue un graphe complet grace a l'algorithme
        //de Dijkstra
+       System.out.println(System.currentTimeMillis());
        Object[] resultDijkstra = algo.calculerDijkstra(idSommets);
+       System.out.println(System.currentTimeMillis());
        TSPPlages tsp = new TSPPlages();
        int[] durees = recupererDurees(idSommets);
        int[][] couts = (int[][]) resultDijkstra[0];
@@ -165,12 +186,24 @@ public class Plan extends Observable {
        int[] plageDepart = new int[idSommets.size()];
        int[] plageFin = new int[idSommets.size()];
        
-       for(int i = 0 ; i < idSommets.size(); i++){
+       plageDepart[0] = 0;
+       plageFin[0] = Integer.MAX_VALUE; 
+	       
+       for(int i = 1 ; i < idSommets.size(); i++){
     	   
-    	   // TODO - Gerer les plages horaires
-    	   plageDepart[i] = 0;
-    	   plageFin[i] = Integer.MAX_VALUE;
+	   if(this.getListeLivraisons()
+    		   .get(idSommets.get(i)).possedePlage()) {
+	       plageDepart[i] = this.getListeLivraisons()
+		       .get(idSommets.get(i)).getDebutPlage().toSeconds();
+	       plageFin[i] = this.getListeLivraisons()
+		       .get(idSommets.get(i)).getFinPlage().toSeconds();
+	   } else {
+	       plageDepart[i] = 0;
+               plageFin[i] = Integer.MAX_VALUE;
+	   }
        }
+       
+       System.out.println("Entree calcul tournée");
        
        tournee = new Tournee();
        boolean tpsLimiteAtteint = false;
@@ -188,39 +221,51 @@ public class Plan extends Observable {
        this.calculTourneeEnCours = true;
        Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
        
+       long timestamp = System.currentTimeMillis();
        while(this.calculTourneeEnCours == true) {
-	   try {
+	   /*try {
 	       //On récupère la meilleure tournée actuelle à intervalle de temps régulier
-	       TimeUnit.SECONDS.sleep(tpsAttente);
+	       //TimeUnit.SECONDS.sleep(tpsAttente);
 	   } catch (InterruptedException e) {
 	       // TODO Auto-generated catch block
 	       e.printStackTrace();
-	   }
+	   }*/
+	   if(timestamp + 1000 < System.currentTimeMillis()){
+	       timestamp = System.currentTimeMillis();
 	   boolean calculTermine = futureCalculTournee.isDone();
+	   tsp.lock();
 	   int dureeTournee = tsp.getCoutMeilleureSolution();
 	   if(this.tournee.getDuree() != dureeTournee) {
+	       System.out.println("Meilleur résultat");
+	       System.out.println(dureeTournee);
 	       int[] ordreTournee = new int[idSommets.size()];
 	       for(int i=0; i<idSommets.size(); i++) {
 		   ordreTournee[i] = tsp.getMeilleureSolution(i);
 	       }
+	       tsp.unlock();
 	       Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 	       mettreAJourTournee(dureeTournee, ordreTournee, trajets);
 	       //Si le calcul est terminé, on arrête de chercher une nouvelle tournée
-	       if(calculTermine){
-		   this.calculTourneeEnCours=false;
-		   try {
-		       tpsLimiteAtteint = futureCalculTournee.get();
-		   } catch (InterruptedException e) {
-		       // TODO Auto-generated catch block
-		       e.printStackTrace();
-		   } catch (ExecutionException e) {
-		       // TODO Auto-generated catch block
-		       e.printStackTrace();
-		   }
-	       }
+	   } else {
+	       tsp.unlock();
 	   }
+	       if(calculTermine){
+		   System.out.println("Calcul terminé");
+		   this.calculTourneeEnCours=false;
+		       try {
+			tpsLimiteAtteint = futureCalculTournee.get();
+		    } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    } catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    }
+		       System.out.println("tpsLimiteAtteint");
+	       }
        }
-       
+       }
+       futureCalculTournee.cancel(true);
        return !tpsLimiteAtteint;
 	
        /*if(!tsp.getTempsLimiteAtteint()) {
@@ -277,6 +322,7 @@ public class Plan extends Observable {
     * @param itineraires Tableau des itineraires pour aller de la livraison i a la livraison j
     */
    private void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
+       tournee.viderTournee();
        for(int i = 0; i < livraisons.length-1; i++) {
 	   Livraison prochLivr = demandeDeLivraison.getLivraison(livraisons[i+1]);
 	   tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i+1]], prochLivr);
@@ -284,7 +330,8 @@ public class Plan extends Observable {
        tournee.ajouterItineraire(itineraires[livraisons[livraisons.length-1]][livraisons[0]], null);
        tournee.setDuree(duree);
        setChanged();
-       notifyObservers(tournee);
+       notifyObservers();
+       System.out.println("Modifié");
    }
    
    /*public ArrayList<Integer> methodeTest() {

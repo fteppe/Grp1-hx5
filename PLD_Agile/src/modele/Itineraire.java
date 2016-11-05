@@ -43,7 +43,12 @@ public class Itineraire {
 	int tpsParcours = 0;
 	if (this.troncons != null) {
 	    for(Troncon t : this.troncons) {
-		tpsParcours += t.getTpsParcours();    
+		if(t.getTpsParcours() == Integer.MAX_VALUE){
+		    tpsParcours = Integer.MAX_VALUE;
+		    break;
+		} else {
+		    tpsParcours += t.getTpsParcours();    
+		}
 	    }
 	}
 	this.tpsParcours = tpsParcours;

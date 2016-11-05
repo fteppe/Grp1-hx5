@@ -15,7 +15,7 @@ public abstract class EtatDefaut implements Etat {
 	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre) {
 		try {
 			DeserialiseurXML.chargerPlan(plan);
-			fenetre.afficherMessage("Plan charg� avec succ�s");
+			fenetre.afficherMessage("Plan chargé avec succés");
 			controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 		} catch (ParserConfigurationException 
 				| SAXException | IOException 
@@ -37,8 +37,14 @@ public abstract class EtatDefaut implements Etat {
 	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
 	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {}
+	
+	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {}
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 	
-	// public void clicGauche(  Plan plan, Fenetre fenetre, Point p) {}
+	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {}
+	
+	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
+		return false;
+	}
 }

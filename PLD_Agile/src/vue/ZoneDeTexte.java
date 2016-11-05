@@ -22,12 +22,14 @@ import modele.Troncon;
 public class ZoneDeTexte extends JPanel implements Observer{
 
 	private Plan plan;
+	private Fenetre fenetre;
 	private InformationTextuelle texte;
 	private ArrayList<InformationTextuelle> listeInformation;
 	private GridBagConstraints contraintes;
 	
-	public ZoneDeTexte(int largeur, int hauteur, Plan plan){
+	public ZoneDeTexte(int largeur, int hauteur, Plan plan, Fenetre fenetre){
 		super();
+		this.fenetre = fenetre;
 		this.plan = plan;
 		plan.addObserver(this);
 		listeInformation = new ArrayList<InformationTextuelle>();
@@ -44,7 +46,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	}
 	
 	private void ajouterZoneInformation(String information, int index, boolean cliquable){
-		InformationTextuelle info = new InformationTextuelle(information, index, cliquable);
+		InformationTextuelle info = new InformationTextuelle(information, index,fenetre, cliquable);
 		listeInformation.add(info);
 	}
 	private void ajouterZoneInformation(String information, int index){
@@ -52,7 +54,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	}
 	
 	private void insererZoneInformationPosition(String information, int indexInformation, int position){
-		InformationTextuelle info = new InformationTextuelle(information, indexInformation);
+		InformationTextuelle info = new InformationTextuelle(information, indexInformation, fenetre);
 		listeInformation.add(position, info);
 	}
 	
@@ -74,7 +76,12 @@ public class ZoneDeTexte extends JPanel implements Observer{
 			for(Livraison livraison : livraisons.values()){
 				contraintes.gridy = listeInformation.size();
 				System.out.println(contraintes.gridy);
-				ajouterZoneInformation("lol "+i, livraison.getAdresse().getId());
+				String plage = "";
+				if(livraison.possedePlage()) {
+				    plage = " de " + livraison.getDebutPlage()+
+					    " a " + livraison.getFinPlage();
+				}
+				ajouterZoneInformation("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId());
 			}
 			afficherInformations();
 		}
@@ -82,6 +89,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		afficherInformationDemandeLivraison();
 	}
 	
 	private void supprimerInformation(int position){
@@ -93,7 +101,6 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		for(int i=1; i< nbElementSupprimer; i++){
 			supprimerInformation(1);
 		}
-		System.out.println("size liste info "+listeInformation.size());
 	}
 	
 	public void afficherInformations(){

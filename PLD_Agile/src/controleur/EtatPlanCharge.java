@@ -34,13 +34,4 @@ public class EtatPlanCharge extends EtatDefaut {
 	    System.exit(0);
 	}
 	
-	@Override
-	public void undo(ListeDeCdes listeDeCdes){
-		listeDeCdes.undo();
-	}
-
-	@Override
-	public void redo(ListeDeCdes listeDeCdes){
-		listeDeCdes.redo();
-	}
 }
