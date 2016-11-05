@@ -25,7 +25,9 @@ public class CdeAjoutLivraison implements Commande {
 
 	@Override
 	public void doCde() {
-		plan.ajouterLivraison(idLivraison, livraison.getDuree());
+	    // Appel à insererLivraisonTournee avec id des intersections
+	    // precedentes et suivantes
+	    // plan.insererLivraisonTournee(livraison, adrPrec, adrSuiv);
 
 	}
 	

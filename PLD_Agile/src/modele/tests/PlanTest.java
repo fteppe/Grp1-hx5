@@ -56,7 +56,7 @@ public class PlanTest {
 	int[] durees = {50};
 	plan.creerDemandeDeLivraison(heureDepart, 3);
 	for(int i = 0; i < adresses.length; i++){
-	    plan.ajouterLivraison(adresses[i], durees[i]);
+	    plan.ajouterLivraisonDemande(adresses[i], durees[i]);
 	}
     	assert(updateAppele);
     }
@@ -88,11 +88,11 @@ public class PlanTest {
 	    p.ajouterTroncon("h3", 50, 25, 1, 4);
 	    Heure heure = new Heure("21:05:00");
 	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraison(1, 20);
-	    p.ajouterLivraison(2, 10);
-	    p.ajouterLivraison(5, 8);
-	    p.ajouterLivraison(6, 10);
-	    p.ajouterLivraison(7, 14);
+	    p.ajouterLivraisonDemande(1, 20);
+	    p.ajouterLivraisonDemande(2, 10);
+	    p.ajouterLivraisonDemande(5, 8);
+	    p.ajouterLivraisonDemande(6, 10);
+	    p.ajouterLivraisonDemande(7, 14);
 	    boolean calculReussi = p.calculerTournee(60000);
 	    int dureeTotale = p.getDureeTournee();
 	    List<Itineraire> listeItineraires= p.getItineraires();
@@ -143,11 +143,11 @@ public class PlanTest {
 	    p.ajouterTroncon("h3", 50, 25, 1, 4);
 	    Heure heure = new Heure("21:05:00");
 	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraison(1, 20);
-	    p.ajouterLivraison(2, 10);
-	    p.ajouterLivraison(5, 8);
-	    p.ajouterLivraison(6, 10);
-	    p.ajouterLivraison(7, 14);
+	    p.ajouterLivraisonDemande(1, 20);
+	    p.ajouterLivraisonDemande(2, 10);
+	    p.ajouterLivraisonDemande(5, 8);
+	    p.ajouterLivraisonDemande(6, 10);
+	    p.ajouterLivraisonDemande(7, 14);
 	    boolean calculReussi = p.calculerTournee(0);
 	    assert(calculReussi == false);
     }

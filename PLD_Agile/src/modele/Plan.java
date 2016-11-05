@@ -108,7 +108,7 @@ public class Plan extends Observable {
     * @param debutPlage Debut de la plage horaire de la livraison a effectuer
     * @param finPlage Fin de la plage horaire de la livraison a effectuer
     */
-   public void ajouterLivraison(int adresse, int duree, String debutPlage,
+   public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage,
 	   String finPlage) {
        this.demandeDeLivraison.ajouterLivraison(duree,
 		   this.listeIntersections.get(adresse),
@@ -123,7 +123,7 @@ public class Plan extends Observable {
     * 				a la livraison a effectuer
     * @param durees Duree de la livraison a effectuer
     */
-   public void ajouterLivraison(int adresse, int duree) {
+   public void ajouterLivraisonDemande(int adresse, int duree) {
        this.demandeDeLivraison.ajouterLivraison(duree,
 		   this.listeIntersections.get(adresse));
        setChanged();
