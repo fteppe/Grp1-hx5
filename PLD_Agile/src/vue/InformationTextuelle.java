@@ -13,15 +13,24 @@ public class InformationTextuelle extends JPanel{
 	
 	//un bloc d'informations qui réagit ou non à la souris
 	private JTextArea zoneInformation;
+	private int index;
+	private Fenetre fenetre;
 	private PopMenuLivraison popupMenu;
+	
+	private static Color couleurHover = new Color(0xA2A5F1);
+	private static Color couleurDefaut = Color.white;
+	
 	public InformationTextuelle(String information, int index,Fenetre fenetre, boolean cliquable){
 		super();
+		this.fenetre = fenetre;
+		this.index = index;
 		zoneInformation = new JTextArea(3,30);
 		zoneInformation.setEditable(false);
 		zoneInformation.setLineWrap(true);
 		zoneInformation.setWrapStyleWord(true);
 		zoneInformation.setText(information);
 		add(zoneInformation);
+		
 		if(cliquable){
 			zoneInformation.addMouseListener(new MouseListener() {
 				
@@ -79,9 +88,11 @@ public class InformationTextuelle extends JPanel{
 	}
 	
 	private void sourisEntree(){
-		zoneInformation.setBackground(Color.blue);
+		zoneInformation.setBackground(couleurHover);
+		fenetre.surlignerLivraison(index);
 	}
 	private void sourisSortie(){
-		zoneInformation.setBackground(Color.WHITE);
+		zoneInformation.setBackground(couleurDefaut);
+		fenetre.surlignerLivraison(-1);
 	}
 }

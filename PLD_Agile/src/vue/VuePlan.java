@@ -34,10 +34,12 @@ public class VuePlan extends JPanel implements Observer {
 	private List<Troncon> listeTroncon; 
 	private double echelle;
 	private int tailleFleche = 8;
+	private int livraisonSurligne;
 	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.blue;
 	private static Color COULEUR_ENTREPOT = Color.red;
-	private static Color COULEUR_LIVRAISON = Color.blue;
+	private static Color COULEUR_LIVRAISON = Color.yellow;
+	private static Color COULEUR_SURLIGNE = Color.green;
 	private static Color COULEUR_INTERSECTION = COULEUR_TRONCON;
 	
 	
@@ -174,7 +176,15 @@ public class VuePlan extends JPanel implements Observer {
 		 
 		if (livraisons != null){
 			for(Livraison l : livraisons.values()){
-				dessinerLivraison(g,l);
+				if(l.getAdresse().getId() == livraisonSurligne)
+				{
+					dessinerLivraison(g, l, COULEUR_SURLIGNE);
+				}
+				else
+				{
+					dessinerLivraison(g,l, COULEUR_LIVRAISON);
+				}
+				
 			}
 		}
 	}
@@ -194,6 +204,11 @@ public class VuePlan extends JPanel implements Observer {
 		
 	}
 	
+	protected void setLivraisonSurligne(int idLivraison){
+		livraisonSurligne = idLivraison;
+	}
+	
+	
 	private void dessinerTroncon(Graphics g, Troncon t, Color c){
 	    Graphics2D g2 = (Graphics2D) g;
             g2.setColor(c);
@@ -208,9 +223,9 @@ public class VuePlan extends JPanel implements Observer {
 		g.fillOval((int) (i.getLongitude() * echelle - diametreIntersection / 2),(int) (i.getLatitude() * echelle - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 	
-	private void dessinerLivraison(Graphics g, Livraison l){
+	private void dessinerLivraison(Graphics g, Livraison l, Color c){
 		Intersection i = l.getAdresse();
-		dessinerIntersection(g, i, Color.yellow);
+		dessinerIntersection(g, i, c);
 	}
 
 	/*Fonction qui permet d'ajouter une fleche au bout d'un troncon

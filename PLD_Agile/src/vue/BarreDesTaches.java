@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,20 +18,31 @@ public class BarreDesTaches extends JToolBar{
 	private JButton chargerPlan;
 	private JButton chargerDemandeLivraison;
 	private JButton calculTournee;
-	private Controleur controleur;
+	private JButton annuler;
+	private JButton restaurer;
+	private JButton stopCalcul;
+	
+	private Fenetre fenetre;
 	
 	/*Constructeur, va créer le lien avec le controleur
 	 * Et va ajouter les différents boutons, ainsi que leur associer des écouteurs de souris
 	 */
-	public BarreDesTaches(Controleur controleur){
+	public BarreDesTaches(Fenetre fenetre){
 		this.setFloatable(false);
-		this.controleur = controleur;
+		this.fenetre = fenetre;
 		chargerPlan = new JButton("Charger un plan");
 		chargerDemandeLivraison = new JButton("Charger une demande de livraison");
-		calculTournee = new JButton("Calculer une tourn�e");
+		calculTournee = new JButton("Calculer une tournée");
+		annuler = new JButton("annuler");
+		restaurer = new JButton("restaurer");
+		stopCalcul = new JButton("stop calcul");
+		stopCalcul.setBackground(new Color(0xFF7676));
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
 		this.add(calculTournee);
+		add(stopCalcul);
+		add(annuler);
+		add(restaurer);
 		ajouterEcouteurs();
 	}
 	
@@ -42,7 +54,7 @@ public class BarreDesTaches extends JToolBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionChargerPlan();
+				fenetre.actionChargerPlan();
 			}
 		});
 		
@@ -50,7 +62,7 @@ public class BarreDesTaches extends JToolBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionChargerDemandeDeLivraison();
+				fenetre.actionChargerDemandeDeLivraison();
 			}
 		});
 		
@@ -62,28 +74,38 @@ public class BarreDesTaches extends JToolBar{
 
 				@Override
 				protected Boolean doInBackground() throws Exception {
-				    return actionCalculDeTournee();
+				    return fenetre.actionCalculDeTournee();
 				}
 				
 			    };
 			    worker.execute();
 			}
 		});
+		
+		annuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionAnnuler();
+			}
+		});
+		
+		restaurer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionRestaurer();
+			}
+		});
+		
+		stopCalcul.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionStopCalcul();
+			}
+		});
 	}
 	
-	public void actionChargerPlan(){
-		System.out.println("bouton charger plan cliqué");
-		controleur.chargerPlan();
-	}
-	
-	public void actionChargerDemandeDeLivraison(){
-		System.out.println("bouton chargement demande de livraison cliqué");
-		controleur.chargerDemandeLivraison();
-	}
-	
-	public boolean actionCalculDeTournee(){
-		System.out.println("calcul de tournée bouton clique");
-		controleur.calculTournee();
-		return true;
-	}
+
 }

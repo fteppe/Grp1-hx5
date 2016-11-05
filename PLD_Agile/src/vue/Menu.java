@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import controleur.Controleur;
 
@@ -19,16 +20,18 @@ public class Menu extends JMenuBar{
 	private JMenuItem chargerDemandeLivraison;
 	private JMenuItem quitter;
 	private JMenuItem calculerTournee;
-	private Controleur controleur;
+	private JMenuItem annuler;
+	private JMenuItem restaurer;
+	private Fenetre fenetre;
 	
 	/*Constructeur
 	 * Création des différents menu et ajout des elements dans le menu
 	 * ajouts des ecouteurs d'action utilisateurs qui sont mappés sur des actions du controleur
 	 */
-	public Menu(Controleur controleur){
+	public Menu(Fenetre fenetre){
 		  fichiers = new JMenu("Fichier"); 
 		  edition = new JMenu("Edition");
-		  this.controleur = controleur;
+		  this.fenetre = fenetre;
 		  this.add(fichiers);
 		  this.add(edition);
 		  ajouterElementsMenu();
@@ -39,12 +42,16 @@ public class Menu extends JMenuBar{
 		chargerPlan = new JMenuItem("Charger un plan");
 		quitter = new JMenuItem("Quitter");
 		chargerDemandeLivraison = new JMenuItem("Charger une demande de livraison");
-		calculerTournee = new JMenuItem("Calculer une tourn�e");
+		calculerTournee = new JMenuItem("Calculer une tournée");
+		annuler = new JMenuItem("annuler");
+		restaurer = new JMenuItem("restaurer");
 		
 		fichiers.add(chargerPlan);
 		fichiers.add(chargerDemandeLivraison);
 		fichiers.add(quitter);
 		edition.add(calculerTournee);
+		edition.add(annuler);
+		edition.add(restaurer);
 		
 		ajouterLesEcouteurs();
 	}
@@ -56,7 +63,7 @@ public class Menu extends JMenuBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				actionQuitter();
+				fenetre.actionQuitter();
 			}
 		});
 		
@@ -64,7 +71,7 @@ public class Menu extends JMenuBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionChargerPlan();
+				fenetre.actionChargerPlan();
 				
 			}
 		});
@@ -73,46 +80,40 @@ public class Menu extends JMenuBar{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionChargerDemandeLivraison();
+				fenetre.actionChargerDemandeDeLivraison();
 			}
 		});
 		
 		calculerTournee.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				actionCalculerTournee();
+			    SwingWorker<Boolean,Object> worker = new SwingWorker<Boolean,Object>(){
+
+				@Override
+				protected Boolean doInBackground() throws Exception {
+				    return fenetre.actionCalculDeTournee();
+				}
+				
+			    };
+			    worker.execute();
 			}
 		});
-	}
-
-	/*
-	 * Lorsqu'on clique sur cliquer dans le menu. Appel de l'action correspondante du controleur
-	 */
-	public void actionQuitter(){
-		System.out.println("menu quitter cliqué");
-		controleur.quitter();
-	}
-	
-	/*
-	 * Lorsqu'on clique sur le bouton chargerPlan du menu. Appel de l'action correspondante du controleur
-	 */
-	public void actionChargerPlan(){
-		System.out.println("menu charger plan cliqué");
-		controleur.chargerPlan();
-	}
-	/*
-	 * Lorsqu'on clique sur le bouton demande de livraison du menu. Appel de l'action correspondante du controleur
-	 */
-	public void actionChargerDemandeLivraison(){
-		System.out.println("menu charger deande livraison cliqué");
-		controleur.chargerDemandeLivraison();
-	}
-	/*
-	 * Lorsqu'on clique sur le bouton cacul de tournee du menu. Appel de l'action correspondante du controleur
-	 */
-	public void actionCalculerTournee(){
-		System.out.println("menu calcul tournee cliqué");
-		controleur.calculTournee();
+		
+		annuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionAnnuler();
+				
+			}
+		});
+		
+		restaurer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionRestaurer();
+			}
+		});
 	}
 }

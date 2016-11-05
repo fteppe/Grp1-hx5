@@ -63,7 +63,6 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		return texte;
 	}
 	
-
 	/*Fonction qui génère et affiche les informations d'une demande de livraison
 	 * 
 	 */
@@ -72,10 +71,8 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
 			getTitre().ajouter("\nLivraisons");
-			int i=1;
 			for(Livraison livraison : livraisons.values()){
 				contraintes.gridy = listeInformation.size();
-				System.out.println(contraintes.gridy);
 				String plage = "";
 				if(livraison.possedePlage()) {
 				    plage = " de " + livraison.getDebutPlage()+

@@ -21,6 +21,7 @@ public class Fenetre extends JFrame{
 	 */
 	
 	private static String titreFenetre;
+	private Plan plan;
 	private Vecteur dimensions;
 	private Menu menu;
 	private BarreDesTaches barreDesTaches;
@@ -45,6 +46,7 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
+		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
 		panneauEst = new JPanel();
@@ -56,8 +58,8 @@ public class Fenetre extends JFrame{
 	    
 	    vuePlan = new VuePlan(plan, this);
     	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan, this);
-	    menu = new Menu(controleur);
-	    barreDesTaches = new BarreDesTaches(controleur);
+	    menu = new Menu(this);
+	    barreDesTaches = new BarreDesTaches(this);
 		scroll = new JScrollPane(zoneDeTexte);
 		//scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	    placerComposants();
@@ -102,5 +104,38 @@ public class Fenetre extends JFrame{
 	}
 	protected Controleur getControleur(){
 		return controleur;
+	}
+	
+	protected void surlignerLivraison(int idLivraison){
+		vuePlan.setLivraisonSurligne(idLivraison);
+		vuePlan.dessinerListeLivraisons(vuePlan.getGraphics(), plan.getListeLivraisons());
+	}
+	
+	protected void actionChargerPlan(){
+		controleur.chargerPlan();
+	}
+	
+	protected void actionChargerDemandeDeLivraison(){
+		controleur.chargerDemandeLivraison();
+	}
+	
+	protected boolean actionCalculDeTournee(){
+		controleur.calculTournee();
+		return true;
+	}
+	protected void actionAnnuler(){
+		controleur.undo();
+	}
+	
+	protected void actionRestaurer(){
+		controleur.redo();
+	}
+	
+	protected void actionStopCalcul(){
+		controleur.arreterCalculTournee();
+	}
+	protected void actionQuitter(){
+		System.out.println("menu quitter cliqué");
+		controleur.quitter();
 	}
 }
