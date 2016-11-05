@@ -20,7 +20,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison charg�e");
+		fenetre.afficherMessage("Demande de livraison chargée");
 		fenetre.afficherDetailDemandeLivraison();
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
@@ -39,11 +39,16 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournée");
 	    controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
-	    
+	    // Operations effectuees dans l'etat calcul en cours
 	    if(plan.calculerTournee(tempsLimite)){
 			fenetre.afficherMessage("Tournée calculée");
+			controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	    }
-	    else
+	    else {
 		fenetre.afficherMessage("Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
+		controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+	    }
+		
+	    	
 	}
 }
