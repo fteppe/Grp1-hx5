@@ -68,10 +68,10 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	 */
 	public void afficherInformationDemandeLivraison(){
 		viderListeInfos();
-		HashMap<Integer,Livraison> livraisons = plan.getListeLivraisons();
+		List<Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
 			getTitre().ajouter("\nLivraisons");
-			for(Livraison livraison : livraisons.values()){
+			for(Livraison livraison : livraisons){
 				contraintes.gridy = listeInformation.size();
 				String plage = "";
 				if(livraison.possedePlage()) {
