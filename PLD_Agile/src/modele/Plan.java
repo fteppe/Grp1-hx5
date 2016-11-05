@@ -335,7 +335,7 @@ public class Plan extends Observable {
        System.out.println("Modifié");
    }
    
-   public ObjetGraphique contient(Point p) {
+   public ObjetGraphique cherche(Point p) {
        for(Intersection inter : listeIntersections.values()) {
 	   if(inter.contient(p)) return inter;
        }

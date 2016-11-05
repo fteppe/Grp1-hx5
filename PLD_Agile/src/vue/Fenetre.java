@@ -101,6 +101,7 @@ public class Fenetre extends JFrame{
 	}
 	protected void supprimerLivraison(int id){
 		//TODO appel fonction correspondante controleur
+	    controleur.supprimerLivraison(id);
 	}
 	protected Controleur getControleur(){
 		return controleur;
