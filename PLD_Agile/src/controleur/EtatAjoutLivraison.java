@@ -21,7 +21,7 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	    try {
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison charg�e");
+		fenetre.afficherMessage("Demande de livraison chargée");
 		fenetre.afficherDetailDemandeLivraison();
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
@@ -38,14 +38,15 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	
 	@Override
 	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
-	    // 
+	    // TODO : recuperer l'id de la livraison/intersection au model en lui donnant un point.
+	    // Si le point selectionner est une interseciton et qu'elle n'est pas deja une livraison
 	    //listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idLivraison));
 	    fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	}
 	
 	@Override
 	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
-	    
+	    // TODO :  Dans cet etat, suite a un clic droit l'application retourne dans son etat precedent.
 	}
 	
 }

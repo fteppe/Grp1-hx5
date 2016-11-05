@@ -101,4 +101,15 @@ public interface Etat {
 	 * @param idLivraison
 	 */
 	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison);
+	
+	/**
+	 * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
+	 * sur ajouter une nouvelle livraison dans l'etat tournee_calculee.
+	 * @param controleur
+	 * @param plan
+	 * @param fenetre
+	 * @param idLivraison
+	 * @param duree
+	 */
+	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree);
 }

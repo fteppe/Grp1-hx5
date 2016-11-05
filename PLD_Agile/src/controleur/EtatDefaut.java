@@ -47,4 +47,6 @@ public abstract class EtatDefaut implements Etat {
 	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
 		return false;
 	}
+	
+	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree) {}
 }

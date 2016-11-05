@@ -52,6 +52,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	
 	@Override
 	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point){
+	    //TODO : 
 	    /*
 	    ObjetGraphique OG = plan.cherche(point);
 	    if (OG != null){
@@ -74,13 +75,16 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
 		return true;
 	}
-	/*
+	
+	
+	
 	@Override
-	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison){
+	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree){
 	    	// On passe dans l'état d'ajout d'une livraison
+	    	// TODO : fenetre.passerEtatAjoutLivraison
 	    	fenetre.afficherMessage("Veuillez selectionner un point de livraison");
 		controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
 	}
-	 */
+	
 	
 }
