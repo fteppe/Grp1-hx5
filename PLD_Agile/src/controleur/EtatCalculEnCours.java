@@ -20,7 +20,7 @@ public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fe
     try {
     	DeserialiseurXML.chargerLivraisons(plan);
     	plan.setTournee(null);
-    	fenetre.afficherMessage("Demande de livraison charg�e");
+    	fenetre.afficherMessage("Demande de livraison chargée");
     	fenetre.afficherDetailDemandeLivraison();
     	controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
     } catch (ParserConfigurationException 
