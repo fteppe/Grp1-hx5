@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
@@ -10,7 +11,7 @@ public class Tournee extends Observable {
     private int duree;
 
     private List<Itineraire> itineraires;
-    private List<Livraison> livraisons;
+    private HashMap<Integer, Livraison> livraisons;
     
     /**
      * Cree une tournee à partir de sa duree
@@ -21,7 +22,7 @@ public class Tournee extends Observable {
     public Tournee() {
 	duree = Integer.MAX_VALUE;
 	itineraires = new ArrayList<Itineraire>();
-	livraisons = new ArrayList<Livraison>();
+	livraisons = new HashMap<Integer, Livraison>();
     }
     
     /**
@@ -30,17 +31,14 @@ public class Tournee extends Observable {
      */
     public void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
 	itineraires.add(itineraire);
-	if(prochLivr != null) livraisons.add(prochLivr);
+	if(prochLivr != null) livraisons.put(prochLivr.getAdresse().getId(), prochLivr);
 	setChanged();
 	notifyObservers();
     }
     
     public void ajouterLivraison(Livraison liv, int adrPrec, int adrSuiv) {
-	// On ajoute la livraison dans la liste en respectant l'ordre
-	int i=0;
-	while(i < livraisons.size() 
-		&& livraisons.get(i).getAdresse().getId() != adrPrec) i++;
-	if(i < livraisons.size()) livraisons.add(i+1, liv);
+	// On ajoute la livraison dans la liste
+	livraisons.put(liv.getAdresse().getId(), liv);
 	
 	ArrayList<Integer> nvItineraires = new ArrayList<Integer>();
 	nvItineraires.add(adrPrec);
@@ -68,11 +66,11 @@ public class Tournee extends Observable {
 	    Itineraire itin = iter.next();
 	    if(itin.getArrivee().getId() == adresse) {
 		nvItineraire.add(itin.getDepart().getId());
-		itineraires.remove(itin);
+		iter.remove();
 	    }
 	    else if(itin.getDepart().getId() == adresse) {
 		nvItineraire.add(itin.getArrivee().getId());
-		itineraires.remove(itin);
+		iter.remove();
 		break;
 	    }
 	}
@@ -103,10 +101,7 @@ public class Tournee extends Observable {
     }
     
     public Livraison getLivraison(int adresse) {
-	for (Livraison liv : livraisons) {
-	    if (liv.getAdresse().getId() == adresse) return liv;
-	}
-	return null;
+	return livraisons.get(adresse);
     }
     
     public List<Itineraire> getItineraires() {

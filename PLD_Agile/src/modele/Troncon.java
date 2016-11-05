@@ -1,6 +1,8 @@
 package modele;
 
-public class Troncon {
+import java.awt.Point;
+
+public class Troncon extends ObjetGraphique{
     
     private String nom;
     private Intersection origine;
@@ -27,6 +29,12 @@ public class Troncon {
 	this.setTpsParcours();
 	this.origine = origine;
 	this.destination = destination;
+    }
+    
+    @Override
+    public boolean contient(Point p) {
+        // TODO Auto-generated method stub
+        return false;
     }
     
     /**

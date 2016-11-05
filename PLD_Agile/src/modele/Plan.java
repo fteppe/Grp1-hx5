@@ -1,5 +1,6 @@
 package modele;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -332,6 +333,13 @@ public class Plan extends Observable {
        setChanged();
        notifyObservers();
        System.out.println("Modifié");
+   }
+   
+   public ObjetGraphique contient(Point p) {
+       for(Intersection inter : listeIntersections.values()) {
+	   if(inter.contient(p)) return inter;
+       }
+       return null;
    }
    
    /*public ArrayList<Integer> methodeTest() {

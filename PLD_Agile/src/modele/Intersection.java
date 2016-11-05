@@ -1,6 +1,8 @@
 package modele;
 
-public class Intersection {
+import java.awt.Point;
+
+public class Intersection extends ObjetGraphique{
     private int id;
     private int longitude;
     private int latitude;
@@ -15,6 +17,15 @@ public class Intersection {
 	this.id = id;
 	this.longitude = longitude;
 	this.latitude = latitude;
+    }
+    
+    @Override
+    public boolean contient(Point p) {
+        int x = p.x;
+        int y = p.y;
+        if(!(x*0.8 < longitude && longitude < x*1.2)) return false;
+        if(!(y*0.8 < latitude && longitude < y*1.2)) return false;
+        return true;
     }
     
     public int getId() {
