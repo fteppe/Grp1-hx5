@@ -197,8 +197,9 @@ public class Plan extends Observable {
      *            optimal
      * @return true Si le calcul s'est bien deroule false Si le calcul a ete
      *         stoppe par la limite de temps
+     * @throws ExceptionTournee 
      */
-    public boolean calculerTournee(int tpsLimite) {
+    public boolean calculerTournee(int tpsLimite) throws ExceptionTournee {
 	// On initialise l'algo de Dijkstra
 	algo = AlgoDijkstra.getInstance();
 	algo.chargerAlgo(listeIntersections, listeTroncons);
@@ -231,12 +232,20 @@ public class Plan extends Observable {
 	    }
 	}
 
+	//On verifie que tous les sommets sont atteignables à partir de l'entrepot
+	for (int i = 1; i < idSommets.size(); i++) {
+	    if(couts[0][i] == Integer.MAX_VALUE) {
+		throw new ExceptionTournee("L'intersection d'identifiant " + 
+	    idSommets.get(i) + "n'est pas atteignable à partir de l'entrepôt");
+	    }
+	}
+	
 	System.out.println("Entree calcul tournée");
 
 	tournee = new Tournee();
 	this.calculTourneeEnCours = true;
 
-	// On lance le calcul de la tournée dans un nouveau thread
+	// On lance le calcul de la tournee dans un nouveau thread
 	Callable<Boolean> calculTournee = () -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
 	    tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees, 
@@ -249,8 +258,8 @@ public class Plan extends Observable {
 	Future<Boolean> futureCalculTournee = executorCalculTournee.
 		submit(calculTournee);
 	
-	// On récupère la meilleure tournée calculée à intervalle de temps 
-	// régulier dans un autre thread
+	// On recupere la meilleure tournee calculee a intervalle de temps 
+	// regulier dans un autre thread
 	Callable<Boolean> recuperationMeilleurResultat = () -> {
 	    boolean tpsLimiteAtteint = false;
 	    while (this.calculTourneeEnCours == true) {
@@ -276,8 +285,8 @@ public class Plan extends Observable {
 		} else {
 		    tsp.unlock();
 		}
-		// Si le calcul est terminé, on arrête de chercher une
-		// nouvelle tournée
+		// Si le calcul est termine, on arrête de chercher une
+		// nouvelle tournee
 		if (calculTermine) {
 		    System.out.println("Calcul terminé");
 		    this.calculTourneeEnCours = false;
@@ -302,31 +311,19 @@ public class Plan extends Observable {
 	
 	executorCalculTournee.shutdown();
 	boolean tpsLimiteAtteint = false;
+	//On attend la fin de l'execution des deux thread lances
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tpsLimiteAtteint = futureRecuperationMeilleurResultat.get();
+	    if (this.tournee.getDuree() == Integer.MAX_VALUE) {
+		throw new ExceptionTournee("Aucune tournée n'a été trouvée. "
+			+ "Veuillez recommencer avec de nouvelles plages horaires ou un temps de calcul plus long");
+	    }
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	return !tpsLimiteAtteint;
-
-	/*
-	 * if(!tsp.getTempsLimiteAtteint()) { >>>>>>> branch 'develop' of
-	 * https://github.com/tetramir/Grp1-hx5.git int dureeTournee =
-	 * tsp.getCoutMeilleureSolution(); if(dureeTournee < 0) //dureeTournee
-	 * est negatif donc pas de chemin possible return false; else { //On
-	 * recupere la liste ordonnee des livraisons calculee par le TSP //et on
-	 * lui associe une liste d'itineraires <<<<<<< HEAD int[] ordreTournee =
-	 * new int[idSommets.size()]; for(int i=0; i<idSommets.size(); i++) {
-	 * ordreTournee[i] = tsp.getMeilleureSolution(i); } this.trajets =
-	 * (Itineraire[][]) resultDijkstra[1]; creerTournee(dureeTournee,
-	 * ordreTournee, this.trajets); =======
-	 * 
-	 * creerTournee(dureeTournee, ordreTournee, trajets); >>>>>>> branch
-	 * 'develop' of https://github.com/tetramir/Grp1-hx5.git return true; }
-	 * } else { return false; <<<<<<< HEAD } ======= }
-	 */
 
     }
 
