@@ -23,8 +23,8 @@ public class Intersection extends ObjetGraphique{
     public boolean contient(Point p) {
         int x = p.x;
         int y = p.y;
-        if(!(x*0.8 < longitude && longitude < x*1.2)) return false;
-        if(!(y*0.8 < latitude && longitude < y*1.2)) return false;
+        if(!(x*0.95 < longitude && longitude < x*1.05)) return false;
+        if(!(y*0.95 < latitude && latitude < y*1.05)) return false;
         return true;
     }
     

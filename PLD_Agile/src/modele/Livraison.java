@@ -1,8 +1,8 @@
 package modele;
 
-import java.util.Observable;
+import java.awt.Point;
 
-public class Livraison extends Observable {
+public class Livraison extends ObjetGraphique {
     
     private int duree;
     private Heure heureDepart;
@@ -35,6 +35,11 @@ public class Livraison extends Observable {
     public Livraison(int duree, Intersection adresse) {
 	this.duree = duree;
 	this.adresse = adresse;
+    }
+    
+    @Override
+    public boolean contient(Point p) {
+        return adresse.contient(p);
     }
     
     public int getDuree() {

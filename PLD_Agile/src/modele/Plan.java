@@ -357,9 +357,38 @@ public class Plan extends Observable {
     }
 
     public ObjetGraphique cherche(Point p) {
+	// On teste le clic sur la liste d'intersections
 	for (Intersection inter : listeIntersections.values()) {
-	    if (inter.contient(p))
-		return inter;
+	    if (inter.contient(p)) {
+		if (tournee != null) {
+		    // Si une intersection est cliquée et que la tournée existe
+		    // on teste si une livraison existe sur l'intersection
+		    Livraison livTournee = tournee.getLivraison(inter.getId());
+		    if (livTournee != null) {
+			return livTournee;
+		    }
+		    else {
+			return inter;
+		    }
+		}
+		else {
+		    // Si une tournée n'existe pas mais si une demande existe
+		    // on teste si une livraison existe sur l'intersection
+		    if (demandeDeLivraison != null) {
+			Livraison livDemande = demandeDeLivraison.getLivraison(inter.getId());
+			    if (livDemande != null) {
+				return livDemande;
+			    }
+			    else {
+				return inter;
+			    }
+		    }
+		    //On renvoie l'intersection sinon
+		    else {
+			return inter;
+		    }
+		}
+	    }
 	}
 	return null;
     }
@@ -427,14 +456,12 @@ public class Plan extends Observable {
     }
 
     public List<Livraison> getListeLivraisons() {
-	if(tournee != null) {
+	if (tournee != null) {
 	    return tournee.getListeLivraisons();
-	}
-	else {
+	} else {
 	    if (demandeDeLivraison != null) {
 		return new ArrayList<Livraison>(demandeDeLivraison.getListeLivraisons().values());
-	    }
-	    else {
+	    } else {
 		return null;
 	    }
 	}
@@ -493,12 +520,5 @@ public class Plan extends Observable {
 	    sommets.add(cle);
 	}
 	return sommets;
-    }
-
-    public void supprimerLivraison(int adresse, int duree) {
-	// TODO Auto-generated method stub
-	this.demandeDeLivraison.supprimerLivraison(duree, this.listeIntersections.get(adresse));
-	setChanged();
-	notifyObservers();
     }
 }
