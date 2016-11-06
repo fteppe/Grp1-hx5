@@ -172,10 +172,10 @@ public class VuePlan extends JPanel implements Observer {
 	 * @param g l'objet qui permet de dessiner dans un JPanel
 	 * @param livraisons la collection des livraisons a dessiner
 	 */
-	public void dessinerListeLivraisons(Graphics g,HashMap<Integer,Livraison> livraisons){
+	public void dessinerListeLivraisons(Graphics g, List<Livraison> livraisons){
 		 
 		if (livraisons != null){
-			for(Livraison l : livraisons.values()){
+			for(Livraison l : livraisons){
 				if(l.getAdresse().getId() == livraisonSurligne)
 				{
 					dessinerLivraison(g, l, COULEUR_SURLIGNE);

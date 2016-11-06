@@ -100,6 +100,15 @@ public class Tournee extends Observable {
 	this.itineraires.clear();
     }
     
+    public List<Livraison> getListeLivraisons() {
+	ArrayList<Livraison> listLivraisons = new ArrayList<Livraison>();
+	for(Itineraire itin : itineraires) {
+	    Livraison livraison = livraisons.get(itin.getDepart().getId());
+	    if(livraison != null) listLivraisons.add(livraison);
+	}
+	return listLivraisons;
+    }
+    
     public Livraison getLivraison(int adresse) {
 	return livraisons.get(adresse);
     }
