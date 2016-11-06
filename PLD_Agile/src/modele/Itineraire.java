@@ -32,7 +32,11 @@ public class Itineraire {
     }
     
     public List<Troncon> getTroncons() {
-	return troncons;
+	return this.troncons;
+    }
+    
+    public int getTpsParcours() {
+	return this.tpsParcours;
     }
     
     /**

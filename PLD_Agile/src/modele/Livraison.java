@@ -77,7 +77,13 @@ public class Livraison extends Observable {
     
     public void setHeures(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
-	this.heureDepart = this.heureArrivee.ajouterSecondes(this.duree);
+	if(this.plage != null) {
+	    if(heureArrivee.toSeconds() < this.plage.getHeureDebut().toSeconds()) {
+	    	this.heureDepart = new Heure(this.plage.getHeureDebut().toSeconds()+ this.duree);
+	    }
+	} else {
+	    this.heureDepart = new Heure(heureArrivee.toSeconds() + this.duree);
+	}
     }
     
     public void setDuree(int duree) {

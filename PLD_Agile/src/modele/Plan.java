@@ -249,7 +249,7 @@ public class Plan extends Observable {
 	Callable<Boolean> calculTournee = () -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
 	    tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees, 
-		    plageDepart, plageFin);
+		    plageDepart, plageFin, this.demandeDeLivraison.getHeureDepart().toSeconds());
 	    return tsp.getTempsLimiteAtteint();
 	};
 	
@@ -315,9 +315,9 @@ public class Plan extends Observable {
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tpsLimiteAtteint = futureRecuperationMeilleurResultat.get();
-	    if (this.tournee.getDuree() == Integer.MAX_VALUE) {
+	    if (this.tournee.getDuree() == Integer.MAX_VALUE && tpsLimiteAtteint == false) {
 		throw new ExceptionTournee("Aucune tournée n'a été trouvée. "
-			+ "Veuillez recommencer avec de nouvelles plages horaires ou un temps de calcul plus long");
+			+ "Veuillez recommencer avec de nouvelles plages horaires");
 	    }
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
@@ -357,10 +357,20 @@ public class Plan extends Observable {
      *            livraison j
      */
     private void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
+	Heure heureActuelle = this.demandeDeLivraison.getHeureDepart();
 	tournee.viderTournee();
 	for (int i = 0; i < livraisons.length - 1; i++) {
 	    Livraison prochLivr = demandeDeLivraison.getLivraison(idSommets.get(livraisons[i + 1]));
-	    tournee.ajouterItineraire(itineraires[livraisons[i]][livraisons[i + 1]], prochLivr);
+	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
+	    if(prochLivr.possedePlage()) {
+		heureActuelle = new Heure(Math.max(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours(),
+			prochLivr.getDebutPlage().toSeconds()));
+	    } else {
+		heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
+	    }
+	    prochLivr.setHeures(heureActuelle);
+	    heureActuelle = heureActuelle.ajouterSecondes(prochLivr.getDuree());
+	    tournee.ajouterItineraire(nouvItineraire, prochLivr);
 	}
 	tournee.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	tournee.setDuree(duree);
