@@ -78,6 +78,10 @@ public class ZoneDeTexte extends JPanel implements Observer{
 				    plage = " de " + livraison.getDebutPlage()+
 					    " a " + livraison.getFinPlage();
 				}
+				if(livraison.getHeureArrivee() != null) {
+				    plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().toString() +
+					    "\nHeure de départ : " + livraison.getHeureDepart().toString();
+				}
 				ajouterZoneInformation("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId());
 			}
 			afficherInformations();

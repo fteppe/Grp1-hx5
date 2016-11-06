@@ -84,7 +84,9 @@ public class Livraison extends ObjetGraphique {
 	this.heureArrivee = heureArrivee;
 	if(this.plage != null) {
 	    if(heureArrivee.toSeconds() < this.plage.getHeureDebut().toSeconds()) {
-	    	this.heureDepart = new Heure(this.plage.getHeureDebut().toSeconds()+ this.duree);
+	    	this.heureDepart = new Heure(this.plage.getHeureDebut().toSeconds() + this.duree);
+	    } else {
+		this.heureDepart = new Heure(heureArrivee.toSeconds() + this.duree);
 	    }
 	} else {
 	    this.heureDepart = new Heure(heureArrivee.toSeconds() + this.duree);

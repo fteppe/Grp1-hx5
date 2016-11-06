@@ -358,14 +358,14 @@ public class Plan extends Observable {
 	for (int i = 0; i < livraisons.length - 1; i++) {
 	    Livraison prochLivr = demandeDeLivraison.getLivraison(idSommets.get(livraisons[i + 1]));
 	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
-	    if(prochLivr.possedePlage()) {
-		heureActuelle = new Heure(Math.max(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours(),
-			prochLivr.getDebutPlage().toSeconds()));
-	    } else {
-		heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
-	    }
+	    heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
 	    prochLivr.setHeures(heureActuelle);
-	    heureActuelle = heureActuelle.ajouterSecondes(prochLivr.getDuree());
+	    if(prochLivr.possedePlage()) {
+		heureActuelle = new Heure(Math.max(heureActuelle.toSeconds(),
+			prochLivr.getDebutPlage().toSeconds()) + prochLivr.getDuree());
+	    } else {
+		heureActuelle = new Heure(heureActuelle.toSeconds() + prochLivr.getDuree());
+	    }
 	    tournee.ajouterItineraire(nouvItineraire, prochLivr);
 	}
 	tournee.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
