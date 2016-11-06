@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import modele.ExceptionTournee;
 import modele.Plan;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
@@ -40,11 +41,16 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    fenetre.afficherMessage("Lancement du calcul de la tournée");
 	    controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
 	    // Operations effectuees dans l'etat calcul en cours
-	    if(plan.calculerTournee(tempsLimite)){
+	    try {
+		if(plan.calculerTournee(tempsLimite)){
 			fenetre.afficherMessage("Tournée calculée");
-	    }
-	    else {
+		}
+		else {
 		fenetre.afficherMessage("Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
+		}
+	    } catch (ExceptionTournee e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	    }
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	    	

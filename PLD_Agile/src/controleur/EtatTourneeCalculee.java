@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
+import modele.Intersection;
 import modele.Livraison;
 import modele.ObjetGraphique;
 import modele.Plan;
@@ -53,21 +54,27 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
+	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
 	ObjetGraphique OG = plan.cherche(point);
-	// TODO
-	/*
 	if (OG != null) {
-	    if (OG.type == Livraison) {
-		fenetre.ouvrirMenuSupprimer();
+	    System.out.println("Objet trouvé");
+	    if (OG instanceof Livraison) {
+		System.out.println("L'Objet est une livraison");
+		Livraison livCliquee = (Livraison) OG;
+		fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
 	    }
-	}*/
+	    if (OG instanceof Intersection) {
+		System.out.println("L'Objet est l'intersection id="+((Intersection) OG).getId());
+	    }
+	}
     }
 
     @Override
     public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {
-	//TODO
-	//listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
-	//fenetre.afficherMessage("Livraison supprimée de la tournée");
+	// TODO
+	// listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan,
+	// idLivraison)));
+	// fenetre.afficherMessage("Livraison supprimée de la tournée");
 	plan.retirerLivraisonTournee(idLivraison);
     }
 
