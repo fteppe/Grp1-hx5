@@ -1,8 +1,9 @@
 package modele;
 
+import java.awt.Point;
 import java.util.List;
 
-public class Itineraire {
+public class Itineraire extends ObjetGraphique{
     
     private Intersection depart;
     private Intersection arrivee;
@@ -23,6 +24,18 @@ public class Itineraire {
 	this.calculTpsParcours();
     }
 
+    public boolean comprendTroncon(Troncon tr) {
+	return troncons.contains(tr);
+    }
+    
+    @Override
+    public boolean contient(Point p) {
+        for(Troncon tr : troncons) {
+            if(tr.contient(p)) return true;
+        }
+        return false;
+    }
+    
     public Intersection getDepart() {
 	return this.depart;
     }
