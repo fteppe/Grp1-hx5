@@ -148,8 +148,7 @@ public class Plan extends Observable {
      *            Duree de la livraison a effectuer
      */
     public void ajouterLivraisonDemande(int adresse, int duree) {
-	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections
-		.get(adresse));
+	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse));
 	setChanged();
 	notifyObservers();
     }
@@ -197,7 +196,7 @@ public class Plan extends Observable {
      *            optimal
      * @return true Si le calcul s'est bien deroule false Si le calcul a ete
      *         stoppe par la limite de temps
-     * @throws ExceptionTournee 
+     * @throws ExceptionTournee
      */
     public boolean calculerTournee(int tpsLimite) throws ExceptionTournee {
 	// On initialise l'algo de Dijkstra
@@ -208,7 +207,7 @@ public class Plan extends Observable {
 	idSommets = completionTableauLivraison();
 	// On constitue un graphe complet grace a l'algorithme de Dijkstra
 	Object[] resultDijkstra = algo.calculerDijkstra(idSommets);
-	//On initialise les variables à fournir au TSP
+	// On initialise les variables à fournir au TSP
 	TSPPlages tsp = new TSPPlages();
 	int[] durees = recupererDurees(idSommets);
 	int[][] couts = (int[][]) resultDijkstra[0];
@@ -222,24 +221,23 @@ public class Plan extends Observable {
 	for (int i = 1; i < idSommets.size(); i++) {
 
 	    if (this.getHashMapLivraisons().get(idSommets.get(i)).possedePlage()) {
-		plageDepart[i] = this.getHashMapLivraisons().get(idSommets.get(i)).
-			getDebutPlage().toSeconds();
-		plageFin[i] = this.getHashMapLivraisons().get(idSommets.get(i)).
-			getFinPlage().toSeconds();
+		plageDepart[i] = this.getHashMapLivraisons().get(idSommets.get(i)).getDebutPlage().toSeconds();
+		plageFin[i] = this.getHashMapLivraisons().get(idSommets.get(i)).getFinPlage().toSeconds();
 	    } else {
 		plageDepart[i] = 0;
 		plageFin[i] = Integer.MAX_VALUE;
 	    }
 	}
 
-	//On verifie que tous les sommets sont atteignables à partir de l'entrepot
+	// On verifie que tous les sommets sont atteignables à partir de
+	// l'entrepot
 	for (int i = 1; i < idSommets.size(); i++) {
-	    if(couts[0][i] == Integer.MAX_VALUE) {
-		throw new ExceptionTournee("L'intersection d'identifiant " + 
-	    idSommets.get(i) + "n'est pas atteignable à partir de l'entrepôt");
+	    if (couts[0][i] == Integer.MAX_VALUE) {
+		throw new ExceptionTournee("L'intersection d'identifiant " + idSommets.get(i)
+			+ "n'est pas atteignable à partir de l'entrepôt");
 	    }
 	}
-	
+
 	System.out.println("Entree calcul tournée");
 
 	tournee = new Tournee();
@@ -252,22 +250,21 @@ public class Plan extends Observable {
 		    plageDepart, plageFin, this.demandeDeLivraison.getHeureDepart().toSeconds());
 	    return tsp.getTempsLimiteAtteint();
 	};
-	
+
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
 
-	Future<Boolean> futureCalculTournee = executorCalculTournee.
-		submit(calculTournee);
-	
-	// On recupere la meilleure tournee calculee a intervalle de temps 
+	Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
+
+	// On recupere la meilleure tournee calculee a intervalle de temps
 	// regulier dans un autre thread
 	Callable<Boolean> recuperationMeilleurResultat = () -> {
 	    boolean tpsLimiteAtteint = false;
 	    while (this.calculTourneeEnCours == true) {
-		try { 
-		    TimeUnit.SECONDS.sleep(tpsAttente); 
-		} catch (InterruptedException e) { 
+		try {
+		    TimeUnit.SECONDS.sleep(tpsAttente);
+		} catch (InterruptedException e) {
 		    // TODO Auto-generated catch block
-		    e.printStackTrace(); 
+		    e.printStackTrace();
 		}
 		boolean calculTermine = futureCalculTournee.isDone();
 		tsp.lock();
@@ -305,13 +302,12 @@ public class Plan extends Observable {
 	    futureCalculTournee.cancel(true);
 	    return tpsLimiteAtteint;
 	};
-	
-	Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee.
-		submit(recuperationMeilleurResultat);
-	
+
+	Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee.submit(recuperationMeilleurResultat);
+
 	executorCalculTournee.shutdown();
 	boolean tpsLimiteAtteint = false;
-	//On attend la fin de l'execution des deux thread lances
+	// On attend la fin de l'execution des deux thread lances
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tpsLimiteAtteint = futureRecuperationMeilleurResultat.get();
@@ -379,12 +375,45 @@ public class Plan extends Observable {
 	System.out.println("Modifié");
     }
 
-    public ObjetGraphique cherche(Point p) {
+    public List<ObjetGraphique> cherche(Point p) {
+	List<ObjetGraphique> lstObj = new ArrayList<ObjetGraphique>();
+	// On teste le clic sur la liste d'intersections
 	for (Intersection inter : listeIntersections.values()) {
-	    if (inter.contient(p))
-		return inter;
+	    if (inter.contient(p)) {
+		lstObj.add(inter);
+		if (tournee != null) {
+		    // Si une intersection est cliquée et que la tournée existe
+		    // on teste si une livraison existe sur l'intersection
+		    Livraison livTournee = tournee.getLivraison(inter.getId());
+		    if (livTournee != null) {
+			lstObj.add(livTournee);
+		    }
+		} else {
+		    // Si une tournée n'existe pas mais si une demande existe
+		    // on teste si une livraison existe sur l'intersection
+		    if (demandeDeLivraison != null) {
+			Livraison livDemande = demandeDeLivraison.getLivraison(inter.getId());
+			if (livDemande != null) {
+			    lstObj.add(livDemande);
+			}
+		    }
+		}
+		break;
+	    }
 	}
-	return null;
+	for (List<Troncon> troncons : listeTroncons.values()) {
+	    for (Troncon tronc : troncons) {
+		if (tronc.contient(p)) {
+		    lstObj.add(tronc);
+		    if(tournee != null) {
+			List<Itineraire> itins = tournee.getItineraireTroncon(tronc);
+			itins.forEach(itin -> lstObj.add(itin));
+		    }
+		}
+	    }
+	}
+
+	return lstObj;
     }
 
     /*
@@ -450,14 +479,12 @@ public class Plan extends Observable {
     }
 
     public List<Livraison> getListeLivraisons() {
-	if(tournee != null) {
+	if (tournee != null) {
 	    return tournee.getListeLivraisons();
-	}
-	else {
+	} else {
 	    if (demandeDeLivraison != null) {
 		return new ArrayList<Livraison>(demandeDeLivraison.getListeLivraisons().values());
-	    }
-	    else {
+	    } else {
 		return null;
 	    }
 	}
@@ -516,12 +543,5 @@ public class Plan extends Observable {
 	    sommets.add(cle);
 	}
 	return sommets;
-    }
-
-    public void supprimerLivraison(int adresse, int duree) {
-	// TODO Auto-generated method stub
-	this.demandeDeLivraison.supprimerLivraison(duree, this.listeIntersections.get(adresse));
-	setChanged();
-	notifyObservers();
     }
 }

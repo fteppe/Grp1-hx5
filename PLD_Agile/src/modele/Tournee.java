@@ -124,4 +124,12 @@ public class Tournee extends Observable {
     public void setDuree(int duree) {
         this.duree = duree;
     }
+
+    public List<Itineraire> getItineraireTroncon(Troncon tronc) {
+	List<Itineraire> lstIitin = new ArrayList<Itineraire>();
+	for (Itineraire itin : itineraires) {
+	    if(itin.comprendTroncon(tronc)) lstIitin.add(itin);
+	}
+	return lstIitin;
+    }
 }

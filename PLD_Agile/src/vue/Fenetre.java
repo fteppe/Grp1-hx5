@@ -107,6 +107,10 @@ public class Fenetre extends JFrame{
 		return controleur;
 	}
 	
+	protected void ajouterLivraison(int idLivraison, int duree){
+		controleur.ajouterLivraison(idLivraison, duree);
+	}
+	
 	protected void surlignerLivraison(int idLivraison){
 		vuePlan.setLivraisonSurligne(idLivraison);
 		vuePlan.dessinerListeLivraisons(vuePlan.getGraphics(), plan.getListeLivraisons());

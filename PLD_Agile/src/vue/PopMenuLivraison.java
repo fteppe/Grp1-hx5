@@ -21,7 +21,6 @@ public class PopMenuLivraison extends PopMenu{
 				fenetre.supprimerLivraison(id);
 			}
 		});
-		
 		add(supprimerLivraison);
 	}
 }

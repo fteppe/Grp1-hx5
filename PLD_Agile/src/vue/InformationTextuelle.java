@@ -16,9 +16,9 @@ public class InformationTextuelle extends JPanel{
 	private int index;
 	private Fenetre fenetre;
 	private PopMenuLivraison popupMenu;
-	
-	private static Color couleurHover = new Color(0xA2A5F1);
-	private static Color couleurDefaut = Color.white;
+	private static Color COUEUR_HOVER = new Color(0xA2A5F1);
+	private static Color COULEUR_DEFAUT = Color.white;
+	private static Color COULEUR_GRISE = new Color(0xA6A6A6);
 	
 	public InformationTextuelle(String information, int index,Fenetre fenetre, boolean cliquable){
 		super();
@@ -69,6 +69,10 @@ public class InformationTextuelle extends JPanel{
 				}
 			});
 		}
+		else
+		{
+			zoneInformation.setBackground(COULEUR_GRISE);
+		}
 
 	}
 	
@@ -88,11 +92,11 @@ public class InformationTextuelle extends JPanel{
 	}
 	
 	private void sourisEntree(){
-		zoneInformation.setBackground(couleurHover);
+		zoneInformation.setBackground(COUEUR_HOVER);
 		fenetre.surlignerLivraison(index);
 	}
 	private void sourisSortie(){
-		zoneInformation.setBackground(couleurDefaut);
+		zoneInformation.setBackground(COULEUR_DEFAUT);
 		fenetre.surlignerLivraison(-1);
 	}
 }

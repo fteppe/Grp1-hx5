@@ -2,12 +2,17 @@ package controleur;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.List;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
+import modele.Intersection;
+import modele.Itineraire;
 import modele.Livraison;
 import modele.ObjetGraphique;
 import modele.Plan;
+import modele.Troncon;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
@@ -53,21 +58,35 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
-	ObjetGraphique OG = plan.cherche(point);
-	// TODO
-	/*
-	if (OG != null) {
-	    if (OG.type == Livraison) {
-		fenetre.ouvrirMenuSupprimer();
+	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
+	List<ObjetGraphique> lstOG = plan.cherche(point);
+	for (ObjetGraphique OG : lstOG) {
+	    System.out.println("Objet trouvé");
+	    if (OG instanceof Livraison) {
+		System.out.println("L'Objet est une livraison");
+		Livraison livCliquee = (Livraison) OG;
+		fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
 	    }
-	}*/
+	    if (OG instanceof Intersection) {
+		System.out.println("L'Objet est l'intersection id="+((Intersection) OG).getId());
+	    }
+	    if(OG instanceof Troncon) {
+		Troncon tr = (Troncon) OG;
+		//System.out.println("L'objet est le troncon reliant "+tr.getOrigine().getId()+" à "+tr.getDestination().getId());
+	    }
+	    if(OG instanceof Itineraire) {
+		Itineraire it = (Itineraire) OG;
+		System.out.println("L'objet est l'titineraire reliant la livraison en "+it.getDepart().getId()+" à "+it.getArrivee().getId());
+	    }
+	}
     }
 
     @Override
     public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {
-	//TODO
-	//listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
-	//fenetre.afficherMessage("Livraison supprimée de la tournée");
+	// TODO
+	// listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan,
+	// idLivraison)));
+	// fenetre.afficherMessage("Livraison supprimée de la tournée");
 	plan.retirerLivraisonTournee(idLivraison);
     }
 
