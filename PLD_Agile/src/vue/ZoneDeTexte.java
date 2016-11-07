@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout.Constraints;
 
+import modele.Heure;
 import modele.Itineraire;
 import modele.Livraison;
 import modele.Plan;
@@ -46,7 +47,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	}
 	
 	private void ajouterZoneInformation(String information, int index, boolean cliquable){
-		InformationTextuelle info = new InformationTextuelle(information, index,fenetre, cliquable);
+	    	InformationTextuelle info = new InformationTextuelle(information, index,fenetre, cliquable);
 		listeInformation.add(info);
 	}
 	private void ajouterZoneInformation(String information, int index){
@@ -58,8 +59,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		listeInformation.add(position, info);
 	}
 	
-	public InformationTextuelle getTitre()
-	{
+	public InformationTextuelle getTitre() {
 		return texte;
 	}
 	
@@ -79,8 +79,16 @@ public class ZoneDeTexte extends JPanel implements Observer{
 					    " a " + livraison.getFinPlage();
 				}
 				if(livraison.getHeureArrivee() != null) {
-				    plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().toString() +
-					    "\nHeure de départ : " + livraison.getHeureDepart().toString();
+				    plage += "\nHeure d'arrivée : " 
+					    + livraison.getHeureArrivee().toString();
+				    if (livraison.possedePlage()) {
+					if (livraison.getTpsAttente().toSeconds() != 0) {
+					    plage += "\nTemps d'attente : " 
+						    + livraison.getTpsAttente().toString();
+					}
+				    }
+				    plage += "\nHeure de départ : " 
+					    + livraison.getHeureDepart().toString();
 				}
 				ajouterZoneInformation("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId());
 			}

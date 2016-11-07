@@ -7,9 +7,10 @@ public class Livraison extends ObjetGraphique {
     private int duree;
     private Heure heureDepart;
     private Heure heureArrivee;
+    private Heure tpsAttente;
     private Intersection adresse;
     private PlageHoraire plage;
-    
+    private boolean respectePlage;
 
     /**
      * Cree une livraison possedant une plage horaire
@@ -24,6 +25,7 @@ public class Livraison extends ObjetGraphique {
 	this.duree = duree;
 	this.adresse = adresse;
 	plage = new PlageHoraire(new Heure(debutPlage), new Heure(finPlage));
+	respectePlage = true;
     }
     
     /**
@@ -69,13 +71,23 @@ public class Livraison extends ObjetGraphique {
     
     public Heure getFinPlage() {
 	Heure heureFinPlage = null;
-	if(possedePlage())
-	{
+	if(possedePlage()) {
 	    heureFinPlage = this.plage.getHeureFin();
 	}
 	return heureFinPlage;
     }
     
+    public boolean getRespectePlage() {
+	return this.respectePlage;
+    }
+    
+    public Heure getTpsAttente() {
+	Heure tpsAttente = null;
+	if(possedePlage()) {
+	    tpsAttente = this.tpsAttente;
+	}
+	return tpsAttente;
+    }
     public Intersection getAdresse() {
    	return this.adresse;
     }
@@ -83,17 +95,26 @@ public class Livraison extends ObjetGraphique {
     public void setHeures(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
 	if(this.plage != null) {
-	    if(heureArrivee.toSeconds() < 
-		    this.plage.getHeureDebut().toSeconds()) {
+	    if(heureArrivee.toSeconds() 
+		    < this.plage.getHeureDebut().toSeconds()) {
 	    	this.heureDepart = new Heure(this.plage.getHeureDebut()
 	    		.toSeconds() + this.duree);
+	    	tpsAttente = new Heure(this.plage.getHeureDebut().toSeconds() 
+	    			- heureArrivee.toSeconds());
 	    } else {
 		this.heureDepart = new Heure(heureArrivee.toSeconds() 
 			+ this.duree);
+		tpsAttente = new Heure(0);
+	    }
+	    if(this.heureDepart.toSeconds() > this.plage.getHeureFin().toSeconds()) {
+		this.respectePlage = false;
+	    } else {
+		this.respectePlage = true;
 	    }
 	} else {
 	    this.heureDepart = new Heure(heureArrivee.toSeconds() 
 		    + this.duree);
+	    tpsAttente = new Heure(0);
 	}
     }
     
