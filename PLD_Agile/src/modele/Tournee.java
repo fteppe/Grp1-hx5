@@ -42,6 +42,14 @@ public class Tournee extends Observable {
 	notifyObservers();
     }
     
+    /**
+     * Insère une nouvelle livraison et calcule les itinéraires entre
+     * l'intersection associée et les intersections précédentes et suivantes
+     * 
+     * @param liv La livraison à insérer dans la tournée
+     * @param adrPrec L'adresse de la livraison précédente
+     * @param adrSuiv L'adresse de la livraison suivante
+     */
     public void insererLivraison(Livraison liv, int adrPrec, int adrSuiv) {
 	// On ajoute la livraison dans la liste
 	livraisons.put(liv.getAdresse().getId(), liv);
@@ -90,6 +98,12 @@ public class Tournee extends Observable {
 	return livraisons.remove(adresse);
     }
     
+    /**
+     * Insère l'itinéraire dans la liste des itinéraires de la tournée
+     * selon les intersections de départ et d'arrivée associées
+     * 
+     * @param nvItineraire Itineraire à insérer
+     */
     public void insererItineraire(Itineraire nvItineraire) {
 	int i=0;
 	for( ; i < itineraires.size(); i++) {
@@ -98,9 +112,16 @@ public class Tournee extends Observable {
 		itineraires.add(++i, nvItineraire);
 		break;
 	    }
+	    //TODO test sur l'intersection d'arrivée
 	}
     }
     
+    /**
+     * Met à jour les  horaires de la tournée et des livraisons qui lui
+     * sont associée
+     * 
+     * @param heureDepartTournee Horaire de départ du calcul
+     */
     private void mettreAJourTempsParcours(Heure heureDepartTournee) {
 	Heure cur = heureDepartTournee;
 	for(int i=0; i < itineraires.size()-1; i++) {
@@ -119,6 +140,9 @@ public class Tournee extends Observable {
 	}
     }
     
+    /**
+     * Réinitialise la liste des itinéraires de la tournée
+     */
     public void viderTournee(){
 	this.itineraires.clear();
     }

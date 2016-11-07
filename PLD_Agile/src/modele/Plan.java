@@ -37,8 +37,6 @@ public class Plan extends Observable {
 							   // leur origine
     private DemandeDeLivraison demandeDeLivraison;
     private Tournee tournee;
-    private int[][] couts;
-    private Itineraire[][] trajets;
     private ArrayList<Integer> idSommets;
     private AlgoDijkstra algo;
     private boolean calculTourneeEnCours;
@@ -375,6 +373,12 @@ public class Plan extends Observable {
 	System.out.println("Modifié");
     }
 
+    /**
+     * Renvoie l'ObjetGraphique positionné au coordonnées du point précisé
+     * 
+     * @param p Position de l'ObjetGraphique à rechercher
+     * @return ObjetGraphique aux coordonnées p si il existe, null sinon
+     */
     public ObjetGraphique cherche(Point p) {
 	ObjetGraphique objGraph = null;
 	// On teste le clic sur la liste d'intersections
@@ -389,6 +393,14 @@ public class Plan extends Observable {
 	return objGraph;
     }
     
+    /**
+     * Renvoie la livraison associée à l'intersection à l'adresse donnée
+     * en cherchant en priorité dans la tournée si elle existe
+     * ou dans la demande de livraison sinon
+     * 
+     * @param adresse Id de l'intersection adresse de la livraison
+     * @return La livraison associée
+     */
     private Livraison getLivraisonAdresse(int adresse) {
 	if(tournee != null) {
 	    return tournee.getLivraison(adresse);
