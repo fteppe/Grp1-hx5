@@ -70,7 +70,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		viderListeInfos();
 		List<Livraison> livraisons = plan.getListeLivraisons();
 		if(livraisons != null){
-			getTitre().ajouter("\nLivraisons");
+			getTitre().afficher("Livraisons :\nDépart à "+plan.getHeureDepart());
 			for(Livraison livraison : livraisons){
 				contraintes.gridy = listeInformation.size();
 				String plage = "";

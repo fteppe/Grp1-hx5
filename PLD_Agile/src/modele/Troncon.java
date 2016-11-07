@@ -1,8 +1,8 @@
 package modele;
 
-import java.awt.Point;
+import java.util.Observable;
 
-public class Troncon extends ObjetGraphique {
+public class Troncon extends Observable {
 
     private String nom;
     private Intersection origine;
@@ -34,28 +34,6 @@ public class Troncon extends ObjetGraphique {
 	this.setTpsParcours();
 	this.origine = origine;
 	this.destination = destination;
-    }
-
-    @Override
-    public boolean contient(Point p) {
-	double xa = origine.getLongitude() * 1.005;
-	double ya = origine.getLatitude();
-	double xb = origine.getLongitude() * 0.995;
-	double yb = origine.getLatitude();
-	double xc = destination.getLongitude() * 1.005;
-	double yc = destination.getLatitude();
-
-	double xp = p.getX();
-	double yp = p.getY();
-	
-	double alpha = (xp-xa)*(xb-xa)+(yp-ya)*(yb-ya);
-	alpha /= Math.pow(xb-xa, 2)+Math.pow(yb-ya, 2);
-	
-	double beta = (xp-xa)*(xc-xa)+(yp-ya)*(yc-ya);
-	beta /= Math.pow(xc-xa, 2)+Math.pow(yc-ya, 2);
-	
-	if(0 <= alpha && alpha <= 1 && 0 <= beta && beta <= 1) return true;
-	else return false;
     }
 
     /**
