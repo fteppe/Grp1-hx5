@@ -102,16 +102,15 @@ public interface Etat {
 	 * sur un point du plan lorsque la tournee est deja calculee.
 	 * @param plan
 	 * @param fenetre
-	 * @param listeDeCdes
 	 * @param point
 	 */
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point);
+	public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point);
 	
 	/**
 	 *  Methode appelee par controleur afin de verifier si le clic droit dans la zone textuelle
 	 *  est possible.
 	 */
-	public boolean clicDroitZoneTextuellePossible(Controleur controleur);
+	public boolean clicDroitZoneTextuellePossible();
 	
 	
 	/**
@@ -135,14 +134,20 @@ public interface Etat {
 	
 	
 	/**
+	 * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
+	 * sur Echanger après avoir selectionner une 1ere livraison.
+	 * @param controleur
+	 * @param fenetre
+	 * @param idLivraison
+	 */
+	public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison);
+	
+	/**
 	 * Methode appelee par controleur lorsque l'utilisateur clique
 	 * sur le bouton "annuler" dans l'etat ajout de livraison.
 	 * @param controleur
-	 * @param plan
-	 * @param fenetre
-	 * @param listeDeCdes
 	 */
-	public void annulerAjout(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
+	public void annulerAjout(Controleur controleur);
 	
 	/**
 	 * Methode appelee par controleur lorsque l'utilisateur survole
@@ -162,6 +167,18 @@ public interface Etat {
 	 * @param fenetre
 	 */
 	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre);
+	
+	
+	/**
+	 * Methode appelee par controleur lors du clic sur la seconde livraison
+	 * afin de l'echanger avec une premiere selctionnée.
+	 * @param controleur
+	 * @param plan
+	 * @param fenetre
+	 * @param listeDeCdes
+	 * @param idLivraison2
+	 */
+	public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2);
 
 	
 	

@@ -21,6 +21,7 @@ public class Controleur {
 	protected final EtatCalculEnCours ETAT_CALCUL_EN_COURS = new EtatCalculEnCours();
 	protected final EtatTourneeCalculee ETAT_TOURNEE_CALCULEE = new EtatTourneeCalculee();
 	protected final EtatAjoutLivraison ETAT_AJOUT_LIVRAISON = new EtatAjoutLivraison();
+	protected final EtatChoisirLivraisonEchange ETAT_ECHANGER_LIVRAISON = new EtatChoisirLivraisonEchange();
 	
 
 	/**
@@ -136,7 +137,7 @@ public class Controleur {
 	 * @param point Le point clique par l'utilisateur
 	 */
 	public void clicDroitPlan(Point point){
-	    	etatCourant.clicDroitPlan(plan, fenetre, listeDeCdes, point);
+	    	etatCourant.clicDroitPlan(plan, fenetre, point);
 	}
 	
 	/**
@@ -144,7 +145,7 @@ public class Controleur {
 	 * le menu de clique droit sur la zone textuelle.
 	 */
 	public boolean clicDroitZoneTextuellePossible(){
-	    return etatCourant.clicDroitZoneTextuellePossible(this);
+	    return etatCourant.clicDroitZoneTextuellePossible();
 	}
 	
 	/**
@@ -165,13 +166,22 @@ public class Controleur {
 	    	etatCourant.passerEtatAjouterLivraison(this, fenetre, idIntersection);
 	}
 	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur clique
+	 * sur Echanger apres avoir selectionner une 1ere livraison.
+	 * @param idIntersection
+	 */
+	public void passerEtatEchangerLivraison(int idLivraison){
+	    	etatCourant.passerEtatEchangerLivraison(this, fenetre, idLivraison);
+	}
+	
 	
 	/**
 	 * Methode appelee par fenetre lorsque l'utilisateur clique
 	 * sur "annuler" dans le mode d'ajout de livraison.
 	 */
 	public void annulerAjout() {
-	    etatCourant.annulerAjout(this, plan, fenetre, listeDeCdes);
+	    etatCourant.annulerAjout(this);
 	}
 	
 	/**
@@ -191,5 +201,8 @@ public class Controleur {
 	public boolean possibleAjoutLivraison() {
 	    return etatCourant.possibleAjoutLivraison(this, plan, fenetre);
 	}
-
+	
+	public void clicEchangerLivraison(int idLivraison2) {
+	    etatCourant.clicEchangerLivraison(this, plan, fenetre, listeDeCdes, idLivraison2);
+	}
 }
