@@ -45,6 +45,7 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
+		intersectionSelectionne = -1;
 		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
@@ -128,6 +129,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionAjouterLivraison(int idIntersection){
+		intersectionSelectionne = -1;
 		controleur.passerEtatAjouterLivraison(idIntersection);
 	}
 	

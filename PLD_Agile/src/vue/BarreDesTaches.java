@@ -39,8 +39,10 @@ public class BarreDesTaches extends JToolBar{
 		stopCalcul.setBackground(new Color(0xFF7676));
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);
+		addSeparator();
 		this.add(calculTournee);
 		add(stopCalcul);
+		addSeparator();
 		add(annuler);
 		add(restaurer);
 		ajouterEcouteurs();
