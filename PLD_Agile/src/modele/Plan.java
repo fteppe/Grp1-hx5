@@ -486,6 +486,10 @@ public class Plan extends Observable {
 	}
 	return listeNonOrdonneeTroncons;
     }
+    
+    public HashMap<Integer, List<Troncon>> getListeTronconsTriee() {
+	return this.listeTroncons;
+    }
 
     public HashMap<Integer, Intersection> getListeIntersections() {
 	return this.listeIntersections;

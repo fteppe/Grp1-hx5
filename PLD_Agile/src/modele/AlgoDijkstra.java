@@ -20,7 +20,7 @@ public class AlgoDijkstra {
 	troncons = new HashMap<Integer, List<Troncon>>();
     }
 
-    protected static AlgoDijkstra getInstance() {
+    public static AlgoDijkstra getInstance() {
 	if (instance == null)
 	    instance = new AlgoDijkstra();
 	return instance;
