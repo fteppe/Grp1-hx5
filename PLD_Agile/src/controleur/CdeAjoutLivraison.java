@@ -27,7 +27,7 @@ public class CdeAjoutLivraison implements Commande {
 	public void doCde() {
 	    // Appel à insererLivraisonTournee avec id des intersections
 	    // precedentes et suivantes
-	    // plan.insererLivraisonTournee(livraison, adrPrec, adrSuiv);
+	    //plan.insererLivraisonTournee(livraison, adrPrec, adrSuiv);
 
 	}
 	
