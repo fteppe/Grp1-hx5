@@ -91,17 +91,24 @@ public class Fenetre extends JFrame{
 	}
 	
 	public void setIntersectionSelectionne(int idIntersection){
-		intersectionSelectionne = idIntersection;
-		if(intersectionSelectionne != -1){
-			vuePlan.dessinerIntersection(vuePlan.getGraphics(), plan.getIntersection(intersectionSelectionne), vuePlan.getCouleurIntersection());
+		
+		if(intersectionSelectionne != idIntersection){
+			intersectionSelectionne = idIntersection;
+			vuePlan.update(vuePlan.getGraphics());
 		}
 	}
+	
+	
 	
 	public void afficherDetailDemandeLivraison(){
 		zoneDeTexte.afficherInformationDemandeLivraison();
 	}
 	public void afficherMessage(String message){
 		zoneDeTexte.getTitre().afficher(message);
+	}
+	
+	protected int getIntersectionSelectionne(){
+		return intersectionSelectionne;
 	}
 	
 	protected void clicDroitPlan(Point point){
@@ -111,7 +118,6 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
-		
 	}
 	
 	protected void supprimerLivraison(int id){

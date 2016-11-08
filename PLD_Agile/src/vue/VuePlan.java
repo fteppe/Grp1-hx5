@@ -115,6 +115,7 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		int intersectionSelectionne = fenetre.getIntersectionSelectionne();
 		//on doit peindre le plan;
 		
 		//dessinerListeIntersections(g, plan.getListeIntersections());
@@ -125,6 +126,13 @@ public class VuePlan extends JPanel implements Observer {
 		if(entrepot != null)
 		{
 			dessinerIntersection(g, plan.getEntrepot(), COULEUR_ENTREPOT);
+		}
+		
+		
+		
+		if(fenetre.getIntersectionSelectionne() != -1)
+		{
+			dessinerIntersection(g, plan.getIntersection(intersectionSelectionne), COULEUR_INTERSECTION);
 		}
 		
 	}
@@ -248,10 +256,6 @@ public class VuePlan extends JPanel implements Observer {
 		}
 		repaint();
 		
-	}
-	
-	protected Color getCouleurIntersection(){
-		return COULEUR_INTERSECTION;
 	}
 	
 	protected void setLivraisonSurligne(int idLivraison){
