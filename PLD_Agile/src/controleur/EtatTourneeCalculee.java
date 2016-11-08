@@ -72,11 +72,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {
-	// TODO
-	// listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan,
-	// idLivraison)));
-	// fenetre.afficherMessage("Livraison supprimée de la tournée");
-	plan.retirerLivraisonTournee(idLivraison);
+	 listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
+	 fenetre.afficherMessage("Livraison supprimée de la tournée");
     }
 
     @Override
@@ -85,11 +82,19 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree) {
-	// On passe dans l'état d'ajout d'une livraison
-	// TODO : fenetre.passerEtatAjoutLivraison
+    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre) {
 	fenetre.afficherMessage("Veuillez selectionner un point de livraison");
 	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
+    }
+    
+    @Override
+    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+	int id =-1;
+	ObjetGraphique objGraph = plan.cherche(point);
+	if (objGraph instanceof Intersection) {
+	    id = ((Intersection) objGraph).getId();
+	}
+	fenetre.setIntersectionSelectionne(id);
     }
 
 }

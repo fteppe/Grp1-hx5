@@ -45,8 +45,8 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 	
 	@Override
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
-	    // TODO :  Dans cet etat, suite a un clic droit l'application retourne dans son etat precedent.
+	public void annulerAjout(Controleur controleur,Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	
 }
