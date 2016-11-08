@@ -104,7 +104,7 @@ public class MenuCreationLivraison extends JDialog{
 			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
 		}
 		if(horaire.isSelected()){
-			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getText(), heureDepart.getText());
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getText()+":00", heureDepart.getText()+":00");
 		}
 		else{
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
