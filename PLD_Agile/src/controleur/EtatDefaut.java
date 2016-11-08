@@ -43,7 +43,11 @@ public abstract class EtatDefaut implements Etat {
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 	
-	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree) {}
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, 
+		int idPrec, int idSuiv, int duree) {}
+	
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
+		int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {}
 	
 	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
 		return false;

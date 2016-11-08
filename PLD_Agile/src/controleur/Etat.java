@@ -57,7 +57,21 @@ public interface Etat {
 	 * @param duree
 	 */
 	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree);
-	
+
+	/**
+	 * Methode appelee par controleur apres un clic gauche sur un point de la vue graphique
+	 * @param controleur
+	 * @param plan
+	 * @param fenetre
+	 * @param listeDeCdes
+	 * @param idPrec
+	 * @param idSuiv
+	 * @param duree
+	 * @param debutPlage
+	 * @param finPlage
+	 */
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, 
+		ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree, String debutPlage, String finPlage);
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Undo"

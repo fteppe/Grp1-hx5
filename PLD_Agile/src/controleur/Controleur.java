@@ -101,6 +101,13 @@ public class Controleur {
 		etatCourant.clicAjouterLivraisonPosition(this, plan, fenetre, listeDeCdes, idPrec, idSuiv, duree);
 	}
 	
+	/**
+	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
+	 */
+	
+	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
+		etatCourant.clicAjouterLivraisonPosition(this, plan, fenetre, listeDeCdes, idPrec, idSuiv, duree, debutPlage, finPlage);
+	}
 	
 	/**
 	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton "Undo"
