@@ -50,8 +50,9 @@ public interface Etat {
 	 * @param listeDeCdes
 	 * @param idPrec
 	 * @param idSuiv
+	 * @param duree
 	 */
-	public void clicGaucheAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv);
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree);
 	
 	
 	/**
@@ -135,7 +136,13 @@ public interface Etat {
 	 */
 	public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance);
 	
-	
+	/**
+	 * Methode appelee par controleur afin d'informer la fenêtre sur la
+	 * possibilité ou non d'ajouter une livraison dans l'etat courant.
+	 * @param controleur
+	 * @param plan
+	 * @param fenetre
+	 */
 	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre);
 
 	
