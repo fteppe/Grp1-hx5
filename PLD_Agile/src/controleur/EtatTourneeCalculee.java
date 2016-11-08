@@ -82,8 +82,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre) {
-	fenetre.afficherMessage("Veuillez selectionner un point de livraison");
+    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
+	controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
     }
     
