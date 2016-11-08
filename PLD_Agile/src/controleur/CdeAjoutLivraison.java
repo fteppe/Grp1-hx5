@@ -28,14 +28,14 @@ public class CdeAjoutLivraison implements Commande {
 	this.duree = duree;
     }
 
-    public CdeAjoutLivraison(Plan p, Intersection intersection, int duree, String debutPlage, String finPlage) {
+    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
 	this.plan = p;
-	this.idIntersection = intersection.getId();
-	this.intersection = intersection;
+	this.idIntersection = idIntersection;
 	this.debutPlage = debutPlage;
 	this.finPlage = finPlage;
-	this.idPrec = plan.getAdresseLivraisonPrecedente(idIntersection);
-	this.idSuiv = plan.getAdresseLivraisonSuivante(idIntersection);
+	this.idPrec = idPrec;
+	this.idSuiv = idSuiv;
+	this.duree = duree;
     }
 
     @Override

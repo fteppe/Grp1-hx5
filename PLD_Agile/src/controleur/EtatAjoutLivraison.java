@@ -49,6 +49,13 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 	
 	@Override
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
+	    listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree, debutPlage,finPlage));
+	    fenetre.afficherMessage("Livraison ajoutée à la tournée");
+	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+	}
+	
+	@Override
 	public void annulerAjout(Controleur controleur,Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
