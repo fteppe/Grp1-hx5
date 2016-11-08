@@ -42,15 +42,19 @@ public abstract class EtatDefaut implements Etat {
 
 	//public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 	
-	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {}
+	public void clicGaucheAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv) {}
 	
 	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
 		return false;
 	}
 	
-	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre) {}
+	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {}
 	
 	public void annulerAjout(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {}
 	
 	public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {}
+	
+	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre) {
+	    return false;
+	}
 }

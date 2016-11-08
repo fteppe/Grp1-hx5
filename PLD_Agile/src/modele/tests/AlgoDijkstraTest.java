@@ -22,8 +22,10 @@ import xml.DeserialiseurXML;
 
 public class AlgoDijkstraTest {
 
+    @Before
+    
     @Test
-    public void testCalculerDijkstra() {
+    public void testCalculerDijkstraValide() {
 	Plan plan = new Plan();
 	AlgoDijkstra algoDijkstra = AlgoDijkstra.getInstance();
 	plan.ajouterIntersection(1, 412, 574);
@@ -40,46 +42,46 @@ public class AlgoDijkstraTest {
 	Intersection i6 = new Intersection(6, 418, 974);
 	plan.ajouterIntersection(10, 418, 974);
 	Intersection i10 = new Intersection(10, 418, 974);
-	plan.ajouterTroncon("t_1-2", 5, 1, 1, 2);
-	Troncon a = new Troncon("t_1-2", i1, i2, 5, 1);
-	plan.ajouterTroncon("t_2-1", 5, 1, 2, 1);
-	Troncon b = new Troncon("t_2-1", i2, i3, 5, 1);
-	plan.ajouterTroncon("t_2-4", 25, 1, 2, 4);
-	Troncon c = new Troncon("t_2-4", i2, i4, 25, 1);
-	plan.ajouterTroncon("t_4-2", 25, 1, 4, 2);
-	Troncon d = new Troncon("t_4-2", i4, i2, 25, 1);
-	plan.ajouterTroncon("t_4-5", 3, 1, 4, 5);
-	Troncon e = new Troncon("t_4-5", i4, i5, 3, 1);
-	plan.ajouterTroncon("t_5-4", 3, 1, 5, 4);
-	Troncon f = new Troncon("t_5-4", i5, i4, 3, 1);
-	plan.ajouterTroncon("t_4-3", 8, 1, 4, 3);
-	Troncon g = new Troncon("t_4-3", i4, i3, 8, 1);
-	plan.ajouterTroncon("t_3-4", 8, 1, 3, 4);
-	Troncon h = new Troncon("t_3-4", i3, i4, 8, 1);
-	plan.ajouterTroncon("t_3-5", 1, 1, 3, 5);
-	Troncon i = new Troncon("t_3-5", i3, i5, 1, 1);
-	plan.ajouterTroncon("t_5-3", 1, 1, 5, 3);
-	Troncon j = new Troncon("t_5-3", i5, i3, 1, 1);
-	plan.ajouterTroncon("t_3-6", 6, 1, 3, 6);
-	Troncon k = new Troncon("t_3-6", i3, i6, 6, 1);
-	plan.ajouterTroncon("t_6-3", 6, 1, 6, 3);
-	Troncon l = new Troncon("t_6-3", i6, i3, 6, 1);
-	plan.ajouterTroncon("t_5-6", 10, 1, 5, 6);
-	Troncon m = new Troncon("t_5-6", i5, i6, 10, 1);
-	plan.ajouterTroncon("t_6-5", 10, 1, 6, 5);
-	Troncon n = new Troncon("t_6-5", i6, i5, 10, 1);
-	plan.ajouterTroncon("t_6-10", 11, 1, 6, 10);
-	Troncon o = new Troncon("t_6-10", i6, i10, 11, 1);
-	plan.ajouterTroncon("t_10-6", 11, 1, 10, 6);
-	Troncon p = new Troncon("t_10-6", i10, i6, 11, 1);
-	plan.ajouterTroncon("t_10-1", 6, 1, 10, 1);
-	Troncon q = new Troncon("t_10-1", i10, i1, 6, 1);
-	plan.ajouterTroncon("t_1-10", 6, 1, 1, 10);
-	Troncon r = new Troncon("t_1-10", i1, i10, 6, 1);
-	plan.ajouterTroncon("t_2-10", 1, 1, 2, 10);
-	Troncon s = new Troncon("t_2-10", i2, i10, 1, 1);
-	plan.ajouterTroncon("t_10-2", 1, 1, 10, 2);
-	Troncon t = new Troncon("t_10-2", i10, i2, 1, 1);
+	plan.ajouterTroncon("t_1_2", 5, 1, 1, 2);
+	Troncon t_1_2 = new Troncon("t_1_2", i1, i2, 5, 1);
+	plan.ajouterTroncon("t_2_1", 5, 1, 2, 1);
+	Troncon t_2_1 = new Troncon("t_2_1", i2, i1, 5, 1);
+	plan.ajouterTroncon("t_2_4", 25, 1, 2, 4);
+	Troncon t_2_4 = new Troncon("t_2_4", i2, i4, 25, 1);
+	plan.ajouterTroncon("t_4_2", 25, 1, 4, 2);
+	Troncon t_4_2 = new Troncon("t_4_2", i4, i2, 25, 1);
+	plan.ajouterTroncon("t_4_5", 3, 1, 4, 5);
+	Troncon t_4_5 = new Troncon("t_4_5", i4, i5, 3, 1);
+	plan.ajouterTroncon("t_5_4", 3, 1, 5, 4);
+	Troncon t_5_4 = new Troncon("t_5_4", i5, i4, 3, 1);
+	plan.ajouterTroncon("t_4_3", 8, 1, 4, 3);
+	Troncon t_4_3 = new Troncon("t_4_3", i4, i3, 8, 1);
+	plan.ajouterTroncon("t_3_4", 8, 1, 3, 4);
+	Troncon t_3_4 = new Troncon("t_3_4", i3, i4, 8, 1);
+	plan.ajouterTroncon("t_3_5", 1, 1, 3, 5);
+	Troncon t_3_5 = new Troncon("t_3_5", i3, i5, 1, 1);
+	plan.ajouterTroncon("t_5_3", 1, 1, 5, 3);
+	Troncon t_5_3 = new Troncon("t_5_3", i5, i3, 1, 1);
+	plan.ajouterTroncon("t_3_6", 6, 1, 3, 6);
+	Troncon t_3_6 = new Troncon("t_3_6", i3, i6, 6, 1);
+	plan.ajouterTroncon("t_6_3", 6, 1, 6, 3);
+	Troncon t_6_3 = new Troncon("t_6_3", i6, i3, 6, 1);
+	plan.ajouterTroncon("t_5_6", 10, 1, 5, 6);
+	Troncon t_5_6 = new Troncon("t_5_6", i5, i6, 10, 1);
+	plan.ajouterTroncon("t_6_5", 10, 1, 6, 5);
+	Troncon t_6_5 = new Troncon("t_6_5", i6, i5, 10, 1);
+	plan.ajouterTroncon("t_6_10", 11, 1, 6, 10);
+	Troncon t_6_10 = new Troncon("t_6_10", i6, i10, 11, 1);
+	plan.ajouterTroncon("t_10_6", 11, 1, 10, 6);
+	Troncon t_10_6 = new Troncon("t_10_6", i10, i6, 11, 1);
+	plan.ajouterTroncon("t_10_1", 6, 1, 10, 1);
+	Troncon t_10_1 = new Troncon("t_10_1", i10, i1, 6, 1);
+	plan.ajouterTroncon("t_1_10", 6, 1, 1, 10);
+	Troncon t_1_10 = new Troncon("t_1_10", i1, i10, 6, 1);
+	plan.ajouterTroncon("t_2_10", 1, 1, 2, 10);
+	Troncon t_2_10 = new Troncon("t_2_10", i2, i10, 1, 1);
+	plan.ajouterTroncon("t_10_2", 1, 1, 10, 2);
+	Troncon t_10_2 = new Troncon("t_10_2", i10, i2, 1, 1);
 	
 	algoDijkstra.chargerAlgo(plan.getListeIntersections(), plan.getListeTronconsTriee());
 	ArrayList<Integer> listeSommets = new ArrayList<>();
@@ -98,43 +100,101 @@ public class AlgoDijkstraTest {
 	coutComp[3] = 27;
 	coutComp[4] = 6;
 	Itineraire[] trajetsUnitComp = new Itineraire[5];
-	List<Troncon> list1 = new ArrayList<>();
-	Itineraire iti1 = new Itineraire(i1, i1, list1);
-	trajetsUnitComp[0] = iti1;
-	List<Troncon> list2 = new ArrayList<>();
-	list2.add(a);
-	Itineraire iti2 = new Itineraire(i1, i2, list2);
-	trajetsUnitComp[1] = iti2;
-	List<Troncon> list3 = new ArrayList<>();
-	list3.add(r);
-	list3.add(p);
-	list3.add(l);
-	Itineraire iti3 = new Itineraire(i1, i3, list3);
-	trajetsUnitComp[2] = iti3;
-	List<Troncon> list4 = new ArrayList<>();
-	list4.add(r);
-	list4.add(p);
-	list4.add(l);
-	list4.add(i);
-	list4.add(f);
-	Itineraire iti4 = new Itineraire(i1, i4, list4);
-	trajetsUnitComp[3] = iti4;
-	List<Troncon> list5 = new ArrayList<>();
-	list5.add(r);
-	Itineraire iti5 = new Itineraire(i1, i10, list5);
-	trajetsUnitComp[4] = iti5;
+	List<Troncon> list1_1 = new ArrayList<>();
+	Itineraire iti1_1 = new Itineraire(i1, i1, list1_1);
+	trajetsUnitComp[0] = iti1_1;
+	List<Troncon> list1_2 = new ArrayList<>();
+	list1_2.add(t_1_2);
+	Itineraire iti1_2 = new Itineraire(i1, i2, list1_2);
+	trajetsUnitComp[1] = iti1_2;
+	List<Troncon> list1_3 = new ArrayList<>();
+	list1_3.add(t_1_10);
+	list1_3.add(t_10_6);
+	list1_3.add(t_6_3);
+	Itineraire iti1_3 = new Itineraire(i1, i3, list1_3);
+	trajetsUnitComp[2] = iti1_3;
+	List<Troncon> list1_4 = new ArrayList<>();
+	list1_4.add(t_1_10);
+	list1_4.add(t_10_6);
+	list1_4.add(t_6_3);
+	list1_4.add(t_3_5);
+	list1_4.add(t_5_4);
+	Itineraire iti1_4 = new Itineraire(i1, i4, list1_4);
+	trajetsUnitComp[3] = iti1_4;
+	List<Troncon> list1_10 = new ArrayList<>();
+	list1_10.add(t_1_10);
+	Itineraire iti1_10 = new Itineraire(i1, i10, list1_10);
+	trajetsUnitComp[4] = iti1_10;
 	
-	plan.creerDemandeDeLivraison(heure, 4);
-	plan.ajouterLivraison(1, 20);
-	plan.ajouterLivraison(2, 10);
-	plan.ajouterLivraison(5, 8);
-	plan.ajouterLivraison(6, 10);
-	plan.ajouterLivraison(7, 14);
-	ArrayList<Integer> listeSommets = plan.methodeTest();
-	for (Integer i : listeSommets) {
-	    System.out.println(i);
+	for(int i = 0; i < 5; i++) {
+	    assertEquals(cout[i], coutComp[i]);
+	    assertEquals(trajetsUnit[i].getDepart().getId(), 
+		    trajetsUnitComp[i].getDepart().getId());
+	    assertEquals(trajetsUnit[i].getArrivee().getId(), 
+		    trajetsUnitComp[i].getArrivee().getId());
 	}
-	Object[] objectResult = plan.methodeTest2(listeSommets);
+	
+	ArrayList<Integer> nouvListeSommets = new ArrayList<>();
+	nouvListeSommets.add(1);
+	nouvListeSommets.add(3);
+	nouvListeSommets.add(10);
+	
+	Object[] resultDijkstraComplet = algoDijkstra.calculerDijkstra(nouvListeSommets);
+	int[][] coutComplet = (int[][]) resultDijkstraComplet[0];
+	Itineraire[][] trajetsUnitComplet = (Itineraire[][]) resultDijkstraComplet[1];
+	int[][] coutCompComplet = new int[3][3];
+	Itineraire[][] trajetsUnitCompComplet = new Itineraire[3][3];
+	coutCompComplet[0][0] = 0;
+	coutCompComplet[0][1] = 23;
+	coutCompComplet[0][2] = 6;
+	coutCompComplet[1][0] = 23;
+	coutCompComplet[1][1] = 0;
+	coutCompComplet[1][2] = 17;
+	coutCompComplet[2][0] = 6;
+	coutCompComplet[2][1] = 17;
+	coutCompComplet[2][2] = 0;
+	
+	trajetsUnitCompComplet[0][0] = iti1_1;
+	trajetsUnitCompComplet[0][1] = iti1_3;
+	trajetsUnitCompComplet[0][2] = iti1_10;
+	List<Troncon> list3_1 = new ArrayList<>();
+	list3_1.add(t_3_6);
+	list3_1.add(t_6_10);
+	list3_1.add(t_10_1);
+	Itineraire iti3_1 = new Itineraire(i3, i1, list3_1);
+	trajetsUnitCompComplet[1][0] = iti3_1;
+	List<Troncon> list3_3 = new ArrayList<>();
+	Itineraire iti3_3 = new Itineraire(i3, i3, list3_3);
+	trajetsUnitCompComplet[1][1] = iti3_3;
+	List<Troncon> list3_10 = new ArrayList<>();
+	list3_10.add(t_3_6);
+	list3_10.add(t_6_10);
+	Itineraire iti3_10 = new Itineraire(i3, i10, list3_10);
+	trajetsUnitCompComplet[1][2] = iti3_10;
+	List<Troncon> list10_1 = new ArrayList<>();
+	list10_1.add(t_10_1);
+	Itineraire iti10_1 = new Itineraire(i10, i1, list10_1);
+	trajetsUnitCompComplet[2][0] = iti10_1;
+	List<Troncon> list10_3 = new ArrayList<>();
+	list10_3.add(t_10_6);
+	list10_3.add(t_6_3);
+	Itineraire iti10_3 = new Itineraire(i10, i3, list10_3);
+	trajetsUnitCompComplet[2][1] = iti10_3;
+	List<Troncon> list10_10 = new ArrayList<>();
+	Itineraire iti10_10 = new Itineraire(i10, i10, list10_10);
+	trajetsUnitCompComplet[2][2] = iti10_10;
+	
+	
+	for(int i = 0; i < 3; i++) {
+	    for(int j = 0; j < 3; j++) {
+	    assertEquals(coutComplet[i][j], coutCompComplet[i][j]);
+	    assertEquals(trajetsUnitComplet[i][j].getDepart().getId(), 
+		    trajetsUnitCompComplet[i][j].getDepart().getId());
+	    assertEquals(trajetsUnitComplet[i][j].getArrivee().getId(), 
+		    trajetsUnitCompComplet[i][j].getArrivee().getId());
+	    }
+	}
+	/*Object[] objectResult = plan.methodeTest2(listeSommets);
 	int[][] couts = (int[][]) objectResult[0];
 	Itineraire[][] itineraires = (Itineraire[][]) objectResult[1];
 	for (int i = 0; i < couts[0].length; i++) {
@@ -165,7 +225,97 @@ public class AlgoDijkstraTest {
 		System.out.println(t.getOrigine().getId() + " - "
 			+ t.getDestination().getId());
 	    }
-	}
+	}*/
+   }
+    
+    @Test
+    public void testCalculerDijkstraLivraisonNonAtteignable() {
+    //Plan avec l'intersection 10 qui n'est pas atteignable à partir des autres interserctions
+	Plan plan = new Plan();
+	//Creation et Ajout des intersections au plan
+	AlgoDijkstra algoDijkstra = AlgoDijkstra.getInstance();
+	plan.ajouterIntersection(1, 412, 574);
+	Intersection i1 = new Intersection(1, 412, 574);
+	plan.ajouterIntersection(2, 217, 574);
+	Intersection i2 = new Intersection(2, 217, 574);
+	plan.ajouterIntersection(3, 325, 574);
+	Intersection i3 = new Intersection(3, 325, 574);
+	plan.ajouterIntersection(4, 412, 544);
+	Intersection i4 = new Intersection(4, 412, 544);
+	plan.ajouterIntersection(5, 742, 574);
+	Intersection i5 = new Intersection(5, 742, 574);
+	plan.ajouterIntersection(6, 451, 174);
+	Intersection i6 = new Intersection(6, 418, 974);
+	plan.ajouterIntersection(10, 418, 974);
+	Intersection i10 = new Intersection(10, 418, 974);
+	
+	//Creation et Ajout des Troncons au plan
+	plan.ajouterTroncon("t_1_2", 5, 1, 1, 2);
+	Troncon t_1_2 = new Troncon("t_1_2", i1, i2, 5, 1);
+	plan.ajouterTroncon("t_2_1", 5, 1, 2, 1);
+	Troncon t_2_1 = new Troncon("t_2_1", i2, i1, 5, 1);
+	plan.ajouterTroncon("t_2_4", 25, 1, 2, 4);
+	Troncon t_2_4 = new Troncon("t_2_4", i2, i4, 25, 1);
+	plan.ajouterTroncon("t_4_2", 25, 1, 4, 2);
+	Troncon t_4_2 = new Troncon("t_4_2", i4, i2, 25, 1);
+	plan.ajouterTroncon("t_4_5", 3, 1, 4, 5);
+	Troncon t_4_5 = new Troncon("t_4_5", i4, i5, 3, 1);
+	plan.ajouterTroncon("t_5_4", 3, 1, 5, 4);
+	Troncon t_5_4 = new Troncon("t_5_4", i5, i4, 3, 1);
+	plan.ajouterTroncon("t_4_3", 8, 1, 4, 3);
+	Troncon t_4_3 = new Troncon("t_4_3", i4, i3, 8, 1);
+	plan.ajouterTroncon("t_3_4", 8, 1, 3, 4);
+	Troncon t_3_4 = new Troncon("t_3_4", i3, i4, 8, 1);
+	plan.ajouterTroncon("t_3_5", 1, 1, 3, 5);
+	Troncon t_3_5 = new Troncon("t_3_5", i3, i5, 1, 1);
+	plan.ajouterTroncon("t_5_3", 1, 1, 5, 3);
+	Troncon t_5_3 = new Troncon("t_5_3", i5, i3, 1, 1);
+	plan.ajouterTroncon("t_3_6", 6, 1, 3, 6);
+	Troncon t_3_6 = new Troncon("t_3_6", i3, i6, 6, 1);
+	plan.ajouterTroncon("t_6_3", 6, 1, 6, 3);
+	Troncon t_6_3 = new Troncon("t_6_3", i6, i3, 6, 1);
+	plan.ajouterTroncon("t_5_6", 10, 1, 5, 6);
+	Troncon t_5_6 = new Troncon("t_5_6", i5, i6, 10, 1);
+	plan.ajouterTroncon("t_6_5", 10, 1, 6, 5);
+	Troncon t_6_5 = new Troncon("t_6_5", i6, i5, 10, 1);
+
+	//chargement des informations dans algoDijkstra
+	algoDijkstra.chargerAlgo(plan.getListeIntersections(), plan.getListeTronconsTriee());
+	ArrayList<Integer> listeSommets = new ArrayList<>();
+	listeSommets.add(1);
+	listeSommets.add(2);
+	listeSommets.add(3);
+	listeSommets.add(4);
+	listeSommets.add(10);
+	//Dijkstra à partir de i1 vers tous les autres intersections
+	//verifier que le cout vers i10 est infini et qu'il n'y a pas d'itinéraire vers i10
+	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1, listeSommets);
+	int[] cout = (int[]) resultDijkstra[0];
+	assertTrue(cout[4]==Integer.MAX_VALUE);
+	Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
+	assertTrue(trajetsUnit[0].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[1].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[2].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[3].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[4].getTroncons().isEmpty());
+	//Dijkstra à partir de i10 vers tous les autres intersections
+	//verifier que tous les couts à partir de i10 sont infinis et qu'il n'y a pas d'itinéraire possible
+
+	resultDijkstra = algoDijkstra.calculerDijkstra(10,listeSommets);
+	cout=(int[]) resultDijkstra[0];
+	assertTrue(cout[0]==Integer.MAX_VALUE &&
+			cout[1]==Integer.MAX_VALUE &&
+			cout[2]==Integer.MAX_VALUE &&
+			cout[3]==Integer.MAX_VALUE &&
+			cout[4]!=Integer.MAX_VALUE
+			);
+	trajetsUnit = (Itineraire[]) resultDijkstra[1];
+	assertTrue(trajetsUnit[0].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[1].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[2].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[3].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[4].getTroncons().isEmpty());
+
    }
 		
 	/*Livraison livraison_addresse_2 = p.getListeLivraisons().get(2);

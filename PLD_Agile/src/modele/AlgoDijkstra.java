@@ -178,10 +178,11 @@ public class AlgoDijkstra {
 	// On cree les itineraires correspondant aux plus courts chemins
 	// calcules a partir d'un unique sommet de depart, et possedant pour
 	// arrivee un sommet composant la tournee finale
+	int idSommetCourant;
 	for (Integer id : idSommets) {
 	    List<Troncon> trajet = new ArrayList<Troncon>();
 	    Troncon antecedent = listeSommets.get(id).antecedent;
-	    int idSommetCourant = id;
+	    idSommetCourant = id;
 	    while (antecedent != null) {
 		trajet.add(0, antecedent);
 		idSommetCourant = antecedent.getOrigine().getId();
