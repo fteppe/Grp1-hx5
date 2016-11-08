@@ -85,6 +85,11 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	ajouterZoneInformation(information, index, true);
     }
 
+    private void ajouterDescLivraison(String information, int index, boolean valide) {
+	DescriptionLivraison description = new DescriptionLivraison(information, index, fenetre, valide);
+	listeInformation.add(description);
+    }
+
     private void insererZoneInformationPosition(String information, int indexInformation, int position) {
 	InformationTextuelle info = new InformationTextuelle(information, indexInformation, fenetre);
 	listeInformation.add(position, info);
@@ -108,8 +113,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		contraintes.gridy = listeInformation.size();
 		String plage = "";
 		if (livraison.possedePlage()) {
-		    plage = " de " + livraison.getDebutPlage().afficherHoraire() + " à "
-			    + livraison.getFinPlage().afficherHoraire();
+		    plage = " de " + livraison.getDebutPlage().afficherHoraire() + " a " + livraison.getFinPlage().afficherHoraire();
 		}
 		if (livraison.getHeureArrivee() != null) {
 		    plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().afficherHoraire();
@@ -120,8 +124,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		    }
 		    plage += "\nHeure de départ : " + livraison.getHeureDepart().afficherHoraire();
 		}
-		ajouterZoneInformation("Livraison a l'adresse " + livraison.getAdresse().getId() + plage,
-			livraison.getAdresse().getId());
+		ajouterDescLivraison("Livraison a l'adresse " + livraison.getAdresse().getId() + plage,
+			livraison.getAdresse().getId(), livraison.getRespectePlage());
 	    }
 	    afficherInformations();
 	}

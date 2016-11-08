@@ -39,6 +39,7 @@ public class MenuCreationLivraison extends JDialog{
 		this.fenetre = fenetre;
 		this.idLivraison = idLivraison;
 		this.avant = avant;
+		setResizable(false);
 		champsEntree = new JPanel();
 		boutons = new JPanel();
 		setSize(new Dimension(350, 150));
@@ -97,13 +98,19 @@ public class MenuCreationLivraison extends JDialog{
 		if(avant){
 			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
 			idApres = idLivraison;
-			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres,dureeInt);
 		}
 		else{
 			idAvant = idLivraison;
 			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
+		}
+		if(horaire.isSelected()){
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getText(), heureDepart.getText());
+		}
+		else{
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
 		}
+		
+		
 	}
 }
 
