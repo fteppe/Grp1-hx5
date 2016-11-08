@@ -2,13 +2,17 @@ package controleur;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.List;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import modele.Intersection;
+import modele.Itineraire;
 import modele.Livraison;
 import modele.ObjetGraphique;
 import modele.Plan;
+import modele.Troncon;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
@@ -55,17 +59,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
 	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
-	ObjetGraphique OG = plan.cherche(point);
-	if (OG != null) {
-	    System.out.println("Objet trouvé");
-	    if (OG instanceof Livraison) {
-		System.out.println("L'Objet est une livraison");
-		Livraison livCliquee = (Livraison) OG;
-		fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
-	    }
-	    if (OG instanceof Intersection) {
-		System.out.println("L'Objet est l'intersection id="+((Intersection) OG).getId());
-	    }
+	ObjetGraphique objGraph = plan.cherche(point);
+	if (objGraph instanceof Livraison) {
+	    System.out.println("L'Objet est une livraison");
+	    Livraison livCliquee = (Livraison) objGraph;
+	    fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
+	}
+	if (objGraph instanceof Intersection) {
+	    System.out.println("L'Objet est l'intersection id=" + ((Intersection) objGraph).getId());
 	}
     }
 
