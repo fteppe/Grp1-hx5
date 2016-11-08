@@ -56,8 +56,8 @@ public class CdeAjoutLivraison implements Commande {
 
 	this.duree = liv.getDuree();
 	if (liv.possedePlage()) {
-	    this.debutPlage = liv.getDebutPlage().toString() + ":00";
-	    this.finPlage = liv.getFinPlage().toString() + ":00";
+	    this.debutPlage = liv.getDebutPlage().toString();
+	    this.finPlage = liv.getFinPlage().toString();
 	} else {
 	    this.debutPlage = null;
 	    this.finPlage = null;
