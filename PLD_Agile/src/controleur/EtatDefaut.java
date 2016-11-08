@@ -37,7 +37,7 @@ public abstract class EtatDefaut implements Etat {
 	
 	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {}
+	public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point) {}
 	
 	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {}
 
@@ -49,13 +49,17 @@ public abstract class EtatDefaut implements Etat {
 	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
 		int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {}
 	
-	public boolean clicDroitZoneTextuellePossible(Controleur controleur){
+	public boolean clicDroitZoneTextuellePossible(){
 		return false;
 	}
 	
+	public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2) {}
+	
 	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {}
 	
-	public void annulerAjout(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {}
+	public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison) {}
+	
+	public void annulerAjout(Controleur controleur) {}
 	
 	public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {}
 	

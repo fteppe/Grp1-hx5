@@ -56,7 +56,7 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 	
 	@Override
-	public void annulerAjout(Controleur controleur,Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+	public void annulerAjout(Controleur controleur) {
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	

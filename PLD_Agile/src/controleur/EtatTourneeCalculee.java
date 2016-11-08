@@ -2,17 +2,12 @@ package controleur;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.List;
-
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-
 import modele.Intersection;
-import modele.Itineraire;
 import modele.Livraison;
 import modele.ObjetGraphique;
 import modele.Plan;
-import modele.Troncon;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
@@ -58,7 +53,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
+    public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point) {
 	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
 	// TODO ajout tolérance
 	ObjetGraphique objGraph = plan.cherche(point, 15);
@@ -79,7 +74,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public boolean clicDroitZoneTextuellePossible(Controleur controleur) {
+    public boolean clicDroitZoneTextuellePossible() {
 	return true;
     }
 
@@ -91,13 +86,25 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
     
     @Override
+    public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison) {
+	controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
+	controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+	fenetre.afficherMessage("Choisissez une seconde livraison:");
+    }
+    
+    @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
 	int id =-1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Intersection) {
 	    id = ((Intersection) objGraph).getId();
+	    fenetre.setIntersectionSelectionne(id);
 	}
-	fenetre.setIntersectionSelectionne(id);
+	else if(objGraph instanceof Livraison) {
+	    id = ((Livraison) objGraph).getAdresse().getId();
+	    fenetre.setLivraisonSurvole(id);
+	}
+
     }
 
 }
