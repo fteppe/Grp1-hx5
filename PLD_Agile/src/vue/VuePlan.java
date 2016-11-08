@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,11 +83,25 @@ public class VuePlan extends JPanel implements Observer {
 				if(SwingUtilities.isLeftMouseButton(e)){
 				}
 				else if(SwingUtilities.isRightMouseButton(e)){
-					Point position = new Point(e.getX(), e.getY());
-					position.x/=echelle;
-					position.y/=echelle;
-					fenetre.clicDroitPlan(position);
+					
+					fenetre.clicDroitPlan(MiseAEchellePlan(e.getX(), e.getY()));
 				}
+				
+			}
+		});
+
+		addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+				int tolerance =(int) echelle * diametreIntersection;
+				fenetre.survolPlan(MiseAEchellePlan(e.getX(), e.getY()), tolerance);
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -204,6 +219,10 @@ public class VuePlan extends JPanel implements Observer {
 		
 	}
 	
+	protected Color getCouleurIntersection(){
+		return COULEUR_INTERSECTION;
+	}
+	
 	protected void setLivraisonSurligne(int idLivraison){
 		livraisonSurligne = idLivraison;
 	}
@@ -217,7 +236,7 @@ public class VuePlan extends JPanel implements Observer {
 	}
 	
 	
-	private void dessinerIntersection(Graphics g, Intersection i, Color c){
+	public void dessinerIntersection(Graphics g, Intersection i, Color c){
 		
 		g.setColor(c);
 		g.fillOval((int) (i.getLongitude() * echelle - diametreIntersection / 2),(int) (i.getLatitude() * echelle - diametreIntersection/2), diametreIntersection, diametreIntersection);
@@ -256,6 +275,15 @@ public class VuePlan extends JPanel implements Observer {
 		g.setColor(c);
 		g.fillPolygon(tabx,taby ,3);
 				
+	}
+	
+	private Point MiseAEchellePlan(int x,int y){
+		Point position =  new Point(x,y);
+		position.x/=echelle;
+		position.y/=echelle;
+		
+		return position;
+		
 	}
 
 }

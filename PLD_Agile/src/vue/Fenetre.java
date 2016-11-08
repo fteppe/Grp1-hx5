@@ -31,6 +31,7 @@ public class Fenetre extends JFrame{
 	private JPanel panneauEst;
 	private JScrollPane scroll;
 	private PopMenu popupMenu;
+	private int intersectionSelectionne; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
 	
@@ -89,6 +90,13 @@ public class Fenetre extends JFrame{
 		popupMenu.show(this, pos.x, pos.y);
 	}
 	
+	public void setIntersectionSelectionne(int idIntersection){
+		intersectionSelectionne = idIntersection;
+		if(intersectionSelectionne != -1){
+			vuePlan.dessinerIntersection(vuePlan.getGraphics(), plan.getIntersection(intersectionSelectionne), vuePlan.getCouleurIntersection());
+		}
+	}
+	
 	public void afficherDetailDemandeLivraison(){
 		zoneDeTexte.afficherInformationDemandeLivraison();
 	}
@@ -97,8 +105,15 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void clicDroitPlan(Point point){
-		controleur.clicDroitPlan(point);
+		if(intersectionSelectionne == 1){
+			controleur.clicDroitPlan(point);
+		}
 	}
+	
+	protected void survolPlan(Point point,int tolerance){
+		
+	}
+	
 	protected void supprimerLivraison(int id){
 		//TODO appel fonction correspondante controleur
 	    controleur.supprimerLivraison(id);
