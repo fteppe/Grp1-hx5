@@ -22,10 +22,11 @@ public class CdeAjoutLivraison implements Commande {
 		this.idIntersection = idLivraison;
 	}
 	
-	public CdeAjoutLivraison(Plan p, Intersection intersection){
+	public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv){
 		this.plan = p;
 		this.idIntersection = intersection.getId();
-		this.intersection = intersection;
+		this.idPrec = idPrec;
+		this.idSuiv = idSuiv;
 	}
 	
 	public CdeAjoutLivraison(Plan p, Intersection intersection, int duree, String debutPlage, String finPlage){
@@ -44,7 +45,6 @@ public class CdeAjoutLivraison implements Commande {
 	public void doCde() {
 	    // Appel à insererLivraisonTournee avec id des intersections
 	    // precedentes et suivantes
-	    
 	    plan.insererLivraisonTournee(idIntersection, duree, debutPlage, finPlage, idPrec, idSuiv);
 
 	}
@@ -52,6 +52,7 @@ public class CdeAjoutLivraison implements Commande {
 	@Override
 	public void undoCde() {
 		plan.retirerLivraisonTournee(idIntersection);
+		// TODO : Mise a jour de la vue
 	}
 
 }
