@@ -97,8 +97,8 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
 	
-	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv) {
-		etatCourant.clicGaucheAjoutLivraison(this, plan, fenetre, listeDeCdes, idPrec, idSuiv);
+	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
+		etatCourant.clicAjouterLivraisonPosition(this, plan, fenetre, listeDeCdes, idPrec, idSuiv, duree);
 	}
 	
 	
@@ -178,10 +178,8 @@ public class Controleur {
 	}
 	
 	/**
-	 * Methode appelee par fenetre lorsque l'utilisateur survole
-	 * le plan une fois la tournée calculée.
-	 * @param point
-	 * @param tolerance
+	 * Methode appelee par fenetre afin qu'elle sache
+	 * si il est possible d'ajouter une livraison dans l'etat courant.
 	 */
 	public boolean possibleAjoutLivraison() {
 	    return etatCourant.possibleAjoutLivraison(this, plan, fenetre);

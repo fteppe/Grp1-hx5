@@ -41,12 +41,8 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 	
 	@Override
-	public void clicGaucheAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv) {
-	    // TODO : recuperer l'id de la livraison/intersection au model en lui donnant un point.
-	    // Si le point selectionner est une interseciton et qu'elle n'est pas deja une livraison
-
-	    listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv));
-
+	public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv, int duree) {
+	    listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree));
 	    fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	}
 	

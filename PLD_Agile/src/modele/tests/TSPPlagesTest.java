@@ -10,6 +10,7 @@ import java.util.Observer;
 import org.junit.Before;
 import org.junit.Test;
 
+import modele.Heure;
 import modele.Intersection;
 import modele.Itineraire;
 import modele.Plan;
@@ -22,8 +23,8 @@ public class TSPPlagesTest {
     int[][] coutCompComplet;
     Itineraire[][] trajetsUnitCompComplet;
     int[] duree;
-    int[] plagesDebut;
-    int[] plagesFin;
+    int[] horaireDebut;
+    int[] horaireFin;
     
     @Before
     public void setUp(){
@@ -31,7 +32,7 @@ public class TSPPlagesTest {
     }
     
     @Test
-    public void testCalculerTourneeValide() {
+    public void testCalculerTourneeValideSsPlage() {
 	plan = new Plan();
 	plan.ajouterIntersection(1, 412, 574);
 	Intersection i1 = new Intersection(1, 412, 574);
@@ -137,8 +138,24 @@ public class TSPPlagesTest {
 	List<Troncon> list10_10 = new ArrayList<>();
 	Itineraire iti10_10 = new Itineraire(i10, i10, list10_10);
 	trajetsUnitCompComplet[2][2] = iti10_10;
-	duree = {0, 5, 15, 10};
-	tsp.chercheSolution(500, 4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	duree = new int[3];
+	duree[0] = 0;
+	duree[1] = 5;
+	duree[2] = 10;
+	
+	horaireDebut = new int[3];
+	horaireDebut[0] = 0;
+	horaireDebut[1] = 0;
+	horaireDebut[2] = 0;
+	
+	horaireFin = new int[3];
+	horaireFin[0] = Integer.MAX_VALUE;
+	horaireFin[1] = Integer.MAX_VALUE;
+	horaireFin[2] = Integer.MAX_VALUE;
+
+	Heure heureDepartH = new Heure("07:25:00");
+	int heureDepart = heureDepartH.toSeconds();
+	tsp.chercheSolution(1000, 3, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
     }
 
 }
