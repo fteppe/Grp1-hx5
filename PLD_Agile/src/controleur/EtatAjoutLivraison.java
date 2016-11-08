@@ -46,7 +46,6 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	
 	@Override
 	public void annulerAjout(Controleur controleur,Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
-	    // TODO :  Dans cet etat, suite a un clic droit l'application retourne dans son etat precedent.
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	

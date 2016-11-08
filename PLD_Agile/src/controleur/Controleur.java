@@ -173,7 +173,7 @@ public class Controleur {
 	 * @param tolerance
 	 */
 	public int survolPlan(Point point, int tolerance) {
-	    return etatCourant.survolPlan(plan, point, tolerance);
+	    return etatCourant.survolPlan(plan, fenetre, point, tolerance);
 	}
 
 }

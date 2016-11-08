@@ -9,6 +9,9 @@ public class CdeAjoutLivraison implements Commande {
 	private Plan plan;
 	private int idLivraison;
 	private Livraison livraison;
+	private int idPrec;
+	private int idSuiv;
+	
 	
 	public CdeAjoutLivraison(Plan p, int idLivraison){
 		this.plan = p;
@@ -27,7 +30,8 @@ public class CdeAjoutLivraison implements Commande {
 	public void doCde() {
 	    // Appel à insererLivraisonTournee avec id des intersections
 	    // precedentes et suivantes
-	    //plan.insererLivraisonTournee(livraison, adrPrec, adrSuiv);
+	    
+	    plan.insererLivraisonTournee(livraison.getAdresse(), idPrec, idSuiv);
 
 	}
 	

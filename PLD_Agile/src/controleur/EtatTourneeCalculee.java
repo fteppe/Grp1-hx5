@@ -88,7 +88,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
     
     @Override
-    public int survolPlan(Plan plan, Point point, int tolerance) {
+    public int survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
 	ObjetGraphique objGraph = plan.cherche(point);
 	if (objGraph instanceof Intersection) {
 	    return ((Intersection) objGraph).getId();
@@ -96,6 +96,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	else{
 	    return -1;
 	}
+	fenetre.setIntersection();
     }
 
 }

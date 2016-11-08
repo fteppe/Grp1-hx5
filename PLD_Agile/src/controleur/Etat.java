@@ -129,7 +129,7 @@ public interface Etat {
 	 * @param point
 	 * @param tolerance
 	 */
-	public int survolPlan(Plan plan, Point point, int tolerance);
+	public int survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance);
 	
 	
 }
