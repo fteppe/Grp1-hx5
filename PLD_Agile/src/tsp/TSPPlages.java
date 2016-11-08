@@ -20,7 +20,6 @@ public class TSPPlages {
     public void lock(){
 	while(locked){}
 	locked = true;
-	System.out.println("lock");
     }
 
     /**
@@ -29,7 +28,6 @@ public class TSPPlages {
      */
     public void unlock(){
 	locked = false;
-	System.out.println("unlock");
     }
 	
 	
@@ -61,18 +59,18 @@ public class TSPPlages {
      */
     public void chercheSolution(int tpsLimite, int nbSommets, int[][] cout, 
     		int[] duree , int[] horaireDebut, int[] horaireFin, int heureDepart){
-	tempsLimiteAtteint = false;
-	coutMeilleureSolution = Integer.MAX_VALUE;
-	meilleureSolution = new Integer[nbSommets];
-	//On initialise les tableaux presentant les sommets visites 
-	//et a visiter
-	ArrayList<Integer> nonVus = new ArrayList<Integer>();
-	for (int i=1; i<nbSommets; i++) nonVus.add(i);
-	ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
-	vus.add(0); // Le premier sommet visite est l'entrepôt
-	branchAndBound(0, nonVus, vus, 0, cout, duree, 
-			System.currentTimeMillis(),tpsLimite,horaireDebut,
-			horaireFin, heureDepart);
+		tempsLimiteAtteint = false;
+		coutMeilleureSolution = Integer.MAX_VALUE;
+		meilleureSolution = new Integer[nbSommets];
+		//On initialise les tableaux presentant les sommets visites 
+		//et a visiter
+		ArrayList<Integer> nonVus = new ArrayList<Integer>();
+		for (int i=1; i<nbSommets; i++) nonVus.add(i);
+		ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
+		vus.add(0); // Le premier sommet visite est l'entrepôt
+		branchAndBound(0, nonVus, vus, 0, cout, duree, 
+				System.currentTimeMillis(),tpsLimite,horaireDebut,
+				horaireFin, heureDepart);
 	}
 	
     /**
@@ -119,25 +117,24 @@ public class TSPPlages {
     protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus, 
 	    int[][] cout, int[] duree, int coutActuel, 
 	    int[] horaireDebut, int[] horaireFin, int heureDepart) {
-	int bound = Integer.MAX_VALUE;
-	for(Integer i : nonVus){
-	    int coutVers = cout[sommetCourant][i];
-	    if(coutVers != Integer.MAX_VALUE){
-		//On prend en compte seulement les sommets pour lesquels
-		//on peut respecter les plages horaires associees
-		if(coutVers + coutActuel + heureDepart + duree[i] 
-			< horaireFin[i]){
-		    //Le cout prend en compte l'itineraire, la duree 
-		    //de la livraison et le temps d'attente si il y en a 
-		    if(coutVers < bound){
-			bound = coutVers  + Math.max(0, horaireDebut[i]
-				- heureDepart - coutVers - coutActuel) 
-			    	+ duree[i];
+		int bound = Integer.MAX_VALUE;
+		for(Integer i : nonVus){
+		    int coutVers = cout[sommetCourant][i] + duree[i];
+		    int attente = Math.max(0, horaireDebut[i]
+					- (heureDepart + coutActuel) - cout[sommetCourant][i]);
+		    if(coutVers != Integer.MAX_VALUE){
+				//On prend en compte seulement les sommets pour lesquels
+				//on peut respecter les plages horaires associees
+				if((coutActuel + heureDepart + coutVers + attente) < horaireFin[i]){
+				    //Le cout prend en compte l'itineraire, la duree 
+				    //de la livraison et le temps d'attente si il y en a 
+				    if(coutVers < bound){
+						bound = coutVers;
+				    }
+				}
 		    }
 		}
-	    }
-	}
-	return bound;
+		return bound;
     }
 	
 	
@@ -162,42 +159,29 @@ public class TSPPlages {
     protected Iterator<Integer> iterator(Integer sommetCrt, 
 	    ArrayList<Integer> nonVus, int[][] cout, int[] duree, 
 	    int[] heureDebut, int[] heureFin, int coutVus, int heureDepart) {
-	ArrayList<Integer[]> nonVusTri = new ArrayList<Integer[]>();
-	ArrayList<Integer> nonVusOrdonnes = new ArrayList<Integer>();
-	//On prend en compte seulement les sommets pour lesquels
-	//on peut respecter les plages horaires associees
-	for (int i = 0; i< nonVus.size(); i++) {
-	    Integer coutSommet = coutVus + heureDepart 
-		    + cout[sommetCrt][nonVus.get(i)] + duree[nonVus.get(i)];
-	    if(heureFin[nonVus.get(i)] > coutSommet ) {
-		Integer[] pair = new Integer[2];
-		pair[0] = nonVus.get(i);
-		pair[1] = coutSommet;
-		nonVusTri.add(pair);
-	    }
-	}
-	/*ArrayList<Integer> nonVusOrdonnes = new ArrayList<Integer>();
-	 for(int i = 0 ; i < nonVusTri.size() ; i++){
-		Integer indiceCoutMin = null;
-		Integer meilleurCout = Integer.MAX_VALUE;
-		for(int j = 0 ; j < nonVusTri.size() ; j++) {
-		    Integer coutNouvSommet = cout[sommetCrt][nonVusTri.get(j)]  + Math.max(0, heureDebut[nonVusTri.get(j)] - heureDepart - cout[sommetCrt][nonVusTri.get(j)] - coutVus) + duree[nonVus.get(i)];
-		    if(coutNouvSommet < meilleurCout) {
-			indiceCoutMin = nonVusTri.get(j);
-			meilleurCout = coutNouvSommet;
+    	ArrayList<Integer[]> nonVusTri = new ArrayList<Integer[]>();
+    	ArrayList<Integer> nonVusOrdonnes = new ArrayList<Integer>();
+    	//On prend en compte seulement les sommets pour lesquels
+    	//on peut respecter les plages horaires associees
+    	for (int i = 0; i< nonVus.size(); i++) {
+    		Integer coutSommet = cout[sommetCrt][nonVus.get(i)] + duree[nonVus.get(i)];
+    		if(heureFin[nonVus.get(i)] >= coutVus + coutSommet + heureDepart) {
+    			Integer[] pair = new Integer[2];
+				pair[0] = nonVus.get(i);
+				pair[1] = coutSommet;
+				nonVusTri.add(pair);
 		    }
 		}
-		nonVusOrdonnes.add(indiceCoutMin);
-		nonVusTri.remove(indiceCoutMin);
-	    }*/
 	    //On classe les sommets atteignables par cout croissant
-	nonVusTri.sort((Integer[] num1, Integer[] num2) ->
-	    		{return num1[1].compareTo(num2[1]);}
-	    		);
-	for (int i = 0; i< nonVusTri.size(); i++) {
-	    nonVusOrdonnes.add(nonVusTri.get(i)[0]);
-	}
-	return new IteratorSeq(nonVusOrdonnes, sommetCrt);
+    	nonVusTri.sort((Integer[] num1, Integer[] num2) ->
+	    		{
+	    			return num1[1].compareTo(num2[1]);
+	    		});
+    	
+    	for (int i = 0; i< nonVusTri.size(); i++) {
+    		nonVusOrdonnes.add(nonVusTri.get(i)[0]);
+    	}
+    	return new IteratorSeq(nonVusOrdonnes, sommetCrt);
     }
 	
     /**
@@ -227,52 +211,57 @@ public class TSPPlages {
 	    ArrayList<Integer> vus, int coutVus, int[][] cout, int[] duree, 
 	    	long tpsDebut, int tpsLimite, int[] horaireDebut, int[] horaireFin, 
 	    		int heureDepart){
-	if (System.currentTimeMillis() - tpsDebut > tpsLimite){
-	    tempsLimiteAtteint = true;
-	    return;
-	}
-	if (nonVus.size() == 0){ // Tous les sommets ont ete visites
-	    coutVus += cout[sommetCrt][0];
-	    if (coutVus < coutMeilleureSolution){ // On a trouve une solution meilleure que meilleureSolution
-		//On protege les tableaux d'un acces concurrent
-		lock();
-		vus.toArray(meilleureSolution);
-		coutMeilleureSolution = coutVus;
-		unlock();
-	    }
-	} else {
-	    int nouveauCout = coutVus;
-	    int bound = bound(sommetCrt, nonVus, cout, duree, coutVus, 
-		 horaireDebut, horaireFin, heureDepart);
-	    if(bound == Integer.MAX_VALUE) {
-		nouveauCout = bound;
-	    } else {
-	    	nouveauCout += bound;
-	    }
-	    	
-	    if ( nouveauCout < coutMeilleureSolution){
-		Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, 
-		    duree, horaireDebut, horaireFin, coutVus, 
-		    heureDepart);
-		while (it.hasNext()){
-		    Integer prochainSommet = it.next();
-		    //On visite le prochain sommet
-		    vus.add(prochainSommet);
-		    nonVus.remove(prochainSommet);
-		    branchAndBound(prochainSommet, nonVus, vus, 
-			    	coutVus + cout[sommetCrt][prochainSommet] 
-			    	+ duree[prochainSommet] 
-			    	+ Math.max(0, horaireDebut[prochainSommet] 
-			    	- heureDepart - cout[sommetCrt][prochainSommet]
-			    	- coutVus), 
-				cout, duree, tpsDebut, tpsLimite, horaireDebut, 
-				horaireFin, heureDepart);
-		    //On retire le sommet visite de la liste correspondante
-		    vus.remove(prochainSommet);
-		    nonVus.add(prochainSommet);
-		}	    
-	    }
-	}
+		if (System.currentTimeMillis() - tpsDebut > tpsLimite){
+		    tempsLimiteAtteint = true;
+		    return;
+		}
+		if (coutVus >= coutMeilleureSolution){
+			return;
+		}
+		if (nonVus.size() == 0){ // Tous les sommets ont ete visites
+		    coutVus += cout[sommetCrt][0];
+		    if (coutVus < coutMeilleureSolution){ // On a trouve une solution meilleure que meilleureSolution
+			//On protege les tableaux d'un acces concurrent
+				lock();
+				vus.toArray(meilleureSolution);
+				coutMeilleureSolution = coutVus;
+				unlock();
+		    }
+		}
+		else {
+		    int nouveauCout = coutVus;
+		    int bound = bound(sommetCrt, nonVus, cout, duree, coutVus, 
+			 horaireDebut, horaireFin, heureDepart);
+		    if(bound == Integer.MAX_VALUE) {
+		    	nouveauCout = bound;
+		    }
+		    else{
+			    nouveauCout += bound;
+		    }
+		    if ( nouveauCout < coutMeilleureSolution){
+		    	Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, 
+		    			duree, horaireDebut, horaireFin, coutVus, 
+		    			heureDepart);
+				while (it.hasNext()){
+				    Integer prochainSommet = it.next();
+				    
+				    vus.add(prochainSommet);
+				    nonVus.remove(prochainSommet);
+				    
+				    int heurePassageProchain = heureDepart + cout[sommetCrt][prochainSommet] + coutVus;
+				    int coutProchain = coutVus 
+				    		+ cout[sommetCrt][prochainSommet] 
+					    	+ duree[prochainSommet] 
+					    	+ Math.max(0, horaireDebut[prochainSommet] - heurePassageProchain);
+				    branchAndBound(prochainSommet, nonVus, vus, coutProchain,
+						cout, duree, tpsDebut, tpsLimite, horaireDebut, 
+						horaireFin, heureDepart);
+				    
+				    vus.remove(prochainSommet);
+				    nonVus.add(prochainSommet);
+				}	    
+		    }
+		}
     }
 }
 
