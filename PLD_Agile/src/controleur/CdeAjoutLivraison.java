@@ -31,7 +31,7 @@ public class CdeAjoutLivraison implements Commande {
 	    // Appel à insererLivraisonTournee avec id des intersections
 	    // precedentes et suivantes
 	    
-	    plan.insererLivraisonTournee(livraison.getAdresse(), idPrec, idSuiv);
+	    //plan.insererLivraisonTournee(livraison.getAdresse(), idPrec, idSuiv);
 
 	}
 	
