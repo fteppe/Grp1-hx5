@@ -9,6 +9,7 @@ import java.util.Observable;
 public class Tournee extends Observable {
 
     private int duree;
+    private int adrEntrepot;
     private Heure hDebut;
     private Heure hFin;
     private boolean valide;
@@ -40,6 +41,8 @@ public class Tournee extends Observable {
      *            Itineraire a ajouter à la tournee
      */
     public void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
+	if (itineraires.size() == 0)
+	    adrEntrepot = itineraire.getDepart().getId();
 	itineraires.add(itineraire);
 	if (prochLivr != null)
 	    livraisons.put(prochLivr.getAdresse().getId(), prochLivr);
@@ -69,6 +72,12 @@ public class Tournee extends Observable {
 	AlgoDijkstra algo = AlgoDijkstra.getInstance();
 	Object[] resultAlgo = algo.calculerDijkstra(nvItineraires);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
+	for (Itineraire itin : itineraires) {
+	    if (itin.getDepart().getId() == nvItineraires.get(0) && itin.getArrivee().getId() == nvItineraires.get(2)) {
+		itineraires.remove(itin);
+		break;
+	    }
+	}
 	this.insererItineraire(nvItin[0][1]);
 	this.insererItineraire(nvItin[1][2]);
 	this.mettreAJourTempsParcours(this.hDebut);
@@ -102,9 +111,10 @@ public class Tournee extends Observable {
 	Object[] resultAlgo = algo.calculerDijkstra(nvItineraire);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
 	this.insererItineraire(nvItin[0][1]);
+	Livraison liv = livraisons.remove(adresse);
 	this.mettreAJourTempsParcours(this.hDebut);
 
-	return livraisons.remove(adresse);
+	return liv;
     }
 
     /**
@@ -116,13 +126,17 @@ public class Tournee extends Observable {
      */
     public void insererItineraire(Itineraire nvItineraire) {
 	int i = 0;
-	for (; i < itineraires.size(); i++) {
-	    Itineraire itin = itineraires.get(i);
-	    if (itin.getArrivee() == nvItineraire.getDepart()) {
-		itineraires.add(++i, nvItineraire);
-		break;
+	if (nvItineraire.getDepart().getId() == adrEntrepot) {
+	    itineraires.add(0, nvItineraire);
+	} else {
+	    for (; i < itineraires.size(); i++) {
+		Itineraire itin = itineraires.get(i);
+		if (itin.getArrivee() == nvItineraire.getDepart()) {
+		    itineraires.add(++i, nvItineraire);
+		    break;
+		}
+		// TODO test sur l'intersection d'arrivée
 	    }
-	    // TODO test sur l'intersection d'arrivée
 	}
     }
 
@@ -137,6 +151,7 @@ public class Tournee extends Observable {
 	Heure cur = heureDepartTournee;
 	for (int i = 0; i < itineraires.size() - 1; i++) {
 	    Itineraire itin = itineraires.get(i);
+	    System.out.println(itin);
 	    cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
 	    int adrLiv = itin.getArrivee().getId();
 	    Livraison liv = livraisons.get(adrLiv);
