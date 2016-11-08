@@ -97,7 +97,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	if (objGraph instanceof Intersection) {
 	    id = ((Intersection) objGraph).getId();
 	}
-	fenetre.setIntersectionSelectionne(id);
+	fenetre.setIntersectionSurvole(id);
     }
 
 }
