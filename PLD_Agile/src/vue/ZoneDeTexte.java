@@ -29,21 +29,21 @@ public class ZoneDeTexte extends JPanel implements Observer {
     private GridBagConstraints contraintes;
 
     public ZoneDeTexte(int largeur, int hauteur, Plan plan, Fenetre fenetre) {
-	super();
-	this.fenetre = fenetre;
-	this.plan = plan;
-	plan.addObserver(this);
-	listeInformation = new ArrayList<InformationTextuelle>();
-	ajouterZoneInformation("", 0, false);
-	texte = listeInformation.get(0);
-	setLayout(new GridBagLayout());
-	contraintes = new GridBagConstraints();
-	contraintes.gridwidth = GridBagConstraints.REMAINDER;
-	contraintes.anchor = GridBagConstraints.PAGE_START;
-	contraintes.fill = GridBagConstraints.HORIZONTAL;
-	contraintes.gridy = 0;
-
-	afficherInformations();
+		super();
+		this.fenetre = fenetre;
+		this.plan = plan;
+		plan.addObserver(this);
+		listeInformation = new ArrayList<InformationTextuelle>();
+		ajouterZoneInformation("", 0, false);
+		texte = listeInformation.get(0);
+		setLayout(new GridBagLayout());
+		contraintes = new GridBagConstraints();
+		contraintes.gridwidth = GridBagConstraints.REMAINDER;
+		contraintes.anchor = GridBagConstraints.PAGE_START;
+		contraintes.fill = GridBagConstraints.HORIZONTAL;
+		contraintes.gridy = 0;
+	
+		afficherInformations();
     }
 
     protected int getLivraisonAvantId(int id) {

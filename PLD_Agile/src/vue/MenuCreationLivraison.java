@@ -2,6 +2,8 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +44,7 @@ public class MenuCreationLivraison extends JDialog{
 		setResizable(false);
 		champsEntree = new JPanel();
 		boutons = new JPanel();
-		setSize(new Dimension(350, 150));
+		//setSize(new Dimension(350, 150));
 		
 		System.out.println("MENU CREATION LIVRAISON");
 		horaire = new JRadioButton("Fenêtre de passage sur la livraison?");
@@ -53,13 +55,29 @@ public class MenuCreationLivraison extends JDialog{
 		duree = new JTextField(TAILLE_TEXT_FIELD);
 		heureArrive = new JTextField(TAILLE_TEXT_FIELD);
 		heureDepart = new JTextField(TAILLE_TEXT_FIELD);
-		champsEntree.add(labelDuree);
-		champsEntree.add(duree);
-		champsEntree.add(horaire);
-		champsEntree.add(labelArrive);
-		champsEntree.add(heureArrive);
-		champsEntree.add(labelDepart);
-		champsEntree.add(heureDepart);
+		
+		champsEntree.setLayout(new GridBagLayout());
+		GridBagConstraints contraintes = new GridBagConstraints();
+		contraintes.anchor = GridBagConstraints.LINE_END;
+		contraintes.ipadx = 10;
+		contraintes.gridx = 0;
+		contraintes.gridy = 0;
+		champsEntree.add(labelDuree , contraintes);
+		contraintes.gridx++;
+		champsEntree.add(duree , contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(horaire , contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(labelArrive , contraintes);
+		contraintes.gridx++;
+		champsEntree.add(heureArrive , contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(labelDepart , contraintes);
+		contraintes.gridx++;
+		champsEntree.add(heureDepart , contraintes);
 		
 		ok = new JButton("ok");
 		annuler = new JButton("annuler");
@@ -87,6 +105,7 @@ public class MenuCreationLivraison extends JDialog{
 		boutons.add(annuler);
 		add(champsEntree,BorderLayout.CENTER);
 		add(boutons, BorderLayout.SOUTH);
+		pack();
 		setVisible(true);
 	}
 	
