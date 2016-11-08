@@ -48,5 +48,5 @@ public abstract class EtatDefaut implements Etat {
 		return false;
 	}
 	
-	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree) {}
+	public void passerEtatAjouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree) {}
 }

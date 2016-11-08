@@ -49,7 +49,6 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 		fenetre.afficherMessage("Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
 		}
 	    } catch (ExceptionTournee e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);

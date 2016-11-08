@@ -111,5 +111,5 @@ public interface Etat {
 	 * @param idLivraison
 	 * @param duree
 	 */
-	public void ajouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree);
+	public void passerEtatAjouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree);
 }

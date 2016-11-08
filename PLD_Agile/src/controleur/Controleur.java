@@ -155,8 +155,8 @@ public class Controleur {
 	 * @param idLivraison
 	 * @param duree
 	 */
-	public void ajouterLivraison(int idLivraison, int duree){
-	    	etatCourant.ajouterLivraison(this, plan, fenetre, idLivraison, duree);
+	public void passerEtatAjouterLivraison(int idLivraison, int duree){
+	    	etatCourant.passerEtatAjouterLivraison(this, plan, fenetre, idLivraison, duree);
 	}
 
 }
