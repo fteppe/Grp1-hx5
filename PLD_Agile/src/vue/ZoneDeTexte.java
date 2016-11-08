@@ -47,29 +47,22 @@ public class ZoneDeTexte extends JPanel implements Observer {
     }
 
     protected int getLivraisonAvantId(int id) {
-
-	int indexPrec = 0;// la position dans la liste de l'infotextuelle
+	int indexPrec = -1;// la position dans la liste de l'infotextuelle
 			  // precedente.
-	for (InformationTextuelle info : listeInformation) {
-	    if (info.getIndex() == id && indexPrec > 0) {
+	for (int i = 0; i < listeInformation.size(); i++, indexPrec++) {
+	    InformationTextuelle info = listeInformation.get(i);
+	    if (info.getIndex() == id) {
 		return listeInformation.get(indexPrec).getIndex();
 	    }
-	    if (info.getIndex() == id && indexPrec == 0) {
-		return VALEUR_INTERSECTION_VIDE;
-	    }
-	    indexPrec++;
 	}
 	return VALEUR_INTERSECTION_VIDE;
     }
 
     protected int getLivraisonApresId(int id) {
-	int indexSuivant = 0;
-	for (InformationTextuelle info : listeInformation) {
-	    indexSuivant++;
-	    if (info.getIndex() == id && indexSuivant > listeInformation.size()) {
-		return VALEUR_INTERSECTION_VIDE;
-	    }
-	    if (info.getIndex() == id && indexSuivant <= listeInformation.size()) {
+	int indexSuivant = 1;
+	for (int i = 0; i < listeInformation.size(); i++, indexSuivant++) {
+	    InformationTextuelle info = listeInformation.get(i);
+	    if (info.getIndex() == id) {
 		return listeInformation.get(indexSuivant).getIndex();
 	    }
 	}
@@ -108,12 +101,15 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	viderListeInfos();
 	List<Livraison> livraisons = plan.getListeLivraisons();
 	if (livraisons != null) {
-	    getTitre().afficher("Livraisons :\nDépart à " + plan.getHeureDepart());
+	    getTitre().afficher("Feuille de route de la tournée");
+	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
+		    + plan.getHeureDepart(), plan.getEntrepot().getId());
 	    for (Livraison livraison : livraisons) {
 		contraintes.gridy = listeInformation.size();
 		String plage = "";
 		if (livraison.possedePlage()) {
-		    plage = " de " + livraison.getDebutPlage().afficherHoraire() + " a " + livraison.getFinPlage().afficherHoraire();
+		    plage = " de " + livraison.getDebutPlage().afficherHoraire() + " a "
+			    + livraison.getFinPlage().afficherHoraire();
 		}
 		if (livraison.getHeureArrivee() != null) {
 		    plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().afficherHoraire();
@@ -127,6 +123,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		ajouterDescLivraison("Livraison a l'adresse " + livraison.getAdresse().getId() + plage,
 			livraison.getAdresse().getId(), livraison.getRespectePlage());
 	    }
+	    ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
+		    + plan.getHeureRetour(), plan.getEntrepot().getId());
 	    afficherInformations();
 	}
     }

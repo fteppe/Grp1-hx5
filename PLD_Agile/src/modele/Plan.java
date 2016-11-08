@@ -578,6 +578,13 @@ public class Plan extends Observable {
 	    return tournee.gethDebut().toString();
 	if (demandeDeLivraison != null)
 	    return demandeDeLivraison.getHeureDepart().toString();
-	return "";
+	return null;
+    }
+    
+    public String getHeureRetour() {
+	if(tournee != null) {
+	    return tournee.gethFin().toString();
+	}
+	return null;
     }
 }
