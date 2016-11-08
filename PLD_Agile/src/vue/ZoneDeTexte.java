@@ -22,6 +22,7 @@ import modele.Troncon;
 
 public class ZoneDeTexte extends JPanel implements Observer{
 
+	private static int VALEUR_INTERSECTION_VIDE = -1;
 	private Plan plan;
 	private Fenetre fenetre;
 	private InformationTextuelle texte;
@@ -44,6 +45,34 @@ public class ZoneDeTexte extends JPanel implements Observer{
 		contraintes.gridy = 0;
 		
 		afficherInformations();
+	}
+	
+	protected int getLivraisonAvantId(int id){
+		
+		int indexPrec = 0;//la position dans la liste de l'infotextuelle precedente.
+		for(InformationTextuelle info:listeInformation){
+			if(info.getIndex() == id && indexPrec>0){
+				return listeInformation.get(indexPrec).getIndex();
+			}
+			if(info.getIndex() == id && indexPrec==0){
+				return VALEUR_INTERSECTION_VIDE;
+			}
+			indexPrec++;
+		}
+		return VALEUR_INTERSECTION_VIDE;
+	}
+	protected int getLivraisonApresId(int id){
+		int indexSuivant = 0;
+		for(InformationTextuelle info:listeInformation){
+			indexSuivant ++;
+			if(info.getIndex() == id && indexSuivant > listeInformation.size()){
+				return VALEUR_INTERSECTION_VIDE;
+			}
+			if(info.getIndex() == id && indexSuivant<=listeInformation.size()){
+				return listeInformation.get(indexSuivant).getIndex();
+			}
+		}
+		return VALEUR_INTERSECTION_VIDE;
 	}
 	
 	private void ajouterZoneInformation(String information, int index, boolean cliquable){

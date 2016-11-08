@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -110,25 +111,29 @@ public class VuePlan extends JPanel implements Observer {
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		
+		BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = bufferedImage.createGraphics();
+		super.paintComponent(g2d);
 		int intersectionSelectionne = fenetre.getIntersectionSelectionne();
 		//on doit peindre le plan;
 		
 		//dessinerListeIntersections(g, plan.getListeIntersections());
-		dessinerListeTroncons(g,plan.getListeTroncons(), COULEUR_TRONCON);
-		dessinerListeLivraisons(g, plan.getListeLivraisons());
-		dessinerListeItinereraires(g, plan.getItineraires());
+		dessinerListeTroncons(g2d,plan.getListeTroncons(), COULEUR_TRONCON);
+		dessinerListeLivraisons(g2d, plan.getListeLivraisons());
+		dessinerListeItinereraires(g2d, plan.getItineraires());
 		Intersection entrepot = plan.getEntrepot();
 		if(entrepot != null)
 		{
-			dessinerIntersection(g, plan.getEntrepot(), COULEUR_ENTREPOT);
+			dessinerIntersection(g2d, plan.getEntrepot(), COULEUR_ENTREPOT);
 		}
 		
 		if(plan.getIntersection(intersectionSelectionne) != null)
 		{
-			dessinerIntersection(g, plan.getIntersection(intersectionSelectionne), COULEUR_INTERSECTION);
+			dessinerIntersection(g2d, plan.getIntersection(intersectionSelectionne), COULEUR_INTERSECTION);
 		}
-		
+		Graphics2D g2dComponent = (Graphics2D) g;
+		g2dComponent.drawImage(bufferedImage,null,0,0);
 	}
 	
 	/* dessine une liste d'itineraire 
@@ -245,7 +250,6 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
-	    System.out.println("update");
 		if(arg != null){
 		}
 		repaint();
@@ -268,7 +272,6 @@ public class VuePlan extends JPanel implements Observer {
 	private void dessinerIntersection(Graphics g, Intersection i, Color c){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(c);
-		System.out.println(g);
 		g2.fillOval((int) (i.getLongitude() * echelle - diametreIntersection / 2),(int) (i.getLatitude() * echelle - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 	
@@ -293,8 +296,6 @@ public class VuePlan extends JPanel implements Observer {
 		direction = direction.multiply(1/normeDirection);
 		//pointeFleche = pointeFleche.add(direction.multiply(-1).multiply(diametreIntersection/2)); 
 		Vecteur orthDir = new Vecteur(direction.y, - direction.x);
-		
-		
 		
 		Vecteur coteFleche1 = new Vecteur(pointeFleche).add(direction.multiply(-1).multiply(tailleFleche)).add(orthDir.multiply(tailleFleche/2));
 		Vecteur coteFleche2 = new Vecteur(coteFleche1).add(orthDir.multiply(-1).multiply(tailleFleche));
