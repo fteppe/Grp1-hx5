@@ -5,22 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NavigableSet;
 import java.util.Observable;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.print.attribute.standard.Destination;
-
-import tsp.TSP1;
 import tsp.TSPPlages;
 
 public class Plan extends Observable {
@@ -180,7 +173,23 @@ public class Plan extends Observable {
      * @param adrSuiv
      *            L'adresse de la livraison suivante
      */
-    public void insererLivraisonTournee(Livraison liv, int adrPrec, int adrSuiv) {
+    /**
+     * Insère la livraison entre les livraisons de la tournée aux adresses
+     * données
+     * 
+     * @param adresse
+     *            L'adresse associée à la livraison
+     * @param duree
+     *            Durée de la livraison
+     * @param debutPlage
+     * @param finPlage
+     * @param adrPrec
+     * @param adrSuiv
+     */
+    public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
+	    int adrSuiv) {
+	Intersection interAdresse = this.getIntersection(adresse);
+	Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
 	tournee.insererLivraison(liv, adrPrec, adrSuiv);
 	setChanged();
 	notifyObservers();
@@ -244,8 +253,8 @@ public class Plan extends Observable {
 	// On lance le calcul de la tournee dans un nouveau thread
 	Callable<Boolean> calculTournee = () -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
-	    tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees, 
-		    plageDepart, plageFin, this.demandeDeLivraison.getHeureDepart().toSeconds());
+	    tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees, plageDepart, plageFin,
+		    this.demandeDeLivraison.getHeureDepart().toSeconds());
 	    return tsp.getTempsLimiteAtteint();
 	};
 
@@ -310,8 +319,8 @@ public class Plan extends Observable {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tpsLimiteAtteint = futureRecuperationMeilleurResultat.get();
 	    if (this.tournee.getDuree() == Integer.MAX_VALUE && tpsLimiteAtteint == false) {
-		throw new ExceptionTournee("Aucune tournée n'a été trouvée. "
-			+ "Veuillez recommencer avec de nouvelles plages horaires");
+		throw new ExceptionTournee(
+			"Aucune tournée n'a été trouvée. " + "Veuillez recommencer avec de nouvelles plages horaires");
 	    }
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
@@ -358,12 +367,13 @@ public class Plan extends Observable {
 	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
 	    heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
 	    heureActuelle = prochLivr.setHeureArrivee(heureActuelle);
-	    /*if(prochLivr.possedePlage()) {
-		heureActuelle = new Heure(Math.max(heureActuelle.toSeconds(),
-			prochLivr.getDebutPlage().toSeconds()) + prochLivr.getDuree());
-	    } else {
-		heureActuelle = new Heure(heureActuelle.toSeconds() + prochLivr.getDuree());
-	    }*/
+	    /*
+	     * if(prochLivr.possedePlage()) { heureActuelle = new
+	     * Heure(Math.max(heureActuelle.toSeconds(),
+	     * prochLivr.getDebutPlage().toSeconds()) + prochLivr.getDuree()); }
+	     * else { heureActuelle = new Heure(heureActuelle.toSeconds() +
+	     * prochLivr.getDuree()); }
+	     */
 	    tournee.ajouterItineraire(nouvItineraire, prochLivr);
 	}
 	tournee.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
@@ -376,7 +386,8 @@ public class Plan extends Observable {
     /**
      * Renvoie l'ObjetGraphique positionné au coordonnées du point précisé
      * 
-     * @param p Position de l'ObjetGraphique à rechercher
+     * @param p
+     *            Position de l'ObjetGraphique à rechercher
      * @return ObjetGraphique aux coordonnées p si il existe, null sinon
      */
     public ObjetGraphique cherche(Point p) {
@@ -386,47 +397,63 @@ public class Plan extends Observable {
 	    if (inter.contient(p)) {
 		objGraph = inter;
 		Livraison livAssociee = this.getLivraisonAdresse(inter.getId());
-		if(livAssociee != null) objGraph = livAssociee;
+		if (livAssociee != null)
+		    objGraph = livAssociee;
 	    }
 	}
 
 	return objGraph;
     }
-    
+
     /**
-     * Renvoie la livraison associée à l'intersection à l'adresse donnée
-     * en cherchant en priorité dans la tournée si elle existe
-     * ou dans la demande de livraison sinon
+     * Renvoie la livraison associée à l'intersection à l'adresse donnée en
+     * cherchant en priorité dans la tournée si elle existe ou dans la demande
+     * de livraison sinon
      * 
-     * @param adresse Id de l'intersection adresse de la livraison
+     * @param adresse
+     *            Id de l'intersection adresse de la livraison
      * @return La livraison associée
      */
     private Livraison getLivraisonAdresse(int adresse) {
-	if(tournee != null) {
+	if (tournee != null) {
 	    return tournee.getLivraison(adresse);
 	}
-	if(demandeDeLivraison != null) {
+	if (demandeDeLivraison != null) {
 	    return demandeDeLivraison.getLivraison(adresse);
 	}
 	return null;
     }
 
-    /*
-     * public ArrayList<Integer> methodeTest() { return
-     * completionTableauLivraison(); }
+    /**
+     * Retourne l'adresse de la livraison suivant la livraison donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison dont on cherche la livraison suivante
+     * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
+     *         pas de livraison ou de livraison suivante
      */
+    public int getAdresseLivraisonSuivante(int adrLiv) {
+	if (tournee != null) {
+	    return tournee.getAdresseLivraisonSuivante(adrLiv);
+	}
+	return -1;
+    }
 
-    /*
-     * public Object[] methodeTest2(ArrayList<Integer> idSommets) { return
-     * calculerDijkstra(idSommets); }
+    /**
+     * Retourne l'adresse de la livraison précédant la livraison donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison dont on cherche la livraison
+     *            précédente
+     * @return Adresse de la livraison précédente ou -1 si l'adresse donnée n'a
+     *         pas de livraison ou de livraison suivante
      */
-
-    /*
-     * public Object[] methodeTest3(int tpsMax) { boolean fini =
-     * calculerTournee(tpsMax); if(fini){ return new
-     * Object[]{this.tournee.getDuree(), this.tournee.getItineraires()}; } else
-     * { System.out.println("Pas fini."); return null; } }
-     */
+    public int getAdresseLivraisonPrecedente(int adrLiv) {
+	if (tournee != null) {
+	    return tournee.getAdresseLivraisonPrecedente(adrLiv);
+	}
+	return -1;
+    }
 
     /**
      * Vide le Plan, remet a zero les listes d'intersection, de troncon et
@@ -541,8 +568,10 @@ public class Plan extends Observable {
     }
 
     public String getHeureDepart() {
-	if(tournee != null) return tournee.gethDebut().toString();
-	if(demandeDeLivraison != null) return demandeDeLivraison.getHeureDepart().toString();
+	if (tournee != null)
+	    return tournee.gethDebut().toString();
+	if (demandeDeLivraison != null)
+	    return demandeDeLivraison.getHeureDepart().toString();
 	return "";
     }
 }
