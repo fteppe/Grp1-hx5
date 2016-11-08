@@ -106,10 +106,30 @@ public interface Etat {
 	 * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
 	 * sur ajouter une nouvelle livraison dans l'etat tournee_calculee.
 	 * @param controleur
+	 * @param fenetre
+	 */
+	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre);
+	
+	
+	/**
+	 * Methode appelee par controleur lorsque l'utilisateur clique
+	 * sur le bouton "annuler" dans l'etat ajout de livraison.
+	 * @param controleur
 	 * @param plan
 	 * @param fenetre
-	 * @param idLivraison
-	 * @param duree
+	 * @param listeDeCdes
 	 */
-	public void passerEtatAjouterLivraison(Controleur controleur, Plan plan, Fenetre fenetre, int idLivraison, int duree);
+	public void annulerAjout(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
+	
+	/**
+	 * Methode appelee par controleur lorsque l'utilisateur survole
+	 * le plan avec la souris, vérifie si le point est une intersection
+	 * et si ce n'est pas déjà une livraison.
+	 * @param plan
+	 * @param point
+	 * @param tolerance
+	 */
+	public int survolPlan(Plan plan, Point point, int tolerance);
+	
+	
 }

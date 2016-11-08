@@ -36,7 +36,7 @@ public class VuePlan extends JPanel implements Observer {
 	private int tailleFleche = 8;
 	private int livraisonSurligne;
 	private static int diametreIntersection = 10;
-	private static Color COULEUR_TRONCON = Color.blue;
+	private static Color COULEUR_TRONCON = Color.DARK_GRAY;
 	private static Color COULEUR_ENTREPOT = Color.red;
 	private static Color COULEUR_LIVRAISON = Color.yellow;
 	private static Color COULEUR_SURLIGNE = Color.green;
