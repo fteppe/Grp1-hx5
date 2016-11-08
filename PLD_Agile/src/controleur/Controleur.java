@@ -97,8 +97,8 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
 	 */
 	
-	public void clicGauche(Point p) {
-		etatCourant.clicGauche(this, plan, fenetre, listeDeCdes, p);
+	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv) {
+		etatCourant.clicGaucheAjoutLivraison(this, plan, fenetre, listeDeCdes, idPrec, idSuiv);
 	}
 	
 	
@@ -152,9 +152,10 @@ public class Controleur {
 	/**
 	 * Methode appelee par fenetre lorsque l'utilisateur clique
 	 * sur ajouter une nouvelle livraison sur le plan.
+	 * @param idIntersection
 	 */
-	public void passerEtatAjouterLivraison(){
-	    	etatCourant.passerEtatAjouterLivraison(this, fenetre);
+	public void passerEtatAjouterLivraison(int idIntersection){
+	    	etatCourant.passerEtatAjouterLivraison(this, fenetre, idIntersection);
 	}
 	
 	
@@ -172,8 +173,18 @@ public class Controleur {
 	 * @param point
 	 * @param tolerance
 	 */
-	public int survolPlan(Point point, int tolerance) {
-	    return etatCourant.survolPlan(plan, point, tolerance);
+	public void survolPlan(Point point, int tolerance) {
+	    etatCourant.survolPlan(plan, fenetre, point, tolerance);
+	}
+	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur survole
+	 * le plan une fois la tournée calculée.
+	 * @param point
+	 * @param tolerance
+	 */
+	public boolean possibleAjoutLivraison() {
+	    return etatCourant.possibleAjoutLivraison(this, plan, fenetre);
 	}
 
 }

@@ -48,9 +48,10 @@ public interface Etat {
 	 * @param plan
 	 * @param fenetre
 	 * @param listeDeCdes
-	 * @param p
+	 * @param idPrec
+	 * @param idSuiv
 	 */
-	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p);
+	public void clicGaucheAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idPrec, int idSuiv);
 	
 	
 	/**
@@ -64,6 +65,8 @@ public interface Etat {
 	 * @param listeDeCdes
 	 */
 	public void redo(ListeDeCdes listeDeCdes);
+	
+	
 	
 	
 	/**
@@ -107,8 +110,9 @@ public interface Etat {
 	 * sur ajouter une nouvelle livraison dans l'etat tournee_calculee.
 	 * @param controleur
 	 * @param fenetre
+	 * @param idIntersection
 	 */
-	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre);
+	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection);
 	
 	
 	/**
@@ -129,7 +133,11 @@ public interface Etat {
 	 * @param point
 	 * @param tolerance
 	 */
-	public int survolPlan(Plan plan, Point point, int tolerance);
+	public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance);
+	
+	
+	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre);
+
 	
 	
 }

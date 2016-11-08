@@ -82,20 +82,19 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre) {
-	fenetre.afficherMessage("Veuillez selectionner un point de livraison");
+    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
+	controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
     }
     
     @Override
-    public int survolPlan(Plan plan, Point point, int tolerance) {
+    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+	int id =-1;
 	ObjetGraphique objGraph = plan.cherche(point);
 	if (objGraph instanceof Intersection) {
-	    return ((Intersection) objGraph).getId();
+	    id = ((Intersection) objGraph).getId();
 	}
-	else{
-	    return -1;
-	}
+	fenetre.setIntersectionSelectionne(id);
     }
 
 }

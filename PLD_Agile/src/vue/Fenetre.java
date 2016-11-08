@@ -1,11 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.ScrollPane;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +27,7 @@ public class Fenetre extends JFrame{
 	private JPanel panneauEst;
 	private JScrollPane scroll;
 	private PopMenu popupMenu;
+	private int intersectionSelectionne; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
 	
@@ -89,6 +86,15 @@ public class Fenetre extends JFrame{
 		popupMenu.show(this, pos.x, pos.y);
 	}
 	
+	public void setIntersectionSelectionne(int idIntersection){
+		
+		if(intersectionSelectionne != idIntersection && vuePlan.getGraphics() !=null){
+			intersectionSelectionne = idIntersection;
+			vuePlan.update(vuePlan.getGraphics());
+		}
+		
+	}
+	
 	public void afficherDetailDemandeLivraison(){
 		zoneDeTexte.afficherInformationDemandeLivraison();
 	}
@@ -96,9 +102,21 @@ public class Fenetre extends JFrame{
 		zoneDeTexte.getTitre().afficher(message);
 	}
 	
-	protected void clicDroitPlan(Point point){
-		controleur.clicDroitPlan(point);
+	protected int getIntersectionSelectionne(){
+		return intersectionSelectionne;
 	}
+	
+	protected void clicDroitPlan(Point point){
+		if(intersectionSelectionne == 1){
+			controleur.clicDroitPlan(point);
+		}
+	}
+	
+	protected void survolPlan(Point point,int tolerance){
+		
+		controleur.survolPlan(point, tolerance);
+	}
+	
 	protected void supprimerLivraison(int id){
 		//TODO appel fonction correspondante controleur
 	    controleur.supprimerLivraison(id);
@@ -108,7 +126,6 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void ajouterLivraison(int idLivraison, int duree){
-		controleur.ajouterLivraison(idLivraison, duree);
 	}
 	
 	protected void surlignerLivraison(int idLivraison){
