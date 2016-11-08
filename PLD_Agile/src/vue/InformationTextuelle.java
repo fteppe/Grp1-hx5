@@ -15,7 +15,8 @@ public class InformationTextuelle extends JPanel{
 	private JTextArea zoneInformation;
 	private int index;
 	private Fenetre fenetre;
-	private PopMenuLivraison popupMenu;
+	private PopMenuLivraison popupMenuLivraison;
+	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private static Color COUEUR_HOVER = new Color(0xA2A5F1);
 	private static Color COULEUR_DEFAUT = Color.white;
 	private static Color COULEUR_GRISE = new Color(0xA6A6A6);
@@ -61,9 +62,17 @@ public class InformationTextuelle extends JPanel{
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 
-					if(SwingUtilities.isRightMouseButton(arg0) && fenetre.getControleur().clicDroitZoneTextuellePossible()){
-						popupMenu = new PopMenuLivraison(index, fenetre);
-						popupMenu.show(zoneInformation, arg0.getX(), arg0.getY());
+					if(SwingUtilities.isRightMouseButton(arg0)){
+						if(fenetre.getControleur().clicDroitZoneTextuellePossible()){
+							popupMenuLivraison = new PopMenuLivraison(index, fenetre);
+							popupMenuLivraison.show(zoneInformation, arg0.getX(), arg0.getY());
+						}
+						else if(fenetre.getControleur().possibleAjoutLivraison()){
+							popupMenuLivraisonAjout = new PopMenuLivraisonAjout(index, fenetre);
+							popupMenuLivraisonAjout.show(zoneInformation, arg0.getX(),arg0.getY());
+						}
+						
+
 					}
 					
 				}

@@ -26,7 +26,9 @@ public class Fenetre extends JFrame{
 	private JPanel panneauNord;
 	private JPanel panneauEst;
 	private JScrollPane scroll;
-	private PopMenu popupMenu;
+	private PopMenuLivraison popupMenuLivraison;
+	private PopMenuIntersection popupMenuIntersection;
+	
 	private int intersectionSelectionne; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
@@ -79,11 +81,10 @@ public class Fenetre extends JFrame{
 		
 	}
 	
-	private void ouvrirMenuSupprimer(int id){
-		popupMenu = (PopMenuLivraison) popupMenu;
-		popupMenu = new PopMenuLivraison(id, this);
+	public void ouvrirMenuSupprimer(int id){
+		popupMenuLivraison = new PopMenuLivraison(id, this);
 		Point pos = this.getMousePosition();
-		popupMenu.show(this, pos.x, pos.y);
+		popupMenuLivraison.show(this, pos.x, pos.y);
 	}
 	
 	private void ouvrirMenuAjouter(int id){
@@ -111,11 +112,13 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void clicDroitPlan(Point point){
-		if(intersectionSelectionne == -1){
+		if(plan.getIntersection(intersectionSelectionne) == null){
 			controleur.clicDroitPlan(point);
 		}
 		else{
-			
+			popupMenuIntersection =new PopMenuIntersection(intersectionSelectionne, this);
+			Point pos = this.getMousePosition();
+			popupMenuIntersection.show(this,pos.x , pos.y);
 		}
 	}
 	
@@ -125,17 +128,25 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionAjouterLivraison(int idIntersection){
-		controleur.passerEtatAjouterLivraison(int idIntersection);
+		controleur.passerEtatAjouterLivraison(idIntersection);
 	}
 	
 	protected void ajouterLivraisonPosition(int position, boolean avant){
+		int idAvant;
+		int idApres;
 		if(avant){
-			
+			idAvant = zoneDeTexte.getLivraisonAvantId(position);
+			idApres = position;
+			controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
+		}
+		else{
+			idAvant = position;
+			idApres = zoneDeTexte.getLivraisonApresId(position);
+			controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
 		}
 	}
 	
 	protected void supprimerLivraison(int id){
-		//TODO appel fonction correspondante controleur
 	    controleur.supprimerLivraison(id);
 	}
 	protected Controleur getControleur(){
