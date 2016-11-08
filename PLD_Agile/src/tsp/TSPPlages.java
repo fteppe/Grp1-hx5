@@ -9,7 +9,8 @@ public class TSPPlages {
 
     private Integer[] meilleureSolution;
     private int coutMeilleureSolution = 0;
-    private Boolean tempsLimiteAtteint;
+    private Boolean calculEnCours = true;
+    //private Boolean tempsLimiteAtteint;
 	
     private static boolean locked = false;
 	
@@ -36,15 +37,13 @@ public class TSPPlages {
      * limite de temps avait ete atteinte, avant d'avoir pu explorer 
      * tout l'espace de recherche
      */
-    public Boolean getTempsLimiteAtteint(){
+    /*public Boolean getTempsLimiteAtteint(){
 	return tempsLimiteAtteint;
-    }
+    }*/
     
     /**
      * Cherche un circuit de duree minimale passant par chaque sommet 
      * (compris entre 0 et nbSommets-1)
-     * @param tpsLimite Limite (en millisecondes) sur le temps 
-     * 			d'execution de chercheSolution
      * @param nbSommets Nombre de sommets du graphe
      * @param cout cout[i][j] = duree pour aller de i a j, 
      * 			avec 0 <= i < nbSommets et 0 <= j < nbSommets
@@ -57,9 +56,9 @@ public class TSPPlages {
      * 			i doit avoir été visité, avec 0 <= i < nbSommets
      * @param heureDepart Heure de depart de l'entrepot en secondes
      */
-    public void chercheSolution(int tpsLimite, int nbSommets, int[][] cout, 
+    public void chercheSolution(int nbSommets, int[][] cout, 
     		int[] duree , int[] horaireDebut, int[] horaireFin, int heureDepart){
-		tempsLimiteAtteint = false;
+		//tempsLimiteAtteint = false;
 		coutMeilleureSolution = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[nbSommets];
 		//On initialise les tableaux presentant les sommets visites 
@@ -68,8 +67,7 @@ public class TSPPlages {
 		for (int i=1; i<nbSommets; i++) nonVus.add(i);
 		ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
 		vus.add(0); // Le premier sommet visite est l'entrepôt
-		branchAndBound(0, nonVus, vus, 0, cout, duree, 
-				System.currentTimeMillis(),tpsLimite,horaireDebut,
+		branchAndBound(0, nonVus, vus, 0, cout, duree, horaireDebut,
 				horaireFin, heureDepart);
 	}
 	
@@ -197,7 +195,6 @@ public class TSPPlages {
      * 		avec 0 <= i < nbSommets et 0 <= j < nbSommets
      * @param duree duree[i] = duree pour visiter le sommet i, 
      * 		avec 0 <= i < nbSommets
-     * @param tpsDebut Heure (en millisecondes) ou la resolution a commence
      * @param tpsLimite Limite de temps (en millisecondes) accorde 
      * 		     pour la resolution
      * @param horaireDebut horaireDebut[i] = Heure en secondes a partir 
@@ -208,11 +205,9 @@ public class TSPPlages {
      * @param heureDepart Heure de depart de l'entrepot en secondes
      */	
     void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, 
-	    ArrayList<Integer> vus, int coutVus, int[][] cout, int[] duree, 
-	    	long tpsDebut, int tpsLimite, int[] horaireDebut, int[] horaireFin, 
-	    		int heureDepart){
-		if (System.currentTimeMillis() - tpsDebut > tpsLimite){
-		    tempsLimiteAtteint = true;
+	    ArrayList<Integer> vus, int coutVus, int[][] cout, int[] duree,
+	    	int[] horaireDebut, int[] horaireFin, int heureDepart){
+		if (!this.calculEnCours){
 		    return;
 		}
 		if (coutVus >= coutMeilleureSolution){
@@ -254,7 +249,7 @@ public class TSPPlages {
 					    	+ duree[prochainSommet] 
 					    	+ Math.max(0, horaireDebut[prochainSommet] - heurePassageProchain);
 				    branchAndBound(prochainSommet, nonVus, vus, coutProchain,
-						cout, duree, tpsDebut, tpsLimite, horaireDebut, 
+						cout, duree, horaireDebut, 
 						horaireFin, heureDepart);
 				    
 				    vus.remove(prochainSommet);
@@ -262,6 +257,10 @@ public class TSPPlages {
 				}	    
 		    }
 		}
+    }
+    
+    public void setCalculEnCours(boolean calculEnCours) {
+	this.calculEnCours = calculEnCours;
     }
 }
 

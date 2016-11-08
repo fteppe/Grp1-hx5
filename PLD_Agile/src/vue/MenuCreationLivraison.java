@@ -25,8 +25,8 @@ public class MenuCreationLivraison extends JDialog{
 	private JLabel labelArrive;
 	private JLabel labelDepart;
 	private JTextField duree;
-	private JTextField heureArrive;
-	private JTextField heureDepart;
+	private SelectionHeure heureDepart;
+	private SelectionHeure heureArrive;
 	private JButton ok;
 	private JButton annuler;
 	
@@ -53,11 +53,73 @@ public class MenuCreationLivraison extends JDialog{
 		labelArrive = new JLabel("heure d'arrivée");
 		labelDepart = new JLabel("heure de départ");
 		duree = new JTextField(TAILLE_TEXT_FIELD);
-		heureArrive = new JTextField(TAILLE_TEXT_FIELD);
-		heureDepart = new JTextField(TAILLE_TEXT_FIELD);
+		heureArrive = new SelectionHeure();
+		heureDepart = new SelectionHeure();
+		ok = new JButton("ok");
+		annuler = new JButton("annuler");
+
+		
+		
+		ok.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validation();
+				setVisible(false);
+			}
+		});
+		
+		annuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
+		
+		placerComposant();
+		pack();
+		setVisible(true);
+	}
+	
+	
+	private void validation(){
+		int idAvant;
+		int idApres;
+		int dureeInt;
+		
+		if(duree.getText().isEmpty()){
+			dureeInt = 0;
+		}
+		else
+		{
+			dureeInt = Integer.parseInt(duree.getText())*60;
+		}
+		 
+		if(avant){
+			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
+			idApres = idLivraison;
+		}
+		else{
+			idAvant = idLivraison;
+			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
+		}
+		if(horaire.isSelected()){
+			System.out.println(heureArrive.getHeure());
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getHeure()+":00", heureDepart.getHeure()+":00");
+		}
+		else{
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
+		}
+		
+		
+	}
+	
+	private void placerComposant(){
 		
 		champsEntree.setLayout(new GridBagLayout());
 		GridBagConstraints contraintes = new GridBagConstraints();
+		
 		contraintes.anchor = GridBagConstraints.LINE_END;
 		contraintes.ipadx = 10;
 		contraintes.gridx = 0;
@@ -79,70 +141,10 @@ public class MenuCreationLivraison extends JDialog{
 		contraintes.gridx++;
 		champsEntree.add(heureDepart , contraintes);
 		
-		ok = new JButton("ok");
-		annuler = new JButton("annuler");
-		
-		ok.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				validation();
-				setVisible(false);
-			}
-		});
-		
-		annuler.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
-		
 		setLayout(new BorderLayout());
-		
 		boutons.add(ok);
 		boutons.add(annuler);
 		add(champsEntree,BorderLayout.CENTER);
 		add(boutons, BorderLayout.SOUTH);
-		pack();
-		setVisible(true);
-	}
-	
-	
-	private void validation(){
-		int idAvant;
-		int idApres;
-		int dureeInt = Integer.parseInt(duree.getText())*60;
-		if(avant){
-			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
-			idApres = idLivraison;
-		}
-		else{
-			idAvant = idLivraison;
-			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
-		}
-		if(horaire.isSelected()){
-			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getText()+":00", heureDepart.getText()+":00");
-		}
-		else{
-			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
-		}
-		
-		
-	}
-}
-
-
-class InfoMenuAjouterLivraison{
-	protected int duree;
-	protected int depart;
-	protected int arrivee;
-	protected int idLivraison;
-	public InfoMenuAjouterLivraison(int idLivraison ,int depart, int arrivee) {
-		this.depart = depart;
-		this.arrivee = arrivee;
-		this.idLivraison = idLivraison;
-		duree = depart - arrivee;
 	}
 }

@@ -43,7 +43,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
 	    // Operations effectuees dans l'etat calcul en cours
 	    try {
-		if(plan.calculerTournee(tempsLimite)){
+		if(plan.calculerTournee()){
 			fenetre.afficherMessage("Tournée calculée");
 		}
 		else {

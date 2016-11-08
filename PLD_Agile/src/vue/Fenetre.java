@@ -30,7 +30,7 @@ public class Fenetre extends JFrame{
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
 	
-	private int intersectionSelectionne; //vaut -1 si aucune intersection n'est selectionné
+	private int intersectionSurvole; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
 	
@@ -46,7 +46,7 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
-		intersectionSelectionne = -1;
+		intersectionSurvole = -1;
 		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
@@ -90,10 +90,10 @@ public class Fenetre extends JFrame{
 		popupMenuLivraison.show(this, pos.x, pos.y);
 	}
 	
-	public void setIntersectionSelectionne(int idIntersection){
+	public void setIntersectionSurvole(int idIntersection){
 		
-		if(intersectionSelectionne != idIntersection && vuePlan.getGraphics() !=null){
-			intersectionSelectionne = idIntersection;
+		if(intersectionSurvole != idIntersection && vuePlan.getGraphics() !=null){
+			intersectionSurvole = idIntersection;
 			vuePlan.update(vuePlan.getGraphics());
 		}
 		
@@ -111,15 +111,15 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected int getIntersectionSelectionne(){
-		return intersectionSelectionne;
+		return intersectionSurvole;
 	}
 	
 	protected void clicDroitPlan(Point point){
-		if(plan.getIntersection(intersectionSelectionne) == null){
+		if(plan.getIntersection(intersectionSurvole) == null){
 			controleur.clicDroitPlan(point);
 		}
 		else{
-			popupMenuIntersection =new PopMenuIntersection(intersectionSelectionne, this);
+			popupMenuIntersection =new PopMenuIntersection(intersectionSurvole, this);
 			Point pos = this.getMousePosition();
 			popupMenuIntersection.show(this,pos.x , pos.y);
 		}
@@ -131,7 +131,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionAjouterLivraison(int idIntersection){
-		intersectionSelectionne = -1;
+		intersectionSurvole = -1;
 		controleur.passerEtatAjouterLivraison(idIntersection);
 	}
 	
@@ -142,6 +142,11 @@ public class Fenetre extends JFrame{
 	protected void supprimerLivraison(int id){
 	    controleur.supprimerLivraison(id);
 	}
+	
+	protected void intervertirLivraison(int id){
+		
+	}
+	
 	protected Controleur getControleur(){
 		return controleur;
 	}
