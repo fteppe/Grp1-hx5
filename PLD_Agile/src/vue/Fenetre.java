@@ -56,6 +56,8 @@ public class Fenetre extends JFrame{
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
 	    
+	    //menuCreationLivraison = new MenuCreationLivraison(this, 25, true, new Point(0,0));
+	    
 	    vuePlan = new VuePlan(plan, this);
     	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan, this);
 	    menu = new Menu(this);
