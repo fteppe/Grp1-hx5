@@ -12,14 +12,14 @@ import javax.swing.SwingUtilities;
 public class InformationTextuelle extends JPanel{
 	
 	//un bloc d'informations qui réagit ou non à la souris
-	private JTextArea zoneInformation;
-	private int index;
-	private Fenetre fenetre;
-	private PopMenuLivraison popupMenuLivraison;
-	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
-	private static Color COUEUR_HOVER = new Color(0xA2A5F1);
-	private static Color COULEUR_DEFAUT = Color.white;
-	private static Color COULEUR_GRISE = new Color(0xA6A6A6);
+	protected JTextArea zoneInformation;
+	protected int index;
+	protected Fenetre fenetre;
+
+	protected static Color COUEUR_HOVER = new Color(0xA2A5F1);
+	protected static Color COULEUR_DEFAUT = Color.white;
+	protected static Color COULEUR_GRISE = new Color(0xA6A6A6);
+	protected static Color COULEUR_ERREUR = new Color(0xFF7676);
 	
 	public InformationTextuelle(String information, int index,Fenetre fenetre, boolean cliquable){
 		super();
@@ -32,56 +32,6 @@ public class InformationTextuelle extends JPanel{
 		zoneInformation.setText(information);
 		add(zoneInformation);
 		
-		if(cliquable){
-			zoneInformation.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					sourisSortie();	
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					sourisEntree();
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-
-					if(SwingUtilities.isRightMouseButton(arg0)){
-						if(fenetre.getControleur().clicDroitZoneTextuellePossible()){
-							popupMenuLivraison = new PopMenuLivraison(index, fenetre);
-							popupMenuLivraison.show(zoneInformation, arg0.getX(), arg0.getY());
-						}
-						else if(fenetre.getControleur().possibleAjoutLivraison()){
-							popupMenuLivraisonAjout = new PopMenuLivraisonAjout(index, fenetre);
-							popupMenuLivraisonAjout.show(zoneInformation, arg0.getX(),arg0.getY());
-						}
-						
-
-					}
-					
-				}
-			});
-		}
-		else
-		{
-			zoneInformation.setBackground(COULEUR_GRISE);
-		}
 
 	}
 	
@@ -100,14 +50,7 @@ public class InformationTextuelle extends JPanel{
 		zoneInformation.append(message);
 	}
 	
-	private void sourisEntree(){
-		zoneInformation.setBackground(COUEUR_HOVER);
-		fenetre.surlignerLivraison(index);
-	}
-	private void sourisSortie(){
-		zoneInformation.setBackground(COULEUR_DEFAUT);
-		fenetre.surlignerLivraison(-1);
-	}
+
 	
 	protected int getIndex(){
 		return index;

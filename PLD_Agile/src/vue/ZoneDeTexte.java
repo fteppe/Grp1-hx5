@@ -76,11 +76,16 @@ public class ZoneDeTexte extends JPanel implements Observer{
 	}
 	
 	private void ajouterZoneInformation(String information, int index, boolean cliquable){
-	    	InformationTextuelle info = new InformationTextuelle(information, index,fenetre, cliquable);
+	    InformationTextuelle info = new InformationTextuelle(information, index,fenetre, cliquable);
 		listeInformation.add(info);
 	}
 	private void ajouterZoneInformation(String information, int index){
 		ajouterZoneInformation(information, index, true);
+	}
+	
+	private void ajouterDescLivraison(String information,int index, boolean valide){
+		DescriptionLivraison description = new DescriptionLivraison(information, index, fenetre, valide);
+		listeInformation.add(description);
 	}
 	
 	private void insererZoneInformationPosition(String information, int indexInformation, int position){
@@ -119,7 +124,7 @@ public class ZoneDeTexte extends JPanel implements Observer{
 				    plage += "\nHeure de départ : " 
 					    + livraison.getHeureDepart().toString();
 				}
-				ajouterZoneInformation("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId());
+				ajouterDescLivraison("Livraison a l'adresse "+livraison.getAdresse().getId() + plage, livraison.getAdresse().getId(),livraison.getRespectePlage());
 			}
 			afficherInformations();
 		}
