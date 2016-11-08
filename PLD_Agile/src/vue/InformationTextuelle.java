@@ -99,4 +99,8 @@ public class InformationTextuelle extends JPanel{
 		zoneInformation.setBackground(COULEUR_DEFAUT);
 		fenetre.surlignerLivraison(-1);
 	}
+	
+	protected int getIndex(){
+		return index;
+	}
 }

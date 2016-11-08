@@ -245,7 +245,6 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
-	    System.out.println("update");
 		if(arg != null){
 		}
 		repaint();
@@ -268,7 +267,6 @@ public class VuePlan extends JPanel implements Observer {
 	private void dessinerIntersection(Graphics g, Intersection i, Color c){
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(c);
-		System.out.println(g);
 		g2.fillOval((int) (i.getLongitude() * echelle - diametreIntersection / 2),(int) (i.getLatitude() * echelle - diametreIntersection/2), diametreIntersection, diametreIntersection);
 	}
 	
@@ -293,8 +291,6 @@ public class VuePlan extends JPanel implements Observer {
 		direction = direction.multiply(1/normeDirection);
 		//pointeFleche = pointeFleche.add(direction.multiply(-1).multiply(diametreIntersection/2)); 
 		Vecteur orthDir = new Vecteur(direction.y, - direction.x);
-		
-		
 		
 		Vecteur coteFleche1 = new Vecteur(pointeFleche).add(direction.multiply(-1).multiply(tailleFleche)).add(orthDir.multiply(tailleFleche/2));
 		Vecteur coteFleche2 = new Vecteur(coteFleche1).add(orthDir.multiply(-1).multiply(tailleFleche));

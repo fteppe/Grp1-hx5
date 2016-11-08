@@ -79,11 +79,15 @@ public class Fenetre extends JFrame{
 		
 	}
 	
-	public void ouvrirMenuSupprimer(int id){
+	private void ouvrirMenuSupprimer(int id){
 		popupMenu = (PopMenuLivraison) popupMenu;
 		popupMenu = new PopMenuLivraison(id, this);
 		Point pos = this.getMousePosition();
 		popupMenu.show(this, pos.x, pos.y);
+	}
+	
+	private void ouvrirMenuAjouter(int id){
+		
 	}
 	
 	public void setIntersectionSelectionne(int idIntersection){
@@ -107,14 +111,27 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void clicDroitPlan(Point point){
-		if(intersectionSelectionne == 1){
+		if(intersectionSelectionne == -1){
 			controleur.clicDroitPlan(point);
+		}
+		else{
+			
 		}
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
 		
 		controleur.survolPlan(point, tolerance);
+	}
+	
+	protected void actionAjouterLivraison(int idIntersection){
+		controleur.passerEtatAjouterLivraison(int idIntersection);
+	}
+	
+	protected void ajouterLivraisonPosition(int position, boolean avant){
+		if(avant){
+			
+		}
 	}
 	
 	protected void supprimerLivraison(int id){

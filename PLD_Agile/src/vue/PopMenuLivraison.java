@@ -7,8 +7,8 @@ import javax.swing.JMenuItem;
 
 public class PopMenuLivraison extends PopMenu{ 
 	private JMenuItem supprimerLivraison;
-	private int idLivraison;
-	private Fenetre fenetre;
+	protected int idLivraison;
+	protected Fenetre fenetre;
 	public PopMenuLivraison(int id, Fenetre fenetre){
 		super();
 		this.fenetre = fenetre;
