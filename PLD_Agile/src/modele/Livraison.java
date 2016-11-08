@@ -46,6 +46,7 @@ public class Livraison extends ObjetGraphique {
     public Livraison(int duree, Intersection adresse) {
 	this.duree = duree;
 	this.adresse = adresse;
+	respectePlage = true;
     }
 
     @Override
