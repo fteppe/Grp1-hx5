@@ -183,7 +183,7 @@ public class Controleur {
 	 * @param point
 	 * @param tolerance
 	 */
-	public boolean possibleAjoutLivraison(Point point, int tolerance) {
+	public boolean possibleAjoutLivraison() {
 	    return etatCourant.possibleAjoutLivraison(this, plan, fenetre);
 	}
 
