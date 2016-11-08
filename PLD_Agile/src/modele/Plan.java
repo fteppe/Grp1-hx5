@@ -201,11 +201,11 @@ public class Plan extends Observable {
      * @param tpsLimite
      *            Temps maximum en millisecondes pour le calcul du parcours
      *            optimal
-     * @return true Si le calcul s'est bien deroule false Si le calcul a ete
-     *         stoppe par la limite de temps
+     * @return true Si une tournee a ete trouve, false si aucune tournee n'a
+     * 			ete trouvee
      * @throws ExceptionTournee
      */
-    public boolean calculerTournee(int tpsLimite) throws ExceptionTournee {
+    public boolean calculerTournee() throws ExceptionTournee {
 	// On initialise l'algo de Dijkstra
 	algo = AlgoDijkstra.getInstance();
 	algo.chargerAlgo(listeIntersections, listeTroncons);
@@ -253,9 +253,9 @@ public class Plan extends Observable {
 	// On lance le calcul de la tournee dans un nouveau thread
 	Callable<Boolean> calculTournee = () -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
-	    tsp.chercheSolution(tpsLimite, idSommets.size(), couts, durees, plageDepart, plageFin,
+	    tsp.chercheSolution(idSommets.size(), couts, durees, plageDepart, plageFin,
 		    this.demandeDeLivraison.getHeureDepart().toSeconds());
-	    return tsp.getTempsLimiteAtteint();
+	    return tsp.getCoutMeilleureSolution() == Integer.MAX_VALUE;
 	};
 
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
@@ -265,7 +265,7 @@ public class Plan extends Observable {
 	// On recupere la meilleure tournee calculee a intervalle de temps
 	// regulier dans un autre thread
 	Callable<Boolean> recuperationMeilleurResultat = () -> {
-	    boolean tpsLimiteAtteint = false;
+	    boolean tourneeTrouvee = false;
 	    while (this.calculTourneeEnCours == true) {
 		try {
 		    TimeUnit.SECONDS.sleep(tpsAttente);
@@ -279,6 +279,7 @@ public class Plan extends Observable {
 		if (this.tournee.getDuree() != dureeTournee) {
 		    System.out.println("Meilleur résultat");
 		    System.out.println(dureeTournee);
+		    tourneeTrouvee = true;
 		    int[] ordreTournee = new int[idSommets.size()];
 		    for (int i = 0; i < idSommets.size(); i++) {
 			ordreTournee[i] = tsp.getMeilleureSolution(i);
@@ -295,7 +296,7 @@ public class Plan extends Observable {
 		    System.out.println("Calcul terminé");
 		    this.calculTourneeEnCours = false;
 		    try {
-			tpsLimiteAtteint = futureCalculTournee.get();
+			tourneeTrouvee = futureCalculTournee.get();
 		    } catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -303,30 +304,31 @@ public class Plan extends Observable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		    }
-		    System.out.println(tpsLimiteAtteint);
+		    System.out.println(tourneeTrouvee);
 		}
 	    }
-	    futureCalculTournee.cancel(true);
-	    return tpsLimiteAtteint;
+	    tsp.setCalculEnCours(false);
+	    return tourneeTrouvee;
 	};
 
 	Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee.submit(recuperationMeilleurResultat);
 
 	executorCalculTournee.shutdown();
-	boolean tpsLimiteAtteint = false;
+	boolean tourneeTrouvee = false;
 	// On attend la fin de l'execution des deux thread lances
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
-	    tpsLimiteAtteint = futureRecuperationMeilleurResultat.get();
-	    if (this.tournee.getDuree() == Integer.MAX_VALUE && tpsLimiteAtteint == false) {
+	    tourneeTrouvee = futureRecuperationMeilleurResultat.get();
+	    System.out.println(tourneeTrouvee);
+	    /*if (this.tournee.getDuree() == Integer.MAX_VALUE && tpsLimiteAtteint == false) {
 		throw new ExceptionTournee(
 			"Aucune tournée n'a été trouvée. " + "Veuillez recommencer avec de nouvelles plages horaires");
-	    }
+	    }*/
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
-	return !tpsLimiteAtteint;
+	return tourneeTrouvee;
 
     }
 
@@ -578,6 +580,13 @@ public class Plan extends Observable {
 	    return tournee.gethDebut().toString();
 	if (demandeDeLivraison != null)
 	    return demandeDeLivraison.getHeureDepart().toString();
+	return null;
+    }
+    
+    public String getHeureRetour() {
+	if(tournee != null) {
+	    return "";
+	}
 	return "";
     }
 }
