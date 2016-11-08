@@ -50,8 +50,7 @@ public class Fenetre extends JFrame{
 		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
-		panneauEst = new JPanel();
-
+		panneauEst = new JPanel();		
 	    this.controleur = controleur;
 	    this.setTitle(titreFenetre);
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
@@ -89,10 +88,6 @@ public class Fenetre extends JFrame{
 		popupMenuLivraison.show(this, pos.x, pos.y);
 	}
 	
-	private void ouvrirMenuAjouter(int id){
-		
-	}
-	
 	public void setIntersectionSelectionne(int idIntersection){
 		
 		if(intersectionSelectionne != idIntersection && vuePlan.getGraphics() !=null){
@@ -107,6 +102,10 @@ public class Fenetre extends JFrame{
 	}
 	public void afficherMessage(String message){
 		zoneDeTexte.getTitre().afficher(message);
+	}
+	
+	protected ZoneDeTexte getZoneText(){
+		return zoneDeTexte;
 	}
 	
 	protected int getIntersectionSelectionne(){
@@ -135,19 +134,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void ajouterLivraisonPosition(int position, boolean avant){
-		int idAvant;
-		int idApres;
-		menuCreationLivraison = new MenuCreationLivraison(this, position);
-		if(avant){
-			idAvant = zoneDeTexte.getLivraisonAvantId(position);
-			idApres = position;
-			//controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
-		}
-		else{
-			idAvant = position;
-			idApres = zoneDeTexte.getLivraisonApresId(position);
-			//controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
-		}
+		menuCreationLivraison = new MenuCreationLivraison(this, position,avant, new Point(500,300));
 	}
 	
 	protected void supprimerLivraison(int id){

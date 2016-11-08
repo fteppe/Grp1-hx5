@@ -1,44 +1,64 @@
 package vue;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class MenuCreationLivraison extends JDialog{
 	
-	private int idLivraison;
-	
 	private JRadioButton horaire;
+	private JPanel champsEntree;
+	private JPanel boutons;
+	private JLabel labelDuree;
 	private JLabel labelArrive;
 	private JLabel labelDepart;
+	private JTextField duree;
 	private JTextField heureArrive;
 	private JTextField heureDepart;
 	private JButton ok;
 	private JButton annuler;
 	
+	private static int TAILLE_TEXT_FIELD = 15;
+	private boolean avant;
+	private int idLivraison;
 	private Fenetre fenetre;
 	
-	public MenuCreationLivraison(Fenetre fenetre, int idLivraison){
-		super();
+	public MenuCreationLivraison(Fenetre fenetre, int idLivraison,boolean avant, Point position){
+		super(fenetre);
+		setLocation(position);
 		this.fenetre = fenetre;
 		this.idLivraison = idLivraison;
+		this.avant = avant;
+		champsEntree = new JPanel();
+		boutons = new JPanel();
+		setSize(new Dimension(350, 150));
+		
 		System.out.println("MENU CREATION LIVRAISON");
 		horaire = new JRadioButton("Fenêtre de passage sur la livraison?");
 		horaire.setSelected(false);
+		labelDuree = new JLabel("duree livraison (min)");
 		labelArrive = new JLabel("heure d'arrivée");
 		labelDepart = new JLabel("heure de départ");
-		heureArrive = new JTextField();
-		heureDepart = new JTextField();
-		add(horaire);
-		add(labelArrive);
-		add(heureArrive);
-		add(labelDepart);
-		add(heureDepart);
+		duree = new JTextField(TAILLE_TEXT_FIELD);
+		heureArrive = new JTextField(TAILLE_TEXT_FIELD);
+		heureDepart = new JTextField(TAILLE_TEXT_FIELD);
+		champsEntree.add(labelDuree);
+		champsEntree.add(duree);
+		champsEntree.add(horaire);
+		champsEntree.add(labelArrive);
+		champsEntree.add(heureArrive);
+		champsEntree.add(labelDepart);
+		champsEntree.add(heureDepart);
 		
 		ok = new JButton("ok");
 		annuler = new JButton("annuler");
@@ -47,9 +67,7 @@ public class MenuCreationLivraison extends JDialog{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				//InfoMenuAjouterLivraison info =retourBoiteDialogue();
-				//fenetre.ajouterLivraison(info.idLivraison, info.duree);
+				validation();
 				setVisible(false);
 			}
 		});
@@ -62,23 +80,31 @@ public class MenuCreationLivraison extends JDialog{
 			}
 		});
 		
-		add(ok);
-		add(annuler);
+		setLayout(new BorderLayout());
 		
+		boutons.add(ok);
+		boutons.add(annuler);
+		add(champsEntree,BorderLayout.CENTER);
+		add(boutons, BorderLayout.SOUTH);
 		setVisible(true);
 	}
 	
-	/*public InfoMenuAjouterLivraison retourBoiteDialogue(){
-		if(horaire.isSelected() == true)
-		{
-			//renvoie les informations d'horaire
-			//return new InfoMenuAjouterLivraison(idLivraison,  heureDepart.getText(), arrivee)
+	
+	private void validation(){
+		int idAvant;
+		int idApres;
+		int dureeInt = Integer.parseInt(duree.getText());
+		if(avant){
+			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
+			idApres = idLivraison;
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres,dureeInt);
 		}
-		else
-		{
-			//
+		else{
+			idAvant = idLivraison;
+			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
 		}
-	}*/
+	}
 }
 
 
