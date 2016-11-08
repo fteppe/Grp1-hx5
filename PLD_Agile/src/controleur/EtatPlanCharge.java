@@ -12,14 +12,15 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatPlanCharge extends EtatDefaut {
-		// Etat apr�s que l'utilisateur ait charg� un plan
+		// Etat apres que l'utilisateur ait charge un plan
 	
 	@Override
-	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
+	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 	    try {
+		listeDeCdes.reset();
 		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
-		fenetre.afficherMessage("Demande de livraison charg�e");
+		fenetre.afficherMessage("Demande de livraison chargée");
 		fenetre.afficherDetailDemandeLivraison();
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
