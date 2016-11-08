@@ -106,18 +106,23 @@ public class Heure {
      * Affiche l'heure courante sous la forme "hh:mm:ss"
      */
     public String toString() {
-	/*
-	 * return (this.heure >= 10 ? "" : "0") + this.heure + ":" +
-	 * (this.minutes >= 10 ? "" : "0") + this.minutes+":" + (this.secondes
-	 * >= 10?"" : "0") + this.secondes;
-	 */
-	String str = (this.heure >= 10 ? "" : "0") + this.heure + ":";
-	if(this.secondes >= 30) {
-	    str += (this.minutes + 1 >= 10 ? "" : "0") + (this.minutes+1);
+	return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
+		+ (this.secondes >= 10 ? "" : "0") + this.secondes;
+    }
+
+    /**
+     * Affiche l'heure courante sous la forme "hh:mm"
+     */
+    public String afficherHoraire() {
+	int min = this.minutes;
+	int heure = this.heure;
+	if (this.secondes >= 30) {
+	    min = min++;
+	    if (min == 60) {
+		min = 0;
+		heure++;
+	    }
 	}
-	else {
-	    str += (this.minutes >= 10 ? "" : "0") + (this.minutes);
-	}
-	return str;
+	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
     }
 }
