@@ -93,7 +93,7 @@ public class MenuCreationLivraison extends JDialog{
 	private void validation(){
 		int idAvant;
 		int idApres;
-		int dureeInt = Integer.parseInt(duree.getText());
+		int dureeInt = Integer.parseInt(duree.getText())*60;
 		if(avant){
 			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
 			idApres = idLivraison;
