@@ -11,6 +11,6 @@ public abstract class ObjetGraphique extends Observable {
      * @param p
      * @return true si p appartient a this, false sinon
      */
-    public abstract boolean contient(Point p);
+    public abstract boolean contient(Point p, int tolerance);
 
 }

@@ -49,8 +49,8 @@ public class Livraison extends ObjetGraphique {
     }
 
     @Override
-    public boolean contient(Point p) {
-	return adresse.contient(p);
+    public boolean contient(Point p, int tolerance) {
+	return adresse.contient(p, tolerance);
     }
 
     public int getDuree() {

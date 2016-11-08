@@ -388,13 +388,15 @@ public class Plan extends Observable {
      * 
      * @param p
      *            Position de l'ObjetGraphique à rechercher
+     * @param tolerance
+     *            Intervalle de tolerance de la recherche
      * @return ObjetGraphique aux coordonnées p si il existe, null sinon
      */
-    public ObjetGraphique cherche(Point p) {
+    public ObjetGraphique cherche(Point p, int tolerance) {
 	ObjetGraphique objGraph = null;
 	// On teste le clic sur la liste d'intersections
 	for (Intersection inter : listeIntersections.values()) {
-	    if (inter.contient(p)) {
+	    if (inter.contient(p, tolerance)) {
 		objGraph = inter;
 		Livraison livAssociee = this.getLivraisonAdresse(inter.getId());
 		if (livAssociee != null)
@@ -486,7 +488,7 @@ public class Plan extends Observable {
 	}
 	return listeNonOrdonneeTroncons;
     }
-    
+
     public HashMap<Integer, List<Troncon>> getListeTronconsTriee() {
 	return this.listeTroncons;
     }

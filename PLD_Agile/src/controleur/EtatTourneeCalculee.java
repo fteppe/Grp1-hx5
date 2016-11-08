@@ -59,7 +59,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
 	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
-	ObjetGraphique objGraph = plan.cherche(point);
+	// TODO ajout tolérance
+	ObjetGraphique objGraph = plan.cherche(point, 15);
 	if (objGraph instanceof Livraison) {
 	    System.out.println("L'Objet est une livraison");
 	    Livraison livCliquee = (Livraison) objGraph;
@@ -90,7 +91,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
 	int id =-1;
-	ObjetGraphique objGraph = plan.cherche(point);
+	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Intersection) {
 	    id = ((Intersection) objGraph).getId();
 	}
