@@ -51,13 +51,12 @@ public class CdeAjoutLivraison implements Commande {
 
     @Override
     public void undoCde() {
-	/*
+	
 	idPrec = plan.getAdresseLivraisonPrecedente(idIntersection);
 	idSuiv = plan.getAdresseLivraisonSuivante(idIntersection);
-	*/
-	//Livraison liv = plan.retirerLivraisonTournee(idIntersection);
-	plan.retirerLivraisonTournee(idIntersection);
-	/*
+	
+	Livraison liv = plan.retirerLivraisonTournee(idIntersection);
+	
 	this.duree = liv.getDuree();
 	if (liv.possedePlage()) {
 	    this.debutPlage = liv.getDebutPlage().toString() + ":00";
@@ -66,7 +65,7 @@ public class CdeAjoutLivraison implements Commande {
 	    this.debutPlage = null;
 	    this.finPlage = null;
 	}
-	*/
+	
     }
 
 }
