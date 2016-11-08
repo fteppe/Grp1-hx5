@@ -28,6 +28,7 @@ public class Fenetre extends JFrame{
 	private JScrollPane scroll;
 	private PopMenuLivraison popupMenuLivraison;
 	private PopMenuIntersection popupMenuIntersection;
+	private MenuCreationLivraison menuCreationLivraison;
 	
 	private int intersectionSelectionne; //vaut -1 si aucune intersection n'est selectionné
 	
@@ -136,15 +137,16 @@ public class Fenetre extends JFrame{
 	protected void ajouterLivraisonPosition(int position, boolean avant){
 		int idAvant;
 		int idApres;
+		menuCreationLivraison = new MenuCreationLivraison(this, position);
 		if(avant){
 			idAvant = zoneDeTexte.getLivraisonAvantId(position);
 			idApres = position;
-			controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
+			//controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
 		}
 		else{
 			idAvant = position;
 			idApres = zoneDeTexte.getLivraisonApresId(position);
-			controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
+			//controleur.clicAjouterLivraisonPosition(idAvant, idApres, 600);
 		}
 	}
 	

@@ -27,7 +27,7 @@ public class MenuCreationLivraison extends JDialog{
 		super();
 		this.fenetre = fenetre;
 		this.idLivraison = idLivraison;
-		
+		System.out.println("MENU CREATION LIVRAISON");
 		horaire = new JRadioButton("Fenêtre de passage sur la livraison?");
 		horaire.setSelected(false);
 		labelArrive = new JLabel("heure d'arrivée");
@@ -48,8 +48,8 @@ public class MenuCreationLivraison extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				InfoMenuAjouterLivraison info =retourBoiteDialogue();
-				fenetre.ajouterLivraison(info.idLivraison, info.duree);
+				//InfoMenuAjouterLivraison info =retourBoiteDialogue();
+				//fenetre.ajouterLivraison(info.idLivraison, info.duree);
 				setVisible(false);
 			}
 		});
@@ -59,7 +59,6 @@ public class MenuCreationLivraison extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				
 			}
 		});
 		
@@ -69,7 +68,7 @@ public class MenuCreationLivraison extends JDialog{
 		setVisible(true);
 	}
 	
-	public InfoMenuAjouterLivraison retourBoiteDialogue(){
+	/*public InfoMenuAjouterLivraison retourBoiteDialogue(){
 		if(horaire.isSelected() == true)
 		{
 			//renvoie les informations d'horaire
@@ -79,7 +78,7 @@ public class MenuCreationLivraison extends JDialog{
 		{
 			//
 		}
-	}
+	}*/
 }
 
 
