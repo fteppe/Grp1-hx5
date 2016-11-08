@@ -197,7 +197,7 @@ public class Tournee extends Observable {
     }
 
     public Heure gethFin() {
-	return hFin;
+	return (hFin != null ? hFin : new Heure("00:00:00"));
     }
 
     public boolean getValidite() {
