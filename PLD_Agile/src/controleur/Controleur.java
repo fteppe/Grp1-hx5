@@ -151,12 +151,29 @@ public class Controleur {
 	
 	/**
 	 * Methode appelee par fenetre lorsque l'utilisateur clique
-	 * sur ajouter une nouvelle livraison.
-	 * @param idLivraison
-	 * @param duree
+	 * sur ajouter une nouvelle livraison sur le plan.
 	 */
-	public void ajouterLivraison(int idLivraison, int duree){
-	    	etatCourant.ajouterLivraison(this, plan, fenetre, idLivraison, duree);
+	public void passerEtatAjouterLivraison(){
+	    	etatCourant.passerEtatAjouterLivraison(this, fenetre);
+	}
+	
+	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur clique
+	 * sur "annuler" dans le mode d'ajout de livraison.
+	 */
+	public void annulerAjout() {
+	    etatCourant.annulerAjout(this, plan, fenetre, listeDeCdes);
+	}
+	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur survole
+	 * le plan une fois la tournée calculée.
+	 * @param point
+	 * @param tolerance
+	 */
+	public void survolPlan(Point point, int tolerance) {
+	    etatCourant.survolPlan(plan, fenetre, point, tolerance);
 	}
 
 }

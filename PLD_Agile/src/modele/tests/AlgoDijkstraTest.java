@@ -227,6 +227,96 @@ public class AlgoDijkstraTest {
 	    }
 	}*/
    }
+    
+    @Test
+    public void testCalculerDijkstraLivraisonNonAtteignable() {
+    //Plan avec l'intersection 10 qui n'est pas atteignable à partir des autres interserctions
+	Plan plan = new Plan();
+	//Creation et Ajout des intersections au plan
+	AlgoDijkstra algoDijkstra = AlgoDijkstra.getInstance();
+	plan.ajouterIntersection(1, 412, 574);
+	Intersection i1 = new Intersection(1, 412, 574);
+	plan.ajouterIntersection(2, 217, 574);
+	Intersection i2 = new Intersection(2, 217, 574);
+	plan.ajouterIntersection(3, 325, 574);
+	Intersection i3 = new Intersection(3, 325, 574);
+	plan.ajouterIntersection(4, 412, 544);
+	Intersection i4 = new Intersection(4, 412, 544);
+	plan.ajouterIntersection(5, 742, 574);
+	Intersection i5 = new Intersection(5, 742, 574);
+	plan.ajouterIntersection(6, 451, 174);
+	Intersection i6 = new Intersection(6, 418, 974);
+	plan.ajouterIntersection(10, 418, 974);
+	Intersection i10 = new Intersection(10, 418, 974);
+	
+	//Creation et Ajout des Troncons au plan
+	plan.ajouterTroncon("t_1_2", 5, 1, 1, 2);
+	Troncon t_1_2 = new Troncon("t_1_2", i1, i2, 5, 1);
+	plan.ajouterTroncon("t_2_1", 5, 1, 2, 1);
+	Troncon t_2_1 = new Troncon("t_2_1", i2, i1, 5, 1);
+	plan.ajouterTroncon("t_2_4", 25, 1, 2, 4);
+	Troncon t_2_4 = new Troncon("t_2_4", i2, i4, 25, 1);
+	plan.ajouterTroncon("t_4_2", 25, 1, 4, 2);
+	Troncon t_4_2 = new Troncon("t_4_2", i4, i2, 25, 1);
+	plan.ajouterTroncon("t_4_5", 3, 1, 4, 5);
+	Troncon t_4_5 = new Troncon("t_4_5", i4, i5, 3, 1);
+	plan.ajouterTroncon("t_5_4", 3, 1, 5, 4);
+	Troncon t_5_4 = new Troncon("t_5_4", i5, i4, 3, 1);
+	plan.ajouterTroncon("t_4_3", 8, 1, 4, 3);
+	Troncon t_4_3 = new Troncon("t_4_3", i4, i3, 8, 1);
+	plan.ajouterTroncon("t_3_4", 8, 1, 3, 4);
+	Troncon t_3_4 = new Troncon("t_3_4", i3, i4, 8, 1);
+	plan.ajouterTroncon("t_3_5", 1, 1, 3, 5);
+	Troncon t_3_5 = new Troncon("t_3_5", i3, i5, 1, 1);
+	plan.ajouterTroncon("t_5_3", 1, 1, 5, 3);
+	Troncon t_5_3 = new Troncon("t_5_3", i5, i3, 1, 1);
+	plan.ajouterTroncon("t_3_6", 6, 1, 3, 6);
+	Troncon t_3_6 = new Troncon("t_3_6", i3, i6, 6, 1);
+	plan.ajouterTroncon("t_6_3", 6, 1, 6, 3);
+	Troncon t_6_3 = new Troncon("t_6_3", i6, i3, 6, 1);
+	plan.ajouterTroncon("t_5_6", 10, 1, 5, 6);
+	Troncon t_5_6 = new Troncon("t_5_6", i5, i6, 10, 1);
+	plan.ajouterTroncon("t_6_5", 10, 1, 6, 5);
+	Troncon t_6_5 = new Troncon("t_6_5", i6, i5, 10, 1);
+
+	//chargement des informations dans algoDijkstra
+	algoDijkstra.chargerAlgo(plan.getListeIntersections(), plan.getListeTronconsTriee());
+	ArrayList<Integer> listeSommets = new ArrayList<>();
+	listeSommets.add(1);
+	listeSommets.add(2);
+	listeSommets.add(3);
+	listeSommets.add(4);
+	listeSommets.add(10);
+	//Dijkstra à partir de i1 vers tous les autres intersections
+	//verifier que le cout vers i10 est infini et qu'il n'y a pas d'itinéraire vers i10
+	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1, listeSommets);
+	int[] cout = (int[]) resultDijkstra[0];
+	assertTrue(cout[4]==Integer.MAX_VALUE);
+	Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
+	assertTrue(trajetsUnit[0].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[1].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[2].getTroncons().isEmpty());
+	assertFalse(trajetsUnit[3].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[4].getTroncons().isEmpty());
+	//Dijkstra à partir de i10 vers tous les autres intersections
+	//verifier que tous les couts à partir de i10 sont infinis et qu'il n'y a pas d'itinéraire possible
+
+	resultDijkstra = algoDijkstra.calculerDijkstra(10,listeSommets);
+	cout=(int[]) resultDijkstra[0];
+	assertTrue(cout[0]==Integer.MAX_VALUE &&
+			cout[1]==Integer.MAX_VALUE &&
+			cout[2]==Integer.MAX_VALUE &&
+			cout[3]==Integer.MAX_VALUE &&
+			cout[4]!=Integer.MAX_VALUE
+			);
+	trajetsUnit = (Itineraire[]) resultDijkstra[1];
+	assertTrue(trajetsUnit[0].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[1].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[2].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[3].getTroncons().isEmpty());
+	assertTrue(trajetsUnit[4].getTroncons().isEmpty());
+
+   }
 		
 	/*Livraison livraison_addresse_2 = p.getListeLivraisons().get(2);
 	Livraison livraison_addresse_3 = p.getListeLivraisons().get(3);	

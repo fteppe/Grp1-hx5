@@ -7,6 +7,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import modele.Intersection;
+import modele.Livraison;
+import modele.ObjetGraphique;
 import modele.Plan;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
@@ -40,13 +43,16 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	public void clicGauche(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
 	    // TODO : recuperer l'id de la livraison/intersection au model en lui donnant un point.
 	    // Si le point selectionner est une interseciton et qu'elle n'est pas deja une livraison
-	    //listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idLivraison));
+	    ObjetGraphique objGraph = plan.cherche(p);
+		if (objGraph instanceof Intersection) {
+		    listeDeCdes.ajoute(new CdeAjoutLivraison(plan, ((Intersection)objGraph)));
+		}
 	    fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	}
 	
 	@Override
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point p) {
-	    // TODO :  Dans cet etat, suite a un clic droit l'application retourne dans son etat precedent.
+	public void annulerAjout(Controleur controleur,Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
 	
 }
