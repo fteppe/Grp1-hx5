@@ -12,8 +12,9 @@ import modele.Plan;
 public abstract class EtatDefaut implements Etat {
 	// Definition des comportements par defaut des methodes
 	
-	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre) {
+	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 		try {
+		    	listeDeCdes.reset();
 			DeserialiseurXML.chargerPlan(plan);
 			fenetre.afficherMessage("Plan chargé avec succés");
 			controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
@@ -24,7 +25,7 @@ public abstract class EtatDefaut implements Etat {
 		}
 	}
 	
-	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre){}
+	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes){}
 
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite){}
 

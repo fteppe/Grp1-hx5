@@ -58,14 +58,14 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic sur le bouton "Charger plan"
 	 */
 	public void chargerPlan() {
-		etatCourant.chargerPlan(this, plan, fenetre);
+		etatCourant.chargerPlan(this, plan, fenetre, listeDeCdes);
 	}
 
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Charger demande de livraison"
 	 */
 	public void chargerDemandeLivraison() {
-		etatCourant.chargerDemandeLivraison(this, plan, fenetre);
+		etatCourant.chargerDemandeLivraison(this, plan, fenetre, listeDeCdes);
 	}
 
 	/**

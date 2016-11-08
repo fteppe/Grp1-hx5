@@ -16,8 +16,9 @@ public class EtatCalculEnCours extends EtatDefaut {
 	
 	
 @Override
-public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
+public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
     try {
+	listeDeCdes.reset();
     	DeserialiseurXML.chargerLivraisons(plan);
     	plan.setTournee(null);
     	fenetre.afficherMessage("Demande de livraison chargée");

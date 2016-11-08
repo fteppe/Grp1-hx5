@@ -9,9 +9,11 @@ public interface Etat {
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Charger demande livraison"
 	 * @param controleur 
+	 * @param plan
 	 * @param fenetre
+	 * @param listeDeCdes
 	 */
-	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre);
+	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Calculer Tournee"
@@ -36,10 +38,12 @@ public interface Etat {
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Charger un plan"
+	 * @param controleur
 	 * @param plan
 	 * @param fenetre
+	 * @param listeDeCdes
 	 */
-	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre);
+	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
 	
 	
 	/**
