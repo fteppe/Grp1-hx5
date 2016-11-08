@@ -92,7 +92,7 @@ public class Livraison extends ObjetGraphique {
    	return this.adresse;
     }
     
-    public void setHeures(Heure heureArrivee) {
+    public Heure setHeureArrivee(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
 	if(this.plage != null) {
 	    if(heureArrivee.toSeconds() 
@@ -116,6 +116,7 @@ public class Livraison extends ObjetGraphique {
 		    + this.duree);
 	    tpsAttente = new Heure(0);
 	}
+	return this.heureDepart;
     }
     
     public void setDuree(int duree) {

@@ -37,8 +37,6 @@ public class Plan extends Observable {
 							   // leur origine
     private DemandeDeLivraison demandeDeLivraison;
     private Tournee tournee;
-    private int[][] couts;
-    private Itineraire[][] trajets;
     private ArrayList<Integer> idSommets;
     private AlgoDijkstra algo;
     private boolean calculTourneeEnCours;
@@ -183,7 +181,7 @@ public class Plan extends Observable {
      *            L'adresse de la livraison suivante
      */
     public void insererLivraisonTournee(Livraison liv, int adrPrec, int adrSuiv) {
-	tournee.ajouterLivraison(liv, adrPrec, adrSuiv);
+	tournee.insererLivraison(liv, adrPrec, adrSuiv);
 	setChanged();
 	notifyObservers();
     }
@@ -240,7 +238,7 @@ public class Plan extends Observable {
 
 	System.out.println("Entree calcul tournée");
 
-	tournee = new Tournee();
+	tournee = new Tournee(demandeDeLivraison.getHeureDepart());
 	this.calculTourneeEnCours = true;
 
 	// On lance le calcul de la tournee dans un nouveau thread
@@ -359,13 +357,13 @@ public class Plan extends Observable {
 	    Livraison prochLivr = demandeDeLivraison.getLivraison(idSommets.get(livraisons[i + 1]));
 	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
 	    heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
-	    prochLivr.setHeures(heureActuelle);
-	    if(prochLivr.possedePlage()) {
+	    heureActuelle = prochLivr.setHeureArrivee(heureActuelle);
+	    /*if(prochLivr.possedePlage()) {
 		heureActuelle = new Heure(Math.max(heureActuelle.toSeconds(),
 			prochLivr.getDebutPlage().toSeconds()) + prochLivr.getDuree());
 	    } else {
 		heureActuelle = new Heure(heureActuelle.toSeconds() + prochLivr.getDuree());
-	    }
+	    }*/
 	    tournee.ajouterItineraire(nouvItineraire, prochLivr);
 	}
 	tournee.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
@@ -375,45 +373,42 @@ public class Plan extends Observable {
 	System.out.println("Modifié");
     }
 
-    public List<ObjetGraphique> cherche(Point p) {
-	List<ObjetGraphique> lstObj = new ArrayList<ObjetGraphique>();
+    /**
+     * Renvoie l'ObjetGraphique positionné au coordonnées du point précisé
+     * 
+     * @param p Position de l'ObjetGraphique à rechercher
+     * @return ObjetGraphique aux coordonnées p si il existe, null sinon
+     */
+    public ObjetGraphique cherche(Point p) {
+	ObjetGraphique objGraph = null;
 	// On teste le clic sur la liste d'intersections
 	for (Intersection inter : listeIntersections.values()) {
 	    if (inter.contient(p)) {
-		lstObj.add(inter);
-		if (tournee != null) {
-		    // Si une intersection est cliquée et que la tournée existe
-		    // on teste si une livraison existe sur l'intersection
-		    Livraison livTournee = tournee.getLivraison(inter.getId());
-		    if (livTournee != null) {
-			lstObj.add(livTournee);
-		    }
-		} else {
-		    // Si une tournée n'existe pas mais si une demande existe
-		    // on teste si une livraison existe sur l'intersection
-		    if (demandeDeLivraison != null) {
-			Livraison livDemande = demandeDeLivraison.getLivraison(inter.getId());
-			if (livDemande != null) {
-			    lstObj.add(livDemande);
-			}
-		    }
-		}
-		break;
-	    }
-	}
-	for (List<Troncon> troncons : listeTroncons.values()) {
-	    for (Troncon tronc : troncons) {
-		if (tronc.contient(p)) {
-		    lstObj.add(tronc);
-		    if(tournee != null) {
-			List<Itineraire> itins = tournee.getItineraireTroncon(tronc);
-			itins.forEach(itin -> lstObj.add(itin));
-		    }
-		}
+		objGraph = inter;
+		Livraison livAssociee = this.getLivraisonAdresse(inter.getId());
+		if(livAssociee != null) objGraph = livAssociee;
 	    }
 	}
 
-	return lstObj;
+	return objGraph;
+    }
+    
+    /**
+     * Renvoie la livraison associée à l'intersection à l'adresse donnée
+     * en cherchant en priorité dans la tournée si elle existe
+     * ou dans la demande de livraison sinon
+     * 
+     * @param adresse Id de l'intersection adresse de la livraison
+     * @return La livraison associée
+     */
+    private Livraison getLivraisonAdresse(int adresse) {
+	if(tournee != null) {
+	    return tournee.getLivraison(adresse);
+	}
+	if(demandeDeLivraison != null) {
+	    return demandeDeLivraison.getLivraison(adresse);
+	}
+	return null;
     }
 
     /*
@@ -547,5 +542,11 @@ public class Plan extends Observable {
 	    sommets.add(cle);
 	}
 	return sommets;
+    }
+
+    public String getHeureDepart() {
+	if(tournee != null) return tournee.gethDebut().toString();
+	if(demandeDeLivraison != null) return demandeDeLivraison.getHeureDepart().toString();
+	return "";
     }
 }

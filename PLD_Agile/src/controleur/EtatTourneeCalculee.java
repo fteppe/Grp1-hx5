@@ -59,25 +59,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void clicDroitPlan(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, Point point) {
 	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
-	List<ObjetGraphique> lstOG = plan.cherche(point);
-	for (ObjetGraphique OG : lstOG) {
-	    System.out.println("Objet trouvé");
-	    if (OG instanceof Livraison) {
-		System.out.println("L'Objet est une livraison");
-		Livraison livCliquee = (Livraison) OG;
-		fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
-	    }
-	    if (OG instanceof Intersection) {
-		System.out.println("L'Objet est l'intersection id="+((Intersection) OG).getId());
-	    }
-	    if(OG instanceof Troncon) {
-		Troncon tr = (Troncon) OG;
-		//System.out.println("L'objet est le troncon reliant "+tr.getOrigine().getId()+" à "+tr.getDestination().getId());
-	    }
-	    if(OG instanceof Itineraire) {
-		Itineraire it = (Itineraire) OG;
-		System.out.println("L'objet est l'titineraire reliant la livraison en "+it.getDepart().getId()+" à "+it.getArrivee().getId());
-	    }
+	ObjetGraphique objGraph = plan.cherche(point);
+	if (objGraph instanceof Livraison) {
+	    System.out.println("L'Objet est une livraison");
+	    Livraison livCliquee = (Livraison) objGraph;
+	    fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
+	}
+	if (objGraph instanceof Intersection) {
+	    System.out.println("L'Objet est l'intersection id=" + ((Intersection) objGraph).getId());
 	}
     }
 
