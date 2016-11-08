@@ -1,11 +1,7 @@
 package vue;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.ScrollPane;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -92,13 +88,12 @@ public class Fenetre extends JFrame{
 	
 	public void setIntersectionSelectionne(int idIntersection){
 		
-		if(intersectionSelectionne != idIntersection){
+		if(intersectionSelectionne != idIntersection && vuePlan.getGraphics() !=null){
 			intersectionSelectionne = idIntersection;
 			vuePlan.update(vuePlan.getGraphics());
 		}
+		
 	}
-	
-	
 	
 	public void afficherDetailDemandeLivraison(){
 		zoneDeTexte.afficherInformationDemandeLivraison();
@@ -118,6 +113,8 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
+		
+		controleur.survolPlan(point, tolerance);
 	}
 	
 	protected void supprimerLivraison(int id){
@@ -129,7 +126,6 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void ajouterLivraison(int idLivraison, int duree){
-		controleur.ajouterLivraison(idLivraison, duree);
 	}
 	
 	protected void surlignerLivraison(int idLivraison){
