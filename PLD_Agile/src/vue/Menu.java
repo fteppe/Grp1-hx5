@@ -22,6 +22,7 @@ public class Menu extends JMenuBar{
 	private JMenuItem calculerTournee;
 	private JMenuItem annuler;
 	private JMenuItem restaurer;
+	private JMenuItem generationFeuilleRoute;
 	private Fenetre fenetre;
 	
 	/*Constructeur
@@ -45,6 +46,7 @@ public class Menu extends JMenuBar{
 		calculerTournee = new JMenuItem("Calculer une tournée");
 		annuler = new JMenuItem("annuler");
 		restaurer = new JMenuItem("restaurer");
+		generationFeuilleRoute = new JMenuItem("générer la feuille de route");
 		
 		fichiers.add(chargerPlan);
 		fichiers.add(chargerDemandeLivraison);
@@ -52,6 +54,7 @@ public class Menu extends JMenuBar{
 		edition.add(calculerTournee);
 		edition.add(annuler);
 		edition.add(restaurer);
+		edition.add(generationFeuilleRoute);
 		
 		ajouterLesEcouteurs();
 	}
@@ -113,6 +116,14 @@ public class Menu extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fenetre.actionRestaurer();
+			}
+		});
+		
+		generationFeuilleRoute.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionGenerationFeuilleDeRoute();
 			}
 		});
 	}

@@ -84,6 +84,14 @@ public class Plan extends Observable {
      */
     public void ajouterTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
 	    throws ModeleException {
+	if (listeIntersections.get(origine) == null || listeIntersections.get(destination) == null)
+	    throw new ModeleException(
+		    "L'origine ou la destination du tronçon " + nom + " ne correspond pas à une intersection.");
+	if (vitMoyenne <= 0)
+	    throw new ModeleException("La vitesse moyenne du tronçon" + nom + " est négative ou nulle.");
+	if (longueur <= 0)
+	    throw new ModeleException("La longueur du tronçon" + nom + " est négative ou nulle.");
+
 	Troncon nouvTroncon = new Troncon(nom, this.listeIntersections.get(origine),
 		this.listeIntersections.get(destination), longueur, vitMoyenne);
 	// Si un troncon ayant la meme origine que le troncon à ajouter,
@@ -108,7 +116,9 @@ public class Plan extends Observable {
      * @param entrepot
      *            Identifiant de l'intersection correspondant a l'entrepot
      */
-    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) {
+    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
+	if (listeIntersections.get(entrepot) == null)
+	    throw new ModeleException("L'adresse de l'entrepôt ne correspond pas à une intersection.");
 	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart, this.listeIntersections.get(entrepot));
 	setChanged();
 	notifyObservers(demandeDeLivraison);
@@ -128,7 +138,11 @@ public class Plan extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a effectuer
      */
-    public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage) {
+    public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage) throws ModeleException {
+	if(listeIntersections.get(adresse) == null)
+	    throw new ModeleException("L'adresse "+adresse+" d'une livraison ne correspond pas à une intersection.");
+	if(duree < 0)
+	    throw new ModeleException("La durée de la livraison à l'adresse "+adresse+" est négative.");
 	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
 	setChanged();
 	notifyObservers();

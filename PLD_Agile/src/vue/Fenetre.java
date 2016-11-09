@@ -114,10 +114,6 @@ public class Fenetre extends JFrame{
 		console.setText(message);
 	}
 	
-	public void ajouterLigneMessage(String message) {
-	    console.setText(console.getText() + "\n" + message);
-	}
-	
 	protected ZoneDeTexte getZoneText(){
 		return descriptionPlan;
 	}
@@ -190,6 +186,11 @@ public class Fenetre extends JFrame{
 		controleur.calculTournee();
 		return true;
 	}
+	
+	protected void actionGenerationFeuilleDeRoute(){
+		
+	}
+	
 	protected void actionAnnuler(){
 		controleur.undo();
 	}
