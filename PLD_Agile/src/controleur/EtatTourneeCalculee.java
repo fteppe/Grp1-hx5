@@ -52,20 +52,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	listeDeCdes.redo();
     }
 
-    @Override
-    public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point) {
-	System.out.println("Clic droit sur le plan coord: x(" + point.getX() + ") - y(" + point.getY() + ")");
-	// TODO ajout tolérance
-	ObjetGraphique objGraph = plan.cherche(point, 15);
-	if (objGraph instanceof Livraison) {
-	    System.out.println("L'Objet est une livraison");
-	    Livraison livCliquee = (Livraison) objGraph;
-	    fenetre.ouvrirMenuSupprimer(livCliquee.getAdresse().getId());
-	}
-	if (objGraph instanceof Intersection) {
-	    System.out.println("L'Objet est l'intersection id=" + ((Intersection) objGraph).getId());
-	}
-    }
 
     @Override
     public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {
@@ -94,22 +80,29 @@ public class EtatTourneeCalculee extends EtatDefaut {
     
     @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
-	int id =-1;
-	int id2 =-1;
-	ObjetGraphique objGraph = plan.cherche(point, tolerance);
-	if (objGraph instanceof Intersection) {
-	    id = ((Intersection) objGraph).getId();
-	    fenetre.setIntersectionSurvole(id);
-	}
-	else if(objGraph instanceof Livraison) {
-	    id2 = ((Livraison) objGraph).getAdresse().getId();
-	    //fenetre.setLivraisonSurvole(id);
-	}
-	fenetre.setIntersectionSurvole(id);
-	//fenetre.setLivraisonSurvole(id2);
+		int id =-1;
+		ObjetGraphique objGraph = plan.cherche(point, tolerance);
+		if(objGraph instanceof Livraison) {
+		    id = ((Livraison) objGraph).getAdresse().getId();
+		    fenetre.setLivraisonSurvol(id);
+		}
+		else if (objGraph instanceof Intersection) {
+		    id = ((Intersection) objGraph).getId();
+		    fenetre.setIntersectionSurvol(id);
+		}
+
+		fenetre.setIntersectionSurvol(id);
+		fenetre.setLivraisonSurvol(id);
     }
     
     @Override
-    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
+    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){
+    	fenetre.ouvrirPopMenuLivraison(idLivraison);
+    }
+    
+    @Override
+    public void clicDroitIntersection(Fenetre fenetre, int idIntersection){
+    	fenetre.ouvrirPopMenuIntersection(idIntersection);
+    }
 
 }

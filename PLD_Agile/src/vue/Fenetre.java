@@ -27,10 +27,10 @@ public class Fenetre extends JFrame{
 	private JPanel panneauEst;
 	private JScrollPane scroll;
 	private PopMenuLivraison popupMenuLivraison;
+	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
 	
-	private int intersectionSurvole; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
 	
@@ -46,7 +46,6 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
-		intersectionSurvole = -1;
 		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
@@ -55,7 +54,7 @@ public class Fenetre extends JFrame{
 	    this.setTitle(titreFenetre);
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
-	    
+
 	    //menuCreationLivraison = new MenuCreationLivraison(this, 25, true, new Point(0,0));
 	    
 	    vuePlan = new VuePlan(plan, this);
@@ -84,19 +83,19 @@ public class Fenetre extends JFrame{
 		
 	}
 	
-	public void ouvrirMenuSupprimer(int id){
-		popupMenuLivraison = new PopMenuLivraison(id, this);
+	public void ouvrirPopMenuIntersection(int id){
+		popupMenuIntersection = new PopMenuIntersection(id, this);
 		Point pos = this.getMousePosition();
-		popupMenuLivraison.show(this, pos.x, pos.y);
+		popupMenuIntersection.show(this, pos.x, pos.y);
 	}
 	
-	public void setIntersectionSurvole(int idIntersection){
-		
-		if(intersectionSurvole != idIntersection && vuePlan.getGraphics() !=null){
-			intersectionSurvole = idIntersection;
-			vuePlan.update(vuePlan.getGraphics());
-		}
-		
+	public void setIntersectionSurvol(int idIntersection){
+		vuePlan.setIntersectionSurvol(idIntersection);
+	}
+	
+	public void setLivraisonSurvol(int idLivraison){
+		vuePlan.setLivraisonSurvol(idLivraison);
+		zoneDeTexte.setLivraisonSurligne(idLivraison);
 	}
 	
 	public void afficherDetailDemandeLivraison(){
@@ -110,19 +109,25 @@ public class Fenetre extends JFrame{
 		return zoneDeTexte;
 	}
 	
-	protected int getIntersectionSelectionne(){
-		return intersectionSurvole;
+	
+	protected void clicDroitLivraison(int idLivraison){
+		controleur.clicDroitLivraison(idLivraison);
 	}
 	
-	protected void clicDroitPlan(Point point){
-		if(plan.getIntersection(intersectionSurvole) == null){
-			controleur.clicDroitPlan(point);
-		}
-		else{
-			popupMenuIntersection =new PopMenuIntersection(intersectionSurvole, this);
-			Point pos = this.getMousePosition();
-			popupMenuIntersection.show(this,pos.x , pos.y);
-		}
+	protected void clicDroitIntersection(int idIntersection){
+		controleur.clicDroitIntersection(idIntersection);
+	}
+	
+	public void ouvrirPopMenuLivraison(int idLivraison){
+		Point arg0 = getMousePosition();
+		popupMenuLivraison = new PopMenuLivraison(idLivraison, this);
+		popupMenuLivraison.show(this,(int) arg0.getX(),(int) arg0.getY());
+	}
+	
+	public void ouvrirPopMenuLivraisonInsertion(int idLivraison){
+		Point arg0 = getMousePosition();
+		popupMenuLivraisonAjout = new PopMenuLivraisonAjout(idLivraison, this);
+		popupMenuLivraisonAjout.show(this,(int) arg0.getX(),(int)arg0.getY());
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
@@ -131,7 +136,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionAjouterLivraison(int idIntersection){
-		intersectionSurvole = -1;
+		vuePlan.setIntersectionSurvol(-1);
 		controleur.passerEtatAjouterLivraison(idIntersection);
 	}
 	
@@ -143,9 +148,6 @@ public class Fenetre extends JFrame{
 	    controleur.supprimerLivraison(id);
 	}
 	
-	protected void intervertirLivraison(int id){
-		
-	}
 	
 	protected Controleur getControleur(){
 		return controleur;
@@ -154,10 +156,6 @@ public class Fenetre extends JFrame{
 	protected void ajouterLivraison(int idLivraison, int duree){
 	}
 	
-	protected void surlignerLivraison(int idLivraison){
-		vuePlan.setLivraisonSurligne(idLivraison);
-		vuePlan.dessinerListeLivraisons(vuePlan.getGraphics(), plan.getListeLivraisons());
-	}
 	
 	protected void actionChargerPlan(){
 		controleur.chargerPlan();

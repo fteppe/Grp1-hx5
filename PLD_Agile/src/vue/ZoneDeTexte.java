@@ -27,11 +27,13 @@ public class ZoneDeTexte extends JPanel implements Observer {
     private InformationTextuelle texte;
     private ArrayList<InformationTextuelle> listeInformation;
     private GridBagConstraints contraintes;
+    private int livraisonSurligne;
 
     public ZoneDeTexte(int largeur, int hauteur, Plan plan, Fenetre fenetre) {
 	super();
 	this.fenetre = fenetre;
 	this.plan = plan;
+
 	plan.addObserver(this);
 	listeInformation = new ArrayList<InformationTextuelle>();
 	ajouterZoneInformation("", 0, false);
@@ -42,22 +44,37 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	contraintes.anchor = GridBagConstraints.PAGE_START;
 	contraintes.fill = GridBagConstraints.HORIZONTAL;
 	contraintes.gridy = 0;
-
+	setLivraisonSurligne(-1);
 	afficherInformations();
     }
 
     protected int getLivraisonAvantId(int id) {
-	int indexPrec = -1;// la position dans la liste de l'infotextuelle
-			   // precedente.
-	for (int i = 0; i < listeInformation.size(); i++, indexPrec++) {
-	    InformationTextuelle info = listeInformation.get(i);
-	    if (info.getIndex() == id) {
-		return listeInformation.get(indexPrec).getIndex();
-	    }
-	}
-	return VALEUR_INTERSECTION_VIDE;
+		int indexPrec = -1;// la position dans la liste de l'infotextuelle
+				   // precedente.
+		for (int i = 0; i < listeInformation.size(); i++, indexPrec++) {
+		    InformationTextuelle info = listeInformation.get(i);
+		    if (info.getIndex() == id) {
+			return listeInformation.get(indexPrec).getIndex();
+		    }
+		}
+		return VALEUR_INTERSECTION_VIDE;
     }
-
+    
+    protected void setLivraisonSurligne(int idLivraison){
+    	if(livraisonSurligne != idLivraison){
+    		livraisonSurligne = idLivraison;
+    	}
+    }
+    
+    private InformationTextuelle getInfoParIndex(int index){
+    	for(InformationTextuelle info : listeInformation){
+    		if(info.getIndex() == index){
+    			return info;
+    		}
+    	}
+    	return null;
+    }
+    
     protected int getLivraisonApresId(int id) {
 	int indexSuivant = 1;
 	for (int i = 0; i < listeInformation.size(); i++, indexSuivant++) {

@@ -104,12 +104,6 @@ public interface Etat {
 	 * @param fenetre
 	 * @param point
 	 */
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point);
-	
-	/**
-	 *  Methode appelee par controleur afin de verifier si le clic droit dans la zone textuelle
-	 *  est possible.
-	 */
 	public boolean clicDroitZoneTextuellePossible();
 	
 	
@@ -187,4 +181,11 @@ public interface Etat {
 	 * @param idLivraison
 	 */
 	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison);
+	
+	/**
+	 * Methode appelee par controleur quand ... 
+	 * @param fenetre
+	 * @param idIntersection
+	 */
+	public void clicDroitIntersection(Fenetre fenetre, int idIntersection);
 }
