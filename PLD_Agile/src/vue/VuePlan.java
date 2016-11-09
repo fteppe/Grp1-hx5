@@ -51,9 +51,9 @@ public class VuePlan extends JPanel implements Observer {
 	    setLivraisonSurvol(-1);
 	    setIntersectionSurvol(-1);
 		plan.addObserver(this);
+		addComponentListener(new EcouteurResize(plan, this));
+		
 		addMouseListener(new MouseListener() {
-			
-			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isLeftMouseButton(e)){
@@ -275,6 +275,7 @@ public class VuePlan extends JPanel implements Observer {
 	public void update(Observable obs, Object arg) {
 		if(arg != null){
 		}
+		getComponentListeners()[0].componentResized(null);
 		repaint();
 		
 	}
