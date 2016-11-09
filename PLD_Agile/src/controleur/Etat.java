@@ -141,7 +141,7 @@ public interface Etat {
 	 * sur le bouton "annuler" dans l'etat ajout de livraison.
 	 * @param controleur
 	 */
-	public void annulerAjout(Controleur controleur);
+	public void annulerAction(Controleur controleur);
 	
 	/**
 	 * Methode appelee par controleur lorsque l'utilisateur survole

@@ -24,7 +24,6 @@ public class EtatCalculEnCours extends EtatDefaut {
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
 		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
-	    fenetre.afficherDetailDemandeLivraison();
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());

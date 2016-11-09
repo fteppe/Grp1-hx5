@@ -30,7 +30,7 @@ public class VuePlan extends JPanel implements Observer {
 	private Fenetre fenetre;
 	private List<Troncon> listeTroncon; 
 	private double echelle;
-	private int tailleFleche = 8;
+	private int tailleFleche = 5;
 	private int intersectionSurvol; //vaut -1 si aucune intersection n'est selectionné
 	private int livraisonSurvol;
 	private static int diametreIntersection = 10;

@@ -32,7 +32,6 @@ public class EtatAjoutLivraison extends EtatDefaut {
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
 		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
-	    fenetre.afficherDetailDemandeLivraison();
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
@@ -61,8 +60,9 @@ public class EtatAjoutLivraison extends EtatDefaut {
     }
 
     @Override
-    public void annulerAjout(Controleur controleur) {
+    public void annulerAction(Controleur controleur) {
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+	controleur.getFenetre().afficherMessage("action annulée");
     }
 
     @Override

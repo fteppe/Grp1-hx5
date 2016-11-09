@@ -57,6 +57,9 @@ public class Controleur {
 	protected Etat getEtatCourant(){
 		return etatCourant;
 	}
+	protected Fenetre getFenetre(){
+		return fenetre;
+	}
 	
 	protected Plan getPlan(){
 		return plan;
@@ -122,6 +125,7 @@ public class Controleur {
 	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton "Undo"
 	 */
 	public void undo(){
+		etatCourant.annulerAction(this);
 		etatCourant.undo(listeDeCdes);
 	}
 
@@ -197,7 +201,7 @@ public class Controleur {
 	 * sur "annuler" dans le mode d'ajout de livraison.
 	 */
 	public void annulerAjout() {
-	    etatCourant.annulerAjout(this);
+	    etatCourant.annulerAction(this);
 	}
 	
 	/**
