@@ -108,7 +108,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	public void afficherDetailDemandeLivraison(){
-		descriptionPlan.afficherInformationDemandeLivraison();
+		descriptionPlan.genererInformationLivraison();
 	}
 	public void afficherMessage(String message){
 		console.setText(message);
