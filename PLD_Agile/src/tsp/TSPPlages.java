@@ -169,14 +169,14 @@ public class TSPPlages {
     			&& cout[sommetCrt][nonVus.get(i)] != Integer.MAX_VALUE) {
     			Integer[] pair = new Integer[2];
 				pair[0] = nonVus.get(i);
-				pair[1] = coutSommet;
+				pair[1] = coutSommet + attente;
 				nonVusTri.add(pair);
 		    }
 		}
 	    //On classe les sommets atteignables par cout croissant
     	nonVusTri.sort((Integer[] num1, Integer[] num2) ->
 	    		{
-	    			return num1[1].compareTo(num2[1]);
+	    		    return num2[1].compareTo(num1[1]);
 	    		});
     	
     	for (int i = 0; i< nonVusTri.size(); i++) {
