@@ -125,6 +125,7 @@ public class VuePlan extends JPanel implements Observer {
 		super.paintComponent(g2d);
 		//on doit peindre le plan;
 		
+		
 		//dessinerListeIntersections(g, plan.getListeIntersections());
 		dessinerListeTroncons(g2d,plan.getListeTroncons(), COULEUR_TRONCON);
 		dessinerListeLivraisons(g2d, plan.getListeLivraisons());
@@ -151,12 +152,12 @@ public class VuePlan extends JPanel implements Observer {
 	
 	protected void setIntersectionSurvol(int idIntersection){
 		intersectionSurvol = idIntersection;
-		update(getGraphics());
+		repaint();
 	}
 	
 	protected void setLivraisonSurvol(int idLivraison){
 		livraisonSurvol = idLivraison;
-		update(getGraphics());
+		repaint();
 	}
 	
 	/* dessine une liste d'itineraire 

@@ -44,6 +44,12 @@ public class Plan extends Observable {
 	this.calculTourneeEnCours = false;
     }
 
+    @Override 
+    public void notifyObservers(){
+    	setChanged();
+    	super.notifyObservers();
+    }
+    
     /**
      * Cree et ajoute une intersection au plan courant
      * 
@@ -552,6 +558,7 @@ public class Plan extends Observable {
     public void setTournee(Tournee tournee) {
     	System.out.println("set tournee");
 		this.tournee = tournee;
+		notifyObservers();
     }
 
     public Integer getDureeTournee() {
