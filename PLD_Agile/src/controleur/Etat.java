@@ -209,4 +209,20 @@ public interface Etat {
      * format txt
      */
     public void genererFeuilleDeRoute(Plan plan);
+
+    /**
+     * Méthode appelée pour modifier la plage horaire de la livraison à
+     * l'adresse donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison à modifier
+     * @param possedePlage
+     *            True si la modification comporte une plage horaire, false
+     *            sinon
+     * @param heureDebut
+     *            Heure de début de la plage
+     * @param heureFin
+     *            Heure de fin de la plage
+     */
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin);
 }
