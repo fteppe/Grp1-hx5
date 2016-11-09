@@ -42,13 +42,11 @@ public class DescriptionLivraison extends InformationTextuelle{
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				setFocusDescription(false);
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				setFocusDescription(true);
 			}
 			
@@ -64,15 +62,22 @@ public class DescriptionLivraison extends InformationTextuelle{
 		
 	}
 	
-	protected void setFocusDescription(boolean focused){
-		if(focused){
+	protected void setSurbrillance(boolean surbrillance){
+		if(surbrillance){
+
 			zoneInformation.setBackground(COUEUR_HOVER);
-			fenetre.setLivraisonSurvol(index);
 		}
 		else{
 			zoneInformation.setBackground(background);
+		}
+	}
+	
+	protected void setFocusDescription(boolean focused){
+		if(focused){
+			fenetre.setLivraisonSurvol(index);
+		}
+		else{
 			fenetre.setLivraisonSurvol(-1);
 		}
-
 	}
 }

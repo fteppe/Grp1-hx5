@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.security.auth.DestroyFailedException;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -66,26 +67,11 @@ public class ZoneDeTexte extends JPanel implements Observer {
     		for(InformationTextuelle info : listeInformation){
     			if(info instanceof DescriptionLivraison ){
     				info = (DescriptionLivraison)info;
-    				if(info.getIndex() == idLivraison)
-    				{
-        				((DescriptionLivraison) info).setFocusDescription(true);
-    				}
-    				else{
-    					((DescriptionLivraison) info).setFocusDescription(false);
-    				}
+    				((DescriptionLivraison)info).setSurbrillance(info.getIndex() == idLivraison);
     			}
     		}
     		afficherInformations();
     	}
-    }
-    
-    private InformationTextuelle getInfoParIndex(int index){
-    	for(InformationTextuelle info : listeInformation){
-    		if(info.getIndex() == index){
-    			return info;
-    		}
-    	}
-    	return null;
     }
     
     protected int getLivraisonApresId(int id) {
