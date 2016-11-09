@@ -30,7 +30,6 @@ public class Fenetre extends JFrame{
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
 	
-	private int intersectionSurvole; //vaut -1 si aucune intersection n'est selectionné
 	
 	protected Controleur controleur;
 	
@@ -46,7 +45,6 @@ public class Fenetre extends JFrame{
 	public Fenetre(String titre,int hauteur,int largeur, Plan plan, Controleur controleur){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		titreFenetre = titre;
-		intersectionSurvole = -1;
 		this.plan = plan;
 		dimensions = new Vecteur(largeur,hauteur);
 		panneauNord = new JPanel();
@@ -92,10 +90,10 @@ public class Fenetre extends JFrame{
 	
 	public void setIntersectionSurvole(int idIntersection){
 		
-		if(intersectionSurvole != idIntersection && vuePlan.getGraphics() !=null){
-			intersectionSurvole = idIntersection;
-			vuePlan.update(vuePlan.getGraphics());
-		}
+		vuePlan.setIntersectionSurvol(idIntersection);
+	}
+	
+	public void setLivraisonSurvol(int idLivraison){
 		
 	}
 	
@@ -110,19 +108,9 @@ public class Fenetre extends JFrame{
 		return zoneDeTexte;
 	}
 	
-	protected int getIntersectionSelectionne(){
-		return intersectionSurvole;
-	}
 	
-	protected void clicDroitPlan(Point point){
-		if(plan.getIntersection(intersectionSurvole) == null){
-			controleur.clicDroitPlan(point);
-		}
-		else{
-			popupMenuIntersection =new PopMenuIntersection(intersectionSurvole, this);
-			Point pos = this.getMousePosition();
-			popupMenuIntersection.show(this,pos.x , pos.y);
-		}
+	protected void clicDroitPlanLivraison(int idLivraison){
+		
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
@@ -131,7 +119,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionAjouterLivraison(int idIntersection){
-		intersectionSurvole = -1;
+		vuePlan.setIntersectionSurvol(-1);
 		controleur.passerEtatAjouterLivraison(idIntersection);
 	}
 	
@@ -143,9 +131,6 @@ public class Fenetre extends JFrame{
 	    controleur.supprimerLivraison(id);
 	}
 	
-	protected void intervertirLivraison(int id){
-		
-	}
 	
 	protected Controleur getControleur(){
 		return controleur;
@@ -154,10 +139,6 @@ public class Fenetre extends JFrame{
 	protected void ajouterLivraison(int idLivraison, int duree){
 	}
 	
-	protected void surlignerLivraison(int idLivraison){
-		vuePlan.setLivraisonSurligne(idLivraison);
-		vuePlan.dessinerListeLivraisons(vuePlan.getGraphics(), plan.getListeLivraisons());
-	}
 	
 	protected void actionChargerPlan(){
 		controleur.chargerPlan();
@@ -185,5 +166,9 @@ public class Fenetre extends JFrame{
 	protected void actionQuitter(){
 		System.out.println("menu quitter cliqué");
 		controleur.quitter();
+	}
+
+	protected void cliqueDroitIntersection(int intersectionSurvole) {
+		//TODO : appel controleur Clique droit intersection
 	}
 }
