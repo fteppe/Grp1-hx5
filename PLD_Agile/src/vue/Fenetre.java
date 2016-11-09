@@ -118,6 +118,9 @@ public class Fenetre extends JFrame{
 		return descriptionPlan;
 	}
 	
+	protected Plan getPlan(){
+		return plan;
+	}
 	
 	protected void clicDroitLivraison(int idLivraison){
 		controleur.clicDroitLivraison(idLivraison);

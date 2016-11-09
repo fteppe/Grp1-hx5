@@ -71,15 +71,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
 		
 		Plan plan = controleur.getPlan();
-		System.out.println(plan.getListeLivraisons());
 		if(plan.getListeLivraisons().isEmpty()){
-			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(plan.getEntrepot().getId());
-			controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+			controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
 			fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(), false);
 		}
 		else{
 			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
-			controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+			controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
 			fenetre.afficherMessage("Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
 		}
     }
