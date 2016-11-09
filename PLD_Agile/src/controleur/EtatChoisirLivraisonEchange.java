@@ -49,7 +49,13 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
-
+    
+    @Override
+    public void annulerAction(Controleur controleur) {
+    	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+    	controleur.getFenetre().afficherMessage("action annulée");
+    }
+    
     @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
 	int id = -1;

@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 public class PopMenuLivraison extends PopMenu{ 
 	private JMenuItem supprimerLivraison;
 	private JMenuItem intervertirLivraison;
+	private JMenuItem modifierLivraison;
 	protected int idLivraison;
 	protected Fenetre fenetre;
 	public PopMenuLivraison(int id, Fenetre fenetre){
@@ -17,6 +18,7 @@ public class PopMenuLivraison extends PopMenu{
 		
 		intervertirLivraison = new JMenuItem("Intervertir cette livraison");
 		supprimerLivraison = new JMenuItem("Supprimer cette livraison");
+		modifierLivraison = new JMenuItem("Modifier Livraison");
 		supprimerLivraison.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -31,7 +33,17 @@ public class PopMenuLivraison extends PopMenu{
 			}
 		});
 		
+		modifierLivraison.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.ouvrirMenuModifLivraison(idLivraison);
+			}
+		});
+		
 		add(supprimerLivraison);
+		add(modifierLivraison);
 		add(intervertirLivraison);
+
 	}
 }
