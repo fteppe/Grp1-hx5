@@ -54,13 +54,17 @@ public class Plan extends Observable {
      * @param latitude
      *            Latitude de l'intersection a ajouter
      */
-    public void ajouterIntersection(int id, int longitude, int latitude) {
+    public void ajouterIntersection(int id, int longitude, int latitude) throws ModeleException {
 	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
-	this.listeIntersections.put(id, nouvIntersection);
+	if (!this.listeIntersections.containsKey(id)) {
+	    this.listeIntersections.put(id, nouvIntersection);
+	} else {
+	    throw new ModeleException("Plusieurs intersections portent l'id " + id + ", seule l'intersection x("
+		    + this.listeIntersections.get(id).getLongitude() + ") y("
+		    + this.listeIntersections.get(id).getLongitude() + ") a été créée");
+	}
 	setChanged();
 	notifyObservers();
-	// Gestion d'une exception si deux intersections ont le meme numero de
-	// sommet ?
     }
 
     /**
@@ -78,7 +82,8 @@ public class Plan extends Observable {
      * @param destination
      *            Destination du troncon a ajouter
      */
-    public void ajouterTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination) {
+    public void ajouterTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
+	    throws ModeleException {
 	Troncon nouvTroncon = new Troncon(nom, this.listeIntersections.get(origine),
 		this.listeIntersections.get(destination), longueur, vitMoyenne);
 	// Si un troncon ayant la meme origine que le troncon à ajouter,

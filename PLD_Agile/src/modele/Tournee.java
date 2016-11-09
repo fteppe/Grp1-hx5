@@ -58,7 +58,7 @@ public class Tournee extends Observable {
 	this.mettreAJourTempsParcours(this.hDebut);
 	setChanged();
 	notifyObservers();
-	System.out.println("Modifié");
+	System.out.println("Tournée mise à jour");
     }
 
     /**
@@ -67,7 +67,7 @@ public class Tournee extends Observable {
      * @param itineraire
      *            Itineraire a ajouter à la tournee
      */
-    public void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
+    protected void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
 	if (itineraires.size() == 0)
 	    adrEntrepot = itineraire.getDepart().getId();
 	itineraires.add(itineraire);
@@ -88,7 +88,7 @@ public class Tournee extends Observable {
      * @param adrSuiv
      *            L'adresse de la livraison suivante
      */
-    public void insererLivraison(Livraison liv, int adrPrec, int adrSuiv) {
+    protected void insererLivraison(Livraison liv, int adrPrec, int adrSuiv) {
 	// On ajoute la livraison dans la liste
 	livraisons.put(liv.getAdresse().getId(), liv);
 
@@ -118,7 +118,7 @@ public class Tournee extends Observable {
      * @return Tableau compose des identifiants de depart et d'arrivee du nouvel
      *         Itineraire a construire
      */
-    public Livraison supprimerLivraison(int adresse) {
+    protected Livraison supprimerLivraison(int adresse) {
 	// On parcourt la liste d'itineraires pour supprimer
 	// les itineraires concernant la livraison
 	ArrayList<Integer> nvItineraire = new ArrayList<Integer>();
@@ -151,7 +151,7 @@ public class Tournee extends Observable {
      * @param nvItineraire
      *            Itineraire à insérer
      */
-    public void insererItineraire(Itineraire nvItineraire) {
+    protected void insererItineraire(Itineraire nvItineraire) {
 	int i = 0;
 	if (nvItineraire.getDepart().getId() == adrEntrepot) {
 	    itineraires.add(0, nvItineraire);
@@ -201,7 +201,7 @@ public class Tournee extends Observable {
 	this.itineraires.clear();
     }
 
-    public List<Livraison> getListeLivraisons() {
+    protected List<Livraison> getListeLivraisons() {
 	ArrayList<Livraison> listLivraisons = new ArrayList<Livraison>();
 	for (Itineraire itin : itineraires) {
 	    Livraison livraison = livraisons.get(itin.getDepart().getId());
@@ -211,35 +211,35 @@ public class Tournee extends Observable {
 	return listLivraisons;
     }
 
-    public Livraison getLivraison(int adresse) {
+    protected Livraison getLivraison(int adresse) {
 	return livraisons.get(adresse);
     }
 
-    public List<Itineraire> getItineraires() {
+    protected List<Itineraire> getItineraires() {
 	return itineraires;
     }
 
-    public Heure gethDebut() {
+    protected Heure gethDebut() {
 	return hDebut;
     }
 
-    public Heure gethFin() {
+    protected Heure gethFin() {
 	return (hFin != null ? hFin : new Heure("00:00:00"));
     }
 
-    public boolean getValidite() {
+    protected boolean getValidite() {
 	return valide;
     }
 
-    public int getDuree() {
+    protected int getDuree() {
 	return duree;
     }
 
-    public void setDuree(int duree) {
+    protected void setDuree(int duree) {
 	this.duree = duree;
     }
 
-    public List<Itineraire> getItineraireTroncon(Troncon tronc) {
+    protected List<Itineraire> getItineraireTroncon(Troncon tronc) {
 	List<Itineraire> lstIitin = new ArrayList<Itineraire>();
 	for (Itineraire itin : itineraires) {
 	    if (itin.comprendTroncon(tronc))
@@ -256,7 +256,7 @@ public class Tournee extends Observable {
      * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
      *         pas de livraison ou de livraison suivante
      */
-    public int getAdresseLivraisonSuivante(int adrLiv) {
+    protected int getAdresseLivraisonSuivante(int adrLiv) {
 	for (Itineraire itin : itineraires) {
 	    if (itin.getDepart().getId() == adrLiv)
 		return itin.getArrivee().getId();
@@ -273,7 +273,7 @@ public class Tournee extends Observable {
      * @return Adresse de la livraison précédente ou -1 si l'adresse donnée n'a
      *         pas de livraison ou de livraison suivante
      */
-    public int getAdresseLivraisonPrecedente(int adrLiv) {
+    protected int getAdresseLivraisonPrecedente(int adrLiv) {
 	for (Itineraire itin : itineraires) {
 	    if (itin.getArrivee().getId() == adrLiv)
 		return itin.getDepart().getId();
