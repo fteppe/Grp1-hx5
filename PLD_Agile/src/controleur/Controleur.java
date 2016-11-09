@@ -228,5 +228,9 @@ public class Controleur {
 	public void clicEchangerLivraison(int idLivraison) {
 		    etatCourant.clicEchangerLivraisons(this, fenetre, idLivraison);
 	}
+
+	public void genererFeuilleDeRoute() {
+	    etatCourant.genererFeuilleDeRoute(plan);
+	}
 	
 }

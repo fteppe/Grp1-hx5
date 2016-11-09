@@ -108,7 +108,7 @@ public class Itineraire extends Observable {
     protected String afficherFeuilleRoute() {
 	String itineraire = "";
 	for (Troncon t : troncons) {
-	    itineraire += "\n\t" + t.afficherFeuilleRoute();
+	    itineraire += "\r\n\t" + t.afficherFeuilleRoute();
 	}
 	return itineraire;
     }

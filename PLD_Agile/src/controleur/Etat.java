@@ -5,6 +5,7 @@ import java.awt.Point;
 import modele.Plan;
 
 public interface Etat {
+
 	
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Charger demande livraison"
@@ -184,4 +185,5 @@ public interface Etat {
 	 * @param idLivraison
 	 */
 	public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison);
+
 }
