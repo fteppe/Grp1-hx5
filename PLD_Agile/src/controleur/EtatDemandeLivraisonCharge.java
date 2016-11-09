@@ -49,8 +49,15 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 		    id = ((Livraison) objGraph).getAdresse().getId();
 		    fenetre.setLivraisonSurvol(id);
 		}
+		else if (objGraph instanceof Intersection) {
+		    id = ((Intersection) objGraph).getId();
+		    fenetre.setIntersectionSurvol(id);
+		}
+
+		fenetre.setIntersectionSurvol(id);
 		fenetre.setLivraisonSurvol(id);
     }
+    
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournée");
