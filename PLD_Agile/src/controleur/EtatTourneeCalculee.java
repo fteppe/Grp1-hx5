@@ -66,9 +66,22 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
-	controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
-	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
-	fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
+		controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+		controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
+		fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
+		
+		Plan plan = controleur.getPlan();
+		System.out.println(plan.getListeLivraisons());
+		if(plan.getListeLivraisons().isEmpty()){
+			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(plan.getEntrepot().getId());
+			controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+			fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(), false);
+		}
+		else{
+			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+			controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+			fenetre.afficherMessage("Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
+		}
     }
     
     /*QUand on clique sur ajouter livraison on passe dans l'etat AjoutLivraison dans lequel on choisit
@@ -78,18 +91,9 @@ public class EtatTourneeCalculee extends EtatDefaut {
      */
     @Override
     public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison) {
-    	Plan plan = controleur.getPlan();
-    	if(plan.getListeLivraisons().isEmpty()){
-    		controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(plan.getEntrepot().getId());
-    		controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
-    		fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(), false);
-    	}
-    	else{
-    		controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
-    		controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
-    		fenetre.afficherMessage("Choisissez une seconde livraison:");
-    	}
-
+		controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
+		controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+		fenetre.afficherMessage("Choisissez une seconde livraison:");
     }
     
     @Override

@@ -44,9 +44,7 @@ public class MenuCreationLivraison extends JDialog{
 		setResizable(false);
 		champsEntree = new JPanel();
 		boutons = new JPanel();
-		//setSize(new Dimension(350, 150));
 		
-		System.out.println("MENU CREATION LIVRAISON");
 		horaireActif = new JRadioButton("Fenêtre de passage sur la livraison?");
 		horaireActif.setSelected(false);
 		labelDuree = new JLabel("duree livraison (min)");
