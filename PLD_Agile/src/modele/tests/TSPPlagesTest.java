@@ -137,9 +137,12 @@ public class TSPPlagesTest {
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
 	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
-	Integer[] meilleureSolution = {1, 3, 6, 10};
+	Integer[] meilleureSolution = {1, 6, 3, 10};
+	Integer[] meilleureSolution2 = {1, 3, 6, 10};
 	for(int i = 0; i < 4; i++) {
-	    assertTrue(listeSommets[tsp.getMeilleureSolution(i)] == meilleureSolution[i]);
+	    int sommetsMeilleureSolution = listeSommets[tsp.getMeilleureSolution(i)];
+	    assertTrue( sommetsMeilleureSolution == meilleureSolution[i]
+		    || sommetsMeilleureSolution == meilleureSolution2[i] );
 	    
 	}
 	assertEquals(120*60+16, tsp.getCoutMeilleureSolution());

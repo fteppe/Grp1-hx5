@@ -547,7 +547,8 @@ public class Plan extends Observable {
     }
 
     public void setTournee(Tournee tournee) {
-	this.tournee = tournee;
+    	System.out.println("set tournee");
+		this.tournee = tournee;
     }
 
     public Integer getDureeTournee() {
