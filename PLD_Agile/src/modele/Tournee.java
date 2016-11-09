@@ -192,6 +192,8 @@ public class Tournee extends Observable {
 	    if (!liv.getRespectePlage())
 		valide = false;
 	}
+	setChanged();
+	notifyObservers();
     }
 
     /**
