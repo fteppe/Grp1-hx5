@@ -206,9 +206,8 @@ public class Plan extends Observable {
      * @param tpsLimite
      *            Temps maximum en millisecondes pour le calcul du parcours
      *            optimal
-     * @return true 
-     * 		Si une tournee a ete trouvee, false si aucune tournee n'a
-     * 			ete trouvee
+     * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
+     *         ete trouvee
      * @throws ExceptionTournee
      */
     public boolean calculerTournee() throws ExceptionTournee {
@@ -481,14 +480,13 @@ public class Plan extends Observable {
 	    return tournee.getLivraison(adresse);
 	} else {
 	    if (demandeDeLivraison != null) {
-		return demandeDeLivraison
-			.getListeLivraisons().get(adresse);
+		return demandeDeLivraison.getListeLivraisons().get(adresse);
 	    } else {
 		return null;
 	    }
 	}
     }
-    
+
     public HashMap<Integer, Livraison> getHashMapLivraisons() {
 	if (demandeDeLivraison != null) {
 	    return demandeDeLivraison.getListeLivraisons();
@@ -578,8 +576,27 @@ public class Plan extends Observable {
 	}
 	return "NC";
     }
-    
+
     public boolean getCalculTourneeEnCours() {
 	return this.calculTourneeEnCours;
+    }
+
+    /**
+     * Retourne le point contenant les coordonnées maximales du Plan
+     * 
+     * @return Le point de coordonnées maximales contenues dans le Plan
+     */
+    public Point getPointBasDroite() {
+	int maxBas = Integer.MIN_VALUE;
+	int maxDroite = Integer.MIN_VALUE;
+	for (Intersection i : listeIntersections.values()) {
+	    if (i.getLongitude() >= maxDroite) {
+		maxDroite = i.getLongitude();
+	    }
+	    if (i.getLatitude() >= maxBas) {
+		maxBas = i.getLatitude();
+	    }
+	}
+	return new Point(maxDroite, maxBas);
     }
 }

@@ -57,6 +57,10 @@ public class Controleur {
 	protected Etat getEtatCourant(){
 		return etatCourant;
 	}
+	
+	protected Plan getPlan(){
+		return plan;
+	}
 
 	// Methodes correspondant aux evenements utilisateur
 	/**
@@ -174,8 +178,8 @@ public class Controleur {
 	 * sur ajouter une nouvelle livraison sur le plan.
 	 * @param idIntersection
 	 */
-	public void passerEtatAjouterLivraison(int idIntersection){
-	    	etatCourant.passerEtatAjouterLivraison(this, fenetre, idIntersection);
+	public void clicAjouterLivraison(int idIntersection){
+	    	etatCourant.clicAjouterLivraison(this, fenetre, idIntersection);
 	}
 	
 	/**
@@ -184,7 +188,7 @@ public class Controleur {
 	 * @param idIntersection
 	 */
 	public void passerEtatEchangerLivraison(int idLivraison){
-	    	etatCourant.passerEtatEchangerLivraison(this, fenetre, idLivraison);
+	    	etatCourant.clicEchangerLivraisons(this, fenetre, idLivraison);
 	}
 	
 	
@@ -215,11 +219,10 @@ public class Controleur {
 	}
 	
 	/**
-	 * Methode appelee par fenetre lorsque l'utilisateur clique 
-	 * sur une seconde livraison apres avoir clique sur Echanger.
+	 * Methode appelée lorsque l'utilisateur clique sur le bouton echanger livraison
 	 */
-	public void clicEchangerLivraison(int idLivraison2) {
-	    etatCourant.clicEchangerLivraison(this, plan, fenetre, listeDeCdes, idLivraison2);
+	public void clicEchangerLivraison(int idLivraison) {
+		    etatCourant.clicEchangerLivraisons(this, fenetre, idLivraison);
 	}
 	
 }

@@ -114,10 +114,17 @@ public class Fenetre extends JFrame{
 		console.setText(message);
 	}
 	
+	public void ajouterLigneMessage(String message) {
+	    console.setText(console.getText() + "\n" + message);
+	}
+	
 	protected ZoneDeTexte getZoneText(){
 		return descriptionPlan;
 	}
 	
+	protected Plan getPlan(){
+		return plan;
+	}
 	
 	protected void clicDroitLivraison(int idLivraison){
 		controleur.clicDroitLivraison(idLivraison);
@@ -154,10 +161,10 @@ public class Fenetre extends JFrame{
 	
 	protected void actionAjouterLivraison(int idIntersection){
 		vuePlan.setIntersectionSurvol(-1);
-		controleur.passerEtatAjouterLivraison(idIntersection);
+		controleur.clicAjouterLivraison(idIntersection);
 	}
 	
-	protected void ajouterLivraisonPosition(int position, boolean avant){
+	public void ouvrirMenuCreationLivraison(int position, boolean avant){
 		menuCreationLivraison = new MenuCreationLivraison(this, position,avant, new Point(500,300));
 	}
 	
@@ -168,9 +175,6 @@ public class Fenetre extends JFrame{
 	
 	protected Controleur getControleur(){
 		return controleur;
-	}
-	
-	protected void ajouterLivraison(int idLivraison, int duree){
 	}
 	
 	

@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import modele.Plan;
+
 public class MenuCreationLivraison extends JDialog{
 	
 	private JRadioButton horaireActif;
@@ -35,6 +37,7 @@ public class MenuCreationLivraison extends JDialog{
 	private int idLivraison;
 	private Fenetre fenetre;
 	
+	
 	public MenuCreationLivraison(Fenetre fenetre, int idLivraison,boolean avant, Point position){
 		super(fenetre);
 		setLocation(position);
@@ -44,9 +47,7 @@ public class MenuCreationLivraison extends JDialog{
 		setResizable(false);
 		champsEntree = new JPanel();
 		boutons = new JPanel();
-		//setSize(new Dimension(350, 150));
 		
-		System.out.println("MENU CREATION LIVRAISON");
 		horaireActif = new JRadioButton("Fenêtre de passage sur la livraison?");
 		horaireActif.setSelected(false);
 		labelDuree = new JLabel("duree livraison (min)");
@@ -97,6 +98,8 @@ public class MenuCreationLivraison extends JDialog{
 		int idApres;
 		int dureeInt;
 		
+		Plan plan = fenetre.getPlan();
+		
 		if(duree.getText().isEmpty()){
 			dureeInt = 0;
 		}
@@ -104,17 +107,24 @@ public class MenuCreationLivraison extends JDialog{
 		{
 			dureeInt = Integer.parseInt(duree.getText())*60;
 		}
-		 
+		
 		if(avant){
-			idAvant = fenetre.getZoneText().getLivraisonAvantId(idLivraison);
+			idAvant = plan.getAdresseLivraisonPrecedente(idLivraison);
 			idApres = idLivraison;
 		}
 		else{
 			idAvant = idLivraison;
-			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
+			idApres = plan.getAdresseLivraisonSuivante(idLivraison);
 		}
+		
+		if(idAvant == -1){
+			idAvant = plan.getEntrepot().getId();
+		}
+		else if(idApres == -1){
+			idApres = plan.getEntrepot().getId();
+		}
+		System.out.println(idAvant+" "+idApres);
 		if(horaireActif.isSelected()){
-			System.out.println(heureArrive.getHeure());
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getHeure()+":00", heureDepart.getHeure()+":00");
 		}
 		else{

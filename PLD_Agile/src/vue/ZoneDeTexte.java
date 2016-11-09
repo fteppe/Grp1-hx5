@@ -49,17 +49,6 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	afficherInformations();
     }
 
-    protected int getLivraisonAvantId(int id) {
-		int indexPrec = -1;// la position dans la liste de l'infotextuelle
-				   // precedente.
-		for (int i = 0; i < listeInformation.size(); i++, indexPrec++) {
-		    InformationTextuelle info = listeInformation.get(i);
-		    if (info.getIndex() == id) {
-			return listeInformation.get(indexPrec).getIndex();
-		    }
-		}
-		return VALEUR_INTERSECTION_VIDE;
-    }
     
     protected void setLivraisonSurligne(int idLivraison){
     	if(livraisonSurligne != idLivraison && plan.getLivraisonAdresse(idLivraison)!=null){
@@ -73,17 +62,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
     		afficherInformations();
     	}
     }
-    
-    protected int getLivraisonApresId(int id) {
-	int indexSuivant = 1;
-	for (int i = 0; i < listeInformation.size(); i++, indexSuivant++) {
-	    InformationTextuelle info = listeInformation.get(i);
-	    if (info.getIndex() == id) {
-		return listeInformation.get(indexSuivant).getIndex();
-	    }
-	}
-	return VALEUR_INTERSECTION_VIDE;
-    }
+
 
     private void ajouterZoneInformation(String information, int index, boolean cliquable) {
 	InformationTextuelle info = new InformationTextuelle(information, index, fenetre, cliquable);
@@ -99,10 +78,6 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	listeInformation.add(description);
     }
 
-    private void insererZoneInformationPosition(String information, int indexInformation, int position) {
-	InformationTextuelle info = new InformationTextuelle(information, indexInformation, fenetre);
-	listeInformation.add(position, info);
-    }
 
     public InformationTextuelle getTitre() {
 	return texte;
