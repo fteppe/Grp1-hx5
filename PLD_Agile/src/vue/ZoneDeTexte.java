@@ -59,7 +59,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
     				((DescriptionLivraison)info).setSurbrillance(info.getIndex() == idLivraison);
     			}
     		}
-    		update(getGraphics());
+    		//update(getGraphics());
     	}
     }
 

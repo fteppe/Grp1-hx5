@@ -98,7 +98,7 @@ public class Fenetre extends JFrame{
 	public void setIntersectionSurvol(int idIntersection){
 		vuePlan.setIntersectionSurvol(idIntersection);
 		if(plan.getIntersection(idIntersection) != null){
-			afficherMessage("intersection a l'adresse: "+idIntersection);
+			afficherMessage("Intersection à l'adresse: "+idIntersection);
 		}
 	}
 	

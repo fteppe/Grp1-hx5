@@ -126,6 +126,9 @@ public class Plan extends Observable {
 	if (listeIntersections.get(entrepot) == null)
 	    throw new ModeleException("L'adresse de l'entrepôt ne correspond pas à une intersection.");
 	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart, this.listeIntersections.get(entrepot));
+	if(this.tournee != null) {
+	    this.tournee = null;
+	}
 	setChanged();
 	notifyObservers(demandeDeLivraison);
     }
