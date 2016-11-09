@@ -180,6 +180,11 @@ public interface Etat {
 	 */
 	public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2);
 
-	
-	
+	/**
+	 * Methode appelee par controleur quand ... 
+	 * @param plan
+	 * @param fenetre
+	 * @param idLivraison
+	 */
+	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison);
 }
