@@ -3,9 +3,11 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Point;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import controleur.Controleur;
 import modele.Plan;
@@ -21,7 +23,8 @@ public class Fenetre extends JFrame{
 	private Vecteur dimensions;
 	private Menu menu;
 	private BarreDesTaches barreDesTaches;
-	private ZoneDeTexte zoneDeTexte;
+	private ZoneDeTexte descriptionPlan;
+	private JTextArea console;
 	private VuePlan vuePlan;
 	private JPanel panneauNord;
 	private JPanel panneauEst;
@@ -56,12 +59,14 @@ public class Fenetre extends JFrame{
 	    this.setLocationRelativeTo(null);
 
 	    //menuCreationLivraison = new MenuCreationLivraison(this, 25, true, new Point(0,0));
-	    
+	    console = new JTextArea(3, 10);
+	    console.setEditable(false);
+	    console.setBorder(BorderFactory.createLoweredBevelBorder());
 	    vuePlan = new VuePlan(plan, this);
-    	zoneDeTexte = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan, this);
+    	descriptionPlan = new ZoneDeTexte((int)dimensions.x/3,(int)dimensions.y-30, plan, this);
 	    menu = new Menu(this);
 	    barreDesTaches = new BarreDesTaches(this);
-		scroll = new JScrollPane(zoneDeTexte);
+		scroll = new JScrollPane(descriptionPlan);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	    placerComposants();
 	    this.setVisible(true);
@@ -77,6 +82,7 @@ public class Fenetre extends JFrame{
 		add(panneauNord,BorderLayout.NORTH);
 		add(panneauEst, BorderLayout.EAST);
 		add(vuePlan, BorderLayout.CENTER);
+		add(console, BorderLayout.SOUTH);
 		panneauNord.add(barreDesTaches, BorderLayout.SOUTH);
 		panneauNord.add(menu, BorderLayout.NORTH);
 		panneauEst.add(scroll,BorderLayout.CENTER);
@@ -95,18 +101,18 @@ public class Fenetre extends JFrame{
 	
 	public void setLivraisonSurvol(int idLivraison){
 		vuePlan.setLivraisonSurvol(idLivraison);
-		zoneDeTexte.setLivraisonSurligne(idLivraison);
+		descriptionPlan.setLivraisonSurligne(idLivraison);
 	}
 	
 	public void afficherDetailDemandeLivraison(){
-		zoneDeTexte.afficherInformationDemandeLivraison();
+		descriptionPlan.afficherInformationDemandeLivraison();
 	}
 	public void afficherMessage(String message){
-		zoneDeTexte.getTitre().afficher(message);
+		console.setText(message);
 	}
 	
 	protected ZoneDeTexte getZoneText(){
-		return zoneDeTexte;
+		return descriptionPlan;
 	}
 	
 	
@@ -121,7 +127,7 @@ public class Fenetre extends JFrame{
 	public void ouvrirPopMenuLivraison(int idLivraison){
 		Point arg0 = getMousePosition();
 		popupMenuLivraison = new PopMenuLivraison(idLivraison, this);
-		popupMenuLivraison.show(this,(int) arg0.getX(),(int) arg0.getY());
+		popupMenuLivraison.show(this.getComponentAt(arg0),(int) arg0.getX(),(int) arg0.getY());
 	}
 	
 	public void ouvrirPopMenuLivraisonInsertion(int idLivraison){
