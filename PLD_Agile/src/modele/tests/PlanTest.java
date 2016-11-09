@@ -63,6 +63,8 @@ public class PlanTest {
 	Plan plan = new Plan();
     	plan.addObserver(observer);
 	try {
+	    plan.ajouterIntersection(1, 245, 241);
+	    plan.ajouterIntersection(2, 245, 241);
 	    plan.ajouterTroncon("Rue du Chata�gnier", 500, 50, 1, 2);
 	} catch (ModeleException e) {
 	    // TODO Auto-generated catch block
@@ -87,7 +89,12 @@ public class PlanTest {
 	Heure heureDepart = new Heure("08:00:00");
 	int[] adresses = {4};
 	int[] durees = {50};
-	plan.creerDemandeDeLivraison(heureDepart, 3);
+	try {
+	    plan.creerDemandeDeLivraison(heureDepart, 3);
+	} catch (ModeleException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 	for(int i = 0; i < adresses.length; i++){
 	    plan.ajouterLivraisonDemande(adresses[i], durees[i]);
 	}
@@ -103,7 +110,12 @@ public class PlanTest {
 	Plan p = new Plan();
 	initialisationPlan(p);
 	Heure heure = new Heure("21:05:00");
-	p.creerDemandeDeLivraison(heure, 4);
+	try {
+	    p.creerDemandeDeLivraison(heure, 4);
+	} catch (ModeleException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
 	p.ajouterLivraisonDemande(1, 20);
 	p.ajouterLivraisonDemande(2, 10);
 	p.ajouterLivraisonDemande(5, 8);
@@ -221,7 +233,12 @@ public class PlanTest {
 	Plan p = new Plan();
 	initialisationPlan(p);
 	Heure heure = new Heure("21:05:00");
-	p.creerDemandeDeLivraison(heure, 4);
+	try {
+	    p.creerDemandeDeLivraison(heure, 4);
+	} catch (ModeleException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
 	boolean calculReussi = false;
 	try {
 	    calculReussi = p.calculerTournee();
@@ -244,14 +261,19 @@ public class PlanTest {
 	Plan p = new Plan();
 	initialisationPlan(p);
 	Heure heure = new Heure("08:05:00");
-	p.creerDemandeDeLivraison(heure, 4);
-	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	try {
+	    p.creerDemandeDeLivraison(heure, 4);
+	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:07:00");
+	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	} catch (ModeleException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
 
 	boolean tourneeTrouvee = false;
 
@@ -307,14 +329,19 @@ public class PlanTest {
 	}
 	
 	Heure heure = new Heure("08:05:00");
-	p.creerDemandeDeLivraison(heure, 4);
-	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	try {
+	    p.creerDemandeDeLivraison(heure, 4);
+	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:08:00");
+	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	} catch (ModeleException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 
 	boolean tourneeTrouvee = false;
 
@@ -332,14 +359,19 @@ public class PlanTest {
 	Plan p = new Plan();
 	initialisationPlan(p);
 	Heure heure = new Heure("08:05:00");
-	p.creerDemandeDeLivraison(heure, 4);
-	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:15");
-	p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:06:40");
-	p.ajouterLivraisonDemande(5, 8, "08:15:00", "08:16:00");
-	p.ajouterLivraisonDemande(6, 10, "08:30:00", "08:38:00");
-	p.ajouterLivraisonDemande(7, 14, "08:30:00", "08:30:15");
-	p.ajouterLivraisonDemande(3, 20, "09:06:00", "09:07:00");
-	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+	try {
+	    p.creerDemandeDeLivraison(heure, 4);
+	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+	    p.ajouterLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+	    p.ajouterLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+	    p.ajouterLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+	    p.ajouterLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+	} catch (ModeleException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
 
 	boolean tourneeTrouvee = false;
 

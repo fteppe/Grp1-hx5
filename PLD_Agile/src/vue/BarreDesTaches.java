@@ -33,9 +33,9 @@ public class BarreDesTaches extends JToolBar{
 		chargerPlan = new JButton("Charger un plan");
 		chargerDemandeLivraison = new JButton("Charger une demande de livraison");
 		calculTournee = new JButton("Calculer une tournée");
-		annuler = new JButton("annuler");
-		restaurer = new JButton("restaurer");
-		stopCalcul = new JButton("stop calcul");
+		annuler = new JButton("Annuler");
+		restaurer = new JButton("Restaurer");
+		stopCalcul = new JButton("Arrêter le calcul");
 		stopCalcul.setBackground(new Color(0xFF7676));
 		this.add(chargerPlan);
 		this.add(chargerDemandeLivraison);

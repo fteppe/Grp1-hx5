@@ -106,10 +106,8 @@ public class Fenetre extends JFrame{
 		vuePlan.setLivraisonSurvol(idLivraison);
 		descriptionPlan.setLivraisonSurligne(idLivraison);
 	}
+
 	
-	public void afficherDetailDemandeLivraison(){
-		descriptionPlan.update();
-	}
 	public void afficherMessage(String message){
 		console.setText(message);
 	}

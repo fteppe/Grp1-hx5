@@ -59,7 +59,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
     				((DescriptionLivraison)info).setSurbrillance(info.getIndex() == idLivraison);
     			}
     		}
-    		afficherInformations();
+    		update(getGraphics());
     	}
     }
 
@@ -74,7 +74,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
     }
 
 
-    public InformationTextuelle getTitre() {
+    private InformationTextuelle getTitre() {
 	return texte;
     }
 
@@ -83,13 +83,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
      * livraison
      * 
      */
-    public void genererInformationLivraison() {
-	viderListeInfos();
-	
-	List<Livraison> livraisons = plan.getListeLivraisons();
-
+    private void genererInformationLivraison(List<Livraison> livraisons) {
 	if (livraisons != null) {
-		System.out.println("tournee :"+plan.getDureeTournee());
 		ajouterZoneInformation("Feuille de route de la tournée",0);
 	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 		    + plan.getHeureDepart(), plan.getEntrepot().getId());
@@ -124,19 +119,16 @@ public class ZoneDeTexte extends JPanel implements Observer {
 
     @Override
     public void update(Observable arg0, Object arg1) {
-		genererInformationLivraison();
-	    afficherInformations();
+	    	viderListeInfos();
+			genererInformationLivraison(plan.getListeLivraisons());
+		    afficherInformations();
     }
     
-    public void update(){
-    	update(getGraphics());
-    }
-    
-    public void viderListeInfos() {
+    private void viderListeInfos() {
     	listeInformation.clear();
     }
 
-    public void afficherInformations() {
+    private void afficherInformations() {
 	this.removeAll();
 	int i = 0;
 	for (InformationTextuelle info : listeInformation) {

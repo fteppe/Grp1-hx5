@@ -48,18 +48,18 @@ public class MenuCreationLivraison extends JDialog{
 		champsEntree = new JPanel();
 		boutons = new JPanel();
 		
-		horaireActif = new JRadioButton("Fenêtre de passage sur la livraison?");
+		horaireActif = new JRadioButton("Plage horaire ?");
 		horaireActif.setSelected(false);
-		labelDuree = new JLabel("duree livraison (min)");
-		labelArrive = new JLabel("heure d'arrivée");
-		labelDepart = new JLabel("heure de départ");
+		labelDuree = new JLabel("Durée livraison (min)");
+		labelArrive = new JLabel("Heure d'arrivée");
+		labelDepart = new JLabel("Heure de départ");
 		duree = new JTextField(TAILLE_TEXT_FIELD);
 		heureArrive = new SelectionHeure();
 		heureDepart = new SelectionHeure();
 		heureArrive.editable(false);
 		heureDepart.editable(false);;
-		ok = new JButton("ok");
-		annuler = new JButton("annuler");
+		ok = new JButton("Ok");
+		annuler = new JButton("Annuler");
 		
 		horaireActif.addActionListener(new ActionListener() {
 			

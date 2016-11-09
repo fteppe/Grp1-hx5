@@ -15,8 +15,8 @@ public class PopMenuLivraison extends PopMenu{
 		this.fenetre = fenetre;
 		this.idLivraison = id;
 		
-		intervertirLivraison = new JMenuItem("intervertir livraison");
-		supprimerLivraison = new JMenuItem("Supprimer livraison");
+		intervertirLivraison = new JMenuItem("Intervertir cette livraison");
+		supprimerLivraison = new JMenuItem("Supprimer cette livraison");
 		supprimerLivraison.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

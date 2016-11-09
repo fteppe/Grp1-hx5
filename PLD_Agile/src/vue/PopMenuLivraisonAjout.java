@@ -13,8 +13,8 @@ public class PopMenuLivraisonAjout extends PopMenu{
 	
 	public PopMenuLivraisonAjout(int id, Fenetre fenetre){
 		super();
-		ajouterAvant = new JMenuItem("ajouter la livraison avant");
-		ajouterApres = new JMenuItem("ajouter la livraison après");
+		ajouterAvant = new JMenuItem("Ajouter la livraison avant");
+		ajouterApres = new JMenuItem("Ajouter la livraison après");
 		this.id = id;
 		ajouterApres.addActionListener(new ActionListener() {
 			@Override

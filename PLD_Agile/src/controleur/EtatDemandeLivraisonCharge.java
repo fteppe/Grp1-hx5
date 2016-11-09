@@ -23,13 +23,12 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
     public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 	try {
 	    listeDeCdes.reset();
-	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
+	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
 		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
-	    fenetre.afficherDetailDemandeLivraison();
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
@@ -68,10 +67,11 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 		fenetre.afficherMessage("Tournée calculée");
 	    } else {
 		fenetre.afficherMessage(
-			"Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
+			"Aucune tournée n'a pu être calculée");
 	    }
 	} catch (ExceptionTournee e) {
-	    e.printStackTrace();
+	    fenetre.afficherMessage(
+			e.getMessage());
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
