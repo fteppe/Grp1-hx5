@@ -16,7 +16,7 @@ public class Tournee extends Observable {
 
     private List<Itineraire> itineraires;
     private HashMap<Integer, Livraison> livraisons;
-
+    
     /**
      * Cree une tournee à partir de sa duree
      * 
