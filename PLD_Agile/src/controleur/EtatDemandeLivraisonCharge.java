@@ -43,12 +43,18 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 
     @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Livraison) {
 	    id = ((Livraison) objGraph).getAdresse().getId();
 	    fenetre.setLivraisonSurvol(id);
+	} else if (objGraph instanceof Intersection) {
+	    id = ((Intersection) objGraph).getId();
+	    fenetre.setIntersectionSurvol(id);
 	}
+
+	fenetre.setIntersectionSurvol(id);
 	fenetre.setLivraisonSurvol(id);
     }
 
@@ -68,6 +74,5 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    e.printStackTrace();
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
-
     }
 }

@@ -23,5 +23,4 @@ public class EcouteurResize extends ComponentAdapter{
 		vuePlan.setEchelle(minVue/maxPlan);
 		vuePlan.repaint();
 	}
-	
 }
