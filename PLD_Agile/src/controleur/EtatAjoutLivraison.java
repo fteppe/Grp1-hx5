@@ -16,6 +16,7 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatAjoutLivraison extends EtatDefaut {
+
     // Etat atteint lorsque l'utilisateur clique sur ajouter une nouvelle
     // livraison
 

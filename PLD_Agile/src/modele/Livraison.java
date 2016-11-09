@@ -127,5 +127,12 @@ public class Livraison extends ObjetGraphique {
     public void setDuree(int duree) {
 	this.duree = duree;
     }
+    
+    protected void setPlage(PlageHoraire plage) {
+	this.plage = plage;
+    }
 
+    protected void supprimerPlage() {
+	this.plage = null;
+    }
 }

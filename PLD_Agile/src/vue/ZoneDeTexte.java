@@ -37,7 +37,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
 
 	plan.addObserver(this);
 	listeInformation = new ArrayList<InformationTextuelle>();
-	ajouterZoneInformation("", 0, false);
+	ajouterZoneInformation("", 0);
 	texte = listeInformation.get(0);
 	setLayout(new GridBagLayout());
 	contraintes = new GridBagConstraints();
@@ -63,14 +63,9 @@ public class ZoneDeTexte extends JPanel implements Observer {
     	}
     }
 
-
-    private void ajouterZoneInformation(String information, int index, boolean cliquable) {
-	InformationTextuelle info = new InformationTextuelle(information, index, fenetre, cliquable);
-	listeInformation.add(info);
-    }
-
     private void ajouterZoneInformation(String information, int index) {
-	ajouterZoneInformation(information, index, true);
+    	InformationTextuelle info = new InformationTextuelle(information, index, fenetre);
+    	listeInformation.add(info);
     }
 
     private void ajouterDescLivraison(String information, int index, boolean valide) {
@@ -88,11 +83,14 @@ public class ZoneDeTexte extends JPanel implements Observer {
      * livraison
      * 
      */
-    public void afficherInformationDemandeLivraison() {
+    public void genererInformationLivraison() {
 	viderListeInfos();
+	
 	List<Livraison> livraisons = plan.getListeLivraisons();
+
 	if (livraisons != null) {
-	    getTitre().afficher("Feuille de route de la tournée");
+		System.out.println("tournee :"+plan.getDureeTournee());
+		ajouterZoneInformation("Feuille de route de la tournée",0);
 	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 		    + plan.getHeureDepart(), plan.getEntrepot().getId());
 	    for (Livraison livraison : livraisons) {
@@ -118,24 +116,24 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 			+ plan.getHeureRetour(), plan.getEntrepot().getId());
 	    }
-	    afficherInformations();
+	}
+	else{
+		ajouterZoneInformation("", 0);
 	}
     }
 
     @Override
     public void update(Observable arg0, Object arg1) {
-	afficherInformationDemandeLivraison();
+		genererInformationLivraison();
+	    afficherInformations();
     }
-
-    private void supprimerInformation(int position) {
-	listeInformation.remove(position);
+    
+    public void update(){
+    	update(getGraphics());
     }
-
+    
     public void viderListeInfos() {
-	int nbElementSupprimer = listeInformation.size();
-	for (int i = 1; i < nbElementSupprimer; i++) {
-	    supprimerInformation(1);
-	}
+    	listeInformation.clear();
     }
 
     public void afficherInformations() {
