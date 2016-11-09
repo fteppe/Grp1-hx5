@@ -109,6 +109,9 @@ public class DeserialiseurXML {
 
     private static void construireLivraisonsAPartirDeDOMXML(Element noeudDOMRacine, Plan plan)
 	    throws ExceptionXML, NumberFormatException, IndexOutOfBoundsException {
+	if(noeudDOMRacine.getElementsByTagName("entrepot").getLength() > 1) {
+	    throw new ExceptionXML("Plusieurs entrepôts ont été détectés dans le document, seul le premier sera pris en compte.");
+	}
 	Element eltEntrepot = (Element) noeudDOMRacine.getElementsByTagName("entrepot").item(0);
 	NodeList listeLivraisons = noeudDOMRacine.getElementsByTagName("livraison");
 

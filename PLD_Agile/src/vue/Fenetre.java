@@ -114,6 +114,10 @@ public class Fenetre extends JFrame{
 		console.setText(message);
 	}
 	
+	public void ajouterLigneMessage(String message) {
+	    console.setText(console.getText() + "\n" + message);
+	}
+	
 	protected ZoneDeTexte getZoneText(){
 		return descriptionPlan;
 	}

@@ -211,6 +211,9 @@ public class Plan extends Observable {
      * @throws ExceptionTournee
      */
     public boolean calculerTournee() throws ExceptionTournee {
+	if(this.demandeDeLivraison == null) {
+	    throw new ExceptionTournee("Aucune demande de livraison n'a été chargée");
+	}
 	// On initialise l'algo de Dijkstra
 	algo = AlgoDijkstra.getInstance();
 	algo.chargerAlgo(listeIntersections, listeTroncons);

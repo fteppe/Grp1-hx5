@@ -13,6 +13,7 @@ public abstract class EtatDefaut implements Etat {
 	// Definition des comportements par defaut des methodes
 	
 	public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+	    fenetre.afficherMessage("Chargement du plan en cours");
 		try {
 		    	listeDeCdes.reset();
 			DeserialiseurXML.chargerPlan(plan);

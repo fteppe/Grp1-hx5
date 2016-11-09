@@ -22,21 +22,38 @@ public class CdeEchangeLivraisons implements Commande {
 	int precLiv2 = plan.getAdresseLivraisonPrecedente(idLiv2);
 	int suivLiv2 = plan.getAdresseLivraisonSuivante(idLiv2);
 
-	Livraison liv1 = plan.retirerLivraisonTournee(idLiv1);
-	Livraison liv2 = plan.retirerLivraisonTournee(idLiv2);
-
-	if (liv1.possedePlage()) {
-	    plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), liv1.getDebutPlage().toString(),
-		    liv1.getFinPlage().toString(), precLiv2, suivLiv2);
+	if (precLiv1 == idLiv2) {
+	    Livraison liv2 = plan.retirerLivraisonTournee(idLiv2);
+	    if (liv2.possedePlage()) {
+		plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), liv2.getDebutPlage().toString(),
+			liv2.getFinPlage().toString(), idLiv1, suivLiv1);
+	    } else {
+		plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), null, null, idLiv1, suivLiv1);
+	    }
+	} else if (precLiv2 == idLiv1) {
+	    Livraison liv1 = plan.retirerLivraisonTournee(idLiv1);
+	    if (liv1.possedePlage()) {
+		plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), liv1.getDebutPlage().toString(),
+			liv1.getFinPlage().toString(), idLiv2, suivLiv2);
+	    } else {
+		plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), null, null, idLiv2, suivLiv2);
+	    }
 	} else {
-	    plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), null, null, precLiv2, suivLiv2);
-	}
+	    Livraison liv1 = plan.retirerLivraisonTournee(idLiv1);
+	    Livraison liv2 = plan.retirerLivraisonTournee(idLiv2);
+	    if (liv1.possedePlage()) {
+		plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), liv1.getDebutPlage().toString(),
+			liv1.getFinPlage().toString(), precLiv2, suivLiv2);
+	    } else {
+		plan.insererLivraisonTournee(idLiv1, liv1.getDuree(), null, null, precLiv2, suivLiv2);
+	    }
 
-	if (liv2.possedePlage()) {
-	    plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), liv2.getDebutPlage().toString(),
-		    liv2.getFinPlage().toString(), precLiv1, suivLiv1);
-	} else {
-	    plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), null, null, precLiv1, suivLiv1);
+	    if (liv2.possedePlage()) {
+		plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), liv2.getDebutPlage().toString(),
+			liv2.getFinPlage().toString(), precLiv1, suivLiv1);
+	    } else {
+		plan.insererLivraisonTournee(idLiv2, liv2.getDuree(), null, null, precLiv1, suivLiv1);
+	    }
 	}
     }
 
