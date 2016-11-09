@@ -1,5 +1,6 @@
 package controleur;
 
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -7,6 +8,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import modele.ExceptionTournee;
+import modele.Intersection;
+import modele.Livraison;
+import modele.ObjetGraphique;
 import modele.Plan;
 import vue.Fenetre;
 import xml.DeserialiseurXML;
@@ -37,6 +41,16 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    System.exit(0);
 	}
 	
+    @Override
+    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+		int id =-1;
+		ObjetGraphique objGraph = plan.cherche(point, tolerance);
+		if(objGraph instanceof Livraison) {
+		    id = ((Livraison) objGraph).getAdresse().getId();
+		    fenetre.setLivraisonSurvol(id);
+		}
+		fenetre.setLivraisonSurvol(id);
+    }
 	@Override
 	public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
 	    fenetre.afficherMessage("Lancement du calcul de la tournée");

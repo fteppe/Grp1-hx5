@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 public class DescriptionLivraison extends InformationTextuelle{
 	
+	private static Color COUEUR_HOVER = new Color(0xA2A5F1);
 	private PopMenuLivraison popupMenuLivraison;
 	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private boolean valide;
@@ -30,13 +31,11 @@ public class DescriptionLivraison extends InformationTextuelle{
 			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -52,8 +51,10 @@ public class DescriptionLivraison extends InformationTextuelle{
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				if(SwingUtilities.isRightMouseButton(arg0)){
+				if(SwingUtilities.isLeftMouseButton(arg0)){
+					fenetre.clicGaucheLivraison(index);
+				}
+				else if(SwingUtilities.isRightMouseButton(arg0)){
 					fenetre.clicDroitLivraison(index);
 				}
 			}

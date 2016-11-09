@@ -16,7 +16,7 @@ public class InformationTextuelle extends JPanel{
 	protected int index;
 	protected Fenetre fenetre;
 
-	protected static Color COUEUR_HOVER = new Color(0xA2A5F1);
+
 	protected static Color COULEUR_DEFAUT = Color.white;
 	protected static Color COULEUR_GRISE = new Color(0xA6A6A6);
 	protected static Color COULEUR_ERREUR = new Color(0xFF7676);
