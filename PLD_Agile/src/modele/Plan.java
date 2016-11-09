@@ -547,8 +547,8 @@ public class Plan extends Observable {
     }
 
     public void setTournee(Tournee tournee) {
-    	System.out.println("set tournee");
-		this.tournee = tournee;
+	System.out.println("set tournee");
+	this.tournee = tournee;
     }
 
     public Integer getDureeTournee() {
@@ -634,5 +634,16 @@ public class Plan extends Observable {
 	if (tournee != null) {
 	    tournee.modifierPlageLivraison(adrLivraison, nvPlage, nvDebut, nvFin);
 	}
+    }
+
+    /**
+     * @return String formatée représentant la feuille de route à suivre pour la
+     *         tournée
+     */
+    public String genererFeuilleRoute() {
+	if (tournee != null) {
+	    return tournee.genererFeuilleRoute();
+	}
+	return "";
     }
 }

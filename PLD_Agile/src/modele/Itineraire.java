@@ -101,4 +101,16 @@ public class Itineraire extends Observable {
 	return true;
     }
 
+    /**
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route
+     */
+    protected String afficherFeuilleRoute() {
+	String itineraire = "";
+	for (Troncon t : troncons) {
+	    itineraire += "\n\t" + t.afficherFeuilleRoute();
+	}
+	return itineraire;
+    }
+
 }

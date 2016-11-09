@@ -305,4 +305,21 @@ public class Tournee extends Observable {
 	else
 	    liv.supprimerPlage();
     }
+
+    /**
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route
+     */
+    public String genererFeuilleRoute() {
+	String route;
+	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
+	route += "\n"+itineraires.get(0).afficherFeuilleRoute()+"\n";
+	for (int i = 1; i < itineraires.size(); i++) {
+	    Itineraire itin = itineraires.get(i);
+	    route += "\n"+livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
+	    route += "\n"+itin.afficherFeuilleRoute()+"\n";
+	}
+	route += "\n"+"Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
+	return route;
+    }
 }
