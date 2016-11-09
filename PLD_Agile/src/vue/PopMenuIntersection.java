@@ -14,7 +14,7 @@ public class PopMenuIntersection extends PopMenu{
 		super();
 		this.fenetre = fenetre;
 		this.id = id;
-		ajouterLivraison = new JMenuItem("ajouter une livraison");
+		ajouterLivraison = new JMenuItem("Ajouter une livraison");
 		
 		ajouterLivraison.addActionListener(new ActionListener() {
 			
