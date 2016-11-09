@@ -201,7 +201,8 @@ public class Plan extends Observable {
      * @param tpsLimite
      *            Temps maximum en millisecondes pour le calcul du parcours
      *            optimal
-     * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
+     * @return true 
+     * 		Si une tournee a ete trouvee, false si aucune tournee n'a
      * 			ete trouvee
      * @throws ExceptionTournee
      */
@@ -246,8 +247,6 @@ public class Plan extends Observable {
 	}
 
 	System.out.println("Entree calcul tournée");
-
-	tournee = new Tournee(demandeDeLivraison.getHeureDepart());
 	this.calculTourneeEnCours = true;
 
 	// On lance le calcul de la tournee dans un nouveau thread
@@ -264,6 +263,7 @@ public class Plan extends Observable {
 
 	// On recupere la meilleure tournee calculee a intervalle de temps
 	// regulier dans un autre thread
+	tournee = new Tournee(demandeDeLivraison.getHeureDepart());
 	Callable<Boolean> recuperationMeilleurResultat = () -> {
 	    boolean tourneeTrouvee = false;
 	    while (this.calculTourneeEnCours == true) {
@@ -286,7 +286,10 @@ public class Plan extends Observable {
 		    }
 		    tsp.unlock();
 		    Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
-		    mettreAJourTournee(dureeTournee, ordreTournee, trajets);
+		    tournee.mettreAJourTournee(dureeTournee, ordreTournee, trajets,
+			    this.demandeDeLivraison.getListeLivraisons(), idSommets);
+		    setChanged();
+		    notifyObservers();
 		} else {
 		    tsp.unlock();
 		}
@@ -320,10 +323,12 @@ public class Plan extends Observable {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tourneeTrouvee = futureRecuperationMeilleurResultat.get();
 	    System.out.println(tourneeTrouvee);
-	    /*if (this.tournee.getDuree() == Integer.MAX_VALUE && tpsLimiteAtteint == false) {
-		throw new ExceptionTournee(
-			"Aucune tournée n'a été trouvée. " + "Veuillez recommencer avec de nouvelles plages horaires");
-	    }*/
+	    /*
+	     * if (this.tournee.getDuree() == Integer.MAX_VALUE &&
+	     * tpsLimiteAtteint == false) { throw new ExceptionTournee(
+	     * "Aucune tournée n'a été trouvée. " +
+	     * "Veuillez recommencer avec de nouvelles plages horaires"); }
+	     */
 	} catch (InterruptedException | ExecutionException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -347,42 +352,6 @@ public class Plan extends Observable {
 	    durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
 	}
 	return durees;
-    }
-
-    /**
-     * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
-     * itineraires associes
-     * 
-     * @param duree
-     *            Duree totale de la tournee
-     * @param livraisons
-     *            Liste ordonnee des intersections a visiter
-     * @param itineraires
-     *            Tableau des itineraires pour aller de la livraison i a la
-     *            livraison j
-     */
-    private void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires) {
-	Heure heureActuelle = this.demandeDeLivraison.getHeureDepart();
-	tournee.viderTournee();
-	for (int i = 0; i < livraisons.length - 1; i++) {
-	    Livraison prochLivr = demandeDeLivraison.getLivraison(idSommets.get(livraisons[i + 1]));
-	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
-	    heureActuelle = new Heure(heureActuelle.toSeconds() + nouvItineraire.getTpsParcours());
-	    heureActuelle = prochLivr.setHeureArrivee(heureActuelle);
-	    /*
-	     * if(prochLivr.possedePlage()) { heureActuelle = new
-	     * Heure(Math.max(heureActuelle.toSeconds(),
-	     * prochLivr.getDebutPlage().toSeconds()) + prochLivr.getDuree()); }
-	     * else { heureActuelle = new Heure(heureActuelle.toSeconds() +
-	     * prochLivr.getDuree()); }
-	     */
-	    tournee.ajouterItineraire(nouvItineraire, prochLivr);
-	}
-	tournee.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
-	tournee.setDuree(duree);
-	setChanged();
-	notifyObservers();
-	System.out.println("Modifié");
     }
 
     /**
@@ -582,12 +551,12 @@ public class Plan extends Observable {
 	    return demandeDeLivraison.getHeureDepart().toString();
 	return null;
     }
-    
+
     public String getHeureRetour() {
-	if(tournee != null) {
-	    return "";
+	if (tournee != null) {
+	    return tournee.gethFin().toString();
 	}
-	return "";
+	return "NC";
     }
     
     public boolean getCalculTourneeEnCours() {

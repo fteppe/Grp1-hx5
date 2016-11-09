@@ -141,6 +141,15 @@ public class Controleur {
 	}
 	
 	/**
+	 * Methode appelee par fenetre apres un clic droit sur un point du plan 
+	 * une fois le calcul de la tournee termine.
+	 * @param point Le point clique par l'utilisateur
+	 */
+	public void clicDroitLivraison(int idLivraison){
+	    	etatCourant.clicDroitLivraison(plan, fenetre, idLivraison);
+	}
+	
+	/**
 	 * Methode appelee par fenetre afin de savoir si elle peut afficher 
 	 * le menu de clique droit sur la zone textuelle.
 	 */
@@ -202,6 +211,10 @@ public class Controleur {
 	    return etatCourant.possibleAjoutLivraison(this, plan, fenetre);
 	}
 	
+	/**
+	 * Methode appelee par fenetre lorsque l'utilisateur clique 
+	 * sur une seconde livraison apres avoir clique sur Echanger.
+	 */
 	public void clicEchangerLivraison(int idLivraison2) {
 	    etatCourant.clicEchangerLivraison(this, plan, fenetre, listeDeCdes, idLivraison2);
 	}
