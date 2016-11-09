@@ -473,13 +473,25 @@ public class Plan extends Observable {
 	return this.listeIntersections;
     }
 
+    public Livraison getLivraison(int adresse) {
+	if (tournee != null) {
+	    return tournee.getLivraison(adresse);
+	} else {
+	    if (demandeDeLivraison != null) {
+		return demandeDeLivraison
+			.getListeLivraisons().get(adresse);
+	    } else {
+		return null;
+	    }
+	}
+    }
+    
     public HashMap<Integer, Livraison> getHashMapLivraisons() {
 	if (demandeDeLivraison != null) {
 	    return demandeDeLivraison.getListeLivraisons();
 	} else {
 	    return null;
 	}
-
     }
 
     public List<Livraison> getListeLivraisons() {
