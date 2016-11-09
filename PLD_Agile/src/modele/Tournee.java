@@ -186,7 +186,7 @@ public class Tournee extends Observable {
 	    cur = liv.setHeureArrivee(cur);
 	}
 	Itineraire itin = itineraires.get(itineraires.size() - 1);
-	cur = cur.ajouterSecondes(itin.getTpsParcours());
+	cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
 	hFin = cur;
 	valide = true;
 	for (Livraison liv : livraisons.values()) {
