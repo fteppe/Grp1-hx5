@@ -20,7 +20,7 @@ public abstract class EtatDefaut implements Etat {
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Plan chargé avec succés");
 	    else
-		fenetre.afficherMessage("Plan créé avec des erreurs :\n"+rapport);
+		fenetre.afficherMessage("Plan créé avec des erreurs :\n" + rapport);
 	    controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
 	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
@@ -86,7 +86,10 @@ public abstract class EtatDefaut implements Etat {
 
     public void clicGaucheLivraison(Controleur controleur, Fenetre fenetre, Plan plan, int idLivraison) {
     }
-    
+
     public void genererFeuilleDeRoute(Plan plan) {
+    }
+
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
     }
 }

@@ -34,7 +34,7 @@ public class MenuCreationLivraison extends JDialog{
 	
 	private static int TAILLE_TEXT_FIELD = 15;
 	private boolean avant;
-	private int idLivraison;
+	protected int idLivraison;
 	protected Fenetre fenetre;
 	
 	

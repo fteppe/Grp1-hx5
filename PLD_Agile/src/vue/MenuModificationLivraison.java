@@ -10,7 +10,6 @@ public class MenuModificationLivraison extends MenuCreationLivraison{
 		super(fenetre, idLivraison, avant, position);
 	}
 	
-	@Override
 	private void validation(){
 		int idAvant;
 		int idApres;
@@ -25,13 +24,7 @@ public class MenuModificationLivraison extends MenuCreationLivraison{
 		{
 			dureeInt = Integer.parseInt(duree.getText())*60;
 		}
-		
-		if(idAvant == -1){
-			idAvant = plan.getEntrepot().getId();
-		}
-		else if(idApres == -1){
-			idApres = plan.getEntrepot().getId();
-		}
+
 		if(horaireActif.isSelected()){
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getHeure()+":00", heureDepart.getHeure()+":00");
 		}

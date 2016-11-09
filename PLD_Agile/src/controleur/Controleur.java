@@ -233,4 +233,7 @@ public class Controleur {
 	    etatCourant.genererFeuilleDeRoute(plan);
 	}
 	
+	public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
+	    etatCourant.modifierLivraison(plan, fenetre, listeDeCdes, adrLiv, possedePlage, heureDebut, heureFin);
+	}
 }
