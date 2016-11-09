@@ -313,13 +313,13 @@ public class Tournee extends Observable {
     public String genererFeuilleRoute() {
 	String route;
 	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
-	route += "\n"+itineraires.get(0).afficherFeuilleRoute()+"\n";
+	route += "\r\n"+itineraires.get(0).afficherFeuilleRoute()+"\r\n";
 	for (int i = 1; i < itineraires.size(); i++) {
 	    Itineraire itin = itineraires.get(i);
-	    route += "\n"+livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
-	    route += "\n"+itin.afficherFeuilleRoute()+"\n";
+	    route += "\r\n"+livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
+	    route += "\r\n"+itin.afficherFeuilleRoute()+"\r\n";
 	}
-	route += "\n"+"Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
+	route += "\r\n"+"Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
 	return route;
     }
 }

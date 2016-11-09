@@ -186,6 +186,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	protected void actionGenerationFeuilleDeRoute(){
+	    controleur.genererFeuilleDeRoute();
 		
 	}
 	
