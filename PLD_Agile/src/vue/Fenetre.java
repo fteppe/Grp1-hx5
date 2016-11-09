@@ -190,6 +190,11 @@ public class Fenetre extends JFrame{
 		controleur.calculTournee();
 		return true;
 	}
+	
+	protected void actionGenerationFeuilleDeRoute(){
+		
+	}
+	
 	protected void actionAnnuler(){
 		controleur.undo();
 	}
