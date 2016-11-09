@@ -104,5 +104,11 @@ public class EtatTourneeCalculee extends EtatDefaut {
     public void clicDroitIntersection(Fenetre fenetre, int idIntersection){
     	fenetre.ouvrirPopMenuIntersection(idIntersection);
     }
+    
+    @Override
+    public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeCde, int idLivraison){
+    	passerEtatEchangerLivraison(controleur, fenetre, idLivraison);
+    }
+    
 
 }

@@ -39,8 +39,7 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     	System.exit(0);
     }
     
-    @Override
-    public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2) {
+    private void echangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2) {
 	    listeDeCdes.ajoute(new CdeEchangeLivraisons(plan, idLivraison, idLivraison2));
 	    fenetre.afficherMessage("Livraisons échangées");
 	    controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
@@ -49,18 +48,24 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     
     @Override
     public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
-	int id =-1;
-	ObjetGraphique objGraph = plan.cherche(point, tolerance);
-	if (objGraph instanceof Livraison) {
-	    id = ((Livraison) objGraph).getAdresse().getId();
-	}
-	//fenetre.setLivraisonSurvole(id);
+		int id =-1;
+		ObjetGraphique objGraph = plan.cherche(point, tolerance);
+		if (objGraph instanceof Livraison) {
+		    id = ((Livraison) objGraph).getAdresse().getId();
+		}
+		fenetre.setLivraisonSurvol(id);
     }
     
     
     public void setIdLivraison(int idLivraison){
 	    this.idLivraison = idLivraison;
 	}
+    
+    @Override
+    public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison2){
+    	
+    	echangerLivraison(controleur, plan, fenetre,controleur.getListeCde(), idLivraison2);
+    }
     
     
     

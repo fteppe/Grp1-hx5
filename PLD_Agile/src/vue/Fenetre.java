@@ -139,6 +139,14 @@ public class Fenetre extends JFrame{
 		popupMenuLivraisonAjout.show(this,(int) arg0.getX(),(int)arg0.getY());
 	}
 	
+	protected void clicIntervertirLivraison(int idLivraison){
+		controleur.clicEchangerLivraison(idLivraison);
+	}
+	
+	protected void clicGaucheLivraison(int idLivraison){
+		controleur.clicGaucheLivraison(idLivraison);
+	}
+	
 	protected void survolPlan(Point point,int tolerance){
 		
 		controleur.survolPlan(point, tolerance);

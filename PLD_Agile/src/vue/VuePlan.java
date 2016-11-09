@@ -57,6 +57,9 @@ public class VuePlan extends JPanel implements Observer {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isLeftMouseButton(e)){
+					if(plan.getLivraisonAdresse(livraisonSurvol) != null){
+						fenetre.clicGaucheLivraison(livraisonSurvol);
+					}
 				}
 				else if(SwingUtilities.isRightMouseButton(e)){
 					if(plan.getLivraisonAdresse(livraisonSurvol) != null){

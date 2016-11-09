@@ -39,6 +39,10 @@ public class Controleur {
 		fenetre = new Fenetre(titre,longueur,largeur, plan, this);
 	}
 	
+	protected ListeDeCdes getListeCde(){
+		return listeDeCdes;
+	}
+	
 	/**
 	 * Change l'etat courant du controleur
 	 * @param etat le nouvel etat courant
@@ -131,6 +135,10 @@ public class Controleur {
 	    	etatCourant.arreterCalcul(this, plan, fenetre);
 	}
 	
+	public void clicGaucheLivraison(int idLivraison){
+		etatCourant.clicGaucheLivraison(this,fenetre,plan, idLivraison);
+	}
+	
 	/**
 	 * Methode appelee par fenetre apres un clic droit sur un point du plan 
 	 * une fois le calcul de la tournee termine.
@@ -213,4 +221,5 @@ public class Controleur {
 	public void clicEchangerLivraison(int idLivraison2) {
 	    etatCourant.clicEchangerLivraison(this, plan, fenetre, listeDeCdes, idLivraison2);
 	}
+	
 }

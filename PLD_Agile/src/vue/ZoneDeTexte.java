@@ -61,8 +61,21 @@ public class ZoneDeTexte extends JPanel implements Observer {
     }
     
     protected void setLivraisonSurligne(int idLivraison){
-    	if(livraisonSurligne != idLivraison){
+    	if(livraisonSurligne != idLivraison && plan.getLivraisonAdresse(idLivraison)!=null){
     		livraisonSurligne = idLivraison;
+    		for(InformationTextuelle info : listeInformation){
+    			if(info instanceof DescriptionLivraison ){
+    				info = (DescriptionLivraison)info;
+    				if(info.getIndex() == idLivraison)
+    				{
+        				((DescriptionLivraison) info).setFocusDescription(true);
+    				}
+    				else{
+    					((DescriptionLivraison) info).setFocusDescription(false);
+    				}
+    			}
+    		}
+    		afficherInformations();
     	}
     }
     
