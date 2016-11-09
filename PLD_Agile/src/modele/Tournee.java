@@ -46,7 +46,8 @@ public class Tournee extends Observable {
      *            Tableau des itineraires pour aller de la livraison i a la
      *            livraison j
      */
-    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires, HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
+    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
+	    HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
 	this.viderTournee();
 	for (int i = 0; i < livraisons.length - 1; i++) {
 	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
@@ -281,5 +282,27 @@ public class Tournee extends Observable {
 		return itin.getDepart().getId();
 	}
 	return -1;
+    }
+
+    /**
+     * Modifie la livraison à l'adresse donnée avec les plages horaires
+     * spécifiées
+     * 
+     * @param adrLivraison
+     *            Adresse de la livraison à modifier
+     * @param nvPlage
+     *            True si la livraison doit avoir une plage, false sinon
+     * @param nvDebut
+     *            Nouvelle heure de début de la plage
+     * @param nvFin
+     *            Nouvelle heure de la fin de la plage
+     */
+    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
+	Livraison liv = livraisons.get(adrLivraison);
+	if (nvPlage)
+	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
+
+	else
+	    liv.supprimerPlage();
     }
 }
