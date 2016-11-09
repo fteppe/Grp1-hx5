@@ -52,11 +52,9 @@ public abstract class EtatDefaut implements Etat {
 		return false;
 	}
 	
-	public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2) {}
+	public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {}
 	
-	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {}
-	
-	public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison) {}
+	public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison) {}
 	
 	public void annulerAjout(Controleur controleur) {}
 	

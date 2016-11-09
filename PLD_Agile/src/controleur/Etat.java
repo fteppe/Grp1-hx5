@@ -118,13 +118,13 @@ public interface Etat {
 	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison);
 	
 	/**
-	 * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
-	 * sur ajouter une nouvelle livraison dans l'etat tournee_calculee.
+	 * Methode appelée lorsque l'utilisateur clique sur le bouton echanger livraison
+	 * 
 	 * @param controleur
 	 * @param fenetre
 	 * @param idIntersection
 	 */
-	public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection);
+	public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection);
 	
 	
 	/**
@@ -134,7 +134,7 @@ public interface Etat {
 	 * @param fenetre
 	 * @param idLivraison
 	 */
-	public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison);
+	public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison);
 	
 	/**
 	 * Methode appelee par controleur lorsque l'utilisateur clique
@@ -163,17 +163,6 @@ public interface Etat {
 	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre);
 	
 	
-	/**
-	 * Methode appelee par controleur lors du clic sur la seconde livraison
-	 * afin de l'echanger avec une premiere selctionnée.
-	 * @param controleur
-	 * @param plan
-	 * @param fenetre
-	 * @param listeDeCdes
-	 * @param idLivraison2
-	 */
-	public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2);
-
 	/**
 	 * Methode appelee par controleur quand ... 
 	 * @param plan

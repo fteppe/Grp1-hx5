@@ -279,6 +279,14 @@ public class VuePlan extends JPanel implements Observer {
 		
 	}
 	
+	public void update(){
+		update(getGraphics());
+	}
+	
+	protected void setEchelle(double e){
+		echelle = e;
+	}
+	
 	private void dessinerTroncon(Graphics g, Troncon t, Color c){
 	    Graphics2D g2 = (Graphics2D) g;
             g2.setColor(c);
