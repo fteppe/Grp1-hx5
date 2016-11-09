@@ -67,10 +67,23 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 	
 	@Override
-	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
+	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){
+		fenetre.ouvrirPopMenuLivraisonInsertion(idLivraison);
+	}
 	
 	public void setIdIntersection(int idIntersection){
 	    this.idIntersection = idIntersection;
 	}
+	
+    @Override
+    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+		int id =-1;
+		ObjetGraphique objGraph = plan.cherche(point, tolerance);
+		if(objGraph instanceof Livraison) {
+		    id = ((Livraison) objGraph).getAdresse().getId();
+		    fenetre.setLivraisonSurvol(id);
+		}
+		fenetre.setLivraisonSurvol(id);
+    }
 }
 

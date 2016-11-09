@@ -27,6 +27,7 @@ public class Fenetre extends JFrame{
 	private JPanel panneauEst;
 	private JScrollPane scroll;
 	private PopMenuLivraison popupMenuLivraison;
+	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
 	
@@ -53,7 +54,7 @@ public class Fenetre extends JFrame{
 	    this.setTitle(titreFenetre);
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
-	    
+
 	    //menuCreationLivraison = new MenuCreationLivraison(this, 25, true, new Point(0,0));
 	    
 	    vuePlan = new VuePlan(plan, this);
@@ -82,19 +83,19 @@ public class Fenetre extends JFrame{
 		
 	}
 	
-	public void ouvrirMenuSupprimer(int id){
-		popupMenuLivraison = new PopMenuLivraison(id, this);
+	public void ouvrirPopMenuIntersection(int id){
+		popupMenuIntersection = new PopMenuIntersection(id, this);
 		Point pos = this.getMousePosition();
-		popupMenuLivraison.show(this, pos.x, pos.y);
+		popupMenuIntersection.show(this, pos.x, pos.y);
 	}
 	
-	public void setIntersectionSurvole(int idIntersection){
-		
+	public void setIntersectionSurvol(int idIntersection){
 		vuePlan.setIntersectionSurvol(idIntersection);
 	}
 	
 	public void setLivraisonSurvol(int idLivraison){
-		
+		vuePlan.setLivraisonSurvol(idLivraison);
+		zoneDeTexte.setLivraisonSurligne(idLivraison);
 	}
 	
 	public void afficherDetailDemandeLivraison(){
@@ -109,8 +110,24 @@ public class Fenetre extends JFrame{
 	}
 	
 	
-	protected void clicDroitPlanLivraison(int idLivraison){
-		
+	protected void clicDroitLivraison(int idLivraison){
+		controleur.clicDroitLivraison(idLivraison);
+	}
+	
+	protected void clicDroitIntersection(int idIntersection){
+		controleur.clicDroitIntersection(idIntersection);
+	}
+	
+	public void ouvrirPopMenuLivraison(int idLivraison){
+		Point arg0 = getMousePosition();
+		popupMenuLivraison = new PopMenuLivraison(idLivraison, this);
+		popupMenuLivraison.show(this,(int) arg0.getX(),(int) arg0.getY());
+	}
+	
+	public void ouvrirPopMenuLivraisonInsertion(int idLivraison){
+		Point arg0 = getMousePosition();
+		popupMenuLivraisonAjout = new PopMenuLivraisonAjout(idLivraison, this);
+		popupMenuLivraisonAjout.show(this,(int) arg0.getX(),(int)arg0.getY());
 	}
 	
 	protected void survolPlan(Point point,int tolerance){
@@ -166,9 +183,5 @@ public class Fenetre extends JFrame{
 	protected void actionQuitter(){
 		System.out.println("menu quitter cliqué");
 		controleur.quitter();
-	}
-
-	protected void cliqueDroitIntersection(int intersectionSurvole) {
-		//TODO : appel controleur Clique droit intersection
 	}
 }

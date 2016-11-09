@@ -418,7 +418,7 @@ public class Plan extends Observable {
      *            Id de l'intersection adresse de la livraison
      * @return La livraison associée
      */
-    private Livraison getLivraisonAdresse(int adresse) {
+    public Livraison getLivraisonAdresse(int adresse) {
 	if (tournee != null) {
 	    return tournee.getLivraison(adresse);
 	}

@@ -136,17 +136,12 @@ public class Controleur {
 	 * une fois le calcul de la tournee termine.
 	 * @param point Le point clique par l'utilisateur
 	 */
-	public void clicDroitPlan(Point point){
-	    	etatCourant.clicDroitPlan(plan, fenetre, point);
-	}
-	
-	/**
-	 * Methode appelee par fenetre apres un clic droit sur un point du plan 
-	 * une fois le calcul de la tournee termine.
-	 * @param point Le point clique par l'utilisateur
-	 */
 	public void clicDroitLivraison(int idLivraison){
 	    	etatCourant.clicDroitLivraison(plan, fenetre, idLivraison);
+	}
+	
+	public void clicDroitIntersection(int idIntersection){
+		etatCourant.clicDroitIntersection(fenetre, idIntersection);
 	}
 	
 	/**

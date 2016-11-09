@@ -37,7 +37,6 @@ public abstract class EtatDefaut implements Etat {
 	
 	public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {}
 
-	public void clicDroitPlan(Plan plan, Fenetre fenetre, Point point) {}
 	
 	public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {}
 
@@ -68,4 +67,6 @@ public abstract class EtatDefaut implements Etat {
 	}
 	
 	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
+	
+	public void clicDroitIntersection(Fenetre fenetre, int idIntersection){}
 }

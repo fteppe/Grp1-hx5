@@ -56,30 +56,20 @@ public class DescriptionLivraison extends InformationTextuelle{
 			public void mouseClicked(MouseEvent arg0) {
 
 				if(SwingUtilities.isRightMouseButton(arg0)){
-					if(fenetre.getControleur().clicDroitZoneTextuellePossible()){
-						popupMenuLivraison = new PopMenuLivraison(index, fenetre);
-						popupMenuLivraison.show(zoneInformation, arg0.getX(), arg0.getY());
-					}
-					else if(fenetre.getControleur().possibleAjoutLivraison()){
-						popupMenuLivraisonAjout = new PopMenuLivraisonAjout(index, fenetre);
-						popupMenuLivraisonAjout.show(zoneInformation, arg0.getX(),arg0.getY());
-					}
-					
-
+					fenetre.clicDroitLivraison(index);
 				}
-				
 			}
 		});
 		
 		
 	}
 	
-	private void sourisEntree(){
+	protected void sourisEntree(){
 		zoneInformation.setBackground(COUEUR_HOVER);
-		fenetre.surlignerLivraison(index);
+		fenetre.setLivraisonSurvol(index);
 	}
-	private void sourisSortie(){
+	protected void sourisSortie(){
 		zoneInformation.setBackground(background);
-		fenetre.surlignerLivraison(-1);
+		fenetre.setLivraisonSurvol(index);
 	}
 }

@@ -31,7 +31,7 @@ public class VuePlan extends JPanel implements Observer {
 	private List<Troncon> listeTroncon; 
 	private double echelle;
 	private int tailleFleche = 8;
-	private int intersectionSurvole; //vaut -1 si aucune intersection n'est selectionné
+	private int intersectionSurvol; //vaut -1 si aucune intersection n'est selectionné
 	private int livraisonSurvol;
 	private static int diametreIntersection = 10;
 	private static Color COULEUR_TRONCON = Color.DARK_GRAY;
@@ -47,6 +47,9 @@ public class VuePlan extends JPanel implements Observer {
 		echelle = 0.8;
 		this.fenetre = fenetre;
 		this.plan = plan; 
+		
+	    setLivraisonSurvol(-1);
+	    setIntersectionSurvol(-1);
 		plan.addObserver(this);
 		addMouseListener(new MouseListener() {
 			
@@ -56,10 +59,14 @@ public class VuePlan extends JPanel implements Observer {
 				if(SwingUtilities.isLeftMouseButton(e)){
 				}
 				else if(SwingUtilities.isRightMouseButton(e)){
-					//TODO : clique droit sur la vue plan;
-					if(plan.getIntersection(intersectionSurvole)!=null){
-						fenetre.cliqueDroitIntersection(intersectionSurvole);
+					if(plan.getLivraisonAdresse(livraisonSurvol) != null){
+
+						fenetre.clicDroitLivraison(livraisonSurvol);
 					}
+					else if(plan.getIntersection(intersectionSurvol) != null){
+						fenetre.clicDroitIntersection(intersectionSurvol);
+					}
+
 				}
 				
 			}
@@ -120,21 +127,27 @@ public class VuePlan extends JPanel implements Observer {
 		dessinerListeLivraisons(g2d, plan.getListeLivraisons());
 		dessinerListeItinereraires(g2d, plan.getItineraires());
 		Intersection entrepot = plan.getEntrepot();
+		Intersection intersectionSurvolObj = plan.getIntersection(intersectionSurvol);
+		Livraison livraisonSurvolObj = plan.getLivraisonAdresse(livraisonSurvol);
 		if(entrepot != null)
 		{
 			dessinerIntersection(g2d, plan.getEntrepot(), COULEUR_ENTREPOT);
 		}
 		
-		if(plan.getIntersection(intersectionSurvole) != null)
+		if(intersectionSurvolObj != null)
 		{
-			dessinerIntersection(g2d, plan.getIntersection(intersectionSurvole), COULEUR_INTERSECTION);
+			dessinerIntersection(g2d, intersectionSurvolObj, COULEUR_INTERSECTION);
 		}
+		if(livraisonSurvolObj != null){
+			dessinerIntersection(g2d, livraisonSurvolObj.getAdresse(), COULEUR_SURLIGNE);
+		}
+		
 		Graphics2D g2dComponent = (Graphics2D) g;
 		g2dComponent.drawImage(bufferedImage,null,0,0);
 	}
 	
 	protected void setIntersectionSurvol(int idIntersection){
-		intersectionSurvole = idIntersection;
+		intersectionSurvol = idIntersection;
 		update(getGraphics());
 	}
 	
@@ -262,11 +275,6 @@ public class VuePlan extends JPanel implements Observer {
 		repaint();
 		
 	}
-	
-	protected void setLivraisonSurVol(int idLivraison){
-		livraisonSurvol = idLivraison;
-	}
-	
 	
 	private void dessinerTroncon(Graphics g, Troncon t, Color c){
 	    Graphics2D g2 = (Graphics2D) g;
