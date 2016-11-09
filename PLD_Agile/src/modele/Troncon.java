@@ -100,4 +100,11 @@ public class Troncon extends Observable {
 	return true;
     }
 
+    /**
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route
+     */
+    protected String afficherFeuilleRoute() {
+	return "suivre "+nom+" de "+origine.getId()+" à "+destination.getId()+" pendant "+tpsParcours+" secondes";
+    }
 }
