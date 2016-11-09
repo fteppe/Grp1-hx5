@@ -28,10 +28,37 @@ public class Tournee extends Observable {
     public Tournee(Heure heureDepart) {
 	this.valide = true;
 	this.hDebut = heureDepart;
-	this.hFin = null;
+	this.hFin = heureDepart;
 	duree = Integer.MAX_VALUE;
 	itineraires = new ArrayList<Itineraire>();
 	livraisons = new HashMap<Integer, Livraison>();
+    }
+
+    /**
+     * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
+     * itineraires associes
+     * 
+     * @param duree
+     *            Duree totale de la tournee
+     * @param livraisons
+     *            Liste ordonnee des intersections a visiter
+     * @param itineraires
+     *            Tableau des itineraires pour aller de la livraison i a la
+     *            livraison j
+     */
+    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires, HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
+	this.viderTournee();
+	for (int i = 0; i < livraisons.length - 1; i++) {
+	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
+	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
+	    this.ajouterItineraire(nouvItineraire, prochLivr);
+	}
+	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
+	this.setDuree(duree);
+	this.mettreAJourTempsParcours(this.hDebut);
+	setChanged();
+	notifyObservers();
+	System.out.println("Modifié");
     }
 
     /**
@@ -170,7 +197,7 @@ public class Tournee extends Observable {
     /**
      * Réinitialise la liste des itinéraires de la tournée
      */
-    public void viderTournee() {
+    protected void viderTournee() {
 	this.itineraires.clear();
     }
 
