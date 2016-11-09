@@ -12,27 +12,28 @@ import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 public class EtatPlanCharge extends EtatDefaut {
-		// Etat apres que l'utilisateur ait charge un plan
-	
-	@Override
-	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
-	    try {
-		listeDeCdes.reset();
-		DeserialiseurXML.chargerLivraisons(plan);
-		plan.setTournee(null);
+    // Etat apres que l'utilisateur ait charge un plan
+
+    @Override
+    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+	try {
+	    listeDeCdes.reset();
+	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
+	    plan.setTournee(null);
+	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
-		fenetre.afficherDetailDemandeLivraison();
-		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-	    } catch (ParserConfigurationException 
-			| SAXException | IOException 
-			| ExceptionXML | NumberFormatException e) {
-		fenetre.afficherMessage(e.getMessage());
-	    }
+	    else
+		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+	    fenetre.afficherDetailDemandeLivraison();
+	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
+	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	    fenetre.afficherMessage(e.getMessage());
 	}
-	
-	@Override
-	public void quitter() {
-	    System.exit(0);
-	}
-	
+    }
+
+    @Override
+    public void quitter() {
+	System.exit(0);
+    }
+
 }

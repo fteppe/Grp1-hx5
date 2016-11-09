@@ -20,14 +20,16 @@ public class EtatTourneeCalculee extends EtatDefaut {
     public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 	try {
 	    listeDeCdes.reset();
-	    DeserialiseurXML.chargerLivraisons(plan);
+	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
-	    fenetre.afficherMessage("Demande de livraison chargée");
+	    if (rapport.isEmpty())
+		fenetre.afficherMessage("Demande de livraison chargée");
+	    else
+		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+	    fenetre.afficherDetailDemandeLivraison();
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
-	    // fenetre.afficherMessage(e.getMessage());
-	    // On n'affiche pas le message pour ne pas effacer la feuille de
-	    // route
+	    fenetre.afficherMessage(e.getMessage());
 	}
     }
 
