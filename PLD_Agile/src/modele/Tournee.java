@@ -57,8 +57,8 @@ public class Tournee extends Observable {
 	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	this.setDuree(duree);
 	this.mettreAJourTempsParcours(this.hDebut);
-	setChanged();
-	notifyObservers();
+	//setChanged();
+	//notifyObservers();
 	System.out.println("Tournée mise à jour");
     }
 

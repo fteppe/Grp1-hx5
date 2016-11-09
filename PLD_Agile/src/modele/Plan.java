@@ -320,8 +320,8 @@ public class Plan extends Observable {
 		    Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
 		    tournee.mettreAJourTournee(dureeTournee, ordreTournee, trajets,
 			    this.demandeDeLivraison.getListeLivraisons(), idSommets);
-		    //setChanged();
-		    //notifyObservers();
+		    setChanged();
+		    notifyObservers();
 		} else {
 		    tsp.unlock();
 		}
