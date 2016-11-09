@@ -66,6 +66,9 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	    return true;
 	}
 	
+	@Override
+	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
+	
 	public void setIdIntersection(int idIntersection){
 	    this.idIntersection = idIntersection;
 	}

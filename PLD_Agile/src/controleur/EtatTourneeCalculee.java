@@ -108,5 +108,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	fenetre.setIntersectionSurvole(id);
 	//fenetre.setLivraisonSurvole(id2);
     }
+    
+    @Override
+    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
 
 }

@@ -66,4 +66,6 @@ public abstract class EtatDefaut implements Etat {
 	public boolean possibleAjoutLivraison(Controleur controleur,Plan plan, Fenetre fenetre) {
 	    return false;
 	}
+	
+	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
 }
