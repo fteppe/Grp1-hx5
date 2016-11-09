@@ -85,8 +85,11 @@ public class ZoneDeTexte extends JPanel implements Observer {
      */
     public void genererInformationLivraison() {
 	viderListeInfos();
+	
 	List<Livraison> livraisons = plan.getListeLivraisons();
+
 	if (livraisons != null) {
+		System.out.println("tournee :"+plan.getDureeTournee());
 		ajouterZoneInformation("Feuille de route de la tournée",0);
 	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 		    + plan.getHeureDepart(), plan.getEntrepot().getId());
@@ -113,7 +116,6 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 			+ plan.getHeureRetour(), plan.getEntrepot().getId());
 	    }
-
 	}
 	else{
 		ajouterZoneInformation("", 0);
@@ -125,7 +127,11 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		genererInformationLivraison();
 	    afficherInformations();
     }
-
+    
+    public void update(){
+    	update(getGraphics());
+    }
+    
     public void viderListeInfos() {
     	listeInformation.clear();
     }

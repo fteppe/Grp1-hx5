@@ -24,10 +24,9 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
 	    try {
 		listeDeCdes.reset();
-		DeserialiseurXML.chargerLivraisons(plan);
 		plan.setTournee(null);
+		DeserialiseurXML.chargerLivraisons(plan);
 		fenetre.afficherMessage("Demande de livraison chargée");
-		fenetre.afficherDetailDemandeLivraison();
 		controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
 	    } catch (ParserConfigurationException 
 			| SAXException | IOException 
