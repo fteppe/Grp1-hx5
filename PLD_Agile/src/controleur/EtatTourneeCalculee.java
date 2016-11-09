@@ -65,17 +65,34 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void passerEtatAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
-	controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
-	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
-	fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
+    public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
+		controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+		controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
+		fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
+		
+		Plan plan = controleur.getPlan();
+		if(plan.getListeLivraisons().isEmpty()){
+			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+			controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
+			fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(), false);
+		}
+		else{
+			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
+			controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
+			fenetre.afficherMessage("Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
+		}
     }
     
+    /*QUand on clique sur ajouter livraison on passe dans l'etat AjoutLivraison dans lequel on choisit
+     * où insérer la livraison.
+     * 
+     * Si il n'y a plus de livraisons, alors cela insésère au niveau de l'entrepot
+     */
     @Override
-    public void passerEtatEchangerLivraison(Controleur controleur, Fenetre fenetre, int idLivraison) {
-	controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
-	controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
-	fenetre.afficherMessage("Choisissez une seconde livraison:");
+    public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison) {
+		controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
+		controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
+		fenetre.afficherMessage("Choisissez une seconde livraison:");
     }
     
     @Override
@@ -103,12 +120,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void clicDroitIntersection(Fenetre fenetre, int idIntersection){
     	fenetre.ouvrirPopMenuIntersection(idIntersection);
-    }
-    
-    @Override
-    public void clicEchangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeCde, int idLivraison){
-    	passerEtatEchangerLivraison(controleur, fenetre, idLivraison);
-    }
-    
+    }   
 
 }

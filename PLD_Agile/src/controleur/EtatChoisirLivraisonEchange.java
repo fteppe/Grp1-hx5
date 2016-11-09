@@ -63,7 +63,6 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     
     @Override
     public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison2){
-    	
     	echangerLivraison(controleur, plan, fenetre,controleur.getListeCde(), idLivraison2);
     }
     

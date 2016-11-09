@@ -59,8 +59,6 @@ public class DescriptionLivraison extends InformationTextuelle{
 				}
 			}
 		});
-		
-		
 	}
 	
 	protected void setSurbrillance(boolean surbrillance){

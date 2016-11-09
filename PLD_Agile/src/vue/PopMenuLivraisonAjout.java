@@ -19,7 +19,7 @@ public class PopMenuLivraisonAjout extends PopMenu{
 		ajouterApres.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fenetre.ajouterLivraisonPosition(id, false);
+				fenetre.ouvrirMenuCreationLivraison(id, false);
 			}
 		});
 		
@@ -27,7 +27,7 @@ public class PopMenuLivraisonAjout extends PopMenu{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fenetre.ajouterLivraisonPosition(id, true);
+				fenetre.ouvrirMenuCreationLivraison(id, true);
 			}
 		});
 		
