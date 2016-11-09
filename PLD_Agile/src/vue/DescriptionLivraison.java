@@ -42,14 +42,12 @@ public class DescriptionLivraison extends InformationTextuelle{
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				sourisSortie();	
+				setFocusDescription(false);
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				sourisEntree();
+				setFocusDescription(true);
 			}
 			
 			@Override
@@ -64,12 +62,22 @@ public class DescriptionLivraison extends InformationTextuelle{
 		
 	}
 	
-	protected void sourisEntree(){
-		zoneInformation.setBackground(COUEUR_HOVER);
-		fenetre.setLivraisonSurvol(index);
+	protected void setSurbrillance(boolean surbrillance){
+		if(surbrillance){
+
+			zoneInformation.setBackground(COUEUR_HOVER);
+		}
+		else{
+			zoneInformation.setBackground(background);
+		}
 	}
-	protected void sourisSortie(){
-		zoneInformation.setBackground(background);
-		fenetre.setLivraisonSurvol(index);
+	
+	protected void setFocusDescription(boolean focused){
+		if(focused){
+			fenetre.setLivraisonSurvol(index);
+		}
+		else{
+			fenetre.setLivraisonSurvol(-1);
+		}
 	}
 }

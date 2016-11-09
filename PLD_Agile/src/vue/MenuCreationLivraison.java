@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class MenuCreationLivraison extends JDialog{
 	
-	private JRadioButton horaire;
+	private JRadioButton horaireActif;
 	private JPanel champsEntree;
 	private JPanel boutons;
 	private JLabel labelDuree;
@@ -47,18 +47,27 @@ public class MenuCreationLivraison extends JDialog{
 		//setSize(new Dimension(350, 150));
 		
 		System.out.println("MENU CREATION LIVRAISON");
-		horaire = new JRadioButton("Fenêtre de passage sur la livraison?");
-		horaire.setSelected(false);
+		horaireActif = new JRadioButton("Fenêtre de passage sur la livraison?");
+		horaireActif.setSelected(false);
 		labelDuree = new JLabel("duree livraison (min)");
 		labelArrive = new JLabel("heure d'arrivée");
 		labelDepart = new JLabel("heure de départ");
 		duree = new JTextField(TAILLE_TEXT_FIELD);
 		heureArrive = new SelectionHeure();
 		heureDepart = new SelectionHeure();
+		heureArrive.editable(false);
+		heureDepart.editable(false);;
 		ok = new JButton("ok");
 		annuler = new JButton("annuler");
-
 		
+		horaireActif.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				heureArrive.editable(horaireActif.isSelected());
+				heureDepart.editable(horaireActif.isSelected());
+			}
+		});
 		
 		ok.addActionListener(new ActionListener() {
 			
@@ -104,7 +113,7 @@ public class MenuCreationLivraison extends JDialog{
 			idAvant = idLivraison;
 			idApres = fenetre.getZoneText().getLivraisonApresId(idLivraison);
 		}
-		if(horaire.isSelected()){
+		if(horaireActif.isSelected()){
 			System.out.println(heureArrive.getHeure());
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getHeure()+":00", heureDepart.getHeure()+":00");
 		}
@@ -129,7 +138,7 @@ public class MenuCreationLivraison extends JDialog{
 		champsEntree.add(duree , contraintes);
 		contraintes.gridx = 0;
 		contraintes.gridy++;
-		champsEntree.add(horaire , contraintes);
+		champsEntree.add(horaireActif , contraintes);
 		contraintes.gridx = 0;
 		contraintes.gridy++;
 		champsEntree.add(labelArrive , contraintes);

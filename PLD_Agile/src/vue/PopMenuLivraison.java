@@ -27,7 +27,7 @@ public class PopMenuLivraison extends PopMenu{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//fenetre.intervertirLivraison(id);
+				fenetre.clicIntervertirLivraison(id);
 			}
 		});
 		

@@ -69,4 +69,6 @@ public abstract class EtatDefaut implements Etat {
 	public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison){}
 	
 	public void clicDroitIntersection(Fenetre fenetre, int idIntersection){}
+	
+	public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison){}
 }

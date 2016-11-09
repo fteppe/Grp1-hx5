@@ -188,4 +188,11 @@ public interface Etat {
 	 * @param idIntersection
 	 */
 	public void clicDroitIntersection(Fenetre fenetre, int idIntersection);
+	
+	/**
+	 * Methode appelee par controleur quand un clic gauche est effectué sur une livraison
+	 * @param fenetre
+	 * @param idLivraison
+	 */
+	public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison);
 }

@@ -42,4 +42,10 @@ public class SelectionHeure extends JPanel{
 	public String getHeure(){
 		return (String)heure.getSelectedItem()+":"+(String)minute.getSelectedItem()+":00";
 	}
+	
+	public void editable(boolean editable){
+		heure.setEnabled(editable);
+		minute.setEnabled(editable);
+	}
+
 }
