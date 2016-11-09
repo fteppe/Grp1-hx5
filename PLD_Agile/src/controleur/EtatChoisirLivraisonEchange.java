@@ -54,7 +54,7 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
 	if (objGraph instanceof Livraison) {
 	    id = ((Livraison) objGraph).getAdresse().getId();
 	}
-	fenetre.setLivraisonSurvole(id);
+	//fenetre.setLivraisonSurvole(id);
     }
     
     
