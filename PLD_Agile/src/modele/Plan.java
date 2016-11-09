@@ -144,11 +144,13 @@ public class Plan extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a effectuer
      */
-    public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage) throws ModeleException {
-	if(listeIntersections.get(adresse) == null)
-	    throw new ModeleException("L'adresse "+adresse+" d'une livraison ne correspond pas à une intersection.");
-	if(duree < 0)
-	    throw new ModeleException("La durée de la livraison à l'adresse "+adresse+" est négative.");
+    public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
+	    throws ModeleException {
+	if (listeIntersections.get(adresse) == null)
+	    throw new ModeleException(
+		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+	if (duree < 0)
+	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
 	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
 	setChanged();
 	notifyObservers();
@@ -231,7 +233,7 @@ public class Plan extends Observable {
      * @throws ExceptionTournee
      */
     public boolean calculerTournee() throws ExceptionTournee {
-	if(this.demandeDeLivraison == null) {
+	if (this.demandeDeLivraison == null) {
 	    throw new ExceptionTournee("Aucune demande de livraison n'a été chargée");
 	}
 	// On initialise l'algo de Dijkstra
@@ -620,5 +622,24 @@ public class Plan extends Observable {
 	    }
 	}
 	return new Point(maxDroite, maxBas);
+    }
+
+    /**
+     * Modifie la livraison de la tournée à l'adresse donnée avec les plages
+     * horaires spécifiées
+     * 
+     * @param adrLivraison
+     *            Adresse de la livraison à modifier
+     * @param nvPlage
+     *            True si la livraison doit avoir une plage, false sinon
+     * @param nvDebut
+     *            Nouvelle heure de début de la plage
+     * @param nvFin
+     *            Nouvelle heure de la fin de la plage
+     */
+    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
+	if (tournee != null) {
+	    tournee.modifierPlageLivraison(adrLivraison, nvPlage, nvDebut, nvFin);
+	}
     }
 }

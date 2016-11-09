@@ -67,10 +67,11 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 		fenetre.afficherMessage("Tournée calculée");
 	    } else {
 		fenetre.afficherMessage(
-			"Temps limite atteint, si aucune tournée n'a été trouvée, veuillez selectionner un temps limite plus long");
+			"Aucune tournée n'a pu être calculée");
 	    }
 	} catch (ExceptionTournee e) {
-	    e.printStackTrace();
+	    fenetre.afficherMessage(
+			e.getMessage());
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }

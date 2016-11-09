@@ -44,9 +44,9 @@ public class Menu extends JMenuBar{
 		quitter = new JMenuItem("Quitter");
 		chargerDemandeLivraison = new JMenuItem("Charger une demande de livraison");
 		calculerTournee = new JMenuItem("Calculer une tournée");
-		annuler = new JMenuItem("annuler");
-		restaurer = new JMenuItem("restaurer");
-		generationFeuilleRoute = new JMenuItem("générer la feuille de route");
+		annuler = new JMenuItem("Annuler");
+		restaurer = new JMenuItem("Restaurer");
+		generationFeuilleRoute = new JMenuItem("Générer la feuille de route");
 		
 		fichiers.add(chargerPlan);
 		fichiers.add(chargerDemandeLivraison);
