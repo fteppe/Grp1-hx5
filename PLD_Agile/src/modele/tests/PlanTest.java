@@ -116,21 +116,21 @@ public class PlanTest {
     @Test
     /*
      * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
-     * s'operer correctement
+     * s'operer correctement, le calcul etant arrete avant d'avoir trouve une
+     * solution
      */
     public void testCalculerTourneeValideArretImmediat() {
 	Plan p = new Plan();
 	initialisationPlan(p);
 	Heure heure = new Heure("08:05:00");
 	p.creerDemandeDeLivraison(heure, 4);
-	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(4, 10, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:06:20");
+	p.ajouterLivraisonDemande(2, 10, "08:07:00", "08:07:30");
+	p.ajouterLivraisonDemande(5, 8, "08:07:40", "08:08:00");
+	p.ajouterLivraisonDemande(6, 10, "08:08:00", "08:08:20");
+	p.ajouterLivraisonDemande(7, 14, "08:08:40", "08:08:55");
+	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:06:40");
+	p.ajouterLivraisonDemande(8, 8, "08:10:00", "08:10:30");
 
 	boolean tourneeTrouvee = false;
 
@@ -143,14 +143,19 @@ public class PlanTest {
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
 	Future<Boolean> futureCalculTournee = executorCalculTournee
 		.submit(calculTournee);
-	executorCalculTournee.submit(calculTournee);
-
+	
 	executorCalculTournee.submit(() -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
-	    while (p.getCalculTourneeEnCours() == true) {
-		p.arreterCalculTournee();
+	    while (true) {
+		if(p.getCalculTourneeEnCours()) {
+		    p.arreterCalculTournee();
+		    break;
+		}
 	    }
 	});
+	
+	executorCalculTournee.submit(calculTournee);
+
 	executorCalculTournee.shutdown();
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE,
@@ -190,7 +195,7 @@ public class PlanTest {
     @Test
     /*
      * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
-     * s'operer correctement
+     * s'operer correctement, les plages ne pouvant etre respectees
      */
     public void testCalculerTourneePlageNonValide() {
 	Plan p = new Plan();
@@ -203,7 +208,6 @@ public class PlanTest {
 	p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:07:00");
 	p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:07:00");
 	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:07:00");
-	p.ajouterLivraisonDemande(4, 10, "08:06:00", "08:07:00");
 	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
 
 	boolean tourneeTrouvee = false;
@@ -221,7 +225,7 @@ public class PlanTest {
     @Test(expected = ExceptionTournee.class)
     /*
      * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
-     * s'operer correctement
+     * s'operer correctement, une livraison etant inatteignable
      */
     public void testCalculerTourneeLivraisonInatteignable()
 	    throws ExceptionTournee {
@@ -252,6 +256,7 @@ public class PlanTest {
 	p.ajouterTroncon("h8", 50, 25, 7, 2);
 	p.ajouterTroncon("h11", 50, 25, 2, 1);
 	p.ajouterTroncon("h10", 50, 25, 1, 4);
+	p.ajouterTroncon("h12", 50, 25, 3, 2);
 	Heure heure = new Heure("08:05:00");
 	p.creerDemandeDeLivraison(heure, 4);
 	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:00");
@@ -260,7 +265,6 @@ public class PlanTest {
 	p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:08:00");
 	p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:08:00");
 	p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:08:00");
-	p.ajouterLivraisonDemande(4, 10, "08:06:00", "08:08:00");
 	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
 
 	boolean tourneeTrouvee = false;
@@ -270,6 +274,61 @@ public class PlanTest {
 	assert (tourneeTrouvee == false);
     }
     
+    @Test
+    /*
+     * Graphe compose de 5 livraisons dont le calcul de tournee doit
+     * s'operer correctement, avec la presence de plages horaires
+     */
+    public void testCalculerTourneeValideAvPlages() {
+	Plan p = new Plan();
+	initialisationPlan(p);
+	Heure heure = new Heure("08:05:00");
+	p.creerDemandeDeLivraison(heure, 4);
+	p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+	p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+	p.ajouterLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+	p.ajouterLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+	p.ajouterLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+	p.ajouterLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+	p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+
+	boolean tourneeTrouvee = false;
+
+	try {
+	    tourneeTrouvee = p.calculerTournee();
+	} catch (ExceptionTournee e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+	int dureeTotale = p.getDureeTournee();
+	List<Itineraire> listeItineraires = p.getItineraires();
+	int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
+	int position = 0;
+	assertTrue(tourneeTrouvee);
+	for (Itineraire i : listeItineraires) {
+	    assertTrue(i.getDepart()
+		    .getId() == listeSommetsTourneePoss1[position]);
+	    assertTrue(i.getArrivee()
+		    .getId() == listeSommetsTourneePoss1[position + 1]);
+	    if(i.getArrivee().getId() != 4) {
+		if(p.getLivraison(i.getArrivee().getId())
+			.possedePlage()) {
+		    assertTrue(p.getLivraison(i.getArrivee().getId())
+					.getRespectePlage());
+		}
+	    }
+	    position++;
+	    System.out.println(i.getDepart().getId());
+	}
+	assertTrue(dureeTotale == 3686);
+    }
+    
+    /**
+     * Initialisation d'un plan par l'ajout d'intersections et de
+     * troncons 
+     * @param p Plan a initialiser
+     */
     private void initialisationPlan(Plan p) {
 	p.ajouterIntersection(1, 412, 574);
 	p.ajouterIntersection(2, 217, 574);
@@ -289,6 +348,7 @@ public class PlanTest {
 	p.ajouterIntersection(16, 442, 484);
 	p.ajouterTroncon("h0", 75, 25, 1, 2);
 	p.ajouterTroncon("h1", 50, 25, 2, 3);
+	p.ajouterTroncon("h12", 50, 25, 3, 2);
 	p.ajouterTroncon("h2", 25, 25, 8, 3);
 	p.ajouterTroncon("h9", 25, 25, 3, 8);
 	p.ajouterTroncon("h3", 100, 25, 4, 1);
@@ -300,6 +360,8 @@ public class PlanTest {
 	p.ajouterTroncon("h11", 50, 25, 2, 1);
 	p.ajouterTroncon("h10", 50, 25, 1, 4);
     }
+    
+    
 
 }
 
