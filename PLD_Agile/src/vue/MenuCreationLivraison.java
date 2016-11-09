@@ -29,7 +29,7 @@ public class MenuCreationLivraison extends JDialog{
 	protected JTextField duree;
 	protected SelectionHeure heureDepart;
 	protected SelectionHeure heureArrive;
-	private JButton ok;
+	protected JButton ok;
 	private JButton annuler;
 	
 	private static int TAILLE_TEXT_FIELD = 15;

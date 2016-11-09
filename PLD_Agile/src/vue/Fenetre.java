@@ -34,7 +34,7 @@ public class Fenetre extends JFrame{
 	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
-	private FenetreFeuilleRoute feuilleRoute;
+	private MenuModificationLivraison menuModifLivraison;
 	
 	protected Controleur controleur;
 	
@@ -162,6 +162,9 @@ public class Fenetre extends JFrame{
 	
 	public void ouvrirMenuCreationLivraison(int position, boolean avant){
 		menuCreationLivraison = new MenuCreationLivraison(this, position,avant, new Point(500,300));
+	}
+	protected void ouvrirMenuModifLivraison(int position){
+		menuModifLivraison = new MenuModificationLivraison(this, position, new Point(500,300));
 	}
 	
 	protected void supprimerLivraison(int id){

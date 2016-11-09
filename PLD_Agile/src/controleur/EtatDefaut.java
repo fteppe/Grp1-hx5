@@ -92,4 +92,5 @@ public abstract class EtatDefaut implements Etat {
 
     public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
     }
+
 }
