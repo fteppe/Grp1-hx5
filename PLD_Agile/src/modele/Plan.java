@@ -201,7 +201,7 @@ public class Plan extends Observable {
      * @param tpsLimite
      *            Temps maximum en millisecondes pour le calcul du parcours
      *            optimal
-     * @return true Si une tournee a ete trouve, false si aucune tournee n'a
+     * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
      * 			ete trouvee
      * @throws ExceptionTournee
      */
@@ -255,7 +255,7 @@ public class Plan extends Observable {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
 	    tsp.chercheSolution(idSommets.size(), couts, durees, plageDepart, plageFin,
 		    this.demandeDeLivraison.getHeureDepart().toSeconds());
-	    return tsp.getCoutMeilleureSolution() == Integer.MAX_VALUE;
+	    return tsp.getCoutMeilleureSolution() != Integer.MAX_VALUE;
 	};
 
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
@@ -588,5 +588,9 @@ public class Plan extends Observable {
 	    return "";
 	}
 	return "";
+    }
+    
+    public boolean getCalculTourneeEnCours() {
+	return this.calculTourneeEnCours;
     }
 }
