@@ -20,22 +20,22 @@ import modele.Plan;
 
 public class MenuCreationLivraison extends JDialog{
 	
-	private JRadioButton horaireActif;
+	protected JRadioButton horaireActif;
 	private JPanel champsEntree;
 	private JPanel boutons;
 	private JLabel labelDuree;
 	private JLabel labelArrive;
 	private JLabel labelDepart;
-	private JTextField duree;
-	private SelectionHeure heureDepart;
-	private SelectionHeure heureArrive;
+	protected JTextField duree;
+	protected SelectionHeure heureDepart;
+	protected SelectionHeure heureArrive;
 	private JButton ok;
 	private JButton annuler;
 	
 	private static int TAILLE_TEXT_FIELD = 15;
 	private boolean avant;
 	private int idLivraison;
-	private Fenetre fenetre;
+	protected Fenetre fenetre;
 	
 	
 	public MenuCreationLivraison(Fenetre fenetre, int idLivraison,boolean avant, Point position){
@@ -123,7 +123,6 @@ public class MenuCreationLivraison extends JDialog{
 		else if(idApres == -1){
 			idApres = plan.getEntrepot().getId();
 		}
-		System.out.println(idAvant+" "+idApres);
 		if(horaireActif.isSelected()){
 			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt, heureArrive.getHeure()+":00", heureDepart.getHeure()+":00");
 		}

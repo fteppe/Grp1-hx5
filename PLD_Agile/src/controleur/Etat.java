@@ -185,5 +185,6 @@ public interface Etat {
 	 * @param idLivraison
 	 */
 	public void clicGaucheLivraison(Controleur controleur,Fenetre fenetre,Plan plan, int idLivraison);
-
+	
+	public void genererFeuilleDeRoute(Plan plan);
 }
