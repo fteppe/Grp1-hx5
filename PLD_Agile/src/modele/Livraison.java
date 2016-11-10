@@ -28,8 +28,6 @@ public class Livraison extends ObjetGraphique {
      *            Heure de debut de la plage horaire
      * @param finPlage
      *            Heure de fin de la plage horaire
-     * @throws ModeleException
-     *             Renvoie une exception si la Livraison ne peut pas être créée
      */
     public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) throws ModeleException {
 	this.duree = duree;

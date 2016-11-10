@@ -4,7 +4,7 @@ import java.awt.Point;
 
 /**
  * Cette classe permet la creation d'intersections representant les points
- * remarquables sur le plan fourni
+ * remarquables sur le plan fourni.
  *
  */
 public class Intersection extends ObjetGraphique {
@@ -13,14 +13,14 @@ public class Intersection extends ObjetGraphique {
 	private int latitude;
 
 	/**
-	 * Cree une intersection de coordonnees (longitude, latitude)
+	 * Cree une Intersection de coordonnees (longitude, latitude)
 	 * 
 	 * @param id
-	 *            L'identifiant de l'intersection
+	 *            L'identifiant de l'Intersection
 	 * @param longitude
-	 *            Longitude de l'intersection
+	 *            Longitude de l'Intersection
 	 * @param latitude
-	 *            Latitude de l'intersection
+	 *            Latitude de l'Intersection
 	 */
 	public Intersection(int id, int longitude, int latitude) {
 		this.id = id;
@@ -29,13 +29,13 @@ public class Intersection extends ObjetGraphique {
 	}
 
 	/**
-	 * Indique si l'intersection contient le point p +/- la tolerance
+	 * Indique si l'Intersection contient le point p +/- la tolerance
 	 * 
 	 * @param p
 	 *            Le point de coordonnées recherchées
 	 * @param tolerance
 	 *            L'intervalle de tolérance des coordonnées
-	 * @return True si le point est assez proche de l'intersection, false sinon
+	 * @return True si le point est assez proche de l'Intersection, false sinon
 	 */
 	@Override
 	protected boolean contient(Point p, int tolerance) {
@@ -70,7 +70,7 @@ public class Intersection extends ObjetGraphique {
 	}
 
 	/**
-	 * Compare deux intersections. Renvoit true si les objets manipules
+	 * Compare deux Intersections. Renvoit true si les objets manipules
 	 * possedent le meme identifiant et les memes coordonnees, et false sinon.
 	 */
 	@Override
@@ -90,5 +90,4 @@ public class Intersection extends ObjetGraphique {
 			return false;
 		return true;
 	}
-
 }

@@ -2,7 +2,7 @@ package modele;
 
 /**
  * Classe permettant la gestion des exceptions liees au lancement du calcul de
- * la tournee
+ * la Tournee
  *
  */
 public class ExceptionTournee extends Exception {
