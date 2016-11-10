@@ -864,6 +864,10 @@ public class Plan extends Observable {
 	initialiserSommets();
 
 	int coutsSommets[] = new int[idSommets.size()];
+	Itineraire[] tableauPiTrie= new Itineraire[idSommets.size()];
+	if(!this.listeIntersections.containsKey((Integer) sourceId)) {
+		return new Object[] { coutsSommets, tableauPiTrie };
+	}
 	NavigableSet<Sommet> sommetsGris = new TreeSet<>();
 
 	// On initialise la liste des sommets gris en y mettant le sommet source
@@ -906,7 +910,7 @@ public class Plan extends Observable {
 
 	// On transforme la liste des sommets avec leur antecedent en un tableau
 	// d'itineraires
-	Itineraire[] tableauPiTrie = convertirTableauItineraires(idSommets, sommets, sourceId);
+	tableauPiTrie = convertirTableauItineraires(idSommets, sommets, sourceId);
 	return new Object[] { coutsSommets, tableauPiTrie };
     }
 
