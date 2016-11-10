@@ -136,6 +136,7 @@ public class Livraison extends ObjetGraphique {
 
     protected void supprimerPlage() {
 	this.plage = null;
+	this.respectePlage = true;
     }
 
     /**
