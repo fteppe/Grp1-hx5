@@ -27,7 +27,8 @@ public class EtatPlanCharge extends EtatDefaut {
 			else
 				fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
 			controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML
+				| NumberFormatException e) {
 			fenetre.afficherMessage(e.getMessage());
 		}
 	}

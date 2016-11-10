@@ -27,7 +27,7 @@ public class Controleur {
 	 * Cree le controleur de l'application
 	 * 
 	 * @param plan
-	 *            le plan
+	 *                le plan
 	 */
 	public Controleur(Plan plan) {
 		this.plan = plan;
@@ -48,31 +48,32 @@ public class Controleur {
 	}
 
 	/**
-	 * Methode appelee par fenetre lorsque l'utilisateur clique sur "annuler"
-	 * dans le mode d'ajout de livraison.
+	 * Methode appelee par fenetre lorsque l'utilisateur clique sur
+	 * "annuler" dans le mode d'ajout de livraison.
 	 */
 	public void annulerAjout() {
 		etatCourant.annulerAction();
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Arreter" lors du
-	 * calcul de la tournee
+	 * Methode appelee par fenetre apres un clic sur le bouton "Arreter"
+	 * lors du calcul de la tournee
 	 */
 	public void arreterCalculTournee() {
 		etatCourant.arreterCalcul();
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournee"
+	 * Methode appelee par fenetre apres un clic sur le bouton "Calcul
+	 * Tournee"
 	 */
 	public void calculTournee() {
 		etatCourant.calculerTournee(tempsLimite);
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Charger demande
-	 * de livraison"
+	 * Methode appelee par fenetre apres un clic sur le bouton "Charger
+	 * demande de livraison"
 	 */
 	public void chargerDemandeLivraison() {
 		if (!plan.getCalculTourneeEnCours())
@@ -84,7 +85,8 @@ public class Controleur {
 
 	// Methodes correspondant aux evenements utilisateur
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Charger plan"
+	 * Methode appelee par fenetre apres un clic sur le bouton "Charger
+	 * plan"
 	 */
 	public void chargerPlan() {
 		if (!plan.getCalculTourneeEnCours())
@@ -95,8 +97,8 @@ public class Controleur {
 	}
 
 	/**
-	 * Methode appelee par fenetre lorsque l'utilisateur clique sur ajouter une
-	 * nouvelle livraison sur le plan.
+	 * Methode appelee par fenetre lorsque l'utilisateur clique sur ajouter
+	 * une nouvelle livraison sur le plan.
 	 * 
 	 * @param idIntersection
 	 */
@@ -117,15 +119,16 @@ public class Controleur {
 
 
 	/**
-	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue
-	 * graphique
+	 * Methode appelee par fenetre apres un clic gauche sur un point de la
+	 * vue graphique
 	 * @param idPrec
 	 * @param idSuiv
 	 * @param duree
 	 * @param debutPlage
 	 * @param finPlage
 	 */
-	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
+	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
+			String finPlage) {
 		etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree, debutPlage, finPlage);
 	}
 
@@ -139,8 +142,8 @@ public class Controleur {
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic droit sur un point du plan une
-	 * fois le calcul de la tournee termine.
+	 * Methode appelee par fenetre apres un clic droit sur un point du plan
+	 * une fois le calcul de la tournee termine.
 	 * 
 	 * @param idLivraison
 	 *            l'id de la livraison cliquee par l'utilisateur
@@ -245,15 +248,15 @@ public class Controleur {
 	 * Change l'etat courant du controleur
 	 * 
 	 * @param etat
-	 *            le nouvel etat courant
+	 *                le nouvel etat courant
 	 */
 	protected void setEtatCourant(EtatDefaut etat) {
 		etatCourant = etat;
 	}
 
 	/**
-	 * Methode appelee par fenetre lorsque l'utilisateur clique sur supprimer
-	 * apres avoir fait un clic droit sur une livraison.
+	 * Methode appelee par fenetre lorsque l'utilisateur clique sur
+	 * supprimer apres avoir fait un clic droit sur une livraison.
 	 * 
 	 * @param idLivraison
 	 */
@@ -273,8 +276,8 @@ public class Controleur {
 	}
 
 	/**
-	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton
-	 * "Undo"
+	 * Methode appelee par la fenetre quand l'utilisateur clique sur le
+	 * bouton "Undo"
 	 */
 	public void undo() {
 		etatCourant.annulerAction();

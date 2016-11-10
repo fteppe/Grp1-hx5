@@ -11,10 +11,15 @@ import javax.swing.SwingWorker;
 
 import controleur.Controleur;
 
+/**La barre des tâches de l'application 
+ * 
+ * @author florent
+ *
+ */
 public class BarreDesTaches extends JToolBar {
 	/*
-	 * La classe barre destache comporte les différents boutons nécessaire au
-	 * actions principales de l'application
+	 * La classe barre destache comporte les différents boutons nécessaire
+	 * au actions principales de l'application
 	 * 
 	 */
 	private JButton chargerPlan;
@@ -56,7 +61,7 @@ public class BarreDesTaches extends JToolBar {
 	 * associées aux boutons
 	 * 
 	 */
-	public void ajouterEcouteurs() {
+	private void ajouterEcouteurs() {
 		chargerPlan.addActionListener(new ActionListener() {
 
 			@Override

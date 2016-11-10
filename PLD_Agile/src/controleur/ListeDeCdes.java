@@ -27,8 +27,8 @@ public class ListeDeCdes {
 	}
 
 	/**
-	 * Annule temporairement la derniere commande ajoutee (cette commande pourra
-	 * etre remise dans la liste avec redo)
+	 * Annule temporairement la derniere commande ajoutee (cette commande
+	 * pourra etre remise dans la liste avec redo)
 	 */
 	public void undo() {
 		if (indiceCrt >= 0) {
@@ -39,8 +39,8 @@ public class ListeDeCdes {
 	}
 
 	/**
-	 * Supprime definitivement la derniere commande ajoutee (cette commande ne
-	 * pourra pas etre remise dans la liste avec redo)
+	 * Supprime definitivement la derniere commande ajoutee (cette commande
+	 * ne pourra pas etre remise dans la liste avec redo)
 	 */
 	public void annule() {
 		if (indiceCrt >= 0) {

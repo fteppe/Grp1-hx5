@@ -24,6 +24,11 @@ import modele.Livraison;
 import modele.Plan;
 import modele.Troncon;
 
+/**Objet dans lequel le plan est affiché graphiquement
+ * 
+ * @author florent
+ *
+ */
 public class VuePlan extends JPanel implements Observer {
 
 	private Plan plan;
@@ -41,6 +46,11 @@ public class VuePlan extends JPanel implements Observer {
 	private static Color COULEUR_SURLIGNE = Color.green;
 	private static Color COULEUR_INTERSECTION = COULEUR_TRONCON;
 
+	/**Constructeur
+	 * 
+	 * @param plan le plan à afficher, qui doit implementer observable
+	 * @param fenetre
+	 */
 	public VuePlan(Plan plan, Fenetre fenetre) {
 		super();
 		echelle = 0.8;
@@ -109,7 +119,7 @@ public class VuePlan extends JPanel implements Observer {
 		});
 	}
 
-	/*
+	/**
 	 * va peindre touts les composants à afficher
 	 * 
 	 * @param g l'objet qui permet de peindre dans un JPanel (non-Javadoc)
@@ -118,7 +128,8 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	public void paintComponent(Graphics g) {
 
-		BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 		super.paintComponent(g2d);
 		// on doit peindre le plan;
@@ -145,24 +156,28 @@ public class VuePlan extends JPanel implements Observer {
 		g2dComponent.drawImage(bufferedImage, null, 0, 0);
 	}
 
+	/**Indique l'intersection sous la souris, idIntersection vaut -1 s'il n'y
+	 * a aucune intersection sous la souris
+	 * 
+	 * @param idIntersection l'id de l'intersection sous la souris, vaut -1 si aucune intersection
+	 */
 	protected void setIntersectionSurvol(int idIntersection) {
 		intersectionSurvol = idIntersection;
 		repaint();
 	}
 
+	/**Indique la livraison sous la souris, idLivraison vaut -1 s'il n'y
+	 * a aucune livraison sous la souris
+	 * 
+	 * @param idLivraison l'id de la livraison sous la souris, vaut -1 si aucune intersection
+	 */
 	protected void setLivraisonSurvol(int idLivraison) {
 		livraisonSurvol = idLivraison;
 		repaint();
 	}
 
-	/*
-	 * dessine une liste d'itineraire
-	 * 
-	 * @param g l'objet qui permet de dessiner dans un JPanel
-	 * 
-	 * @param itineraires la liste des itineraires a dessiner
-	 */
-	public void dessinerListeItinereraires(Graphics g, List<Itineraire> itineraires) {
+
+	private void dessinerListeItinereraires(Graphics g, List<Itineraire> itineraires) {
 
 		int i = 0;
 		double[] colorMap = new double[3 * 256];
@@ -956,7 +971,7 @@ public class VuePlan extends JPanel implements Observer {
 		}
 	}
 
-	/*
+	/**
 	 * dessine une liste de troncons
 	 * 
 	 * @param g l'objet qui permet de dessiner dans un JPanel
@@ -965,13 +980,13 @@ public class VuePlan extends JPanel implements Observer {
 	 * 
 	 * @param c la couleur des troncons a dessiner
 	 */
-	public void dessinerListeTroncons(Graphics g, List<Troncon> troncons, Color c) {
+	private void dessinerListeTroncons(Graphics g, List<Troncon> troncons, Color c) {
 		for (Troncon t : troncons) {
 			dessinerTroncon(g, t, c);
 		}
 	}
 
-	/*
+	/**
 	 * dessine une liste de troncons dans le cadre de l'affichage d'un
 	 * itinéraire
 	 * 
@@ -981,32 +996,32 @@ public class VuePlan extends JPanel implements Observer {
 	 * 
 	 * @param c la couleur des troncons a dessiner
 	 */
-	public void dessinerListeTronconsItineraire(Graphics g, List<Troncon> troncons, Color c) {
+	private void dessinerListeTronconsItineraire(Graphics g, List<Troncon> troncons, Color c) {
 		for (Troncon t : troncons) {
 			dessinerTroncon(g, t, c);
 			dessinerFlecheTroncon(g, t, c);
 		}
 	}
 
-	/*
+	/**
 	 * permet de desssiner collection d'intersections
 	 * 
 	 * 
 	 */
-	public void dessinerListeIntersections(Graphics g, HashMap<Integer, Intersection> intersections) {
+	private void dessinerListeIntersections(Graphics g, HashMap<Integer, Intersection> intersections) {
 		for (Intersection i : intersections.values()) {
 			dessinerIntersection(g, i, COULEUR_INTERSECTION);
 		}
 	}
 
-	/*
+	/**
 	 * permet de dessiner une collection de livraisons
 	 * 
 	 * @param g l'objet qui permet de dessiner dans un JPanel
 	 * 
 	 * @param livraisons la collection des livraisons a dessiner
 	 */
-	public void dessinerListeLivraisons(Graphics g, List<Livraison> livraisons) {
+	private void dessinerListeLivraisons(Graphics g, List<Livraison> livraisons) {
 
 		if (livraisons != null) {
 			for (Livraison l : livraisons) {
@@ -1020,12 +1035,10 @@ public class VuePlan extends JPanel implements Observer {
 		}
 	}
 
-	/*
-	 * actions effectuées lorsque le plan est mis à jour
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	/**Met à jour l'affichage du plan
+	 *  
+	 * @param obs lobjet observé
+	 * @param arg
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
@@ -1036,10 +1049,11 @@ public class VuePlan extends JPanel implements Observer {
 
 	}
 
-	public void update() {
-		update(getGraphics());
-	}
 
+	/**change l'échelle d'affichage du plan
+	 * 
+	 * @param e la nouvelle echele
+	 */
 	protected void setEchelle(double e) {
 		echelle = e;
 	}
@@ -1049,7 +1063,8 @@ public class VuePlan extends JPanel implements Observer {
 		g2.setColor(c);
 		g2.setStroke(new BasicStroke(2));
 		g2.draw(new Line2D.Float((int) (t.getOrigine().getLongitude() * echelle),
-				(int) (t.getOrigine().getLatitude() * echelle), (int) (t.getDestination().getLongitude() * echelle),
+				(int) (t.getOrigine().getLatitude() * echelle),
+				(int) (t.getDestination().getLongitude() * echelle),
 				(int) (t.getDestination().getLatitude() * echelle)));
 	}
 
@@ -1066,7 +1081,7 @@ public class VuePlan extends JPanel implements Observer {
 		dessinerIntersection(g, i, c);
 	}
 
-	/*
+	/**
 	 * Fonction qui permet d'ajouter une fleche au bout d'un troncon
 	 * 
 	 * @param g l'objet qui permet de dessiner dans un JPanel

@@ -9,6 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+/**Elements de texte affichée dans une ZoneDeTexte
+ * 
+ * @author florent
+ *
+ */
 public class InformationTextuelle extends JPanel {
 
 	// un bloc d'informations qui réagit ou non à la souris
@@ -20,6 +25,12 @@ public class InformationTextuelle extends JPanel {
 	protected static Color COULEUR_GRISE = new Color(0xA6A6A6);
 	protected static Color COULEUR_ERREUR = new Color(0xFF7676);
 
+	/**Constructeur
+	 * 
+	 * @param information L'information à afficher
+	 * @param index L'index de l'information
+	 * @param fenetre La fenetre dans laquelle s'inscrit cette information
+	 */
 	public InformationTextuelle(String information, int index, Fenetre fenetre) {
 		super();
 		this.fenetre = fenetre;
@@ -32,18 +43,10 @@ public class InformationTextuelle extends JPanel {
 		add(zoneInformation);
 	}
 
-	public void ajouterInformationDansPanneau(JPanel panneau, GridBagConstraints contraintes, int i) {
-		panneau.add(zoneInformation, contraintes);
-	}
-
-	public void afficher(String message) {
-		zoneInformation.setText(message);
-	}
-
-	public void ajouter(String message) {
-		zoneInformation.append(message);
-	}
-
+	/**Toute zone d'information a un index, cette methode le retourne
+	 * 
+	 * @return l'index de la zone d'information
+	 */
 	protected int getIndex() {
 		return index;
 	}
