@@ -105,33 +105,35 @@ public class Controleur {
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue
-	 * graphique
+	 *Methode appelee par fenetre apres un clic gauche sur un point de la vue
+	 * graphique 
+	 * @param idPrec
+	 * @param idSuiv
+	 * @param duree
 	 */
-
 	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
 		etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree);
 	}
 
+
 	/**
 	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue
 	 * graphique
+	 * @param idPrec
+	 * @param idSuiv
+	 * @param duree
+	 * @param debutPlage
+	 * @param finPlage
 	 */
-
 	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
 		etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree, debutPlage, finPlage);
 	}
 
 	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Generer feuille
-	 * de route"
+	 * Methode appelee par fenetre apres un clic droit sur un point du plan une
+	 * fois le calcul de la tournee termine.
+	 * @param idIntersection
 	 */
-	// Pour seconde itération
-	/*
-	 * public void genererFeuilleDeRoute() {
-	 * etatCourant.genererFeuilleDeRoute(plan, fenetre); }
-	 */
-
 	public void clicDroitIntersection(int idIntersection) {
 		etatCourant.clicDroitIntersection(idIntersection);
 	}
@@ -140,50 +142,77 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic droit sur un point du plan une
 	 * fois le calcul de la tournee termine.
 	 * 
-	 * @param point
-	 *            Le point clique par l'utilisateur
+	 * @param idLivraison
+	 *            l'id de la livraison cliquee par l'utilisateur
 	 */
 	public void clicDroitLivraison(int idLivraison) {
 		etatCourant.clicDroitLivraison(idLivraison);
 	}
 
 	/**
-	 * Methode appelée lorsque l'utilisateur clique sur le bouton echanger
+	 * Methode appelee lorsque l'utilisateur clique sur le bouton echanger
 	 * livraison
+	 * @param idLivraison l'id de livraison
 	 */
 	public void clicEchangerLivraison(int idLivraison) {
 		etatCourant.clicEchangerLivraisons(idLivraison);
 	}
-
+	
+	/**
+	 * Methode appelee par fenetre apres un clic gauche sur une livraison du plan une
+	 * fois le calcul de la tournee termine.
+	 * @param idLivraison
+	 */
 	public void clicGaucheLivraison(int idLivraison) {
 		etatCourant.clicGaucheLivraison(idLivraison);
 	}
-
+	
+	/**
+	 * methode qui genere la feuille de route de la tournee calculee
+	 */
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute();
 	}
 
 	/**
-	 * Retourne l'etat courant du controleur
+	 * @return l'etat courant du controleur
 	 */
 	protected EtatDefaut getEtatCourant() {
 		return etatCourant;
 	}
-
+	
+	/**
+	 * 
+	 * @return la fenetre
+	 */
 	protected Fenetre getFenetre() {
 		return fenetre;
 	}
-
+	
+	/**
+	 * 
+	 * @return la liste des commandes
+	 */
 	protected ListeDeCdes getListeCde() {
 		return listeDeCdes;
 	}
 
+	/**
+	 * 
+	 * @return le plan
+	 */
 	protected Plan getPlan() {
 		return plan;
 	}
 
 
-
+	/**
+	 * Methode appelee pour modifier une livraion
+	 * @param adrLiv adresse de livraison
+	 * @param possedePlage true si la livraison possede une plage horaire
+	 * @param heureDebut heure de debut de la plage horaire
+	 * @param heureFin heure de fin de la plage horaire
+	 */
 	public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
 		etatCourant.modifierLivraison(adrLiv, possedePlage, heureDebut, heureFin);
 	}
@@ -192,7 +221,7 @@ public class Controleur {
 	 * Methode appelee par fenetre lorsque l'utilisateur clique sur Echanger
 	 * apres avoir selectionner une 1ere livraison.
 	 * 
-	 * @param idIntersection
+	 * @param idLivraison
 	 */
 	public void passerEtatEchangerLivraison(int idLivraison) {
 		etatCourant.clicEchangerLivraisons(idLivraison);
