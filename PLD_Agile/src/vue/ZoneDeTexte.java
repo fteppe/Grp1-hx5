@@ -104,7 +104,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		    }
 		    plage += "\nHeure de départ : " + livraison.getHeureDepart().afficherHoraire();
 		}
-		ajouterDescLivraison("Livraison a l'adresse " + livraison.getAdresse().getId() + plage,
+		ajouterDescLivraison("Livraison à l'adresse " + livraison.getAdresse().getId() + plage,
 			livraison.getAdresse().getId(), livraison.getRespectePlage());
 	    }
 	    if (plan.getHeureRetour() != null) {
@@ -136,5 +136,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	    contraintes.gridy = i;
 	    add(info, contraintes);
 	}
+	fenetre.invalidate();
+	fenetre.validate();
+	fenetre.repaint();
     }
 }
