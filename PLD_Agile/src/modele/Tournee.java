@@ -186,15 +186,15 @@ public class Tournee extends Observable {
 	    cur = liv.setHeureArrivee(cur);
 	}
 	Itineraire itin = itineraires.get(itineraires.size() - 1);
-	cur = cur.ajouterSecondes(itin.getTpsParcours());
+	cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
 	hFin = cur;
 	valide = true;
 	for (Livraison liv : livraisons.values()) {
 	    if (!liv.getRespectePlage())
 		valide = false;
 	}
-	setChanged();
-	notifyObservers();
+	//setChanged();
+	//notifyObservers();
     }
 
     /**
@@ -298,12 +298,13 @@ public class Tournee extends Observable {
      *            Nouvelle heure de la fin de la plage
      */
     public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
-	Livraison liv = livraisons.get(adrLivraison);
+	Livraison liv = livraisons.remove(adrLivraison);
 	if (nvPlage)
 	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
-
 	else
 	    liv.supprimerPlage();
+	livraisons.put(adrLivraison, liv);
+	this.mettreAJourTempsParcours(hDebut);
     }
 
     /**

@@ -644,6 +644,8 @@ public class Plan extends Observable {
 	if (tournee != null) {
 	    tournee.modifierPlageLivraison(adrLivraison, nvPlage, nvDebut, nvFin);
 	}
+	setChanged();
+	notifyObservers();
     }
 
     /**
