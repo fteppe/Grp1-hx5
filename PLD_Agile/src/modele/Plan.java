@@ -641,9 +641,9 @@ public class Plan extends Observable {
      * @param nvPlage
      *            True si la livraison doit avoir une plage, false sinon
      * @param nvDebut
-     *            Nouvelle heure de début de la plage
+     *            Nouvelle Heure de début de la plage
      * @param nvFin
-     *            Nouvelle heure de la fin de la plage
+     *            Nouvelle Heure de la fin de la plage
      */
     public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
 	if (tournee != null) {
