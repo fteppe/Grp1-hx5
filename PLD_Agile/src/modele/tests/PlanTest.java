@@ -129,6 +129,7 @@ public class PlanTest {
 		Heure heure = new Heure("21:05:00");
 		try {
 			p.creerDemandeDeLivraison(heure, 4);
+			assertTrue(p.getEntrepot().getId() == 4);
 		} catch (ModeleException e1) {
 			e1.printStackTrace();
 		}
@@ -605,12 +606,13 @@ public class PlanTest {
 	}
 	
 	/**
-	 * On teste la modification de la Plage horaire d'une Livraison apres
-	 * le calcul d'une tournee
+	 * On teste l'obtention des adresses suivants et precedents des adresses ne correspondant
+	 * pas a des livraisons
+	 * dans la tournee
 	 * @throws ModeleException 
 	 */
 	@Test
-	public void testModifierPlageLivraison() throws ModeleException {
+	public void testGetAdressesIncoherentes() throws ModeleException {
 		Plan p = new Plan();
 		initialisationPlan(p);
 		Heure heure = new Heure("08:05:00");
@@ -631,15 +633,150 @@ public class PlanTest {
 			e.printStackTrace();
 		}
 		int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
-		p.insererLivraisonTournee(10, 20, "08:38:00", "08:40:00", 7, 6);
-		assertEquals(p.getAdresseLivraisonPrecedente(10), 7);
-		assertEquals(p.getAdresseLivraisonSuivante(10), 6);
-		assertTrue(!p.getLivraisonParAdresse(6).getRespectePlage());
+		assertEquals(p.getAdresseLivraisonPrecedente(10), -1);
+		assertEquals(p.getAdresseLivraisonSuivante(15), -1);
 	}
 	
+	/**
+	 * On teste la modification de la Plage horaire d'une Livraison apres
+	 * le calcul d'une tournee
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testModifierPlageLivraison() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+		boolean tourneeTrouvee = false;
+		Heure arrivee = new Heure("10:00:00");
+		Heure depart = new Heure("12:00:00");
+		p.modifierPlageLivraison(8, true, arrivee, depart);
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
+		p.modifierPlageLivraison(8, true, arrivee, depart);
+		assertTrue(!p.getLivraisonParAdresse(2).getRespectePlage());
+		p.modifierPlageLivraison(8, false, arrivee, depart);
+		assertTrue(!p.getLivraisonParAdresse(8).possedePlage());
+	}
 	
-	
+	/**
+	 * On teste la suppression d'une Livraison dans la tournee calculee
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testRetirerLivraisonTournee() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
 
+		boolean tourneeTrouvee = false;
+
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
+		Heure arrivee = new Heure("10:00:00");
+		Heure depart = new Heure("12:00:00");
+		p.retirerLivraisonTournee(8);
+		//On verifie que la Livraison 2 est la premiere Livraison de la Tournee
+		assertEquals(p.getLivraisonParAdresse(2).getHeureArrivee()
+				.toString(), "08:05:07");
+		assertEquals(p.getLivraisonParAdresse(2).getHeureArrivee()
+				.toString(), "08:05:07");
+	}
+	
+	/**
+	 * On teste la suppression d'une Tournee apres son calcul
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testSupprimerTournee() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+
+		boolean tourneeTrouvee = false;
+
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		p.supprimerTournee();
+		assertNull(p.getDureeTournee());
+	}
+	
+	/**
+	 * On teste la suppression des entites associees au Plan courant
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testViderPlan() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+
+		boolean tourneeTrouvee = false;
+
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		p.viderPlan();
+		assertEquals(p.getListeIntersections().size(), 0);
+		assertEquals(p.getListeTroncons().size(), 0);
+		assertNull(p.getListeLivraisons());
+	}
+	
+	/**
+	 * On teste la  generation d'une feuille de route sans presence d'une tournee
+	 */
+	@Test
+	public void testGenererFeuilleDeRoute(){
+		Plan p = new Plan();
+		assertEquals(p.genererFeuilleRoute(), "");
+	}
+		
+	
 	private void initialisationPlan(Plan p) {
 		try {
 			p.creerIntersection(1, 412, 574);
@@ -675,5 +812,4 @@ public class PlanTest {
 			e.printStackTrace();
 		}
 	}
-
 }

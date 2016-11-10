@@ -626,7 +626,6 @@ public class Plan extends Observable {
 	    Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
 	    tournee.insererLivraison(liv, adrPrec, adrSuiv);
 	} catch (Exception e) {
-	    // TODO
 	}
 	setChanged();
 	notifyObservers();
