@@ -38,46 +38,19 @@ public class Troncon extends Observable {
     }
 
     /**
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route
+     */
+    protected String afficherFeuilleRoute() {
+	return "suivre " + nom + " de " + origine.getId() + " à "
+		+ destination.getId() + " pendant " + tpsParcours + " secondes";
+    }
+
+    /**
      * Calcule et modifie le temps de parcours moyen du troncon courant
      */
     private void calculTpsParcours() {
 	this.tpsParcours = Math.round(this.longueur / this.vitesseMoy);
-    }
-
-    /**
-     * @return Nom du Troncon
-     */
-    protected String getNom() {
-	return this.nom;
-    }
-
-    /**
-     * @return Temps de parcours du Troncon
-     */
-    protected int getTpsParcours() {
-	return this.tpsParcours;
-    }
-
-    /**
-     * @return Intersection d'origine du Troncon
-     */
-    public Intersection getOrigine() {
-	return this.origine;
-    }
-
-    /**
-     * @return Intersection de départ du Troncon
-     */
-    public Intersection getDestination() {
-	return this.destination;
-    }
-
-    /**
-     * Affiche textuellement le troncon courant
-     */
-    public String toString() {
-	return " - Troncon " + nom + " de l'intersection " + origine.getId()
-		+ " à l'intersection " + destination.getId();
     }
 
     @Override
@@ -115,11 +88,38 @@ public class Troncon extends Observable {
     }
 
     /**
-     * @return Retourne la string formatée pour l'affichage sur la feuille de
-     *         route
+     * @return Intersection de départ du Troncon
      */
-    protected String afficherFeuilleRoute() {
-	return "suivre " + nom + " de " + origine.getId() + " à "
-		+ destination.getId() + " pendant " + tpsParcours + " secondes";
+    public Intersection getDestination() {
+	return this.destination;
+    }
+
+    /**
+     * @return Nom du Troncon
+     */
+    protected String getNom() {
+	return this.nom;
+    }
+
+    /**
+     * @return Intersection d'origine du Troncon
+     */
+    public Intersection getOrigine() {
+	return this.origine;
+    }
+
+    /**
+     * @return Temps de parcours du Troncon
+     */
+    protected int getTpsParcours() {
+	return this.tpsParcours;
+    }
+
+    /**
+     * Affiche textuellement le troncon courant
+     */
+    public String toString() {
+	return " - Troncon " + nom + " de l'intersection " + origine.getId()
+		+ " à l'intersection " + destination.getId();
     }
 }

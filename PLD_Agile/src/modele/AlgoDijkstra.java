@@ -2,43 +2,110 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class AlgoDijkstra {
 
-	private static AlgoDijkstra instance = null;
-	private HashMap<Integer, Sommet> sommets;
-	private HashMap<Integer, List<Troncon>> troncons;
-	private HashMap<Integer, Intersection> intersections;
-
-	private AlgoDijkstra() {
-		sommets = new HashMap<Integer, Sommet>();
-		troncons = new HashMap<Integer, List<Troncon>>();
+	/**
+	 * Enumeration servant au calcul de plus court chemin selon l'algorithme de
+	 * Dijkstra
+	 * 
+	 * @author utilisateur
+	 *
+	 */
+	private enum Etat {
+		GRIS, NOIR, BLANC
 	}
+	private class Sommet implements Comparable<Sommet> {
 
+		private int id;
+		private int position;
+		private int cout;
+		private Etat etat;
+		private Troncon antecedent;
+
+		/**
+		 * Cree un sommet a partir des informations de l'intersection
+		 * correspondante
+		 * 
+		 * @param id
+		 *            Id du sommet
+		 * @param position
+		 *            Position dans les tableaux de cout et d'itineraires
+		 *            servant au calcul de la tournee finale
+		 * @param cout
+		 *            Cout intial du sommet
+		 * @param etat
+		 *            Etat initial du sommet (Gris, Noir ou Blanc)
+		 */
+		public Sommet(int id, int position, int cout, Etat etat) {
+			this.id = id;
+			this.position = position;
+			this.cout = cout;
+			this.etat = etat;
+		}
+
+		@Override
+		public int compareTo(Sommet autre) {
+			// TODO Auto-generated method stub
+			int coutCompare = this.cout - autre.cout;
+			if (coutCompare == 0) {
+				coutCompare = this.id - autre.id;
+			}
+			return coutCompare;
+		}
+
+		public Troncon getAntecedent() {
+			return this.antecedent;
+		}
+
+		public int getCout() {
+			return this.cout;
+		}
+
+		public Etat getEtat() {
+			return this.etat;
+		}
+
+		public int getId() {
+			return this.id;
+		}
+
+		public int getPosition() {
+			return this.position;
+		}
+
+		public void setAntecedent(Troncon nouvelAntecedent) {
+			this.antecedent = nouvelAntecedent;
+		}
+
+		public void setCout(int nouveauCout) {
+			this.cout = nouveauCout;
+		}
+
+		public void setEtat(Etat nouvelEtat) {
+			this.etat = nouvelEtat;
+		}
+
+	}
+	private static AlgoDijkstra instance = null;
 	public static AlgoDijkstra getInstance() {
 		if (instance == null)
 			instance = new AlgoDijkstra();
 		return instance;
 	}
 
-	public void chargerAlgo(HashMap<Integer, Intersection> intersections, HashMap<Integer, List<Troncon>> troncons) {
-		sommets.clear();
-		int position = 0;
-		// On initialise l'ensemble des sommets a parcourir par l'algorithme,
-		// correspondant a la liste des intersections du plan
-		for (int id : intersections.keySet()) {
-			Sommet nouveauSommet = new Sommet(id, position, Integer.MAX_VALUE, Etat.BLANC);
-			sommets.put(id, nouveauSommet);
-			position++;
-		}
-		// On initialise la liste de troncons
-		this.intersections = intersections;
-		this.troncons = troncons;
+	private HashMap<Integer, Sommet> sommets;
+
+	private HashMap<Integer, List<Troncon>> troncons;
+
+	private HashMap<Integer, Intersection> intersections;
+
+	private AlgoDijkstra() {
+		sommets = new HashMap<Integer, Sommet>();
+		troncons = new HashMap<Integer, List<Troncon>>();
 	}
 
 	/**
@@ -138,22 +205,19 @@ public class AlgoDijkstra {
 		return new Object[] { coutsSommets, tableauPiTrie };
 	}
 
-	/**
-	 * Relachement de l'arc (origine, destination)
-	 * 
-	 * @param origine
-	 *            Sommet d'origine de l'arc
-	 * @param destination
-	 *            Sommet de destination de l'arc
-	 * @param antecedent
-	 *            Arc relache
-	 */
-	private void relacher(Sommet origine, Sommet destination, Troncon antecedent) {
-		int nouveauCout = origine.getCout() + antecedent.getTpsParcours();
-		if (destination.getCout() > nouveauCout) {
-			destination.setCout(nouveauCout);
-			destination.setAntecedent(antecedent);
+	public void chargerAlgo(HashMap<Integer, Intersection> intersections, HashMap<Integer, List<Troncon>> troncons) {
+		sommets.clear();
+		int position = 0;
+		// On initialise l'ensemble des sommets a parcourir par l'algorithme,
+		// correspondant a la liste des intersections du plan
+		for (int id : intersections.keySet()) {
+			Sommet nouveauSommet = new Sommet(id, position, Integer.MAX_VALUE, Etat.BLANC);
+			sommets.put(id, nouveauSommet);
+			position++;
 		}
+		// On initialise la liste de troncons
+		this.intersections = intersections;
+		this.troncons = troncons;
 	}
 
 	/**
@@ -211,86 +275,20 @@ public class AlgoDijkstra {
 	}
 
 	/**
-	 * Enumeration servant au calcul de plus court chemin selon l'algorithme de
-	 * Dijkstra
+	 * Relachement de l'arc (origine, destination)
 	 * 
-	 * @author utilisateur
-	 *
+	 * @param origine
+	 *            Sommet d'origine de l'arc
+	 * @param destination
+	 *            Sommet de destination de l'arc
+	 * @param antecedent
+	 *            Arc relache
 	 */
-	private enum Etat {
-		GRIS, NOIR, BLANC
-	}
-
-	private class Sommet implements Comparable<Sommet> {
-
-		private int id;
-		private int position;
-		private int cout;
-		private Etat etat;
-		private Troncon antecedent;
-
-		/**
-		 * Cree un sommet a partir des informations de l'intersection
-		 * correspondante
-		 * 
-		 * @param id
-		 *            Id du sommet
-		 * @param position
-		 *            Position dans les tableaux de cout et d'itineraires
-		 *            servant au calcul de la tournee finale
-		 * @param cout
-		 *            Cout intial du sommet
-		 * @param etat
-		 *            Etat initial du sommet (Gris, Noir ou Blanc)
-		 */
-		public Sommet(int id, int position, int cout, Etat etat) {
-			this.id = id;
-			this.position = position;
-			this.cout = cout;
-			this.etat = etat;
+	private void relacher(Sommet origine, Sommet destination, Troncon antecedent) {
+		int nouveauCout = origine.getCout() + antecedent.getTpsParcours();
+		if (destination.getCout() > nouveauCout) {
+			destination.setCout(nouveauCout);
+			destination.setAntecedent(antecedent);
 		}
-
-		@Override
-		public int compareTo(Sommet autre) {
-			// TODO Auto-generated method stub
-			int coutCompare = this.cout - autre.cout;
-			if (coutCompare == 0) {
-				coutCompare = this.id - autre.id;
-			}
-			return coutCompare;
-		}
-
-		public int getId() {
-			return this.id;
-		}
-
-		public int getPosition() {
-			return this.position;
-		}
-
-		public int getCout() {
-			return this.cout;
-		}
-
-		public Etat getEtat() {
-			return this.etat;
-		}
-
-		public Troncon getAntecedent() {
-			return this.antecedent;
-		}
-
-		public void setEtat(Etat nouvelEtat) {
-			this.etat = nouvelEtat;
-		}
-
-		public void setCout(int nouveauCout) {
-			this.cout = nouveauCout;
-		}
-
-		public void setAntecedent(Troncon nouvelAntecedent) {
-			this.antecedent = nouvelAntecedent;
-		}
-
 	}
 }

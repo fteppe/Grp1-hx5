@@ -17,6 +17,21 @@ public class Livraison extends ObjetGraphique {
     private boolean respectePlage;
 
     /**
+     * Cree une livraison ne possedant pas de plage horaire a partir de sa duree
+     * et de son adresse
+     * 
+     * @param duree
+     *            Duree (en secondes) de la livraison
+     * @param adresse
+     *            Intersection correspondant a la livraison
+     */
+    public Livraison(int duree, Intersection adresse) {
+	this.duree = duree;
+	this.adresse = adresse;
+	respectePlage = true;
+    }
+
+    /**
      * Cree une livraison possedant une plage horaire a partir de sa duree et de
      * son adresse
      * 
@@ -41,18 +56,19 @@ public class Livraison extends ObjetGraphique {
     }
 
     /**
-     * Cree une livraison ne possedant pas de plage horaire a partir de sa duree
-     * et de son adresse
-     * 
-     * @param duree
-     *            Duree (en secondes) de la livraison
-     * @param adresse
-     *            Intersection correspondant a la livraison
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route.
      */
-    public Livraison(int duree, Intersection adresse) {
-	this.duree = duree;
-	this.adresse = adresse;
-	respectePlage = true;
+    protected String afficherFeuilleRoute() {
+	String affichage = "Arrivé en " + adresse.getId() + " à " + heureArrivee.afficherHoraire() + ".";
+	if (this.possedePlage()) {
+	    if (tpsAttente != null && !tpsAttente.equals(new Heure(0))) {
+		affichage += "Attendre " + tpsAttente.afficherHoraire() + " pour effectuer la livraison à "
+			+ plage.getHeureDebut().afficherHoraire() + ".";
+	    }
+	}
+	affichage += "La livraison dure " + duree + ". Repartir à " + getHeureDepart().afficherHoraire() + ".";
+	return affichage;
     }
 
     /**
@@ -65,24 +81,10 @@ public class Livraison extends ObjetGraphique {
     }
 
     /**
-     * @return Duree de la Livraison
+     * @return Intersection adresse de la Livraison
      */
-    public int getDuree() {
-	return this.duree;
-    }
-
-    /**
-     * @return Heure de départ une une fois que la livraison est réalisée
-     */
-    public Heure getHeureDepart() {
-	return this.heureDepart;
-    }
-
-    /**
-     * @return Heure d'arrivée sur le point de Livraison
-     */
-    public Heure getHeureArrivee() {
-	return this.heureArrivee;
+    public Intersection getAdresse() {
+	return this.adresse;
     }
 
     /**
@@ -97,10 +99,10 @@ public class Livraison extends ObjetGraphique {
     }
 
     /**
-     * @return True si la Livraison possède une plage, false sinon
+     * @return Duree de la Livraison
      */
-    public boolean possedePlage() {
-	return this.plage != null;
+    public int getDuree() {
+	return this.duree;
     }
 
     /**
@@ -112,6 +114,20 @@ public class Livraison extends ObjetGraphique {
 	    heureFinPlage = this.plage.getHeureFin();
 	}
 	return heureFinPlage;
+    }
+
+    /**
+     * @return Heure d'arrivée sur le point de Livraison
+     */
+    public Heure getHeureArrivee() {
+	return this.heureArrivee;
+    }
+
+    /**
+     * @return Heure de départ une une fois que la livraison est réalisée
+     */
+    public Heure getHeureDepart() {
+	return this.heureDepart;
     }
 
     /**
@@ -134,10 +150,10 @@ public class Livraison extends ObjetGraphique {
     }
 
     /**
-     * @return Intersection adresse de la Livraison
+     * @return True si la Livraison possède une plage, false sinon
      */
-    public Intersection getAdresse() {
-	return this.adresse;
+    public boolean possedePlage() {
+	return this.plage != null;
     }
 
     /**
@@ -186,21 +202,5 @@ public class Livraison extends ObjetGraphique {
     protected void supprimerPlage() {
 	this.plage = null;
 	this.respectePlage = true;
-    }
-
-    /**
-     * @return Retourne la string formatée pour l'affichage sur la feuille de
-     *         route.
-     */
-    protected String afficherFeuilleRoute() {
-	String affichage = "Arrivé en " + adresse.getId() + " à " + heureArrivee.afficherHoraire() + ".";
-	if (this.possedePlage()) {
-	    if (tpsAttente != null && !tpsAttente.equals(new Heure(0))) {
-		affichage += "Attendre " + tpsAttente.afficherHoraire() + " pour effectuer la livraison à "
-			+ plage.getHeureDebut().afficherHoraire() + ".";
-	    }
-	}
-	affichage += "La livraison dure " + duree + ". Repartir à " + getHeureDepart().afficherHoraire() + ".";
-	return affichage;
     }
 }
