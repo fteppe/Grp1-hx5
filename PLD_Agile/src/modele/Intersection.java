@@ -2,6 +2,11 @@ package modele;
 
 import java.awt.Point;
 
+/**
+ * Cette classe permet la creation d'intersections representant
+ * les points remarquables sur le plan fourni
+ *
+ */
 public class Intersection extends ObjetGraphique {
     private int id;
     private int longitude;
@@ -64,6 +69,10 @@ public class Intersection extends ObjetGraphique {
 	return this.latitude;
     }
 
+    /**
+     * Compare deux intersections. Renvoit true si les objets manipules possedent
+     * le meme identifiant et les memes coordonnees, et false sinon.
+     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj)

@@ -2,6 +2,10 @@ package modele;
 
 import java.awt.Point;
 
+/**
+ * Cette classe permet de creer et de gerer les livraisons a effectuer.
+ *
+ */
 public class Livraison extends ObjetGraphique {
 
     private int duree;
@@ -40,8 +44,8 @@ public class Livraison extends ObjetGraphique {
     }
 
     /**
-     * Cree une livraison possedant une plage horaire a partir de sa duree et de
-     * son adresse
+     * Cree une livraison ne possedant pas de plage horaire a partir 
+     * de sa duree et de son adresse
      * 
      * @param duree
      *            Duree (en secondes) de la livraison
@@ -54,6 +58,10 @@ public class Livraison extends ObjetGraphique {
 	respectePlage = true;
     }
 
+    /**
+     * Indique si la livraison courante possede le point indique,
+     * avec une tolerance precisee.
+     */
     @Override
     public boolean contient(Point p, int tolerance) {
 	return adresse.contient(p, tolerance);
@@ -107,6 +115,13 @@ public class Livraison extends ObjetGraphique {
 	return this.adresse;
     }
 
+    /**
+     * Met a jour l'heure d'arrivee de la livraison courante
+     * suivant l'heure de depart indiquee
+     * @param heureArrivee Heure d'arrivee du livreur 
+     * 				sur le point de livraison
+     * @return Heure de depart prevue du livreur 
+     */
     public Heure setHeureArrivee(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
 	if (this.plage != null) {
@@ -149,7 +164,7 @@ public class Livraison extends ObjetGraphique {
 
     /**
      * @return Retourne la string formatée pour l'affichage sur la feuille de
-     *         route
+     *         route.
      */
     protected String afficherFeuilleRoute() {
 	String affichage = "Arrivé en " + adresse.getId() + " à "

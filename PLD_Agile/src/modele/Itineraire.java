@@ -3,11 +3,17 @@ package modele;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Cette classe permet la creation et la gestion des itineraires composant une
+ * tournee.
+ *
+ */
 public class Itineraire extends Observable {
 
     private Intersection depart;
     private Intersection arrivee;
-    private List<Troncon> troncons;
+    private List<Troncon> troncons; // Liste de troncons ordonnes
+				    // selon l'ordre de passage
     private int tpsParcours;
 
     /**
@@ -19,10 +25,9 @@ public class Itineraire extends Observable {
      * @param arrivee
      *            Intersection d'arrivee de l'itineraire
      * @param troncons
-     *            Plus court chemin reliant le depart et l'arrivee
+     *            Chemin reliant le depart et l'arrivee
      */
-    public Itineraire(Intersection depart, Intersection arrivee,
-	    List<Troncon> troncons) {
+    public Itineraire(Intersection depart, Intersection arrivee, List<Troncon> troncons) {
 	this.depart = depart;
 	this.arrivee = arrivee;
 	this.troncons = troncons;
@@ -76,6 +81,10 @@ public class Itineraire extends Observable {
 	this.tpsParcours = tpsParcours;
     }
 
+    /**
+     * Compare deux itineraires. Renvoit true si les objets manipules sont
+     * composes par les memes troncon dans le meme ordre, et false sinon.
+     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj)
@@ -123,10 +132,8 @@ public class Itineraire extends Observable {
 		duree = duree / 60;
 		if (sec > 30)
 		    duree++;
-		itineraire += "\r\n\tSuivre la route " + current
-			+ " entre les intersections " + depart + " et " + arrive
-			+ " pendant "
-			+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
+		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
+			+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 		current = t.getNom();
 		depart = t.getOrigine().getId();
@@ -137,10 +144,8 @@ public class Itineraire extends Observable {
 	duree = duree / 60;
 	if (duree < 1)
 	    duree = 1;
-	itineraire += "\r\n\tSuivre la route " + current
-		+ " entre les intersections " + depart + " et " + arrive
-		+ " pendant "
-		+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
+	itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et " + arrive
+		+ " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 	return itineraire;
     }
