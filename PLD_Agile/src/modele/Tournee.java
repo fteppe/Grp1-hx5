@@ -226,7 +226,6 @@ public class Tournee extends Observable {
 	Heure cur = heureDepartTournee;
 	for (int i = 0; i < itineraires.size() - 1; i++) {
 	    Itineraire itin = itineraires.get(i);
-	    System.out.println(itin);
 	    cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
 	    int adrLiv = itin.getArrivee().getId();
 	    Livraison liv = livraisons.get(adrLiv);
@@ -240,8 +239,6 @@ public class Tournee extends Observable {
 	    if (!liv.getRespectePlage())
 		valide = false;
 	}
-	// setChanged();
-	// notifyObservers();
     }
 
     /**
@@ -271,9 +268,6 @@ public class Tournee extends Observable {
 	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	this.duree = duree;
 	this.mettreAJourTempsParcours(this.hDebut);
-	// setChanged();
-	// notifyObservers();
-	System.out.println("Tournée mise à jour");
     }
 
     /**
