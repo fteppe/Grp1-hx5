@@ -16,6 +16,10 @@ import modele.Heure;
 import modele.ModeleException;
 import modele.Plan;
 
+/**
+ * Cette classe permet de lire un fichier XML et de creer les entites y etant decrites.
+ *
+ */
 public class DeserialiseurXML {
 	/**
 	 * Ouvre un fichier xml et cree plan a partir du contenu du fichier
