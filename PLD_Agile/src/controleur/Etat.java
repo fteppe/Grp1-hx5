@@ -1,31 +1,20 @@
 package controleur;
 
-import vue.Fenetre;
 import java.awt.Point;
-import modele.Plan;
 
 public interface Etat {
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Charger
      * demande livraison"
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
-     * @param listeDeCdes
      */
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
+    public void chargerDemandeLivraison();
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Calculer
      * Tournee"
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
      */
-    public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite);
+    public void calculerTournee(int tempsLimite);
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Quitter"
@@ -44,69 +33,45 @@ public interface Etat {
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Charger un
      * plan"
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
-     * @param listeDeCdes
      */
-    public void chargerPlan(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes);
+    public void chargerPlan();
 
     /**
      * Methode appelee par controleur apres un clic gauche sur un point de la
      * vue graphique
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
-     * @param listeDeCdes
      * @param idPrec
      * @param idSuiv
      * @param duree
      */
-    public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
-	    int idPrec, int idSuiv, int duree);
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree);
 
     /**
      * Methode appelee par controleur apres un clic gauche sur un point de la
      * vue graphique
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
-     * @param listeDeCdes
      * @param idPrec
      * @param idSuiv
      * @param duree
      * @param debutPlage
      * @param finPlage
      */
-    public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
-	    int idPrec, int idSuiv, int duree, String debutPlage, String finPlage);
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
+	    String finPlage);
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Undo"
-     * 
-     * @param listeDeCdes
      */
-    public void undo(ListeDeCdes listeDeCdes);
+    public void undo();
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Redo"
-     * 
-     * @param listeDeCdes
      */
-    public void redo(ListeDeCdes listeDeCdes);
+    public void redo();
 
     /**
      * Methode appelee par controleur lorsque l'utilisateur clique sur le bouton
      * d'arret du calcul de tournee
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
      */
-    public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre);
+    public void arreterCalcul();
 
     /**
      * Methode appelee par controleur lorsque l'utilisateur fait un clique droit
@@ -121,91 +86,67 @@ public interface Etat {
     /**
      * Methode appelee par controleur lorsque l'utilisateur fait un clique droit
      * sur un point du plan lorsque la tournee est deja calculee.
-     * 
-     * @param plan
-     * @param fenetre
-     * @param listeDeCdes
      * @param idLivraison
      */
-    public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison);
+    public void supprimerLivraison(int idLivraison);
 
     /**
      * Methode appelée lorsque l'utilisateur clique sur le bouton echanger
      * livraison
-     * 
-     * @param controleur
-     * @param fenetre
      * @param idIntersection
      */
-    public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection);
+    public void clicAjouterLivraison(int idIntersection);
 
     /**
      * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
      * sur Echanger après avoir selectionner une 1ere livraison.
-     * 
-     * @param controleur
-     * @param fenetre
      * @param idLivraison
      */
-    public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison);
+    public void clicEchangerLivraisons(int idLivraison);
 
     /**
      * Methode appelee par controleur lorsque l'utilisateur survole le plan avec
      * la souris, vérifie si le point est une intersection et si ce n'est pas
      * déjà une livraison.
-     * 
-     * @param plan
      * @param point
      * @param tolerance
      */
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance);
+    public void survolPlan(Point point, int tolerance);
 
     /**
      * Methode appelee par controleur afin d'informer la fenêtre sur la
      * possibilité ou non d'ajouter une livraison dans l'etat courant.
-     * 
-     * @param controleur
-     * @param plan
-     * @param fenetre
      */
-    public boolean possibleAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre);
+    public boolean possibleAjoutLivraison();
 
     /**
      * Methode appelee par controleur quand ...
-     * 
-     * @param plan
-     * @param fenetre
      * @param idLivraison
      */
-    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison);
+    public void clicDroitLivraison(int idLivraison);
 
     /**
      * Methode appelee par controleur quand ...
-     * 
-     * @param fenetre
      * @param idIntersection
      */
-    public void clicDroitIntersection(Fenetre fenetre, int idIntersection);
+    public void clicDroitIntersection(int idIntersection);
 
     /**
      * Methode appelee par controleur quand un clic gauche est effectué sur une
      * livraison
-     * 
-     * @param fenetre
      * @param idLivraison
      */
-    public void clicGaucheLivraison(Controleur controleur, Fenetre fenetre, Plan plan, int idLivraison);
+    public void clicGaucheLivraison(int idLivraison);
 
     /**
      * Methode appelée pour sauvegarder la feuille de route de la tournée au
      * format txt
      */
-    public void genererFeuilleDeRoute(Plan plan);
+    public void genererFeuilleDeRoute();
 
     /**
      * Méthode appelée pour modifier la plage horaire de la livraison à
      * l'adresse donnée
-     * 
      * @param adrLiv
      *            Adresse de la livraison à modifier
      * @param possedePlage
@@ -216,15 +157,12 @@ public interface Etat {
      * @param heureFin
      *            Heure de fin de la plage
      */
-    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage,
-	    String heureDebut, String heureFin);
+    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin);
 
     /**
      * cette fonction permet de revenir à l'état précédent dans certaines
      * situations
-     * 
-     * @param controleur
      */
-    public void annulerAction(Controleur controleur);
+    public void annulerAction();
 
 }

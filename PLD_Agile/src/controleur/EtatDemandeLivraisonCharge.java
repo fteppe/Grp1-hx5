@@ -11,8 +11,6 @@ import modele.ExceptionTournee;
 import modele.Intersection;
 import modele.Livraison;
 import modele.ObjetGraphique;
-import modele.Plan;
-import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -20,9 +18,9 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
     // Etat après que l'utilisateur ait chargé une demande de livraison
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+		controleur.getListeCde().reset();
 	    plan.setTournee(null);
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    if (rapport.isEmpty())
@@ -41,7 +39,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
     }
 
     @Override
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+    public void survolPlan(Point point, int tolerance) {
 
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
@@ -58,7 +56,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
     }
 
     @Override
-    public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
+    public void calculerTournee(int tempsLimite) {
 	fenetre.afficherMessage("Calcul de la tournée en cours...");
 	controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
 	// Operations effectuees dans l'etat calcul en cours

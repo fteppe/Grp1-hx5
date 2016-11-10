@@ -10,8 +10,6 @@ import org.xml.sax.SAXException;
 import modele.Intersection;
 import modele.Livraison;
 import modele.ObjetGraphique;
-import modele.Plan;
-import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -19,9 +17,9 @@ public class EtatPlanCharge extends EtatDefaut {
     // Etat apres que l'utilisateur ait charge un plan
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+		controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
@@ -35,7 +33,7 @@ public class EtatPlanCharge extends EtatDefaut {
     }
 
     @Override
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+    public void survolPlan(Point point, int tolerance) {
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Intersection) {

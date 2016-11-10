@@ -6,8 +6,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import modele.Plan;
-import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -15,9 +13,9 @@ public class EtatCalculEnCours extends EtatDefaut {
     // Etat lorsque le calcul de la tournee est en cours
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+		controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
@@ -36,7 +34,7 @@ public class EtatCalculEnCours extends EtatDefaut {
     }
 
     @Override
-    public void arreterCalcul(Controleur controleur, Plan plan, Fenetre fenetre) {
+    public void arreterCalcul() {
 	plan.arreterCalculTournee();
 	fenetre.afficherMessage("Calcul de tournée arrêté");
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);

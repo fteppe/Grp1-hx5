@@ -10,8 +10,6 @@ import org.xml.sax.SAXException;
 import modele.Intersection;
 import modele.Livraison;
 import modele.ObjetGraphique;
-import modele.Plan;
-import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -23,9 +21,9 @@ public class EtatAjoutLivraison extends EtatDefaut {
     private int idIntersection;
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+	    controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
@@ -44,34 +42,33 @@ public class EtatAjoutLivraison extends EtatDefaut {
     }
 
     @Override
-    public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
-	    int idPrec, int idSuiv, int duree) {
-	listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree));
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
+    	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree));
 	fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
 
     @Override
-    public void clicAjouterLivraisonPosition(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
-	    int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
-	listeDeCdes.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree, debutPlage, finPlage));
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
+	    String finPlage) {
+    	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree, debutPlage, finPlage));
 	fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
 
     @Override
-    public void annulerAction(Controleur controleur) {
+    public void annulerAction() {
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	controleur.getFenetre().afficherMessage("action annulée");
     }
 
     @Override
-    public boolean possibleAjoutLivraison(Controleur controleur, Plan plan, Fenetre fenetre) {
+    public boolean possibleAjoutLivraison() {
 	return true;
     }
 
     @Override
-    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison) {
+    public void clicDroitLivraison(int idLivraison) {
 	fenetre.ouvrirPopMenuLivraisonInsertion(idLivraison);
     }
 
@@ -80,7 +77,7 @@ public class EtatAjoutLivraison extends EtatDefaut {
     }
 
     @Override
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+    public void survolPlan(Point point, int tolerance) {
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Livraison) {

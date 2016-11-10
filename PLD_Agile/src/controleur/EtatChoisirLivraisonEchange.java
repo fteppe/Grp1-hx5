@@ -19,9 +19,9 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     private int idLivraison;
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+		controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
@@ -51,13 +51,13 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     }
 
     @Override
-    public void annulerAction(Controleur controleur) {
+    public void annulerAction() {
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	controleur.getFenetre().afficherMessage("action annulée");
     }
 
     @Override
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+    public void survolPlan(Point point, int tolerance) {
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Livraison) {
@@ -71,7 +71,7 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     }
 
     @Override
-    public void clicGaucheLivraison(Controleur controleur, Fenetre fenetre, Plan plan, int idLivraison2) {
+    public void clicGaucheLivraison(int idLivraison2) {
 	echangerLivraison(controleur, plan, fenetre, controleur.getListeCde(), idLivraison2);
     }
 

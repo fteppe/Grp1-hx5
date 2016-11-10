@@ -30,14 +30,21 @@ public class Controleur {
      *            le plan
      */
     public Controleur(Plan plan) {
-	this.plan = plan;
-	listeDeCdes = new ListeDeCdes();
-	etatCourant = ETAT_INITIAL;
-	String titre = "Optimod";
-	tempsLimite = 10000;
-	int longueur = 720;
-	int largeur = 1024;
-	fenetre = new Fenetre(titre, longueur, largeur, plan, this);
+    	this.plan = plan;
+    	listeDeCdes = new ListeDeCdes();
+    	etatCourant = ETAT_INITIAL;
+    	String titre = "Optimod";
+    	tempsLimite = 10000;
+    	int longueur = 720;
+    	int largeur = 1024;
+    	fenetre = new Fenetre(titre, longueur, largeur, plan, this);
+    	ETAT_INITIAL.init(this, plan, fenetre);
+    	ETAT_PLAN_CHARGE.init(this, plan, fenetre);
+    	ETAT_DEMANDE_LIVRAISON_CHARGE.init(this, plan, fenetre);
+    	ETAT_CALCUL_EN_COURS.init(this, plan, fenetre);
+    	ETAT_TOURNEE_CALCULEE.init(this, plan, fenetre);
+    	ETAT_AJOUT_LIVRAISON.init(this, plan, fenetre);
+    	ETAT_ECHANGER_LIVRAISON.init(this, plan, fenetre);
     }
 
     protected ListeDeCdes getListeCde() {
@@ -75,7 +82,7 @@ public class Controleur {
      */
     public void chargerPlan() {
 	if (!plan.getCalculTourneeEnCours())
-	    etatCourant.chargerPlan(this, plan, fenetre, listeDeCdes);
+	    etatCourant.chargerPlan();
 	else
 	    fenetre.afficherMessage(
 		    "Veuillez arrêter le calcul de la tournée avant de recharger le plan ou la demande de livraison.");
@@ -87,7 +94,7 @@ public class Controleur {
      */
     public void chargerDemandeLivraison() {
 	if (!plan.getCalculTourneeEnCours())
-	    etatCourant.chargerDemandeLivraison(this, plan, fenetre, listeDeCdes);
+	    etatCourant.chargerDemandeLivraison();
 	else
 	    fenetre.afficherMessage(
 		    "Veuillez arrêter le calcul de la tournée avant de recharger le plan ou la demande de livraison.");
@@ -114,7 +121,7 @@ public class Controleur {
      * Methode appelee par fenetre apres un clic sur le bouton "Calcul Tournee"
      */
     public void calculTournee() {
-	etatCourant.calculerTournee(this, plan, fenetre, tempsLimite);
+	etatCourant.calculerTournee(tempsLimite);
     }
 
     /**
@@ -123,7 +130,7 @@ public class Controleur {
      */
 
     public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
-	etatCourant.clicAjouterLivraisonPosition(this, plan, fenetre, listeDeCdes, idPrec, idSuiv, duree);
+	etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree);
     }
 
     /**
@@ -132,8 +139,7 @@ public class Controleur {
      */
 
     public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
-	etatCourant.clicAjouterLivraisonPosition(this, plan, fenetre, listeDeCdes, idPrec, idSuiv, duree, debutPlage,
-		finPlage);
+	etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree, debutPlage, finPlage);
     }
 
     /**
@@ -141,15 +147,15 @@ public class Controleur {
      * "Undo"
      */
     public void undo() {
-	etatCourant.annulerAction(this);
-	etatCourant.undo(listeDeCdes);
+	etatCourant.annulerAction();
+	etatCourant.undo();
     }
 
     /**
      * Methode appelee par fenetre apres un clic sur le bouton "Redo"
      */
     public void redo() {
-	etatCourant.redo(listeDeCdes);
+	etatCourant.redo();
     }
 
     /**
@@ -157,11 +163,11 @@ public class Controleur {
      * calcul de la tournee
      */
     public void arreterCalculTournee() {
-	etatCourant.arreterCalcul(this, plan, fenetre);
+	etatCourant.arreterCalcul();
     }
 
     public void clicGaucheLivraison(int idLivraison) {
-	etatCourant.clicGaucheLivraison(this, fenetre, plan, idLivraison);
+	etatCourant.clicGaucheLivraison(idLivraison);
     }
 
     /**
@@ -172,11 +178,11 @@ public class Controleur {
      *            Le point clique par l'utilisateur
      */
     public void clicDroitLivraison(int idLivraison) {
-	etatCourant.clicDroitLivraison(plan, fenetre, idLivraison);
+	etatCourant.clicDroitLivraison(idLivraison);
     }
 
     public void clicDroitIntersection(int idIntersection) {
-	etatCourant.clicDroitIntersection(fenetre, idIntersection);
+	etatCourant.clicDroitIntersection(idIntersection);
     }
 
     /**
@@ -194,7 +200,7 @@ public class Controleur {
      * @param idLivraison
      */
     public void supprimerLivraison(int idLivraison) {
-	etatCourant.supprimerLivraison(plan, fenetre, listeDeCdes, idLivraison);
+	etatCourant.supprimerLivraison(idLivraison);
     }
 
     /**
@@ -204,7 +210,7 @@ public class Controleur {
      * @param idIntersection
      */
     public void clicAjouterLivraison(int idIntersection) {
-	etatCourant.clicAjouterLivraison(this, fenetre, idIntersection);
+	etatCourant.clicAjouterLivraison(idIntersection);
     }
 
     /**
@@ -214,7 +220,7 @@ public class Controleur {
      * @param idIntersection
      */
     public void passerEtatEchangerLivraison(int idLivraison) {
-	etatCourant.clicEchangerLivraisons(this, fenetre, idLivraison);
+	etatCourant.clicEchangerLivraisons(idLivraison);
     }
 
     /**
@@ -222,7 +228,7 @@ public class Controleur {
      * dans le mode d'ajout de livraison.
      */
     public void annulerAjout() {
-	etatCourant.annulerAction(this);
+	etatCourant.annulerAction();
     }
 
     /**
@@ -233,7 +239,7 @@ public class Controleur {
      * @param tolerance
      */
     public void survolPlan(Point point, int tolerance) {
-	etatCourant.survolPlan(plan, fenetre, point, tolerance);
+	etatCourant.survolPlan(point, tolerance);
     }
 
     /**
@@ -241,7 +247,7 @@ public class Controleur {
      * d'ajouter une livraison dans l'etat courant.
      */
     public boolean possibleAjoutLivraison() {
-	return etatCourant.possibleAjoutLivraison(this, plan, fenetre);
+	return etatCourant.possibleAjoutLivraison();
     }
 
     /**
@@ -249,14 +255,14 @@ public class Controleur {
      * livraison
      */
     public void clicEchangerLivraison(int idLivraison) {
-	etatCourant.clicEchangerLivraisons(this, fenetre, idLivraison);
+	etatCourant.clicEchangerLivraisons(idLivraison);
     }
 
     public void genererFeuilleDeRoute() {
-	etatCourant.genererFeuilleDeRoute(plan);
+	etatCourant.genererFeuilleDeRoute();
     }
 
     public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
-	etatCourant.modifierLivraison(plan, fenetre, listeDeCdes, adrLiv, possedePlage, heureDebut, heureFin);
+	etatCourant.modifierLivraison(adrLiv, possedePlage, heureDebut, heureFin);
     }
 }

@@ -16,7 +16,6 @@ import modele.Intersection;
 import modele.Livraison;
 import modele.ObjetGraphique;
 import modele.Plan;
-import vue.Fenetre;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
@@ -25,9 +24,9 @@ public class EtatTourneeCalculee extends EtatDefaut {
     // et que la tournee soit calculee
 
     @Override
-    public void chargerDemandeLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes) {
+    public void chargerDemandeLivraison() {
 	try {
-	    listeDeCdes.reset();
+		controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
@@ -52,18 +51,18 @@ public class EtatTourneeCalculee extends EtatDefaut {
      */
 
     @Override
-    public void undo(ListeDeCdes listeDeCdes) {
-	listeDeCdes.undo();
+    public void undo() {
+    	controleur.getListeCde().undo();
     }
 
     @Override
-    public void redo(ListeDeCdes listeDeCdes) {
-	listeDeCdes.redo();
+    public void redo() {
+    	controleur.getListeCde().redo();
     }
 
     @Override
-    public void supprimerLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison) {
-	listeDeCdes.ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
+    public void supprimerLivraison(int idLivraison) {
+    	controleur.getListeCde().ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
 	fenetre.afficherMessage("Livraison supprimée de la tournée");
     }
 
@@ -73,7 +72,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void clicAjouterLivraison(Controleur controleur, Fenetre fenetre, int idIntersection) {
+    public void clicAjouterLivraison(int idIntersection) {
 	controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 	controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
 	fenetre.afficherMessage("Choisissez où placer la nouvelle livraison:");
@@ -98,14 +97,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
      * l'entrepot
      */
     @Override
-    public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison) {
+    public void clicEchangerLivraisons(int idLivraison) {
 	controleur.ETAT_ECHANGER_LIVRAISON.setIdLivraison(idLivraison);
 	controleur.setEtatCourant(controleur.ETAT_ECHANGER_LIVRAISON);
 	fenetre.afficherMessage("Choisissez une seconde livraison:");
     }
 
     @Override
-    public void survolPlan(Plan plan, Fenetre fenetre, Point point, int tolerance) {
+    public void survolPlan(Point point, int tolerance) {
 	int id = -1;
 	ObjetGraphique objGraph = plan.cherche(point, tolerance);
 	if (objGraph instanceof Livraison) {
@@ -121,24 +120,23 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void clicDroitLivraison(Plan plan, Fenetre fenetre, int idLivraison) {
+    public void clicDroitLivraison(int idLivraison) {
 	fenetre.ouvrirPopMenuLivraison(idLivraison);
     }
 
     @Override
-    public void clicDroitIntersection(Fenetre fenetre, int idIntersection) {
+    public void clicDroitIntersection(int idIntersection) {
 	fenetre.ouvrirPopMenuIntersection(idIntersection);
     }
 
     @Override
-    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage,
-	    String heureDebut, String heureFin) {
-	listeDeCdes.ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
+    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
+    	controleur.getListeCde().ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
 	fenetre.afficherMessage("Livraison supprimée de la tournée");
     }
 
     @Override
-    public void genererFeuilleDeRoute(Plan plan) {
+    public void genererFeuilleDeRoute() {
 	JFileChooser chooser = new JFileChooser();
 	String path = lireFichier("./pathFolder.txt");
 	if (path != null) {
