@@ -49,27 +49,6 @@ public class Intersection extends ObjetGraphique {
 	}
 
 	/**
-	 * @return ID de l'Intersection
-	 */
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * @return Longitude de l'Intersection
-	 */
-	public int getLongitude() {
-		return this.longitude;
-	}
-
-	/**
-	 * @return Latitude de l'Intersection
-	 */
-	public int getLatitude() {
-		return this.latitude;
-	}
-
-	/**
 	 * Compare deux Intersections. Renvoit true si les objets manipules
 	 * possedent le meme identifiant et les memes coordonnees, et false sinon.
 	 */
@@ -89,5 +68,26 @@ public class Intersection extends ObjetGraphique {
 		if (longitude != other.longitude)
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return ID de l'Intersection
+	 */
+	public int getId() {
+		return this.id;
+	}
+
+	/**
+	 * @return Latitude de l'Intersection
+	 */
+	public int getLatitude() {
+		return this.latitude;
+	}
+
+	/**
+	 * @return Longitude de l'Intersection
+	 */
+	public int getLongitude() {
+		return this.longitude;
 	}
 }

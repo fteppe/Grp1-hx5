@@ -44,201 +44,33 @@ public class Plan extends Observable {
 	this.calculTourneeEnCours = false;
     }
 
-    @Override
-    public void notifyObservers() {
-	setChanged();
-	super.notifyObservers();
+    /**
+     * @return Renvoie l'Heure de départ de la demande/tournée sous forme de
+     *         String
+     */
+    public String afficherHeureDepart() {
+	if (tournee != null)
+	    return tournee.getHeureDebut().toString();
+	if (demandeDeLivraison != null)
+	    return demandeDeLivraison.getHeureDepart().toString();
+	return "NC";
     }
 
     /**
-     * Cree et ajoute une intersection au plan courant
-     * 
-     * @param id
-     *            Identifiant de l'intersection a ajouter
-     * @param longitude
-     *            Longitude de l'intersection a ajouter
-     * @param latitude
-     *            Latitude de l'intersection a ajouter
-     * @throws ModeleException
-     *             Envoie une exception si l'Intersection ne peut pas être
-     *             ajoutée
+     * @return Renvoie l'Heure de retour de la tournée sous forme de String
      */
-    public void creerIntersection(int id, int longitude, int latitude) throws ModeleException {
-	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
-	if (longitude < 0 || latitude < 0) {
-	    throw new ModeleException("Une intersection possède des coordonnées négatives");
+    public String afficherHeureRetour() {
+	if (tournee != null) {
+	    return tournee.getHeureFin().toString();
 	}
-	if (!this.listeIntersections.containsKey(id)) {
-	    this.listeIntersections.put(id, nouvIntersection);
-	} else {
-	    throw new ModeleException("Plusieurs intersections portent l'id " + id + ", seule l'intersection x("
-		    + this.listeIntersections.get(id).getLongitude() + ") y("
-		    + this.listeIntersections.get(id).getLongitude() + ") a été créée");
-	}
-	setChanged();
-	notifyObservers();
+	return "NC";
     }
 
     /**
-     * Cree et ajoute un troncon au Plan courant
-     * 
-     * @param nom
-     *            Nom du troncon a ajouter
-     * @param longueur
-     *            Longueur (en decimetres) du troncon a ajouter
-     * @param vitMoyenne
-     *            Vitesse moyenne de circulation (en decimetres/seconde) du
-     *            troncon a ajouter
-     * @param origine
-     *            Origine du troncon a ajouter
-     * @param destination
-     *            Destination du troncon a ajouter
-     * @throws ModeleException
-     *             Renvoie une exception si le Troncon ne peut pas être créé
+     * Arrête le calcul de la tournée en cours si il existe
      */
-    public void creerTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
-	    throws ModeleException {
-	if (listeIntersections.get(origine) == null || listeIntersections.get(destination) == null)
-	    throw new ModeleException(
-		    "L'origine ou la destination du tronçon " + nom + " ne correspond pas à une intersection.");
-	if (vitMoyenne <= 0)
-	    throw new ModeleException("La vitesse moyenne du tronçon " + nom + " est négative ou nulle.");
-	if (longueur <= 0)
-	    throw new ModeleException("La longueur du tronçon " + nom + " est négative ou nulle.");
-
-	Troncon nouvTroncon = new Troncon(nom, this.listeIntersections.get(origine),
-		this.listeIntersections.get(destination), longueur, vitMoyenne);
-	// Si un troncon ayant la meme origine que le troncon à ajouter,
-	// on les inserent dans la meme liste.
-	if (this.listeTroncons.containsKey(origine)) {
-	    this.listeTroncons.get(origine).add(nouvTroncon);
-	} else {
-	    // On cree une nouvelle liste pour le nouvel origine
-	    List<Troncon> nouvListeTroncons = new ArrayList<Troncon>();
-	    nouvListeTroncons.add(nouvTroncon);
-	    this.listeTroncons.put(origine, nouvListeTroncons);
-	}
-	setChanged();
-	notifyObservers();
-    }
-
-    /**
-     * Cree et ajoute une demande de livraison au plan
-     * 
-     * @param heureDepart
-     *            Heure de depart de l'entrepot
-     * @param entrepot
-     *            Identifiant de l'intersection correspondant a l'entrepot
-     * @throws ModeleException
-     *             Renvoie une exception si la demande ne peut pas être créée
-     */
-    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
-	if (listeIntersections.get(entrepot) == null)
-	    throw new ModeleException("L'adresse de l'entrepôt ne correspond pas à une intersection.");
-	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart, this.listeIntersections.get(entrepot));
-	if (this.tournee != null) {
-	    this.tournee = null;
-	}
-	setChanged();
-	notifyObservers(demandeDeLivraison);
-    }
-
-    /**
-     * Cree et ajoute une livraison possedant une plage horaire a la demande de
-     * livraison associee au Plan
-     * 
-     * @param adresse
-     *            Identifiant de l'intersection correspondant a la livraison a
-     *            effectuer
-     * @param duree
-     *            Duree de la livraison a effectuer
-     * @param debutPlage
-     *            Debut de la plage horaire de la livraison a effectuer
-     * @param finPlage
-     *            Fin de la plage horaire de la livraison a effectuer
-     * @throws ModeleException
-     *             Renvoie une exception si la Livraison ne peut pas être créée
-     */
-    public void creerLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
-	    throws ModeleException {
-	if (listeIntersections.get(adresse) == null)
-	    throw new ModeleException(
-		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
-	if (duree < 0)
-	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
-	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
-	setChanged();
-	notifyObservers();
-    }
-
-    /**
-     * Cree et ajoute une livraison a la demande de livraison associee au Plan
-     * 
-     * @param adresse
-     *            Identifiant de l'intersection correspondant a la livraison a
-     *            effectuer
-     * @param duree
-     *            Duree de la livraison a effectuer
-     * @throws ModeleException
-     *             Renvoie une exception si la Livraison ne paut pas être créée
-     */
-    public void creerLivraisonDemande(int adresse, int duree) throws ModeleException {
-	if (listeIntersections.get(adresse) == null)
-	    throw new ModeleException(
-		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
-	if (duree < 0)
-	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
-	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse));
-	setChanged();
-	notifyObservers();
-    }
-
-    /**
-     * Retire la livraison indiquee de la tournee
-     * 
-     * @param adresse
-     *            Identifiant de l'intersection correspondante a la livraison a
-     *            retirer
-     * @return Livraison retiree de la tournee
-     */
-    public Livraison retirerLivraisonTournee(int adresse) {
-	// On recupere les ids du nouvel itineraire a creer
-	Livraison livRetiree = this.tournee.supprimerLivraison(adresse);
-	setChanged();
-	notifyObservers();
-
-	// On renvoie la livraison supprimee
-	return livRetiree;
-    }
-
-    /**
-     * Insère la livraison entre les livraisons de la tournée aux adresses
-     * données
-     * 
-     * @param adresse
-     *            L'adresse associée à la livraison
-     * @param duree
-     *            Durée de la livraison
-     * @param debutPlage
-     *            Heure de début de la plage
-     * @param finPlage
-     *            Heure de fin de la plage
-     * @param adrPrec
-     *            Adresse précédente de la livraison à ajouter
-     * @param adrSuiv
-     *            Adresse suivante de la livraison à ajouter
-     */
-    public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
-	    int adrSuiv) {
-	Intersection interAdresse = this.getIntersection(adresse);
-	try {
-	    Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
-	    tournee.insererLivraison(liv, adrPrec, adrSuiv);
-	} catch (Exception e) {
-	    // TODO
-	}
-	setChanged();
-	notifyObservers();
+    public void arreterCalculTournee() {
+	this.calculTourneeEnCours = false;
     }
 
     /**
@@ -382,23 +214,6 @@ public class Plan extends Observable {
     }
 
     /**
-     * Recupere les durees des livraisons correspondant aux intersections
-     * donnees en parametres
-     * 
-     * @param idSommets
-     *            Liste des sommets dont il faut les durees
-     * @return Tableau des durees ordonnees selon l'ordre des sommets en entree
-     */
-    private int[] recupererDurees(List<Integer> idSommets) {
-	int[] durees = new int[idSommets.size()];
-	durees[0] = 0; // temps a passer a l'entrepot
-	for (int i = 1; i < idSommets.size(); i++) {
-	    durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
-	}
-	return durees;
-    }
-
-    /**
      * Renvoie l'ObjetGraphique positionné au coordonnées du point précisé
      * 
      * @param p
@@ -423,37 +238,176 @@ public class Plan extends Observable {
     }
 
     /**
-     * Renvoie la livraison associée à l'intersection à l'adresse donnée en
-     * cherchant en priorité dans la tournée si elle existe ou dans la demande
-     * de livraison sinon
+     * Creation d'un tableau faisant correspondre l'identifiant de chaque
+     * intersection avec sa place dans le tableau des couts et des itineraires
+     * resultant des calculs de plus court chemin
      * 
-     * @param adresse
-     *            Id de l'intersection adresse de la livraison
-     * @return La livraison associée
+     * @return Identifiants des intersections constituant la tournee finale
      */
-    public Livraison getLivraisonParAdresse(int adresse) {
-	if (tournee != null) {
-	    return tournee.getLivraison(adresse);
+    private ArrayList<Integer> completionTableauLivraison() {
+	ArrayList<Integer> sommets = new ArrayList<>();
+	sommets.add(demandeDeLivraison.getEntrepot().getId());
+	Set<Integer> cles = this.getHashMapLivraisonsDemande().keySet();
+	Iterator<Integer> it = cles.iterator();
+	while (it.hasNext()) {
+	    Integer cle = it.next();
+	    sommets.add(cle);
 	}
-	if (demandeDeLivraison != null) {
-	    return demandeDeLivraison.getLivraison(adresse);
-	}
-	return null;
+	return sommets;
     }
 
     /**
-     * Retourne l'adresse de la livraison suivant la livraison donnée
+     * Cree et ajoute une demande de livraison au plan
      * 
-     * @param adrLiv
-     *            Adresse de la livraison dont on cherche la livraison suivante
-     * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
-     *         pas de livraison ou de livraison suivante
+     * @param heureDepart
+     *            Heure de depart de l'entrepot
+     * @param entrepot
+     *            Identifiant de l'intersection correspondant a l'entrepot
+     * @throws ModeleException
+     *             Renvoie une exception si la demande ne peut pas être créée
      */
-    public int getAdresseLivraisonSuivante(int adrLiv) {
-	if (tournee != null) {
-	    return tournee.getAdresseLivraisonSuivante(adrLiv);
+    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
+	if (listeIntersections.get(entrepot) == null)
+	    throw new ModeleException("L'adresse de l'entrepôt ne correspond pas à une intersection.");
+	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart, this.listeIntersections.get(entrepot));
+	if (this.tournee != null) {
+	    this.tournee = null;
 	}
-	return -1;
+	setChanged();
+	notifyObservers(demandeDeLivraison);
+    }
+
+    /**
+     * Cree et ajoute une intersection au plan courant
+     * 
+     * @param id
+     *            Identifiant de l'intersection a ajouter
+     * @param longitude
+     *            Longitude de l'intersection a ajouter
+     * @param latitude
+     *            Latitude de l'intersection a ajouter
+     * @throws ModeleException
+     *             Envoie une exception si l'Intersection ne peut pas être
+     *             ajoutée
+     */
+    public void creerIntersection(int id, int longitude, int latitude) throws ModeleException {
+	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
+	if (longitude < 0 || latitude < 0) {
+	    throw new ModeleException("Une intersection possède des coordonnées négatives");
+	}
+	if (!this.listeIntersections.containsKey(id)) {
+	    this.listeIntersections.put(id, nouvIntersection);
+	} else {
+	    throw new ModeleException("Plusieurs intersections portent l'id " + id + ", seule l'intersection x("
+		    + this.listeIntersections.get(id).getLongitude() + ") y("
+		    + this.listeIntersections.get(id).getLongitude() + ") a été créée");
+	}
+	setChanged();
+	notifyObservers();
+    }
+
+    /**
+     * Cree et ajoute une livraison a la demande de livraison associee au Plan
+     * 
+     * @param adresse
+     *            Identifiant de l'intersection correspondant a la livraison a
+     *            effectuer
+     * @param duree
+     *            Duree de la livraison a effectuer
+     * @throws ModeleException
+     *             Renvoie une exception si la Livraison ne paut pas être créée
+     */
+    public void creerLivraisonDemande(int adresse, int duree) throws ModeleException {
+	if (listeIntersections.get(adresse) == null)
+	    throw new ModeleException(
+		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+	if (duree < 0)
+	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
+	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse));
+	setChanged();
+	notifyObservers();
+    }
+
+    /**
+     * Cree et ajoute une livraison possedant une plage horaire a la demande de
+     * livraison associee au Plan
+     * 
+     * @param adresse
+     *            Identifiant de l'intersection correspondant a la livraison a
+     *            effectuer
+     * @param duree
+     *            Duree de la livraison a effectuer
+     * @param debutPlage
+     *            Debut de la plage horaire de la livraison a effectuer
+     * @param finPlage
+     *            Fin de la plage horaire de la livraison a effectuer
+     * @throws ModeleException
+     *             Renvoie une exception si la Livraison ne peut pas être créée
+     */
+    public void creerLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
+	    throws ModeleException {
+	if (listeIntersections.get(adresse) == null)
+	    throw new ModeleException(
+		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+	if (duree < 0)
+	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
+	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
+	setChanged();
+	notifyObservers();
+    }
+
+    /**
+     * Cree et ajoute un troncon au Plan courant
+     * 
+     * @param nom
+     *            Nom du troncon a ajouter
+     * @param longueur
+     *            Longueur (en decimetres) du troncon a ajouter
+     * @param vitMoyenne
+     *            Vitesse moyenne de circulation (en decimetres/seconde) du
+     *            troncon a ajouter
+     * @param origine
+     *            Origine du troncon a ajouter
+     * @param destination
+     *            Destination du troncon a ajouter
+     * @throws ModeleException
+     *             Renvoie une exception si le Troncon ne peut pas être créé
+     */
+    public void creerTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
+	    throws ModeleException {
+	if (listeIntersections.get(origine) == null || listeIntersections.get(destination) == null)
+	    throw new ModeleException(
+		    "L'origine ou la destination du tronçon " + nom + " ne correspond pas à une intersection.");
+	if (vitMoyenne <= 0)
+	    throw new ModeleException("La vitesse moyenne du tronçon " + nom + " est négative ou nulle.");
+	if (longueur <= 0)
+	    throw new ModeleException("La longueur du tronçon " + nom + " est négative ou nulle.");
+
+	Troncon nouvTroncon = new Troncon(nom, this.listeIntersections.get(origine),
+		this.listeIntersections.get(destination), longueur, vitMoyenne);
+	// Si un troncon ayant la meme origine que le troncon à ajouter,
+	// on les inserent dans la meme liste.
+	if (this.listeTroncons.containsKey(origine)) {
+	    this.listeTroncons.get(origine).add(nouvTroncon);
+	} else {
+	    // On cree une nouvelle liste pour le nouvel origine
+	    List<Troncon> nouvListeTroncons = new ArrayList<Troncon>();
+	    nouvListeTroncons.add(nouvTroncon);
+	    this.listeTroncons.put(origine, nouvListeTroncons);
+	}
+	setChanged();
+	notifyObservers();
+    }
+
+    /**
+     * @return String formatée représentant la feuille de route à suivre pour la
+     *         tournée
+     */
+    public String genererFeuilleRoute() {
+	if (tournee != null) {
+	    return tournee.genererFeuilleRoute();
+	}
+	return "";
     }
 
     /**
@@ -473,16 +427,60 @@ public class Plan extends Observable {
     }
 
     /**
-     * Vide le Plan, remet a zero les listes d'intersection, de troncon et
-     * nullifie la demande de livraison et la tournee
+     * Retourne l'adresse de la livraison suivant la livraison donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison dont on cherche la livraison suivante
+     * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
+     *         pas de livraison ou de livraison suivante
      */
-    public void viderPlan() {
-	this.listeIntersections = new HashMap<Integer, Intersection>();
-	this.listeTroncons = new HashMap<Integer, List<Troncon>>();
-	this.demandeDeLivraison = null;
-	this.tournee = null;
-	setChanged();
-	notifyObservers();
+    public int getAdresseLivraisonSuivante(int adrLiv) {
+	if (tournee != null) {
+	    return tournee.getAdresseLivraisonSuivante(adrLiv);
+	}
+	return -1;
+    }
+
+    /**
+     * @return Retourne le boolean indiquant si un calcul de tournée est en
+     *         cours
+     */
+    public boolean getCalculTourneeEnCours() {
+	return this.calculTourneeEnCours;
+    }
+
+    /**
+     * METHODE DE TEST
+     */
+    public Integer getDureeTournee() {
+	if (tournee != null) {
+	    return tournee.getDuree();
+	} else {
+	    return null;
+	}
+
+    }
+
+    /**
+     * @return Retourne l'intersection où est situé l'entrepôt
+     */
+    public Intersection getEntrepot() {
+	if (demandeDeLivraison != null) {
+	    return demandeDeLivraison.getEntrepot();
+	} else {
+	    return null;
+	}
+    }
+
+    /**
+     * @return HashMap des livraisons de la demande
+     */
+    public HashMap<Integer, Livraison> getHashMapLivraisonsDemande() {
+	if (demandeDeLivraison != null) {
+	    return demandeDeLivraison.getHashMapLivraisons();
+	} else {
+	    return null;
+	}
     }
 
     /**
@@ -496,13 +494,41 @@ public class Plan extends Observable {
     }
 
     /**
+     * @return Renvoie la liste des Itineraires de la Tournee. Si la Tournee est
+     *         null, renvoie null
+     */
+    public List<Itineraire> getItineraires() {
+	if (tournee != null) {
+	    return tournee.getItineraires();
+	} else {
+	    return null;
+	}
+    }
+
+    /**
      * METHODE DE TEST
      * 
-     * @param idIntersection
      * @return
      */
-    public List<Troncon> getTronconsParIntersection(int idIntersection) {
-	return this.listeTroncons.get(idIntersection);
+    public HashMap<Integer, Intersection> getListeIntersections() {
+	return this.listeIntersections;
+    }
+
+    /**
+     * @return La liste de livraisons de la tournée si celle ci existe, sinon la
+     *         liste de livraisons de la demande. Si la demande et la tournée
+     *         sont null, renvoie null
+     */
+    public List<Livraison> getListeLivraisons() {
+	if (tournee != null) {
+	    return tournee.getListeLivraisons();
+	} else {
+	    if (demandeDeLivraison != null) {
+		return new ArrayList<Livraison>(demandeDeLivraison.getHashMapLivraisons().values());
+	    } else {
+		return null;
+	    }
+	}
     }
 
     /**
@@ -529,140 +555,22 @@ public class Plan extends Observable {
     }
 
     /**
-     * METHODE DE TEST
+     * Renvoie la livraison associée à l'intersection à l'adresse donnée en
+     * cherchant en priorité dans la tournée si elle existe ou dans la demande
+     * de livraison sinon
      * 
-     * @return
+     * @param adresse
+     *            Id de l'intersection adresse de la livraison
+     * @return La livraison associée
      */
-    public HashMap<Integer, Intersection> getListeIntersections() {
-	return this.listeIntersections;
-    }
-
-    /**
-     * @return HashMap des livraisons de la demande
-     */
-    public HashMap<Integer, Livraison> getHashMapLivraisonsDemande() {
+    public Livraison getLivraisonParAdresse(int adresse) {
+	if (tournee != null) {
+	    return tournee.getLivraison(adresse);
+	}
 	if (demandeDeLivraison != null) {
-	    return demandeDeLivraison.getHashMapLivraisons();
-	} else {
-	    return null;
+	    return demandeDeLivraison.getLivraison(adresse);
 	}
-    }
-
-    /**
-     * @return La liste de livraisons de la tournée si celle ci existe, sinon la
-     *         liste de livraisons de la demande. Si la demande et la tournée
-     *         sont null, renvoie null
-     */
-    public List<Livraison> getListeLivraisons() {
-	if (tournee != null) {
-	    return tournee.getListeLivraisons();
-	} else {
-	    if (demandeDeLivraison != null) {
-		return new ArrayList<Livraison>(demandeDeLivraison.getHashMapLivraisons().values());
-	    } else {
-		return null;
-	    }
-	}
-    }
-
-    /**
-     * Arrête le calcul de la tournée en cours si il existe
-     */
-    public void arreterCalculTournee() {
-	this.calculTourneeEnCours = false;
-    }
-
-    /**
-     * @return Retourne l'intersection où est situé l'entrepôt
-     */
-    public Intersection getEntrepot() {
-	if (demandeDeLivraison != null) {
-	    return demandeDeLivraison.getEntrepot();
-	} else {
-	    return null;
-	}
-    }
-
-    /**
-     * @return Renvoie la liste des Itineraires de la Tournee. Si la Tournee est
-     *         null, renvoie null
-     */
-    public List<Itineraire> getItineraires() {
-	if (tournee != null) {
-	    return tournee.getItineraires();
-	} else {
-	    return null;
-	}
-    }
-
-    /**
-     * Supprime la Tournee actuellement liée au Plan
-     */
-    public void supprimerTournee() {
-	this.tournee = null;
-	setChanged();
-	notifyObservers();
-    }
-
-    /**
-     * METHODE DE TEST
-     */
-    public Integer getDureeTournee() {
-	if (tournee != null) {
-	    return tournee.getDuree();
-	} else {
-	    return null;
-	}
-
-    }
-
-    /**
-     * Creation d'un tableau faisant correspondre l'identifiant de chaque
-     * intersection avec sa place dans le tableau des couts et des itineraires
-     * resultant des calculs de plus court chemin
-     * 
-     * @return Identifiants des intersections constituant la tournee finale
-     */
-    private ArrayList<Integer> completionTableauLivraison() {
-	ArrayList<Integer> sommets = new ArrayList<>();
-	sommets.add(demandeDeLivraison.getEntrepot().getId());
-	Set<Integer> cles = this.getHashMapLivraisonsDemande().keySet();
-	Iterator<Integer> it = cles.iterator();
-	while (it.hasNext()) {
-	    Integer cle = it.next();
-	    sommets.add(cle);
-	}
-	return sommets;
-    }
-
-    /**
-     * @return Renvoie l'Heure de départ de la demande/tournée sous forme de
-     *         String
-     */
-    public String afficherHeureDepart() {
-	if (tournee != null)
-	    return tournee.getHeureDebut().toString();
-	if (demandeDeLivraison != null)
-	    return demandeDeLivraison.getHeureDepart().toString();
-	return "NC";
-    }
-
-    /**
-     * @return Renvoie l'Heure de retour de la tournée sous forme de String
-     */
-    public String afficherHeureRetour() {
-	if (tournee != null) {
-	    return tournee.getHeureFin().toString();
-	}
-	return "NC";
-    }
-
-    /**
-     * @return Retourne le boolean indiquant si un calcul de tournée est en
-     *         cours
-     */
-    public boolean getCalculTourneeEnCours() {
-	return this.calculTourneeEnCours;
+	return null;
     }
 
     /**
@@ -682,6 +590,46 @@ public class Plan extends Observable {
 	    }
 	}
 	return new Point(maxDroite, maxBas);
+    }
+
+    /**
+     * METHODE DE TEST
+     * 
+     * @param idIntersection
+     * @return
+     */
+    public List<Troncon> getTronconsParIntersection(int idIntersection) {
+	return this.listeTroncons.get(idIntersection);
+    }
+
+    /**
+     * Insère la livraison entre les livraisons de la tournée aux adresses
+     * données
+     * 
+     * @param adresse
+     *            L'adresse associée à la livraison
+     * @param duree
+     *            Durée de la livraison
+     * @param debutPlage
+     *            Heure de début de la plage
+     * @param finPlage
+     *            Heure de fin de la plage
+     * @param adrPrec
+     *            Adresse précédente de la livraison à ajouter
+     * @param adrSuiv
+     *            Adresse suivante de la livraison à ajouter
+     */
+    public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
+	    int adrSuiv) {
+	Intersection interAdresse = this.getIntersection(adresse);
+	try {
+	    Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
+	    tournee.insererLivraison(liv, adrPrec, adrSuiv);
+	} catch (Exception e) {
+	    // TODO
+	}
+	setChanged();
+	notifyObservers();
     }
 
     /**
@@ -705,14 +653,66 @@ public class Plan extends Observable {
 	notifyObservers();
     }
 
+    @Override
+    public void notifyObservers() {
+	setChanged();
+	super.notifyObservers();
+    }
+
     /**
-     * @return String formatée représentant la feuille de route à suivre pour la
-     *         tournée
+     * Recupere les durees des livraisons correspondant aux intersections
+     * donnees en parametres
+     * 
+     * @param idSommets
+     *            Liste des sommets dont il faut les durees
+     * @return Tableau des durees ordonnees selon l'ordre des sommets en entree
      */
-    public String genererFeuilleRoute() {
-	if (tournee != null) {
-	    return tournee.genererFeuilleRoute();
+    private int[] recupererDurees(List<Integer> idSommets) {
+	int[] durees = new int[idSommets.size()];
+	durees[0] = 0; // temps a passer a l'entrepot
+	for (int i = 1; i < idSommets.size(); i++) {
+	    durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
 	}
-	return "";
+	return durees;
+    }
+
+    /**
+     * Retire la livraison indiquee de la tournee
+     * 
+     * @param adresse
+     *            Identifiant de l'intersection correspondante a la livraison a
+     *            retirer
+     * @return Livraison retiree de la tournee
+     */
+    public Livraison retirerLivraisonTournee(int adresse) {
+	// On recupere les ids du nouvel itineraire a creer
+	Livraison livRetiree = this.tournee.supprimerLivraison(adresse);
+	setChanged();
+	notifyObservers();
+
+	// On renvoie la livraison supprimee
+	return livRetiree;
+    }
+
+    /**
+     * Supprime la Tournee actuellement liée au Plan
+     */
+    public void supprimerTournee() {
+	this.tournee = null;
+	setChanged();
+	notifyObservers();
+    }
+
+    /**
+     * Vide le Plan, remet a zero les listes d'intersection, de troncon et
+     * nullifie la demande de livraison et la tournee
+     */
+    public void viderPlan() {
+	this.listeIntersections = new HashMap<Integer, Intersection>();
+	this.listeTroncons = new HashMap<Integer, List<Troncon>>();
+	this.demandeDeLivraison = null;
+	this.tournee = null;
+	setChanged();
+	notifyObservers();
     }
 }

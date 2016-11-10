@@ -34,6 +34,24 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
+     * Cree et ajoute une livraison sans plage horaire
+     * a la demande de livraison courante
+     * 
+     * @param duree
+     *            Duree de la livraison a ajouter (en secondes)
+     * @param adresse
+     *            Intersection correspondant a la livraison a ajouter
+     */
+    public void ajouterLivraison(int duree, Intersection adresse) {
+	Livraison nouvLivraison = new Livraison(duree, adresse);
+	this.livraisons.put(adresse.getId(), nouvLivraison);
+	// On indique au Controleur que la demande de livraison a ete
+	// mise a jour
+	setChanged();
+	notifyObservers(nouvLivraison);
+    }
+
+    /**
      * Cree et ajoute une livraison possedant une plage horaire a la demande de
      * livraison courante
      * 
@@ -63,30 +81,10 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * Cree et ajoute une livraison sans plage horaire
-     * a la demande de livraison courante
-     * 
-     * @param duree
-     *            Duree de la livraison a ajouter (en secondes)
-     * @param adresse
-     *            Intersection correspondant a la livraison a ajouter
+     * @return Intersection adresse de l'entrepôt
      */
-    public void ajouterLivraison(int duree, Intersection adresse) {
-	Livraison nouvLivraison = new Livraison(duree, adresse);
-	this.livraisons.put(adresse.getId(), nouvLivraison);
-	// On indique au Controleur que la demande de livraison a ete
-	// mise a jour
-	setChanged();
-	notifyObservers(nouvLivraison);
-    }
-
-    /**
-     * Retourne la Livraison de la Demande associée à l'adresse donnée
-     * @param adresse Adresse de la livraison
-     * @return La Livraison si elle existe, null sinon
-     */
-    protected Livraison getLivraison(int adresse) {
-	return this.livraisons.get(adresse);
+    protected Intersection getEntrepot() {
+	return this.entrepot;
     }
 
     protected HashMap<Integer, Livraison> getHashMapLivraisons() {
@@ -94,16 +92,18 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * @return Intersection adresse de l'entrepôt
-     */
-    protected Intersection getEntrepot() {
-	return this.entrepot;
-    }
-    
-    /**
      * @return Heure de départ demandée
      */
     public Heure getHeureDepart() {
 	return this.heureDepart;
+    }
+    
+    /**
+     * Retourne la Livraison de la Demande associée à l'adresse donnée
+     * @param adresse Adresse de la livraison
+     * @return La Livraison si elle existe, null sinon
+     */
+    protected Livraison getLivraison(int adresse) {
+	return this.livraisons.get(adresse);
     }
 }

@@ -63,6 +63,24 @@ public class Heure {
     }
 
     /**
+     * Permet l'affichage de l'heure courante sous la forme "hh:mm"
+     * 
+     * @return String formatée
+     */
+    public String afficherHoraire() {
+	int min = this.minutes;
+	int heure = this.heure;
+	if (this.secondes >= 30) {
+	    min = min++;
+	    if (min == 60) {
+		min = 0;
+		heure++;
+	    }
+	}
+	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
+    }
+
+    /**
      * Ajoute une heure a l'heure actuelle
      * 
      * @param h
@@ -98,6 +116,19 @@ public class Heure {
     }
 
     /**
+     * Compare deux heures. Renvoit true si elles sont egales, et false dans
+     * l'autre cas.
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (obj instanceof Heure) {
+	    Heure objH = (Heure) obj;
+	    return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
+	}
+	return false;
+    }
+
+    /**
      * Affiche une version en secondes de l'heure (00:00:00 donne 0)
      * 
      * @return L'heure en secondes depuis minuit
@@ -112,36 +143,5 @@ public class Heure {
     public String toString() {
 	return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
 		+ (this.secondes >= 10 ? "" : "0") + this.secondes;
-    }
-
-    /**
-     * Permet l'affichage de l'heure courante sous la forme "hh:mm"
-     * 
-     * @return String formatée
-     */
-    public String afficherHoraire() {
-	int min = this.minutes;
-	int heure = this.heure;
-	if (this.secondes >= 30) {
-	    min = min++;
-	    if (min == 60) {
-		min = 0;
-		heure++;
-	    }
-	}
-	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
-    }
-
-    /**
-     * Compare deux heures. Renvoit true si elles sont egales, et false dans
-     * l'autre cas.
-     */
-    @Override
-    public boolean equals(Object obj) {
-	if (obj instanceof Heure) {
-	    Heure objH = (Heure) obj;
-	    return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
-	}
-	return false;
     }
 }

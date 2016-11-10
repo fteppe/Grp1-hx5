@@ -35,38 +35,6 @@ public class Tournee extends Observable {
     }
 
     /**
-     * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
-     * itineraires associes
-     * 
-     * @param duree
-     *            Duree totale de la tournee
-     * @param livraisons
-     *            Liste ordonnee des intersections a visiter
-     * @param itineraires
-     *            Tableau des itineraires pour aller de la livraison i a la
-     *            livraison j
-     * @param livDemande
-     *            Liste des Livraisons de la demande
-     * @param idSommets
-     *            Liste des ids des sommets ordonnées
-     */
-    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
-	    HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
-	this.viderTournee();
-	for (int i = 0; i < livraisons.length - 1; i++) {
-	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
-	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
-	    this.ajouterItineraire(nouvItineraire, prochLivr);
-	}
-	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
-	this.duree = duree;
-	this.mettreAJourTempsParcours(this.hDebut);
-	// setChanged();
-	// notifyObservers();
-	System.out.println("Tournée mise à jour");
-    }
-
-    /**
      * Ajoute un itineraire à la liste d'itineraires de la tournee courante
      * 
      * @param itineraire
@@ -81,6 +49,137 @@ public class Tournee extends Observable {
 	    livraisons.put(prochLivr.getAdresse().getId(), prochLivr);
 	setChanged();
 	notifyObservers();
+    }
+
+    /**
+     * @return Retourne la string formatée pour l'affichage sur la feuille de
+     *         route
+     */
+    protected String genererFeuilleRoute() {
+	String route;
+	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
+	route += "\r\n" + itineraires.get(0).afficherFeuilleRoute() + "\r\n";
+	for (int i = 1; i < itineraires.size(); i++) {
+	    Itineraire itin = itineraires.get(i);
+	    route += "\r\n" + livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
+	    route += "\r\n" + itin.afficherFeuilleRoute() + "\r\n";
+	}
+	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
+	return route;
+    }
+
+    /**
+     * Retourne l'adresse de la livraison précédant la livraison donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison dont on cherche la livraison
+     *            précédente
+     * @return Adresse de la livraison précédente ou -1 si l'adresse donnée n'a
+     *         pas de livraison ou de livraison suivante
+     */
+    protected int getAdresseLivraisonPrecedente(int adrLiv) {
+	for (Itineraire itin : itineraires) {
+	    if (itin.getArrivee().getId() == adrLiv)
+		return itin.getDepart().getId();
+	}
+	return -1;
+    }
+
+    /**
+     * Retourne l'adresse de la livraison suivant la livraison donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison dont on cherche la livraison suivante
+     * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
+     *         pas de livraison ou de livraison suivante
+     */
+    protected int getAdresseLivraisonSuivante(int adrLiv) {
+	for (Itineraire itin : itineraires) {
+	    if (itin.getDepart().getId() == adrLiv)
+		return itin.getArrivee().getId();
+	}
+	return -1;
+    }
+
+    /**
+     * @return Duree de la Tournee
+     */
+    protected int getDuree() {
+	return duree;
+    }
+
+    /**
+     * @return Heure de début de la Tournee
+     */
+    protected Heure getHeureDebut() {
+	return hDebut;
+    }
+
+    /**
+     * @return Heure de fin de la Tournee
+     */
+    protected Heure getHeureFin() {
+	return (hFin != null ? hFin : new Heure());
+    }
+
+    /**
+     * @return Liste des Itineraires de la Tournee
+     */
+    protected List<Itineraire> getItineraires() {
+	return itineraires;
+    }
+
+    /**
+     * @return Retourne la liste ordonnée des Livraisons de la Tournee
+     */
+    protected List<Livraison> getListeLivraisons() {
+	ArrayList<Livraison> listLivraisons = new ArrayList<Livraison>();
+	for (Itineraire itin : itineraires) {
+	    Livraison livraison = livraisons.get(itin.getDepart().getId());
+	    if (livraison != null)
+		listLivraisons.add(livraison);
+	}
+	return listLivraisons;
+    }
+
+    /**
+     * Retourne la Livraison à l'adresse donnée
+     * 
+     * @param adresse
+     *            Id de l'intersection adresse
+     * @return Livraison si elle existe à cette adresse, null sinon
+     */
+    protected Livraison getLivraison(int adresse) {
+	return livraisons.get(adresse);
+    }
+
+    /**
+     * @return True si la Tournee est possible, false sinon
+     */
+    protected boolean getValidite() {
+	return valide;
+    }
+
+    /**
+     * Insère l'itinéraire dans la liste des itinéraires de la tournée selon les
+     * intersections de départ et d'arrivée associées
+     * 
+     * @param nvItineraire
+     *            Itineraire à insérer
+     */
+    protected void insererItineraire(Itineraire nvItineraire) {
+	int i = 0;
+	if (nvItineraire.getDepart().getId() == adrEntrepot) {
+	    itineraires.add(0, nvItineraire);
+	} else {
+	    for (; i < itineraires.size(); i++) {
+		Itineraire itin = itineraires.get(i);
+		if (itin.getArrivee() == nvItineraire.getDepart()) {
+		    itineraires.add(++i, nvItineraire);
+		    break;
+		}
+	    }
+	}
     }
 
     /**
@@ -114,6 +213,90 @@ public class Tournee extends Observable {
 	this.insererItineraire(nvItin[0][1]);
 	this.insererItineraire(nvItin[1][2]);
 	this.mettreAJourTempsParcours(this.hDebut);
+    }
+
+    /**
+     * Met à jour les horaires de la tournée et des livraisons qui lui sont
+     * associée
+     * 
+     * @param heureDepartTournee
+     *            Horaire de départ du calcul
+     */
+    private void mettreAJourTempsParcours(Heure heureDepartTournee) {
+	Heure cur = heureDepartTournee;
+	for (int i = 0; i < itineraires.size() - 1; i++) {
+	    Itineraire itin = itineraires.get(i);
+	    System.out.println(itin);
+	    cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
+	    int adrLiv = itin.getArrivee().getId();
+	    Livraison liv = livraisons.get(adrLiv);
+	    cur = liv.setHeureArrivee(cur);
+	}
+	Itineraire itin = itineraires.get(itineraires.size() - 1);
+	cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
+	hFin = cur;
+	valide = true;
+	for (Livraison liv : livraisons.values()) {
+	    if (!liv.getRespectePlage())
+		valide = false;
+	}
+	// setChanged();
+	// notifyObservers();
+    }
+
+    /**
+     * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
+     * itineraires associes
+     * 
+     * @param duree
+     *            Duree totale de la tournee
+     * @param livraisons
+     *            Liste ordonnee des intersections a visiter
+     * @param itineraires
+     *            Tableau des itineraires pour aller de la livraison i a la
+     *            livraison j
+     * @param livDemande
+     *            Liste des Livraisons de la demande
+     * @param idSommets
+     *            Liste des ids des sommets ordonnées
+     */
+    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
+	    HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
+	this.viderTournee();
+	for (int i = 0; i < livraisons.length - 1; i++) {
+	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
+	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
+	    this.ajouterItineraire(nouvItineraire, prochLivr);
+	}
+	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
+	this.duree = duree;
+	this.mettreAJourTempsParcours(this.hDebut);
+	// setChanged();
+	// notifyObservers();
+	System.out.println("Tournée mise à jour");
+    }
+
+    /**
+     * Modifie la livraison à l'adresse donnée avec les plages horaires
+     * spécifiées
+     * 
+     * @param adrLivraison
+     *            Adresse de la livraison à modifier
+     * @param nvPlage
+     *            True si la livraison doit avoir une plage, false sinon
+     * @param nvDebut
+     *            Nouvelle heure de début de la plage
+     * @param nvFin
+     *            Nouvelle heure de la fin de la plage
+     */
+    protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
+	Livraison liv = livraisons.remove(adrLivraison);
+	if (nvPlage)
+	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
+	else
+	    liv.supprimerPlage();
+	livraisons.put(adrLivraison, liv);
+	this.mettreAJourTempsParcours(hDebut);
     }
 
     /**
@@ -151,192 +334,9 @@ public class Tournee extends Observable {
     }
 
     /**
-     * Insère l'itinéraire dans la liste des itinéraires de la tournée selon les
-     * intersections de départ et d'arrivée associées
-     * 
-     * @param nvItineraire
-     *            Itineraire à insérer
-     */
-    protected void insererItineraire(Itineraire nvItineraire) {
-	int i = 0;
-	if (nvItineraire.getDepart().getId() == adrEntrepot) {
-	    itineraires.add(0, nvItineraire);
-	} else {
-	    for (; i < itineraires.size(); i++) {
-		Itineraire itin = itineraires.get(i);
-		if (itin.getArrivee() == nvItineraire.getDepart()) {
-		    itineraires.add(++i, nvItineraire);
-		    break;
-		}
-	    }
-	}
-    }
-
-    /**
-     * Met à jour les horaires de la tournée et des livraisons qui lui sont
-     * associée
-     * 
-     * @param heureDepartTournee
-     *            Horaire de départ du calcul
-     */
-    private void mettreAJourTempsParcours(Heure heureDepartTournee) {
-	Heure cur = heureDepartTournee;
-	for (int i = 0; i < itineraires.size() - 1; i++) {
-	    Itineraire itin = itineraires.get(i);
-	    System.out.println(itin);
-	    cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
-	    int adrLiv = itin.getArrivee().getId();
-	    Livraison liv = livraisons.get(adrLiv);
-	    cur = liv.setHeureArrivee(cur);
-	}
-	Itineraire itin = itineraires.get(itineraires.size() - 1);
-	cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
-	hFin = cur;
-	valide = true;
-	for (Livraison liv : livraisons.values()) {
-	    if (!liv.getRespectePlage())
-		valide = false;
-	}
-	// setChanged();
-	// notifyObservers();
-    }
-
-    /**
      * Réinitialise la liste des itinéraires de la tournée
      */
     protected void viderTournee() {
 	this.itineraires.clear();
-    }
-
-    /**
-     * @return Retourne la liste ordonnée des Livraisons de la Tournee
-     */
-    protected List<Livraison> getListeLivraisons() {
-	ArrayList<Livraison> listLivraisons = new ArrayList<Livraison>();
-	for (Itineraire itin : itineraires) {
-	    Livraison livraison = livraisons.get(itin.getDepart().getId());
-	    if (livraison != null)
-		listLivraisons.add(livraison);
-	}
-	return listLivraisons;
-    }
-
-    /**
-     * Retourne la Livraison à l'adresse donnée
-     * 
-     * @param adresse
-     *            Id de l'intersection adresse
-     * @return Livraison si elle existe à cette adresse, null sinon
-     */
-    protected Livraison getLivraison(int adresse) {
-	return livraisons.get(adresse);
-    }
-
-    /**
-     * @return Liste des Itineraires de la Tournee
-     */
-    protected List<Itineraire> getItineraires() {
-	return itineraires;
-    }
-
-    /**
-     * @return Heure de début de la Tournee
-     */
-    protected Heure getHeureDebut() {
-	return hDebut;
-    }
-
-    /**
-     * @return Heure de fin de la Tournee
-     */
-    protected Heure getHeureFin() {
-	return (hFin != null ? hFin : new Heure());
-    }
-
-    /**
-     * @return True si la Tournee est possible, false sinon
-     */
-    protected boolean getValidite() {
-	return valide;
-    }
-
-    /**
-     * @return Duree de la Tournee
-     */
-    protected int getDuree() {
-	return duree;
-    }
-
-    /**
-     * Retourne l'adresse de la livraison suivant la livraison donnée
-     * 
-     * @param adrLiv
-     *            Adresse de la livraison dont on cherche la livraison suivante
-     * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
-     *         pas de livraison ou de livraison suivante
-     */
-    protected int getAdresseLivraisonSuivante(int adrLiv) {
-	for (Itineraire itin : itineraires) {
-	    if (itin.getDepart().getId() == adrLiv)
-		return itin.getArrivee().getId();
-	}
-	return -1;
-    }
-
-    /**
-     * Retourne l'adresse de la livraison précédant la livraison donnée
-     * 
-     * @param adrLiv
-     *            Adresse de la livraison dont on cherche la livraison
-     *            précédente
-     * @return Adresse de la livraison précédente ou -1 si l'adresse donnée n'a
-     *         pas de livraison ou de livraison suivante
-     */
-    protected int getAdresseLivraisonPrecedente(int adrLiv) {
-	for (Itineraire itin : itineraires) {
-	    if (itin.getArrivee().getId() == adrLiv)
-		return itin.getDepart().getId();
-	}
-	return -1;
-    }
-
-    /**
-     * Modifie la livraison à l'adresse donnée avec les plages horaires
-     * spécifiées
-     * 
-     * @param adrLivraison
-     *            Adresse de la livraison à modifier
-     * @param nvPlage
-     *            True si la livraison doit avoir une plage, false sinon
-     * @param nvDebut
-     *            Nouvelle heure de début de la plage
-     * @param nvFin
-     *            Nouvelle heure de la fin de la plage
-     */
-    protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
-	Livraison liv = livraisons.remove(adrLivraison);
-	if (nvPlage)
-	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
-	else
-	    liv.supprimerPlage();
-	livraisons.put(adrLivraison, liv);
-	this.mettreAJourTempsParcours(hDebut);
-    }
-
-    /**
-     * @return Retourne la string formatée pour l'affichage sur la feuille de
-     *         route
-     */
-    protected String genererFeuilleRoute() {
-	String route;
-	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
-	route += "\r\n" + itineraires.get(0).afficherFeuilleRoute() + "\r\n";
-	for (int i = 1; i < itineraires.size(); i++) {
-	    Itineraire itin = itineraires.get(i);
-	    route += "\r\n" + livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
-	    route += "\r\n" + itin.afficherFeuilleRoute() + "\r\n";
-	}
-	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
-	return route;
     }
 }
