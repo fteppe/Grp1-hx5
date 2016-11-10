@@ -1,7 +1,7 @@
 package vue;
 
 public class Vecteur {
-	/*
+	/**
 	 * une classe Vecteur, qui permet de réaliser les opérations basiques
 	 * d'un vecteur 2D
 	 * 
@@ -14,7 +14,7 @@ public class Vecteur {
 		this.y = y;
 	}
 
-	/*
+	/**
 	 * constructeur de copie
 	 * 
 	 * @param v le vecteur à copier
@@ -24,7 +24,7 @@ public class Vecteur {
 		this.y = v.y;
 	}
 
-	/*
+	/**
 	 * Addition de deux vecteurs
 	 * 
 	 * @param a ajoute a this le vecteur a et renvoie le résultat
@@ -33,7 +33,7 @@ public class Vecteur {
 		return new Vecteur(this.x + a.x, this.y + a.y);
 	}
 
-	/*
+	/**
 	 * operation de muliplication du vecteur par un réel
 	 * 
 	 * @param e le reel qui est multiplié au vecteur
@@ -42,7 +42,7 @@ public class Vecteur {
 		return new Vecteur((this.x * e), (this.y * e));
 	}
 
-	/*
+	/**
 	 * renvoie la norme du vecteur
 	 * 
 	 */
@@ -50,7 +50,7 @@ public class Vecteur {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
 	}
 
-	/*
+	/**
 	 * Permet une représentation sous forme de tete du vecteur
 	 * 
 	 */

@@ -20,6 +20,12 @@ import modele.Livraison;
 import modele.Plan;
 import modele.Troncon;
 
+/**Zone de texte où sont décrite les livraisons. Les livraisons présentent les 
+ * même interactions que dans une VuePlan.
+ * 
+ * @author florent
+ *
+ */
 public class ZoneDeTexte extends JPanel implements Observer {
 
 	private static int VALEUR_INTERSECTION_VIDE = -1;
@@ -30,7 +36,12 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	private GridBagConstraints contraintes;
 	private int livraisonSurligne;
 
-	public ZoneDeTexte(int largeur, int hauteur, Plan plan, Fenetre fenetre) {
+	/**Constructeur
+	 * 
+	 * @param plan plan dont on affichera les livraisons si elles existent, doit etre observable
+	 * @param fenetre la fenetre dans laquelle s'inscrit cette zone de texte
+	 */
+	public ZoneDeTexte(Plan plan, Fenetre fenetre) {
 		super();
 		this.fenetre = fenetre;
 		this.plan = plan;
@@ -49,6 +60,10 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		afficherInformations();
 	}
 
+	/**Methode utilisé pour mettre une livraison en surbrillance
+	 * 
+	 * @param idLivraison la livraison a surligner dans la zone de texte
+	 */
 	protected void setLivraisonSurligne(int idLivraison) {
 		if (livraisonSurligne != idLivraison && plan.getLivraisonParAdresse(idLivraison) != null) {
 			livraisonSurligne = idLivraison;
@@ -113,6 +128,10 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		}
 	}
 
+	/**Methode qui met à jour l'affichage des informations
+	 * Appelé lorsque le plan notify ses observers
+	 * 
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		viderListeInfos();

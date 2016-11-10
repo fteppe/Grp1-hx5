@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
+/**Menu contextuel lié à un clic droit sur une livraison
+ * 
+ * @author florent
+ *
+ */
 public class PopMenuLivraison extends PopMenu {
 	private JMenuItem supprimerLivraison;
 	private JMenuItem intervertirLivraison;
@@ -14,8 +19,8 @@ public class PopMenuLivraison extends PopMenu {
 
 	/**
 	 * 
-	 * @param id
-	 * @param fenetre
+	 * @param id l'id de la livraison
+	 * @param fenetre la fenetre dans laquelle s'integre ce menu
 	 */
 	public PopMenuLivraison(int id, Fenetre fenetre) {
 		super();

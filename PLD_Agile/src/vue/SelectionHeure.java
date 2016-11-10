@@ -6,12 +6,17 @@ import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+/**Objet utilisé pour réaliser une selection d'heure avec des comboBoxs
+ * 
+ * @author florent
+ *
+ */
 public class SelectionHeure extends JPanel {
 
 	private JComboBox heure;
 	private JComboBox minute;
 
-	public SelectionHeure() {
+	protected SelectionHeure() {
 		super();
 		heure = new JComboBox();
 		minute = new JComboBox();
@@ -38,11 +43,19 @@ public class SelectionHeure extends JPanel {
 		add(minute);
 	}
 
-	public String getHeure() {
+	/**
+	 * 
+	 * @return l'heure entrée au format hh:mm:00
+	 */
+	protected String getHeure() {
 		return (String) heure.getSelectedItem() + ":" + (String) minute.getSelectedItem() + ":00";
 	}
 
-	public void editable(boolean editable) {
+	/**Permet de bloquer l'edition de l'heure
+	 * 
+	 * @param editable
+	 */
+	protected void editable(boolean editable) {
 		heure.setEnabled(editable);
 		minute.setEnabled(editable);
 	}

@@ -21,10 +21,6 @@ import modele.Plan;
  *
  */
 public class Fenetre extends JFrame {
-	/*
-
-	 * 
-	 */
 
 	private static String titreFenetre;
 	private Plan plan;
@@ -76,7 +72,7 @@ public class Fenetre extends JFrame {
 		console.setEditable(false);
 		console.setBorder(BorderFactory.createLoweredBevelBorder());
 		vuePlan = new VuePlan(plan, this);
-		descriptionPlan = new ZoneDeTexte((int) dimensions.x / 3, (int) dimensions.y - 30, plan, this);
+		descriptionPlan = new ZoneDeTexte(plan, this);
 		menu = new Menu(this);
 		barreDesTaches = new BarreDesTaches(this);
 		scroll = new JScrollPane(descriptionPlan);
