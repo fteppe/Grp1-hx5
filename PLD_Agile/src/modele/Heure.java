@@ -106,7 +106,8 @@ public class Heure {
      * Affiche l'heure courante sous la forme "hh:mm:ss"
      */
     public String toString() {
-	return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
+	return (this.heure >= 10 ? "" : "0") + this.heure + ":"
+		+ (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
 		+ (this.secondes >= 10 ? "" : "0") + this.secondes;
     }
 
@@ -123,14 +124,16 @@ public class Heure {
 		heure++;
 	    }
 	}
-	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
+	return (heure >= 10 ? "" : "0") + heure + ":"
+		+ (this.minutes >= 10 ? "" : "0") + this.minutes;
     }
 
     @Override
     public boolean equals(Object obj) {
 	if (obj instanceof Heure) {
 	    Heure objH = (Heure) obj;
-	    return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
+	    return this.heure == objH.heure && this.minutes == objH.minutes
+		    && this.secondes == objH.secondes;
 	}
 	return false;
     }

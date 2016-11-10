@@ -60,17 +60,22 @@ public class Plan extends Observable {
      * @param latitude
      *            Latitude de l'intersection a ajouter
      */
-    public void ajouterIntersection(int id, int longitude, int latitude) throws ModeleException {
-	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
+    public void ajouterIntersection(int id, int longitude, int latitude)
+	    throws ModeleException {
+	Intersection nouvIntersection = new Intersection(id, longitude,
+		latitude);
 	if (longitude < 0 || latitude < 0) {
-	    throw new ModeleException("Une intersection possède des coordonnées négatives");
+	    throw new ModeleException(
+		    "Une intersection possède des coordonnées négatives");
 	}
 	if (!this.listeIntersections.containsKey(id)) {
 	    this.listeIntersections.put(id, nouvIntersection);
 	} else {
-	    throw new ModeleException("Plusieurs intersections portent l'id " + id + ", seule l'intersection x("
+	    throw new ModeleException("Plusieurs intersections portent l'id "
+		    + id + ", seule l'intersection x("
 		    + this.listeIntersections.get(id).getLongitude() + ") y("
-		    + this.listeIntersections.get(id).getLongitude() + ") a été créée");
+		    + this.listeIntersections.get(id).getLongitude()
+		    + ") a été créée");
 	}
 	setChanged();
 	notifyObservers();
@@ -91,17 +96,21 @@ public class Plan extends Observable {
      * @param destination
      *            Destination du troncon a ajouter
      */
-    public void ajouterTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
-	    throws ModeleException {
-	if (listeIntersections.get(origine) == null || listeIntersections.get(destination) == null)
-	    throw new ModeleException(
-		    "L'origine ou la destination du tronçon " + nom + " ne correspond pas à une intersection.");
+    public void ajouterTroncon(String nom, int longueur, int vitMoyenne,
+	    int origine, int destination) throws ModeleException {
+	if (listeIntersections.get(origine) == null
+		|| listeIntersections.get(destination) == null)
+	    throw new ModeleException("L'origine ou la destination du tronçon "
+		    + nom + " ne correspond pas à une intersection.");
 	if (vitMoyenne <= 0)
-	    throw new ModeleException("La vitesse moyenne du tronçon " + nom + " est négative ou nulle.");
+	    throw new ModeleException("La vitesse moyenne du tronçon " + nom
+		    + " est négative ou nulle.");
 	if (longueur <= 0)
-	    throw new ModeleException("La longueur du tronçon " + nom + " est négative ou nulle.");
+	    throw new ModeleException("La longueur du tronçon " + nom
+		    + " est négative ou nulle.");
 
-	Troncon nouvTroncon = new Troncon(nom, this.listeIntersections.get(origine),
+	Troncon nouvTroncon = new Troncon(nom,
+		this.listeIntersections.get(origine),
 		this.listeIntersections.get(destination), longueur, vitMoyenne);
 	// Si un troncon ayant la meme origine que le troncon à ajouter,
 	// on les inserent dans la meme liste.
@@ -125,10 +134,13 @@ public class Plan extends Observable {
      * @param entrepot
      *            Identifiant de l'intersection correspondant a l'entrepot
      */
-    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
+    public void creerDemandeDeLivraison(Heure heureDepart, int entrepot)
+	    throws ModeleException {
 	if (listeIntersections.get(entrepot) == null)
-	    throw new ModeleException("L'adresse de l'entrepôt ne correspond pas à une intersection.");
-	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart, this.listeIntersections.get(entrepot));
+	    throw new ModeleException(
+		    "L'adresse de l'entrepôt ne correspond pas à une intersection.");
+	this.demandeDeLivraison = new DemandeDeLivraison(heureDepart,
+		this.listeIntersections.get(entrepot));
 	if (this.tournee != null) {
 	    this.tournee = null;
 	}
@@ -150,14 +162,16 @@ public class Plan extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a effectuer
      */
-    public void ajouterLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
-	    throws ModeleException {
+    public void ajouterLivraisonDemande(int adresse, int duree,
+	    String debutPlage, String finPlage) throws ModeleException {
 	if (listeIntersections.get(adresse) == null)
-	    throw new ModeleException(
-		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+	    throw new ModeleException("L'adresse " + adresse
+		    + " d'une livraison ne correspond pas à une intersection.");
 	if (duree < 0)
-	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
-	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
+	    throw new ModeleException("La durée de la livraison à l'adresse "
+		    + adresse + " est négative.");
+	this.demandeDeLivraison.ajouterLivraison(duree,
+		this.listeIntersections.get(adresse), debutPlage, finPlage);
 	setChanged();
 	notifyObservers();
     }
@@ -171,13 +185,16 @@ public class Plan extends Observable {
      * @param durees
      *            Duree de la livraison a effectuer
      */
-    public void ajouterLivraisonDemande(int adresse, int duree) throws ModeleException {
+    public void ajouterLivraisonDemande(int adresse, int duree)
+	    throws ModeleException {
 	if (listeIntersections.get(adresse) == null)
-	    throw new ModeleException(
-		    "L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+	    throw new ModeleException("L'adresse " + adresse
+		    + " d'une livraison ne correspond pas à une intersection.");
 	if (duree < 0)
-	    throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
-	this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse));
+	    throw new ModeleException("La durée de la livraison à l'adresse "
+		    + adresse + " est négative.");
+	this.demandeDeLivraison.ajouterLivraison(duree,
+		this.listeIntersections.get(adresse));
 	setChanged();
 	notifyObservers();
     }
@@ -224,11 +241,12 @@ public class Plan extends Observable {
      * @param adrPrec
      * @param adrSuiv
      */
-    public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
-	    int adrSuiv) {
+    public void insererLivraisonTournee(int adresse, int duree,
+	    String debutPlage, String finPlage, int adrPrec, int adrSuiv) {
 	Intersection interAdresse = this.getIntersection(adresse);
 	try {
-	    Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
+	    Livraison liv = new Livraison(duree, interAdresse, debutPlage,
+		    finPlage);
 	    tournee.insererLivraison(liv, adrPrec, adrSuiv);
 	} catch (Exception e) {
 	    // TODO
@@ -249,7 +267,8 @@ public class Plan extends Observable {
      */
     public boolean calculerTournee() throws ExceptionTournee {
 	if (this.demandeDeLivraison == null) {
-	    throw new ExceptionTournee("Aucune demande de livraison n'a été chargée");
+	    throw new ExceptionTournee(
+		    "Aucune demande de livraison n'a été chargée");
 	}
 	// On initialise l'algo de Dijkstra
 	algo = AlgoDijkstra.getInstance();
@@ -272,9 +291,12 @@ public class Plan extends Observable {
 
 	for (int i = 1; i < idSommets.size(); i++) {
 
-	    if (this.getHashMapLivraisons().get(idSommets.get(i)).possedePlage()) {
-		plageDepart[i] = this.getHashMapLivraisons().get(idSommets.get(i)).getDebutPlage().toSeconds();
-		plageFin[i] = this.getHashMapLivraisons().get(idSommets.get(i)).getFinPlage().toSeconds();
+	    if (this.getHashMapLivraisons().get(idSommets.get(i))
+		    .possedePlage()) {
+		plageDepart[i] = this.getHashMapLivraisons()
+			.get(idSommets.get(i)).getDebutPlage().toSeconds();
+		plageFin[i] = this.getHashMapLivraisons().get(idSommets.get(i))
+			.getFinPlage().toSeconds();
 	    } else {
 		plageDepart[i] = 0;
 		plageFin[i] = Integer.MAX_VALUE;
@@ -285,7 +307,8 @@ public class Plan extends Observable {
 	// l'entrepot
 	for (int i = 1; i < idSommets.size(); i++) {
 	    if (couts[0][i] == Integer.MAX_VALUE) {
-		throw new ExceptionTournee("L'intersection d'identifiant " + idSommets.get(i)
+		throw new ExceptionTournee("L'intersection d'identifiant "
+			+ idSommets.get(i)
 			+ "n'est pas atteignable à partir de l'entrepôt");
 	    }
 	}
@@ -296,14 +319,16 @@ public class Plan extends Observable {
 	// On lance le calcul de la tournee dans un nouveau thread
 	Callable<Boolean> calculTournee = () -> {
 	    // On cherche l'itineraire optimal via l'utilisation du TSP
-	    tsp.chercheSolution(idSommets.size(), couts, durees, plageDepart, plageFin,
+	    tsp.chercheSolution(idSommets.size(), couts, durees, plageDepart,
+		    plageFin,
 		    this.demandeDeLivraison.getHeureDepart().toSeconds());
 	    return tsp.getCoutMeilleureSolution() != Integer.MAX_VALUE;
 	};
 
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
 
-	Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
+	Future<Boolean> futureCalculTournee = executorCalculTournee
+		.submit(calculTournee);
 
 	// On recupere la meilleure tournee calculee a intervalle de temps
 	// regulier dans un autre thread
@@ -330,8 +355,10 @@ public class Plan extends Observable {
 		    }
 		    tsp.unlock();
 		    Itineraire[][] trajets = (Itineraire[][]) resultDijkstra[1];
-		    tournee.mettreAJourTournee(dureeTournee, ordreTournee, trajets,
-			    this.demandeDeLivraison.getListeLivraisons(), idSommets);
+		    tournee.mettreAJourTournee(dureeTournee, ordreTournee,
+			    trajets,
+			    this.demandeDeLivraison.getListeLivraisons(),
+			    idSommets);
 		    setChanged();
 		    notifyObservers(this.tournee);
 		} else {
@@ -358,13 +385,15 @@ public class Plan extends Observable {
 	    return tourneeTrouvee;
 	};
 
-	Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee.submit(recuperationMeilleurResultat);
+	Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee
+		.submit(recuperationMeilleurResultat);
 
 	executorCalculTournee.shutdown();
 	boolean tourneeTrouvee = false;
 	// On attend la fin de l'execution des deux thread lances
 	try {
-	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
+	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE,
+		    TimeUnit.SECONDS);
 	    tourneeTrouvee = futureRecuperationMeilleurResultat.get();
 	    System.out.println(tourneeTrouvee);
 	    /*
@@ -393,7 +422,8 @@ public class Plan extends Observable {
 	int[] durees = new int[idSommets.size()];
 	durees[0] = 0; // temps a passer a l'entrepot
 	for (int i = 1; i < idSommets.size(); i++) {
-	    durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i)).getDuree();
+	    durees[i] = demandeDeLivraison.getLivraison(idSommets.get(i))
+		    .getDuree();
 	}
 	return durees;
     }
@@ -537,7 +567,8 @@ public class Plan extends Observable {
 	    return tournee.getListeLivraisons();
 	} else {
 	    if (demandeDeLivraison != null) {
-		return new ArrayList<Livraison>(demandeDeLivraison.getListeLivraisons().values());
+		return new ArrayList<Livraison>(
+			demandeDeLivraison.getListeLivraisons().values());
 	    } else {
 		return null;
 	    }
@@ -652,9 +683,11 @@ public class Plan extends Observable {
      * @param nvFin
      *            Nouvelle heure de la fin de la plage
      */
-    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
+    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage,
+	    Heure nvDebut, Heure nvFin) {
 	if (tournee != null) {
-	    tournee.modifierPlageLivraison(adrLivraison, nvPlage, nvDebut, nvFin);
+	    tournee.modifierPlageLivraison(adrLivraison, nvPlage, nvDebut,
+		    nvFin);
 	}
 	setChanged();
 	notifyObservers();

@@ -29,9 +29,12 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
-		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+		fenetre.afficherMessage(
+			"Demande de livraison chargée avec des erreurs :\n"
+				+ rapport);
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
 	}
     }
@@ -42,16 +45,19 @@ public class EtatAjoutLivraison extends EtatDefaut {
     }
 
     @Override
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
-    	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree));
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv,
+	    int duree) {
+	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan,
+		idIntersection, idPrec, idSuiv, duree));
 	fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
 
     @Override
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
-	    String finPlage) {
-    	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree, debutPlage, finPlage));
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree,
+	    String debutPlage, String finPlage) {
+	controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan,
+		idIntersection, idPrec, idSuiv, duree, debutPlage, finPlage));
 	fenetre.afficherMessage("Livraison ajoutée à la tournée");
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }

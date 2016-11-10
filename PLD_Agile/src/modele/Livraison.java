@@ -25,13 +25,16 @@ public class Livraison extends ObjetGraphique {
      * @param finPlage
      *            Heure de fin de la plage horaire
      */
-    public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) throws ModeleException {
+    public Livraison(int duree, Intersection adresse, String debutPlage,
+	    String finPlage) throws ModeleException {
 	this.duree = duree;
 	this.adresse = adresse;
 	this.plage = null;
 	this.tpsAttente = null;
-	if ((debutPlage != null && finPlage != null) && !(debutPlage.isEmpty() || finPlage.isEmpty()))
-	    plage = new PlageHoraire(new Heure(debutPlage), new Heure(finPlage));
+	if ((debutPlage != null && finPlage != null)
+		&& !(debutPlage.isEmpty() || finPlage.isEmpty()))
+	    plage = new PlageHoraire(new Heure(debutPlage),
+		    new Heure(finPlage));
 
 	respectePlage = true;
     }
@@ -107,14 +110,19 @@ public class Livraison extends ObjetGraphique {
     public Heure setHeureArrivee(Heure heureArrivee) {
 	this.heureArrivee = heureArrivee;
 	if (this.plage != null) {
-	    if (heureArrivee.toSeconds() < this.plage.getHeureDebut().toSeconds()) {
-		this.heureDepart = new Heure(this.plage.getHeureDebut().toSeconds() + this.duree);
-		tpsAttente = new Heure(this.plage.getHeureDebut().toSeconds() - heureArrivee.toSeconds());
+	    if (heureArrivee.toSeconds() < this.plage.getHeureDebut()
+		    .toSeconds()) {
+		this.heureDepart = new Heure(
+			this.plage.getHeureDebut().toSeconds() + this.duree);
+		tpsAttente = new Heure(this.plage.getHeureDebut().toSeconds()
+			- heureArrivee.toSeconds());
 	    } else {
-		this.heureDepart = new Heure(heureArrivee.toSeconds() + this.duree);
+		this.heureDepart = new Heure(
+			heureArrivee.toSeconds() + this.duree);
 		tpsAttente = new Heure(0);
 	    }
-	    if (this.heureDepart.toSeconds() > this.plage.getHeureFin().toSeconds()) {
+	    if (this.heureDepart.toSeconds() > this.plage.getHeureFin()
+		    .toSeconds()) {
 		this.respectePlage = false;
 	    } else {
 		this.respectePlage = true;
@@ -144,14 +152,17 @@ public class Livraison extends ObjetGraphique {
      *         route
      */
     protected String afficherFeuilleRoute() {
-	String affichage = "Arrivé en " + adresse.getId() + " à " + heureArrivee.afficherHoraire() + ".";
+	String affichage = "Arrivé en " + adresse.getId() + " à "
+		+ heureArrivee.afficherHoraire() + ".";
 	if (this.possedePlage()) {
 	    if (tpsAttente != null && !tpsAttente.equals(new Heure(0))) {
-		affichage += "Attendre " + tpsAttente.afficherHoraire() + " pour effectuer la livraison à "
+		affichage += "Attendre " + tpsAttente.afficherHoraire()
+			+ " pour effectuer la livraison à "
 			+ plage.getHeureDebut().afficherHoraire() + ".";
 	    }
 	}
-	affichage += "La livraison dure " + duree + ". Repartir à " + getHeureDepart().afficherHoraire() + ".";
+	affichage += "La livraison dure " + duree + ". Repartir à "
+		+ getHeureDepart().afficherHoraire() + ".";
 	return affichage;
     }
 }

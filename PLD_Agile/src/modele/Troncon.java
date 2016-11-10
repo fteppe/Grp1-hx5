@@ -27,7 +27,8 @@ public class Troncon extends Observable {
      *            Vitesse moyenne de circulation (en decimetres/seconde) du
      *            troncon
      */
-    public Troncon(String nom, Intersection origine, Intersection destination, int longueur, int vitesseMoy) {
+    public Troncon(String nom, Intersection origine, Intersection destination,
+	    int longueur, int vitesseMoy) {
 	this.nom = nom;
 	this.longueur = longueur;
 	this.vitesseMoy = vitesseMoy;
@@ -63,8 +64,8 @@ public class Troncon extends Observable {
      * Affiche textuellement le troncon courant
      */
     public String toString() {
-	return " - Troncon " + nom + " de l'intersection " + origine.getId() + " à l'intersection "
-		+ destination.getId();
+	return " - Troncon " + nom + " de l'intersection " + origine.getId()
+		+ " à l'intersection " + destination.getId();
     }
 
     @Override
@@ -93,7 +94,8 @@ public class Troncon extends Observable {
 		return false;
 	} else if (!origine.equals(other.origine))
 	    return false;
-	if (Double.doubleToLongBits(tpsParcours) != Double.doubleToLongBits(other.tpsParcours))
+	if (Double.doubleToLongBits(tpsParcours) != Double
+		.doubleToLongBits(other.tpsParcours))
 	    return false;
 	if (vitesseMoy != other.vitesseMoy)
 	    return false;
@@ -105,7 +107,7 @@ public class Troncon extends Observable {
      *         route
      */
     protected String afficherFeuilleRoute() {
-	return "suivre " + nom + " de " + origine.getId() + " à " + destination.getId() + " pendant " + tpsParcours
-		+ " secondes";
+	return "suivre " + nom + " de " + origine.getId() + " à "
+		+ destination.getId() + " pendant " + tpsParcours + " secondes";
     }
 }

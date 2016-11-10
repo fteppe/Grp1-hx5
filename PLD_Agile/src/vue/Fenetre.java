@@ -55,7 +55,8 @@ public class Fenetre extends JFrame {
      * @param controleur le controleur qui est nécessaire pour pouvoir mapper
      * des actions utilisateur sur des actions du controleur
      */
-    public Fenetre(String titre, int hauteur, int largeur, Plan plan, Controleur controleur) {
+    public Fenetre(String titre, int hauteur, int largeur, Plan plan,
+	    Controleur controleur) {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	titreFenetre = titre;
 	this.plan = plan;
@@ -73,11 +74,13 @@ public class Fenetre extends JFrame {
 	console.setEditable(false);
 	console.setBorder(BorderFactory.createLoweredBevelBorder());
 	vuePlan = new VuePlan(plan, this);
-	descriptionPlan = new ZoneDeTexte((int) dimensions.x / 3, (int) dimensions.y - 30, plan, this);
+	descriptionPlan = new ZoneDeTexte((int) dimensions.x / 3,
+		(int) dimensions.y - 30, plan, this);
 	menu = new Menu(this);
 	barreDesTaches = new BarreDesTaches(this);
 	scroll = new JScrollPane(descriptionPlan);
-	scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	scroll.setHorizontalScrollBarPolicy(
+		JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	placerComposants();
 	this.setVisible(true);
     }
@@ -141,13 +144,15 @@ public class Fenetre extends JFrame {
     public void ouvrirPopMenuLivraison(int idLivraison) {
 	Point arg0 = getMousePosition();
 	popupMenuLivraison = new PopMenuLivraison(idLivraison, this);
-	popupMenuLivraison.show(this.getComponentAt(arg0), (int) arg0.getX(), (int) arg0.getY());
+	popupMenuLivraison.show(this.getComponentAt(arg0), (int) arg0.getX(),
+		(int) arg0.getY());
     }
 
     public void ouvrirPopMenuLivraisonInsertion(int idLivraison) {
 	Point arg0 = getMousePosition();
 	popupMenuLivraisonAjout = new PopMenuLivraisonAjout(idLivraison, this);
-	popupMenuLivraisonAjout.show(this, (int) arg0.getX(), (int) arg0.getY());
+	popupMenuLivraisonAjout.show(this, (int) arg0.getX(),
+		(int) arg0.getY());
     }
 
     protected void clicIntervertirLivraison(int idLivraison) {
@@ -169,11 +174,13 @@ public class Fenetre extends JFrame {
     }
 
     public void ouvrirMenuCreationLivraison(int position, boolean avant) {
-	menuCreationLivraison = new MenuCreationLivraison(this, position, avant, new Point(500, 300));
+	menuCreationLivraison = new MenuCreationLivraison(this, position, avant,
+		new Point(500, 300));
     }
 
     protected void ouvrirMenuModifLivraison(int position) {
-	menuModifLivraison = new MenuModificationLivraison(this, position, new Point(500, 300));
+	menuModifLivraison = new MenuModificationLivraison(this, position,
+		new Point(500, 300));
     }
 
     protected void supprimerLivraison(int id) {

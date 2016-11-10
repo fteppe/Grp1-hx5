@@ -61,8 +61,8 @@ public class TSPPlages {
      * @param heureDepart
      *            Heure de depart de l'entrepot en secondes
      */
-    public void chercheSolution(int nbSommets, int[][] cout, int[] duree, int[] horaireDebut, int[] horaireFin,
-	    int heureDepart) {
+    public void chercheSolution(int nbSommets, int[][] cout, int[] duree,
+	    int[] horaireDebut, int[] horaireFin, int heureDepart) {
 	// tempsLimiteAtteint = false;
 	coutMeilleureSolution = Integer.MAX_VALUE;
 	meilleureSolution = new Integer[nbSommets];
@@ -73,7 +73,8 @@ public class TSPPlages {
 	    nonVus.add(i);
 	ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
 	vus.add(0); // Le premier sommet visite est l'entrepôt
-	branchAndBound(0, nonVus, vus, 0, cout, duree, horaireDebut, horaireFin, heureDepart);
+	branchAndBound(0, nonVus, vus, 0, cout, duree, horaireDebut, horaireFin,
+		heureDepart);
     }
 
     /**
@@ -83,7 +84,8 @@ public class TSPPlages {
      *         chercheSolution
      */
     public Integer getMeilleureSolution(int i) {
-	if ((meilleureSolution == null) || (i < 0) || (i >= meilleureSolution.length)) {
+	if ((meilleureSolution == null) || (i < 0)
+		|| (i >= meilleureSolution.length)) {
 	    return null;
 	}
 	return meilleureSolution[i];
@@ -125,16 +127,19 @@ public class TSPPlages {
      *         sommetCourant, contenant chaque sommet de nonVus exactement une
      *         fois et terminant par le sommet 0
      */
-    protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus, int[][] cout, int[] duree, int coutActuel,
-	    int[] horaireDebut, int[] horaireFin, int heureDepart) {
+    protected int bound(Integer sommetCourant, ArrayList<Integer> nonVus,
+	    int[][] cout, int[] duree, int coutActuel, int[] horaireDebut,
+	    int[] horaireFin, int heureDepart) {
 	int bound = Integer.MAX_VALUE;
 	for (Integer i : nonVus) {
 	    int coutVers = cout[sommetCourant][i] + duree[i];
-	    int attente = Math.max(0, horaireDebut[i] - (heureDepart + coutActuel) - cout[sommetCourant][i]);
+	    int attente = Math.max(0, horaireDebut[i]
+		    - (heureDepart + coutActuel) - cout[sommetCourant][i]);
 	    if (coutVers != Integer.MAX_VALUE) {
 		// On prend en compte seulement les sommets pour lesquels
 		// on peut respecter les plages horaires associees
-		if ((coutActuel + heureDepart + coutVers + attente) < horaireFin[i]) {
+		if ((coutActuel + heureDepart + coutVers
+			+ attente) < horaireFin[i]) {
 		    // Le cout prend en compte l'itineraire, la duree
 		    // de la livraison et le temps d'attente si il y en a
 		    if (coutVers + attente < bound) {
@@ -169,17 +174,20 @@ public class TSPPlages {
      *         atteignables en respectant les plages horaires et triés par couts
      *         decroissant
      */
-    protected Iterator<Integer> iterator(Integer sommetCrt, ArrayList<Integer> nonVus, int[][] cout, int[] duree,
+    protected Iterator<Integer> iterator(Integer sommetCrt,
+	    ArrayList<Integer> nonVus, int[][] cout, int[] duree,
 	    int[] heureDebut, int[] heureFin, int coutVus, int heureDepart) {
 	ArrayList<Integer[]> nonVusTri = new ArrayList<Integer[]>();
 	ArrayList<Integer> nonVusOrdonnes = new ArrayList<Integer>();
 	// On prend en compte seulement les sommets pour lesquels
 	// on peut respecter les plages horaires associees
 	for (int i = 0; i < nonVus.size(); i++) {
-	    Integer coutSommet = cout[sommetCrt][nonVus.get(i)] + duree[nonVus.get(i)];
-	    int attente = Math.max(0,
-		    heureDebut[nonVus.get(i)] - (heureDepart + coutVus) - cout[sommetCrt][nonVus.get(i)]);
-	    if (heureFin[nonVus.get(i)] >= coutVus + coutSommet + heureDepart + attente
+	    Integer coutSommet = cout[sommetCrt][nonVus.get(i)]
+		    + duree[nonVus.get(i)];
+	    int attente = Math.max(0, heureDebut[nonVus.get(i)]
+		    - (heureDepart + coutVus) - cout[sommetCrt][nonVus.get(i)]);
+	    if (heureFin[nonVus.get(i)] >= coutVus + coutSommet + heureDepart
+		    + attente
 		    && cout[sommetCrt][nonVus.get(i)] != Integer.MAX_VALUE) {
 		Integer[] pair = new Integer[2];
 		pair[0] = nonVus.get(i);
@@ -228,8 +236,9 @@ public class TSPPlages {
      * @param heureDepart
      *            Heure de depart de l'entrepot en secondes
      */
-    void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, int coutVus, int[][] cout,
-	    int[] duree, int[] horaireDebut, int[] horaireFin, int heureDepart) {
+    void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus,
+	    ArrayList<Integer> vus, int coutVus, int[][] cout, int[] duree,
+	    int[] horaireDebut, int[] horaireFin, int heureDepart) {
 	if (!this.calculEnCours) {
 	    return;
 	}
@@ -249,26 +258,30 @@ public class TSPPlages {
 	    }
 	} else {
 	    int nouveauCout = coutVus;
-	    int bound = bound(sommetCrt, nonVus, cout, duree, coutVus, horaireDebut, horaireFin, heureDepart);
+	    int bound = bound(sommetCrt, nonVus, cout, duree, coutVus,
+		    horaireDebut, horaireFin, heureDepart);
 	    if (bound == Integer.MAX_VALUE) {
 		nouveauCout = bound;
 	    } else {
 		nouveauCout += bound;
 	    }
 	    if (nouveauCout < coutMeilleureSolution) {
-		Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, duree, horaireDebut, horaireFin, coutVus,
-			heureDepart);
+		Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, duree,
+			horaireDebut, horaireFin, coutVus, heureDepart);
 		while (it.hasNext()) {
 		    Integer prochainSommet = it.next();
 
 		    vus.add(prochainSommet);
 		    nonVus.remove(prochainSommet);
 
-		    int heurePassageProchain = heureDepart + cout[sommetCrt][prochainSommet] + coutVus;
-		    int coutProchain = coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet]
-			    + Math.max(0, horaireDebut[prochainSommet] - heurePassageProchain);
-		    branchAndBound(prochainSommet, nonVus, vus, coutProchain, cout, duree, horaireDebut, horaireFin,
-			    heureDepart);
+		    int heurePassageProchain = heureDepart
+			    + cout[sommetCrt][prochainSommet] + coutVus;
+		    int coutProchain = coutVus + cout[sommetCrt][prochainSommet]
+			    + duree[prochainSommet]
+			    + Math.max(0, horaireDebut[prochainSommet]
+				    - heurePassageProchain);
+		    branchAndBound(prochainSommet, nonVus, vus, coutProchain,
+			    cout, duree, horaireDebut, horaireFin, heureDepart);
 
 		    vus.remove(prochainSommet);
 		    nonVus.add(prochainSommet);

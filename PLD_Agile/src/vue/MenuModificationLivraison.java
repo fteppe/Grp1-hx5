@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import modele.Plan;
 
 public class MenuModificationLivraison extends MenuCreationLivraison {
-    public MenuModificationLivraison(Fenetre fenetre, int idLivraison, Point position) {
+    public MenuModificationLivraison(Fenetre fenetre, int idLivraison,
+	    Point position) {
 	super(fenetre, idLivraison, false, position);
 	duree.setVisible(false);
 	labelDuree.setVisible(false);
@@ -24,7 +25,8 @@ public class MenuModificationLivraison extends MenuCreationLivraison {
 
     private void validationModif() {
 	System.out.println("ok");
-	fenetre.getControleur().modifierLivraison(idLivraison, horaireActif.isSelected(),
-		heureArrive.getHeure() + ":00", heureDepart.getHeure() + ":00");
+	fenetre.getControleur().modifierLivraison(idLivraison,
+		horaireActif.isSelected(), heureArrive.getHeure() + ":00",
+		heureDepart.getHeure() + ":00");
     }
 }

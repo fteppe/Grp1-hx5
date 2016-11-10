@@ -15,15 +15,18 @@ public class EtatCalculEnCours extends EtatDefaut {
     @Override
     public void chargerDemandeLivraison() {
 	try {
-		controleur.getListeCde().reset();
+	    controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
-		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+		fenetre.afficherMessage(
+			"Demande de livraison chargée avec des erreurs :\n"
+				+ rapport);
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
 	}
     }

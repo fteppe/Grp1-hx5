@@ -37,7 +37,8 @@ public class MenuCreationLivraison extends JDialog {
     protected int idLivraison;
     protected Fenetre fenetre;
 
-    public MenuCreationLivraison(Fenetre fenetre, int idLivraison, boolean avant, Point position) {
+    public MenuCreationLivraison(Fenetre fenetre, int idLivraison,
+	    boolean avant, Point position) {
 	super(fenetre);
 	setLocation(position);
 	this.fenetre = fenetre;
@@ -119,10 +120,12 @@ public class MenuCreationLivraison extends JDialog {
 	    idApres = plan.getEntrepot().getId();
 	}
 	if (horaireActif.isSelected()) {
-	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt,
-		    heureArrive.getHeure() + ":00", heureDepart.getHeure() + ":00");
+	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant,
+		    idApres, dureeInt, heureArrive.getHeure() + ":00",
+		    heureDepart.getHeure() + ":00");
 	} else {
-	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
+	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant,
+		    idApres, dureeInt);
 	}
 
     }

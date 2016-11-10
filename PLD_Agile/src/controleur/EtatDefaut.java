@@ -12,16 +12,16 @@ import modele.Plan;
 public abstract class EtatDefaut implements Etat {
     // Definition des comportements par defaut des methodes
 
-	protected Controleur controleur;
-	protected Plan plan;
-	protected Fenetre fenetre;
-	
-	public void init(Controleur c, Plan p, Fenetre f){
-		this.controleur = c;
-		this.plan = p;
-		this.fenetre = f;
-	}
-	
+    protected Controleur controleur;
+    protected Plan plan;
+    protected Fenetre fenetre;
+
+    public void init(Controleur c, Plan p, Fenetre f) {
+	this.controleur = c;
+	this.plan = p;
+	this.fenetre = f;
+    }
+
     public void chargerPlan() {
 	fenetre.afficherMessage("Chargement du plan en cours");
 	try {
@@ -30,9 +30,11 @@ public abstract class EtatDefaut implements Etat {
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Plan chargé avec succés");
 	    else
-		fenetre.afficherMessage("Plan créé avec des erreurs :\n" + rapport);
+		fenetre.afficherMessage(
+			"Plan créé avec des erreurs :\n" + rapport);
 	    controleur.setEtatCourant(controleur.ETAT_PLAN_CHARGE);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
 	}
     }
@@ -60,11 +62,12 @@ public abstract class EtatDefaut implements Etat {
 
     // public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre){}
 
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv,
+	    int duree) {
     }
 
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
-	    String finPlage) {
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree,
+	    String debutPlage, String finPlage) {
     }
 
     public boolean clicDroitZoneTextuellePossible() {
@@ -99,7 +102,8 @@ public abstract class EtatDefaut implements Etat {
     public void genererFeuilleDeRoute() {
     }
 
-    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
+    public void modifierLivraison(int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin) {
     }
 
 }

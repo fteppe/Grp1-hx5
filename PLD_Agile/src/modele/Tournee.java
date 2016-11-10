@@ -46,15 +46,20 @@ public class Tournee extends Observable {
      *            Tableau des itineraires pour aller de la livraison i a la
      *            livraison j
      */
-    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
-	    HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
+    protected void mettreAJourTournee(int duree, int[] livraisons,
+	    Itineraire[][] itineraires, HashMap<Integer, Livraison> livDemande,
+	    List<Integer> idSommets) {
 	this.viderTournee();
 	for (int i = 0; i < livraisons.length - 1; i++) {
-	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
-	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
+	    Livraison prochLivr = livDemande
+		    .get(idSommets.get(livraisons[i + 1]));
+	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i
+		    + 1]];
 	    this.ajouterItineraire(nouvItineraire, prochLivr);
 	}
-	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
+	this.ajouterItineraire(
+		itineraires[livraisons[livraisons.length - 1]][livraisons[0]],
+		null);
 	this.setDuree(duree);
 	this.mettreAJourTempsParcours(this.hDebut);
 	// setChanged();
@@ -68,7 +73,8 @@ public class Tournee extends Observable {
      * @param itineraire
      *            Itineraire a ajouter à la tournee
      */
-    protected void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
+    protected void ajouterItineraire(Itineraire itineraire,
+	    Livraison prochLivr) {
 	if (itineraires.size() == 0)
 	    adrEntrepot = itineraire.getDepart().getId();
 	itineraires.add(itineraire);
@@ -101,7 +107,8 @@ public class Tournee extends Observable {
 	Object[] resultAlgo = algo.calculerDijkstra(nvItineraires);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
 	for (Itineraire itin : itineraires) {
-	    if (itin.getDepart().getId() == nvItineraires.get(0) && itin.getArrivee().getId() == nvItineraires.get(2)) {
+	    if (itin.getDepart().getId() == nvItineraires.get(0)
+		    && itin.getArrivee().getId() == nvItineraires.get(2)) {
 		itineraires.remove(itin);
 		break;
 	    }
@@ -297,7 +304,8 @@ public class Tournee extends Observable {
      * @param nvFin
      *            Nouvelle heure de la fin de la plage
      */
-    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
+    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage,
+	    Heure nvDebut, Heure nvFin) {
 	Livraison liv = livraisons.remove(adrLivraison);
 	if (nvPlage)
 	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
@@ -313,14 +321,17 @@ public class Tournee extends Observable {
      */
     public String genererFeuilleRoute() {
 	String route;
-	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
+	route = "Départ de l'intersection " + adrEntrepot + " à "
+		+ hDebut.afficherHoraire();
 	route += "\r\n" + itineraires.get(0).afficherFeuilleRoute() + "\r\n";
 	for (int i = 1; i < itineraires.size(); i++) {
 	    Itineraire itin = itineraires.get(i);
-	    route += "\r\n" + livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
+	    route += "\r\n" + livraisons.get(itin.getDepart().getId())
+		    .afficherFeuilleRoute();
 	    route += "\r\n" + itin.afficherFeuilleRoute() + "\r\n";
 	}
-	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
+	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à "
+		+ hFin.afficherHoraire();
 	return route;
     }
 }

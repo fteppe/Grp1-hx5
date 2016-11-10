@@ -27,7 +27,8 @@ public class DeserialiseurXML {
      * @throws ExceptionXML
      */
     public static String chargerPlan(Plan plan)
-	    throws ParserConfigurationException, SAXException, IOException, ExceptionXML {
+	    throws ParserConfigurationException, SAXException, IOException,
+	    ExceptionXML {
 	String rapport = "";
 	File xml;
 	try {
@@ -35,13 +36,15 @@ public class DeserialiseurXML {
 	} catch (Exception e) {
 	    throw new ExceptionXML("Chargement annulé");
 	}
-	DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
+		.newDocumentBuilder();
 	Document document = docBuilder.parse(xml);
 	Element racine = document.getDocumentElement();
 	if (racine.getNodeName().equals("reseau")) {
 	    rapport = construirePlanAPartirDeDOMXML(racine, plan);
 	} else
-	    throw new ExceptionXML("Document non conforme : le document ne possède pas de racine \"réseau\"");
+	    throw new ExceptionXML(
+		    "Document non conforme : le document ne possède pas de racine \"réseau\"");
 
 	return rapport;
     }
@@ -57,10 +60,12 @@ public class DeserialiseurXML {
      * @throws ExceptionXML
      */
     public static String chargerLivraisons(Plan plan)
-	    throws ParserConfigurationException, SAXException, IOException, ExceptionXML {
+	    throws ParserConfigurationException, SAXException, IOException,
+	    ExceptionXML {
 	String rapport = "";
 	File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-	DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
+		.newDocumentBuilder();
 	Document document = docBuilder.parse(xml);
 	Element racine = document.getDocumentElement();
 	if (racine.getNodeName().equals("demandeDeLivraisons")) {
@@ -75,7 +80,8 @@ public class DeserialiseurXML {
 	return rapport;
     }
 
-    private static String construirePlanAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) {
+    private static String construirePlanAPartirDeDOMXML(Element noeudDOMRacine,
+	    Plan plan) {
 	String rapport = "";
 	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("noeud");
 	plan.viderPlan();
@@ -100,13 +106,18 @@ public class DeserialiseurXML {
 	    Element eltTroncon = (Element) listeTroncons.item(i);
 
 	    try {
-		int destination = Integer.parseInt(eltTroncon.getAttribute("destination"));
-		int origine = Integer.parseInt(eltTroncon.getAttribute("origine"));
-		int longueur = Integer.parseInt(eltTroncon.getAttribute("longueur"));
-		int vitesse = Integer.parseInt(eltTroncon.getAttribute("vitesse"));
+		int destination = Integer
+			.parseInt(eltTroncon.getAttribute("destination"));
+		int origine = Integer
+			.parseInt(eltTroncon.getAttribute("origine"));
+		int longueur = Integer
+			.parseInt(eltTroncon.getAttribute("longueur"));
+		int vitesse = Integer
+			.parseInt(eltTroncon.getAttribute("vitesse"));
 		String nomRue = eltTroncon.getAttribute("nomRue");
 
-		plan.ajouterTroncon(nomRue, longueur, vitesse, origine, destination);
+		plan.ajouterTroncon(nomRue, longueur, vitesse, origine,
+			destination);
 	    } catch (NumberFormatException e) {
 		rapport += "\nCertains troncons contiennent des attributs \"destination\", \"origine\", \"longueur\" ou \"vitesse\" non entiers.";
 	    } catch (ModeleException e) {
@@ -116,27 +127,34 @@ public class DeserialiseurXML {
 	return rapport;
     }
 
-    private static String construireLivraisonsAPartirDeDOMXML(Element noeudDOMRacine, Plan plan)
+    private static String construireLivraisonsAPartirDeDOMXML(
+	    Element noeudDOMRacine, Plan plan)
 	    throws ExceptionXML, ModeleException {
 	String rapport = "";
 	if (noeudDOMRacine.getElementsByTagName("entrepot").getLength() == 0) {
-	    throw new ExceptionXML("La demande de livraison ne contient pas d'entrepôt");
+	    throw new ExceptionXML(
+		    "La demande de livraison ne contient pas d'entrepôt");
 	}
 	if (noeudDOMRacine.getElementsByTagName("entrepot").getLength() > 1) {
 	    rapport += "\nPlusieurs entrepôts ont été détectés dans le document, seul le premier sera pris en compte.";
 	}
-	Element eltEntrepot = (Element) noeudDOMRacine.getElementsByTagName("entrepot").item(0);
-	NodeList listeLivraisons = noeudDOMRacine.getElementsByTagName("livraison");
+	Element eltEntrepot = (Element) noeudDOMRacine
+		.getElementsByTagName("entrepot").item(0);
+	NodeList listeLivraisons = noeudDOMRacine
+		.getElementsByTagName("livraison");
 	int adresseEntrepot;
 	try {
-	    adresseEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
+	    adresseEntrepot = Integer
+		    .parseInt(eltEntrepot.getAttribute("adresse"));
 	} catch (NumberFormatException e) {
-	    throw new ExceptionXML("L'adresse de l'entrepôt n'est pas un identifiant entier.");
+	    throw new ExceptionXML(
+		    "L'adresse de l'entrepôt n'est pas un identifiant entier.");
 	}
 	String heureDepartEntrepot = eltEntrepot.getAttribute("heureDepart");
 
 	try {
-	    plan.creerDemandeDeLivraison(new Heure(heureDepartEntrepot), adresseEntrepot);
+	    plan.creerDemandeDeLivraison(new Heure(heureDepartEntrepot),
+		    adresseEntrepot);
 	} catch (ModeleException e) {
 	    throw e;
 	}
@@ -144,12 +162,16 @@ public class DeserialiseurXML {
 	for (int i = 0; i < listeLivraisons.getLength(); i++) {
 	    try {
 		Element eltLivraison = (Element) listeLivraisons.item(i);
-		int adresse = Integer.parseInt(eltLivraison.getAttribute("adresse"));
-		int duree = Integer.parseInt(eltLivraison.getAttribute("duree"));
-		if (eltLivraison.getAttribute("debutPlage") != null && eltLivraison.getAttribute("debutPlage") != "") {
+		int adresse = Integer
+			.parseInt(eltLivraison.getAttribute("adresse"));
+		int duree = Integer
+			.parseInt(eltLivraison.getAttribute("duree"));
+		if (eltLivraison.getAttribute("debutPlage") != null
+			&& eltLivraison.getAttribute("debutPlage") != "") {
 		    String debutPlage = eltLivraison.getAttribute("debutPlage");
 		    String finPlage = eltLivraison.getAttribute("finPlage");
-		    plan.ajouterLivraisonDemande(adresse, duree, debutPlage, finPlage);
+		    plan.ajouterLivraisonDemande(adresse, duree, debutPlage,
+			    finPlage);
 		} else {
 		    plan.ajouterLivraisonDemande(adresse, duree);
 		}

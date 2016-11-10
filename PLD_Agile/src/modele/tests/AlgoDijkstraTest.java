@@ -89,14 +89,16 @@ public class AlgoDijkstraTest {
 	    e.printStackTrace();
 	}
 
-	algoDijkstra.chargerAlgo(plan.getListeIntersections(), plan.getListeTronconsTriee());
+	algoDijkstra.chargerAlgo(plan.getListeIntersections(),
+		plan.getListeTronconsTriee());
 	ArrayList<Integer> listeSommets = new ArrayList<>();
 	listeSommets.add(1);
 	listeSommets.add(2);
 	listeSommets.add(3);
 	listeSommets.add(4);
 	listeSommets.add(10);
-	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1, listeSommets);
+	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1,
+		listeSommets);
 	int[] cout = (int[]) resultDijkstra[0];
 	Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
 	int[] coutComp = new int[5];
@@ -134,8 +136,10 @@ public class AlgoDijkstraTest {
 
 	for (int i = 0; i < 5; i++) {
 	    assertEquals(cout[i], coutComp[i]);
-	    assertEquals(trajetsUnit[i].getDepart().getId(), trajetsUnitComp[i].getDepart().getId());
-	    assertEquals(trajetsUnit[i].getArrivee().getId(), trajetsUnitComp[i].getArrivee().getId());
+	    assertEquals(trajetsUnit[i].getDepart().getId(),
+		    trajetsUnitComp[i].getDepart().getId());
+	    assertEquals(trajetsUnit[i].getArrivee().getId(),
+		    trajetsUnitComp[i].getArrivee().getId());
 	}
 
 	ArrayList<Integer> nouvListeSommets = new ArrayList<>();
@@ -143,7 +147,8 @@ public class AlgoDijkstraTest {
 	nouvListeSommets.add(3);
 	nouvListeSommets.add(10);
 
-	Object[] resultDijkstraComplet = algoDijkstra.calculerDijkstra(nouvListeSommets);
+	Object[] resultDijkstraComplet = algoDijkstra
+		.calculerDijkstra(nouvListeSommets);
 	int[][] coutComplet = (int[][]) resultDijkstraComplet[0];
 	Itineraire[][] trajetsUnitComplet = (Itineraire[][]) resultDijkstraComplet[1];
 	int[][] coutCompComplet = new int[3][3];
@@ -282,7 +287,8 @@ public class AlgoDijkstraTest {
 	}
 
 	// chargement des informations dans algoDijkstra
-	algoDijkstra.chargerAlgo(plan.getListeIntersections(), plan.getListeTronconsTriee());
+	algoDijkstra.chargerAlgo(plan.getListeIntersections(),
+		plan.getListeTronconsTriee());
 	ArrayList<Integer> listeSommets = new ArrayList<>();
 	listeSommets.add(1);
 	listeSommets.add(2);
@@ -292,7 +298,8 @@ public class AlgoDijkstraTest {
 	// Dijkstra à partir de i1 vers tous les autres intersections
 	// verifier que le cout vers i10 est infini et qu'il n'y a pas
 	// d'itinéraire vers i10
-	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1, listeSommets);
+	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1,
+		listeSommets);
 	int[] cout = (int[]) resultDijkstra[0];
 	assertTrue(cout[4] == Integer.MAX_VALUE);
 	Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
@@ -307,8 +314,9 @@ public class AlgoDijkstraTest {
 
 	resultDijkstra = algoDijkstra.calculerDijkstra(10, listeSommets);
 	cout = (int[]) resultDijkstra[0];
-	assertTrue(cout[0] == Integer.MAX_VALUE && cout[1] == Integer.MAX_VALUE && cout[2] == Integer.MAX_VALUE
-		&& cout[3] == Integer.MAX_VALUE && cout[4] != Integer.MAX_VALUE);
+	assertTrue(cout[0] == Integer.MAX_VALUE && cout[1] == Integer.MAX_VALUE
+		&& cout[2] == Integer.MAX_VALUE && cout[3] == Integer.MAX_VALUE
+		&& cout[4] != Integer.MAX_VALUE);
 	trajetsUnit = (Itineraire[]) resultDijkstra[1];
 	assertTrue(trajetsUnit[0].getTroncons().isEmpty());
 	assertTrue(trajetsUnit[1].getTroncons().isEmpty());
@@ -337,7 +345,8 @@ public class AlgoDijkstraTest {
 	// Creation et Ajout des intersections au plan
 	AlgoDijkstra algoDijkstra = AlgoDijkstra.getInstance();
 	ArrayList<Integer> listeSommets = new ArrayList<>();
-	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1, listeSommets);
+	Object[] resultDijkstra = algoDijkstra.calculerDijkstra(1,
+		listeSommets);
 	int[] cout = (int[]) resultDijkstra[0];
 	Itineraire[] trajetsUnit = (Itineraire[]) resultDijkstra[1];
 	assertEquals(cout.length, 0);

@@ -34,7 +34,8 @@ public class BarreDesTaches extends JToolBar {
 	this.setFloatable(false);
 	this.fenetre = fenetre;
 	chargerPlan = new JButton("Charger un plan");
-	chargerDemandeLivraison = new JButton("Charger une demande de livraison");
+	chargerDemandeLivraison = new JButton(
+		"Charger une demande de livraison");
 	calculTournee = new JButton("Calculer une tournée");
 	annuler = new JButton("Annuler");
 	restaurer = new JButton("Restaurer");

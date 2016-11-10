@@ -30,21 +30,21 @@ public class Controleur {
      *            le plan
      */
     public Controleur(Plan plan) {
-    	this.plan = plan;
-    	listeDeCdes = new ListeDeCdes();
-    	etatCourant = ETAT_INITIAL;
-    	String titre = "Optimod";
-    	tempsLimite = 10000;
-    	int longueur = 720;
-    	int largeur = 1024;
-    	fenetre = new Fenetre(titre, longueur, largeur, plan, this);
-    	ETAT_INITIAL.init(this, plan, fenetre);
-    	ETAT_PLAN_CHARGE.init(this, plan, fenetre);
-    	ETAT_DEMANDE_LIVRAISON_CHARGE.init(this, plan, fenetre);
-    	ETAT_CALCUL_EN_COURS.init(this, plan, fenetre);
-    	ETAT_TOURNEE_CALCULEE.init(this, plan, fenetre);
-    	ETAT_AJOUT_LIVRAISON.init(this, plan, fenetre);
-    	ETAT_ECHANGER_LIVRAISON.init(this, plan, fenetre);
+	this.plan = plan;
+	listeDeCdes = new ListeDeCdes();
+	etatCourant = ETAT_INITIAL;
+	String titre = "Optimod";
+	tempsLimite = 10000;
+	int longueur = 720;
+	int largeur = 1024;
+	fenetre = new Fenetre(titre, longueur, largeur, plan, this);
+	ETAT_INITIAL.init(this, plan, fenetre);
+	ETAT_PLAN_CHARGE.init(this, plan, fenetre);
+	ETAT_DEMANDE_LIVRAISON_CHARGE.init(this, plan, fenetre);
+	ETAT_CALCUL_EN_COURS.init(this, plan, fenetre);
+	ETAT_TOURNEE_CALCULEE.init(this, plan, fenetre);
+	ETAT_AJOUT_LIVRAISON.init(this, plan, fenetre);
+	ETAT_ECHANGER_LIVRAISON.init(this, plan, fenetre);
     }
 
     protected ListeDeCdes getListeCde() {
@@ -129,7 +129,8 @@ public class Controleur {
      * graphique
      */
 
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree) {
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv,
+	    int duree) {
 	etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree);
     }
 
@@ -138,8 +139,10 @@ public class Controleur {
      * graphique
      */
 
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
-	etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree, debutPlage, finPlage);
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree,
+	    String debutPlage, String finPlage) {
+	etatCourant.clicAjouterLivraisonPosition(idPrec, idSuiv, duree,
+		debutPlage, finPlage);
     }
 
     /**
@@ -262,7 +265,9 @@ public class Controleur {
 	etatCourant.genererFeuilleDeRoute();
     }
 
-    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
-	etatCourant.modifierLivraison(adrLiv, possedePlage, heureDebut, heureFin);
+    public void modifierLivraison(int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin) {
+	etatCourant.modifierLivraison(adrLiv, possedePlage, heureDebut,
+		heureFin);
     }
 }

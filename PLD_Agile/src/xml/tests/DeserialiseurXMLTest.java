@@ -23,7 +23,8 @@ public class DeserialiseurXMLTest {
     private DeserialiseurXML deserialiseur;
 
     @Before
-    public void setUp() throws ParserConfigurationException, SAXException, IOException, ExceptionXML {
+    public void setUp() throws ParserConfigurationException, SAXException,
+	    IOException, ExceptionXML {
 	plan = new Plan();
 	deserialiseur.chargerPlan(plan);
     }
@@ -43,16 +44,20 @@ public class DeserialiseurXMLTest {
 	assertEquals(280, plan.getListeIntersections().get(3).getLatitude());
 	assertEquals(53, plan.getListeIntersections().get(3).getLongitude());
 
-	assertEquals(1, plan.getTronconsParIntersection(0).get(0).getDestination().getId());
-	assertEquals(5, plan.getTronconsParIntersection(0).get(1).getDestination().getId());
+	assertEquals(1, plan.getTronconsParIntersection(0).get(0)
+		.getDestination().getId());
+	assertEquals(5, plan.getTronconsParIntersection(0).get(1)
+		.getDestination().getId());
 
     }
 
     @Test
     public void testchargerTroncons() {
 
-	assertEquals(1, plan.getTronconsParIntersection(0).get(0).getDestination().getId());
-	assertEquals(5, plan.getTronconsParIntersection(0).get(1).getDestination().getId());
+	assertEquals(1, plan.getTronconsParIntersection(0).get(0)
+		.getDestination().getId());
+	assertEquals(5, plan.getTronconsParIntersection(0).get(1)
+		.getDestination().getId());
 
     }
 

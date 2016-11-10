@@ -43,7 +43,8 @@ public class Menu extends JMenuBar {
     private void ajouterElementsMenu() {
 	chargerPlan = new JMenuItem("Charger un plan");
 	quitter = new JMenuItem("Quitter");
-	chargerDemandeLivraison = new JMenuItem("Charger une demande de livraison");
+	chargerDemandeLivraison = new JMenuItem(
+		"Charger une demande de livraison");
 	calculerTournee = new JMenuItem("Calculer une tournée");
 	annuler = new JMenuItem("Annuler");
 	restaurer = new JMenuItem("Restaurer");

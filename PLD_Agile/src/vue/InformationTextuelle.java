@@ -20,7 +20,8 @@ public class InformationTextuelle extends JPanel {
     protected static Color COULEUR_GRISE = new Color(0xA6A6A6);
     protected static Color COULEUR_ERREUR = new Color(0xFF7676);
 
-    public InformationTextuelle(String information, int index, Fenetre fenetre) {
+    public InformationTextuelle(String information, int index,
+	    Fenetre fenetre) {
 	super();
 	this.fenetre = fenetre;
 	this.index = index;
@@ -32,7 +33,8 @@ public class InformationTextuelle extends JPanel {
 	add(zoneInformation);
     }
 
-    public void ajouterInformationDansPanneau(JPanel panneau, GridBagConstraints contraintes, int i) {
+    public void ajouterInformationDansPanneau(JPanel panneau,
+	    GridBagConstraints contraintes, int i) {
 	panneau.add(zoneInformation, contraintes);
     }
 

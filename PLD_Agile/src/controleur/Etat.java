@@ -39,6 +39,7 @@ public interface Etat {
     /**
      * Methode appelee par controleur apres un clic gauche sur un point de la
      * vue graphique
+     * 
      * @param idPrec
      * @param idSuiv
      * @param duree
@@ -48,14 +49,15 @@ public interface Etat {
     /**
      * Methode appelee par controleur apres un clic gauche sur un point de la
      * vue graphique
+     * 
      * @param idPrec
      * @param idSuiv
      * @param duree
      * @param debutPlage
      * @param finPlage
      */
-    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
-	    String finPlage);
+    public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree,
+	    String debutPlage, String finPlage);
 
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Undo"
@@ -86,6 +88,7 @@ public interface Etat {
     /**
      * Methode appelee par controleur lorsque l'utilisateur fait un clique droit
      * sur un point du plan lorsque la tournee est deja calculee.
+     * 
      * @param idLivraison
      */
     public void supprimerLivraison(int idLivraison);
@@ -93,6 +96,7 @@ public interface Etat {
     /**
      * Methode appelée lorsque l'utilisateur clique sur le bouton echanger
      * livraison
+     * 
      * @param idIntersection
      */
     public void clicAjouterLivraison(int idIntersection);
@@ -100,6 +104,7 @@ public interface Etat {
     /**
      * Methode appelee par controleur lorsque l'utilisateur fait un clic gauche
      * sur Echanger après avoir selectionner une 1ere livraison.
+     * 
      * @param idLivraison
      */
     public void clicEchangerLivraisons(int idLivraison);
@@ -108,6 +113,7 @@ public interface Etat {
      * Methode appelee par controleur lorsque l'utilisateur survole le plan avec
      * la souris, vérifie si le point est une intersection et si ce n'est pas
      * déjà une livraison.
+     * 
      * @param point
      * @param tolerance
      */
@@ -121,12 +127,14 @@ public interface Etat {
 
     /**
      * Methode appelee par controleur quand ...
+     * 
      * @param idLivraison
      */
     public void clicDroitLivraison(int idLivraison);
 
     /**
      * Methode appelee par controleur quand ...
+     * 
      * @param idIntersection
      */
     public void clicDroitIntersection(int idIntersection);
@@ -134,6 +142,7 @@ public interface Etat {
     /**
      * Methode appelee par controleur quand un clic gauche est effectué sur une
      * livraison
+     * 
      * @param idLivraison
      */
     public void clicGaucheLivraison(int idLivraison);
@@ -147,6 +156,7 @@ public interface Etat {
     /**
      * Méthode appelée pour modifier la plage horaire de la livraison à
      * l'adresse donnée
+     * 
      * @param adrLiv
      *            Adresse de la livraison à modifier
      * @param possedePlage
@@ -157,7 +167,8 @@ public interface Etat {
      * @param heureFin
      *            Heure de fin de la plage
      */
-    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin);
+    public void modifierLivraison(int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin);
 
     /**
      * cette fonction permet de revenir à l'état précédent dans certaines

@@ -21,15 +21,18 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
     @Override
     public void chargerDemandeLivraison() {
 	try {
-		controleur.getListeCde().reset();
+	    controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
-		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+		fenetre.afficherMessage(
+			"Demande de livraison chargée avec des erreurs :\n"
+				+ rapport);
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
 	}
     }
@@ -39,13 +42,15 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
 	System.exit(0);
     }
 
-    private void echangerLivraison(Controleur controleur, Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes,
-	    int idLivraison2) {
+    private void echangerLivraison(Controleur controleur, Plan plan,
+	    Fenetre fenetre, ListeDeCdes listeDeCdes, int idLivraison2) {
 	if (idLivraison != idLivraison2) {
-	    listeDeCdes.ajoute(new CdeEchangeLivraisons(plan, idLivraison, idLivraison2));
+	    listeDeCdes.ajoute(
+		    new CdeEchangeLivraisons(plan, idLivraison, idLivraison2));
 	    fenetre.afficherMessage("Livraisons échangées");
 	} else {
-	    fenetre.afficherMessage("Veuillez choisir deux livraisons différentes pour les intervertir.");
+	    fenetre.afficherMessage(
+		    "Veuillez choisir deux livraisons différentes pour les intervertir.");
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }
@@ -72,7 +77,8 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
 
     @Override
     public void clicGaucheLivraison(int idLivraison2) {
-	echangerLivraison(controleur, plan, fenetre, controleur.getListeCde(), idLivraison2);
+	echangerLivraison(controleur, plan, fenetre, controleur.getListeCde(),
+		idLivraison2);
     }
 
 }

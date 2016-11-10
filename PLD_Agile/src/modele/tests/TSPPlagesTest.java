@@ -72,18 +72,24 @@ public class TSPPlagesTest {
 
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
-	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin,
+		heureDepart);
 	Integer[] meilleureSolution = { 1, 3, 6, 10 };
 	Integer[] meilleureSolution2 = { 1, 6, 10, 3 };
 	Integer[] meilleureSolution3 = { 1, 10, 6, 3 };
 	Integer[] meilleureSolution4 = { 1, 10, 3, 6 };
 	Integer[] meilleureSolution5 = { 1, 6, 3, 10 };
 	for (int i = 0; i < 4; i++) {
-	    assertTrue(listeSommets[tsp.getMeilleureSolution(i)] == meilleureSolution[i]
-		    || meilleureSolution2[i] == listeSommets[tsp.getMeilleureSolution(i)]
-		    || listeSommets[tsp.getMeilleureSolution(i)] == meilleureSolution3[i]
-		    || meilleureSolution4[i] == listeSommets[tsp.getMeilleureSolution(i)]
-		    || meilleureSolution5[i] == listeSommets[tsp.getMeilleureSolution(i)]);
+	    assertTrue(listeSommets[tsp
+		    .getMeilleureSolution(i)] == meilleureSolution[i]
+		    || meilleureSolution2[i] == listeSommets[tsp
+			    .getMeilleureSolution(i)]
+		    || listeSommets[tsp
+			    .getMeilleureSolution(i)] == meilleureSolution3[i]
+		    || meilleureSolution4[i] == listeSommets[tsp
+			    .getMeilleureSolution(i)]
+		    || meilleureSolution5[i] == listeSommets[tsp
+			    .getMeilleureSolution(i)]);
 	}
 	assertEquals(66, tsp.getCoutMeilleureSolution());
     }
@@ -136,11 +142,13 @@ public class TSPPlagesTest {
 
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
-	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin,
+		heureDepart);
 	Integer[] meilleureSolution = { 1, 6, 3, 10 };
 	Integer[] meilleureSolution2 = { 1, 3, 6, 10 };
 	for (int i = 0; i < 4; i++) {
-	    int sommetsMeilleureSolution = listeSommets[tsp.getMeilleureSolution(i)];
+	    int sommetsMeilleureSolution = listeSommets[tsp
+		    .getMeilleureSolution(i)];
 	    assertTrue(sommetsMeilleureSolution == meilleureSolution[i]
 		    || sommetsMeilleureSolution == meilleureSolution2[i]);
 
@@ -195,7 +203,8 @@ public class TSPPlagesTest {
 
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
-	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin,
+		heureDepart);
 	for (int i = 0; i < 4; i++) {
 	    System.out.println(tsp.getMeilleureSolution(i));
 	}
@@ -249,7 +258,8 @@ public class TSPPlagesTest {
 
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
-	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin,
+		heureDepart);
 	for (int i = 0; i < 4; i++) {
 	    System.out.println(tsp.getMeilleureSolution(i));
 	}
@@ -303,7 +313,8 @@ public class TSPPlagesTest {
 
 	Heure heureDepartH = new Heure("07:25:00");
 	int heureDepart = heureDepartH.toSeconds();
-	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
+	tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin,
+		heureDepart);
 	for (int i = 0; i < 4; i++) {
 	    System.out.println(tsp.getMeilleureSolution(i));
 	}
@@ -317,7 +328,8 @@ public class TSPPlagesTest {
 	horaireDebut = new int[4];
 	horaireFin = new int[4];
 
-	tsp.chercheSolution(0, coutCompComplet, duree, horaireDebut, horaireFin, 0);
+	tsp.chercheSolution(0, coutCompComplet, duree, horaireDebut, horaireFin,
+		0);
 	assertEquals(0, tsp.getCoutMeilleureSolution());
 	assertNull(tsp.getMeilleureSolution(0));
     }

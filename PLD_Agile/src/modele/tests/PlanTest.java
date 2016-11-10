@@ -144,10 +144,14 @@ public class PlanTest {
 	int position = 0;
 	assertTrue(tourneeTrouvee);
 	for (Itineraire i : listeItineraires) {
-	    assertTrue(i.getDepart().getId() == listeSommetsTourneePoss1[position]
-		    || i.getDepart().getId() == listeSommetsTourneePoss2[position]);
-	    assertTrue(i.getArrivee().getId() == listeSommetsTourneePoss1[position + 1]
-		    || i.getArrivee().getId() == listeSommetsTourneePoss2[position + 1]);
+	    assertTrue(i.getDepart()
+		    .getId() == listeSommetsTourneePoss1[position]
+		    || i.getDepart()
+			    .getId() == listeSommetsTourneePoss2[position]);
+	    assertTrue(i.getArrivee()
+		    .getId() == listeSommetsTourneePoss1[position + 1]
+		    || i.getArrivee()
+			    .getId() == listeSommetsTourneePoss2[position + 1]);
 	    position++;
 	    System.out.println(i.getDepart().getId());
 	}
@@ -166,7 +170,8 @@ public class PlanTest {
 	try {
 	    deserialiseur.chargerPlan(p);
 	    deserialiseur.chargerLivraisons(p);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
@@ -181,7 +186,8 @@ public class PlanTest {
 
 	ExecutorService executorCalculTournee = Executors.newFixedThreadPool(2);
 
-	Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
+	Future<Boolean> futureCalculTournee = executorCalculTournee
+		.submit(calculTournee);
 
 	int tpsAttente = 2;
 	executorCalculTournee.submit(() -> {
@@ -203,7 +209,8 @@ public class PlanTest {
 
 	executorCalculTournee.shutdown();
 	try {
-	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
+	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE,
+		    TimeUnit.SECONDS);
 	    tourneeTrouvee = futureCalculTournee.get();
 	} catch (InterruptedException | ExecutionException e1) {
 	    // TODO Auto-generated catch block
@@ -293,7 +300,8 @@ public class PlanTest {
      * Graphe compose de 5 livraisons dont le calcul de tournee ne doit pas
      * s'operer correctement, une livraison etant inatteignable
      */
-    public void testCalculerTourneeLivraisonInatteignable() throws ExceptionTournee {
+    public void testCalculerTourneeLivraisonInatteignable()
+	    throws ExceptionTournee {
 	Plan p = new Plan();
 	try {
 	    p.ajouterIntersection(1, 412, 574);
@@ -388,11 +396,14 @@ public class PlanTest {
 	int position = 0;
 	assertTrue(tourneeTrouvee);
 	for (Itineraire i : listeItineraires) {
-	    assertTrue(i.getDepart().getId() == listeSommetsTourneePoss1[position]);
-	    assertTrue(i.getArrivee().getId() == listeSommetsTourneePoss1[position + 1]);
+	    assertTrue(i.getDepart()
+		    .getId() == listeSommetsTourneePoss1[position]);
+	    assertTrue(i.getArrivee()
+		    .getId() == listeSommetsTourneePoss1[position + 1]);
 	    if (i.getArrivee().getId() != 4) {
 		if (p.getLivraison(i.getArrivee().getId()).possedePlage()) {
-		    assertTrue(p.getLivraison(i.getArrivee().getId()).getRespectePlage());
+		    assertTrue(p.getLivraison(i.getArrivee().getId())
+			    .getRespectePlage());
 		}
 	    }
 	    position++;

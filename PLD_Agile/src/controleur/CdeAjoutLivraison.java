@@ -20,7 +20,8 @@ public class CdeAjoutLivraison implements Commande {
 	this.idIntersection = idLivraison;
     }
 
-    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv, int duree) {
+    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv,
+	    int duree) {
 	this.plan = p;
 	this.idIntersection = idIntersection;
 	this.idPrec = idPrec;
@@ -28,8 +29,8 @@ public class CdeAjoutLivraison implements Commande {
 	this.duree = duree;
     }
 
-    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv, int duree, String debutPlage,
-	    String finPlage) {
+    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv,
+	    int duree, String debutPlage, String finPlage) {
 	this.plan = p;
 	this.idIntersection = idIntersection;
 	this.debutPlage = debutPlage;
@@ -43,7 +44,8 @@ public class CdeAjoutLivraison implements Commande {
     public void doCde() {
 	// Appel à insererLivraisonTournee avec id des intersections
 	// precedentes et suivantes
-	plan.insererLivraisonTournee(idIntersection, duree, debutPlage, finPlage, idPrec, idSuiv);
+	plan.insererLivraisonTournee(idIntersection, duree, debutPlage,
+		finPlage, idPrec, idSuiv);
 
     }
 

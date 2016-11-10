@@ -26,15 +26,18 @@ public class EtatTourneeCalculee extends EtatDefaut {
     @Override
     public void chargerDemandeLivraison() {
 	try {
-		controleur.getListeCde().reset();
+	    controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    plan.setTournee(null);
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else
-		fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
+		fenetre.afficherMessage(
+			"Demande de livraison chargée avec des erreurs :\n"
+				+ rapport);
 	    controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-	} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+	} catch (ParserConfigurationException | SAXException | IOException
+		| ExceptionXML | NumberFormatException e) {
 	    fenetre.afficherMessage(e.getMessage());
 	}
     }
@@ -52,17 +55,18 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
     @Override
     public void undo() {
-    	controleur.getListeCde().undo();
+	controleur.getListeCde().undo();
     }
 
     @Override
     public void redo() {
-    	controleur.getListeCde().redo();
+	controleur.getListeCde().redo();
     }
 
     @Override
     public void supprimerLivraison(int idLivraison) {
-    	controleur.getListeCde().ajoute(new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
+	controleur.getListeCde().ajoute(
+		new CdeInverse(new CdeAjoutLivraison(plan, idLivraison)));
 	fenetre.afficherMessage("Livraison supprimée de la tournée");
     }
 
@@ -81,11 +85,13 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	if (plan.getListeLivraisons().isEmpty()) {
 	    controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 	    controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
-	    fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(), false);
+	    fenetre.ouvrirMenuCreationLivraison(plan.getEntrepot().getId(),
+		    false);
 	} else {
 	    controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 	    controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
-	    fenetre.afficherMessage("Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
+	    fenetre.afficherMessage(
+		    "Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
 	}
     }
 
@@ -130,8 +136,10 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
-    	controleur.getListeCde().ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
+    public void modifierLivraison(int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin) {
+	controleur.getListeCde().ajoute(new CdeModifierLivraison(plan, adrLiv,
+		possedePlage, heureDebut, heureFin));
 	fenetre.afficherMessage("Livraison supprimée de la tournée");
     }
 
@@ -144,7 +152,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	}
 	int retrival = chooser.showSaveDialog(null);
 	if (retrival == JFileChooser.APPROVE_OPTION) {
-	    try (FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt")) {
+	    try (FileWriter fw = new FileWriter(
+		    chooser.getSelectedFile() + ".txt")) {
 		fw.write(plan.genererFeuilleRoute());
 	    } catch (Exception ex) {
 		ex.printStackTrace();

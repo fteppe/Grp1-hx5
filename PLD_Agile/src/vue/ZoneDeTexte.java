@@ -50,12 +50,14 @@ public class ZoneDeTexte extends JPanel implements Observer {
     }
 
     protected void setLivraisonSurligne(int idLivraison) {
-	if (livraisonSurligne != idLivraison && plan.getLivraisonAdresse(idLivraison) != null) {
+	if (livraisonSurligne != idLivraison
+		&& plan.getLivraisonAdresse(idLivraison) != null) {
 	    livraisonSurligne = idLivraison;
 	    for (InformationTextuelle info : listeInformation) {
 		if (info instanceof DescriptionLivraison) {
 		    info = (DescriptionLivraison) info;
-		    ((DescriptionLivraison) info).setSurbrillance(info.getIndex() == idLivraison);
+		    ((DescriptionLivraison) info)
+			    .setSurbrillance(info.getIndex() == idLivraison);
 		}
 	    }
 	    // update(getGraphics());
@@ -63,12 +65,15 @@ public class ZoneDeTexte extends JPanel implements Observer {
     }
 
     private void ajouterZoneInformation(String information, int index) {
-	InformationTextuelle info = new InformationTextuelle(information, index, fenetre);
+	InformationTextuelle info = new InformationTextuelle(information, index,
+		fenetre);
 	listeInformation.add(info);
     }
 
-    private void ajouterDescLivraison(String information, int index, boolean valide) {
-	DescriptionLivraison description = new DescriptionLivraison(information, index, fenetre, valide);
+    private void ajouterDescLivraison(String information, int index,
+	    boolean valide) {
+	DescriptionLivraison description = new DescriptionLivraison(information,
+		index, fenetre, valide);
 	listeInformation.add(description);
     }
 
@@ -84,30 +89,42 @@ public class ZoneDeTexte extends JPanel implements Observer {
     private void genererInformationLivraison(List<Livraison> livraisons) {
 	if (livraisons != null) {
 	    ajouterZoneInformation("Feuille de route de la tournée", 0);
-	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-		    + plan.getHeureDepart(), plan.getEntrepot().getId());
+	    ajouterZoneInformation(
+		    "Départ de l'entrepôt à l'adresse "
+			    + plan.getEntrepot().getId() + " prévu à "
+			    + plan.getHeureDepart(),
+		    plan.getEntrepot().getId());
 	    for (Livraison livraison : livraisons) {
 		contraintes.gridy = listeInformation.size();
 		String plage = "";
 		if (livraison.possedePlage()) {
-		    plage = " de " + livraison.getDebutPlage().afficherHoraire() + " a "
-			    + livraison.getFinPlage().afficherHoraire();
+		    plage = " de " + livraison.getDebutPlage().afficherHoraire()
+			    + " a " + livraison.getFinPlage().afficherHoraire();
 		}
 		if (livraison.getHeureArrivee() != null) {
-		    plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().afficherHoraire();
+		    plage += "\nHeure d'arrivée : "
+			    + livraison.getHeureArrivee().afficherHoraire();
 		    if (livraison.possedePlage()) {
 			if (livraison.getTpsAttente().toSeconds() != 0) {
-			    plage += "\nTemps d'attente : " + livraison.getTpsAttente().afficherHoraire();
+			    plage += "\nTemps d'attente : " + livraison
+				    .getTpsAttente().afficherHoraire();
 			}
 		    }
-		    plage += "\nHeure de départ : " + livraison.getHeureDepart().afficherHoraire();
+		    plage += "\nHeure de départ : "
+			    + livraison.getHeureDepart().afficherHoraire();
 		}
-		ajouterDescLivraison("Livraison à l'adresse " + livraison.getAdresse().getId() + plage,
-			livraison.getAdresse().getId(), livraison.getRespectePlage());
+		ajouterDescLivraison(
+			"Livraison à l'adresse "
+				+ livraison.getAdresse().getId() + plage,
+			livraison.getAdresse().getId(),
+			livraison.getRespectePlage());
 	    }
 	    if (plan.getHeureRetour() != null) {
-		ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-			+ plan.getHeureRetour(), plan.getEntrepot().getId());
+		ajouterZoneInformation(
+			"Retour à l'entrepôt à l'adresse "
+				+ plan.getEntrepot().getId() + " prévu à "
+				+ plan.getHeureRetour(),
+			plan.getEntrepot().getId());
 	    }
 	} else {
 	    ajouterZoneInformation("", 0);

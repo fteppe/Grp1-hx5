@@ -15,7 +15,8 @@ public class DescriptionLivraison extends InformationTextuelle {
 
     protected Color background;
 
-    public DescriptionLivraison(String information, int index, Fenetre fenetre, boolean valide) {
+    public DescriptionLivraison(String information, int index, Fenetre fenetre,
+	    boolean valide) {
 	super(information, index, fenetre);
 	this.valide = valide;
 

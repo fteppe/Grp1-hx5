@@ -20,7 +20,8 @@ public class WriteXMLFile {
 
 	try {
 
-	    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilderFactory docFactory = DocumentBuilderFactory
+		    .newInstance();
 	    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
 	    // root elements
@@ -77,7 +78,8 @@ public class WriteXMLFile {
 	    troncon.setAttributeNode(vitesse);
 
 	    // write the content into xml file
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    TransformerFactory transformerFactory = TransformerFactory
+		    .newInstance();
 	    Transformer transformer = transformerFactory.newTransformer();
 	    DOMSource source = new DOMSource(doc);
 	    StreamResult result = new StreamResult(new File("D:\\file.xml"));

@@ -22,7 +22,8 @@ public class FenetreFeuilleRoute extends JDialog {
 	feuilleRoute = new JTextArea(40, 30);
 	feuilleRoute.setEditable(false);
 	setResizable(false);
-	feuilleRoute.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+	feuilleRoute.setBorder(
+		BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	scroll = new JScrollPane(feuilleRoute);
 	add(scroll);
 	pack();

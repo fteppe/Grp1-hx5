@@ -33,7 +33,8 @@ public class DemandeDeLivraisonTest {
     public void testAjouterLivraison() {
 	Intersection entrepot = new Intersection(5, 214, 584);
 	Heure heureDepart = new Heure("00:05:00");
-	DemandeDeLivraison demandeDeLivraison = new DemandeDeLivraison(heureDepart, entrepot);
+	DemandeDeLivraison demandeDeLivraison = new DemandeDeLivraison(
+		heureDepart, entrepot);
 	Intersection intersection = new Intersection(7, 417, 976);
 	demandeDeLivraison.addObserver(observer);
 	demandeDeLivraison.ajouterLivraison(50, intersection);

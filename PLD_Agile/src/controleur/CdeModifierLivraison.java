@@ -11,7 +11,8 @@ public class CdeModifierLivraison implements Commande {
     private Heure ancDebut = null, ancFin = null;
     private int adrLivraison;
 
-    public CdeModifierLivraison(Plan p, int adrLiv, boolean possedePlage, String nvHeureDebut, String nvHeureFin) {
+    public CdeModifierLivraison(Plan p, int adrLiv, boolean possedePlage,
+	    String nvHeureDebut, String nvHeureFin) {
 	this.plan = p;
 	this.nvPlage = possedePlage;
 	if (nvPlage) {

@@ -21,7 +21,8 @@ public class Itineraire extends Observable {
      * @param troncons
      *            Plus court chemin reliant le depart et l'arrivee
      */
-    public Itineraire(Intersection depart, Intersection arrivee, List<Troncon> troncons) {
+    public Itineraire(Intersection depart, Intersection arrivee,
+	    List<Troncon> troncons) {
 	this.depart = depart;
 	this.arrivee = arrivee;
 	this.troncons = troncons;
@@ -71,7 +72,8 @@ public class Itineraire extends Observable {
      * Affiche textuellement l'itineraire courant
      */
     public String toString() {
-	return "Itinéraire entre la livraison en " + depart.getId() + " et " + arrivee.getId() + " :";
+	return "Itinéraire entre la livraison en " + depart.getId() + " et "
+		+ arrivee.getId() + " :";
     }
 
     @Override
@@ -121,8 +123,10 @@ public class Itineraire extends Observable {
 		duree = duree / 60;
 		if (sec > 30)
 		    duree++;
-		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
-			+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+		itineraire += "\r\n\tSuivre la route " + current
+			+ " entre les intersections " + depart + " et " + arrive
+			+ " pendant "
+			+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 		current = t.getNom();
 		depart = t.getOrigine().getId();
@@ -133,8 +137,10 @@ public class Itineraire extends Observable {
 	duree = duree / 60;
 	if (duree < 1)
 	    duree = 1;
-	itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et " + arrive
-		+ " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+	itineraire += "\r\n\tSuivre la route " + current
+		+ " entre les intersections " + depart + " et " + arrive
+		+ " pendant "
+		+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 	return itineraire;
     }
