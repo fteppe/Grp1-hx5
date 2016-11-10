@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Cette classe permet la creation et la gestion de la tournee calculee
+ * sur commande de l'utilisateur.
+ *
+ */
 public class Tournee extends Observable {
 
     private int duree;
@@ -14,16 +19,15 @@ public class Tournee extends Observable {
     private Heure hFin;
     private boolean valide;
 
-    private List<Itineraire> itineraires;
-    private HashMap<Integer, Livraison> livraisons;
+    private List<Itineraire> itineraires; //Liste d'itineraire ordonnes
+    						//selon l'ordre de passage
+    private HashMap<Integer, Livraison> livraisons; //Liste de livraisons ordonnes
+							//selon l'identifiant de leur adresse
 
     /**
-     * Cree une tournee à partir de sa duree
+     * Cree une tournee a partir de son heure de depart de l'entrepot
      * 
-     * @param duree
-     *            Duree de la tournee (en secondes)
-     * @param entrepot
-     *            Intersection de depart et d'arrivee de la tournee
+     * @param heureDepart Heure de depart de l'entrepot
      */
     public Tournee(Heure heureDepart) {
 	this.valide = true;
@@ -35,7 +39,7 @@ public class Tournee extends Observable {
     }
 
     /**
-     * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
+     * Mets a jour la Tournee courante suivant la liste des livraisons, l'entrepot et les
      * itineraires associes
      * 
      * @param duree

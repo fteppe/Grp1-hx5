@@ -3,6 +3,11 @@ package modele;
 import java.awt.Point;
 import java.util.Observable;
 
+/**
+ * Cette classe permet une geston commune des differents
+ * elements a afficher sur l'interface graphique.
+ *
+ */
 public abstract class ObjetGraphique extends Observable {
 
     /**

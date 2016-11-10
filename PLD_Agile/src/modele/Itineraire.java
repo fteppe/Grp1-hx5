@@ -17,8 +17,8 @@ public class Itineraire extends Observable {
     private int tpsParcours;
 
     /**
-     * Cree une intersection a partir d'un depart, d'une arrivee et de la liste
-     * des troncons les reliant
+     * Cree un Itineraire a partir d'une Intersection de depart, d'arrivee,
+     * et de la liste des Troncons reliant ces deux points
      * 
      * @param depart
      *            Intersection de depart de l'itineraire
@@ -63,7 +63,7 @@ public class Itineraire extends Observable {
     }
 
     /**
-     * Calcule le temps de parcours de l'itineraire, et met a jour l'attribut
+     * Calcule le temps de parcours de l'Itineraire, et met a jour l'attribut
      * correspondant
      */
     private void calculTpsParcours() {
@@ -82,8 +82,8 @@ public class Itineraire extends Observable {
     }
 
     /**
-     * Compare deux itineraires. Renvoit true si les objets manipules sont
-     * composes par les memes troncon dans le meme ordre, et false sinon.
+     * Compare deux Itineraires. Renvoit true si les objets manipules sont
+     * composes par les memes Troncons dans le meme ordre, et false sinon.
      */
     @Override
     public boolean equals(Object obj) {

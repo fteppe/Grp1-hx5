@@ -12,7 +12,7 @@ public class Heure {
     private int secondes;
 
     /**
-     * Constructeur par defaut. Cree une heure 00:00:00
+     * Constructeur par defaut. Cree une Heure 00:00:00
      */
     public Heure() {
 	this.heure = 0;
@@ -33,7 +33,7 @@ public class Heure {
     }
 
     /**
-     * Cree une heure a partir d'un temps en secondes 
+     * Cree une Heure a partir d'un temps en secondes 
      * Precondition : Heure comprise entre 00:00:00 et 23:59:59
      * 
      * @param secondes
@@ -51,7 +51,7 @@ public class Heure {
     }
 
     /**
-     * Cree une heure a partir d'une heure formatee
+     * Cree une Heure a partir d'une heure formatee
      * 
      * @param heureFormatee
      *            Heure au format "hh:mm:ss"
@@ -64,11 +64,11 @@ public class Heure {
     }
 
     /**
-     * Ajoute une heure a l'heure actuelle
+     * Ajoute une Heure a l'Heure actuelle
      * 
      * @param h
      *            Une heure a ajouter
-     * @return L'heure modifiee
+     * @return L'Heure modifiee
      */
     public Heure ajouterHeure(Heure h) {
 	this.secondes += h.secondes;
@@ -87,11 +87,11 @@ public class Heure {
     }
 
     /**
-     * Ajoute des secondes a l'heure actuelle
+     * Ajoute des secondes a l'Heure actuelle
      * 
      * @param secondes
      *            Nombre de secondes a ajouter
-     * @return L'heure modifiee
+     * @return L'Heure modifiee
      */
     public Heure ajouterSecondes(int secondes) {
 	this.ajouterHeure(new Heure(secondes));
@@ -99,16 +99,16 @@ public class Heure {
     }
 
     /**
-     * Affiche une version en secondes de l'heure (00:00:00 -> 0)
+     * Affiche une version en secondes de l'Heure indiquee (00:00:00 -> 0)
      * 
-     * @return L'heure en secondes depuis minuit
+     * @return L'Heure en secondes depuis minuit
      */
     public int toSeconds() {
 	return (((this.heure * 60) + this.minutes) * 60 + this.secondes);
     }
 
     /**
-     * Affiche l'heure courante sous la forme "hh:mm:ss"
+     * Affiche l'Heure courante sous la forme "hh:mm:ss"
      */
     public String toString() {
 	return (this.heure >= 10 ? "" : "0") + this.heure + ":"
@@ -117,7 +117,7 @@ public class Heure {
     }
 
     /**
-     * Permet l'affichage de l'heure courante 
+     * Permet l'affichage de l'Heure courante 
      * sous la forme "hh:mm"
      */
     public String afficherHoraire() {
@@ -135,7 +135,7 @@ public class Heure {
     }
 
     /**
-     * Compare deux heures. Renvoit true si elles sont egales,
+     * Compare deux Heures. Renvoit true si elles sont egales,
      * et false dans l'autre cas.
      */
     @Override

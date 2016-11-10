@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Observable;
 
 /**
- * Classe gérant l'entrepot et les livraisons liees a meme demande de 
+ * Classe gerant l'entrepot et les livraisons liees a meme demande de 
  * livraison
  *
  */
@@ -18,13 +18,13 @@ public class DemandeDeLivraison extends Observable {
 						    // adresse
 
     /**
-     * Cree une demande de livraison a partir d'une heure de depart et d'un
+     * Cree une Demande de livraison a partir d'une Heure de depart et d'un
      * entrepot
      * 
      * @param heureDepart
      *            Heure de depart de l'entrepot
      * @param entrepot
-     *            Intersection correspondant a l'entrepot de la demande de
+     *            Intersection correspondant a l'entrepot de la Demande de
      *            livraison
      */
     public DemandeDeLivraison(Heure heureDepart, Intersection entrepot) {
@@ -34,17 +34,17 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * Cree et ajoute une livraison possedant une plage horaire a la demande de
+     * Cree et ajoute une Livraison possedant une Plage horaire a la Demande de
      * livraison courante
      * 
      * @param duree
-     *            Duree de la livraison a ajouter (en secondes)
+     *            Duree de la Livraison a ajouter (en secondes)
      * @param adresse
-     *            Intersection correspondant a la livraison a ajouter
+     *            Intersection correspondant a la Livraison a ajouter
      * @param debutPlage
-     *            Debut de la plage horaire de la livraison a ajouter
+     *            Debut de la Plage horaire de la Livraison a ajouter
      * @param finPlage
-     *            Fin de la plage horaire de la livraison a ajouter
+     *            Fin de la Plage horaire de la Livraison a ajouter
      * @throws ModeleException
      */
     protected void ajouterLivraison(int duree, Intersection adresse,
@@ -63,8 +63,8 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * Cree et ajoute une livraison sans plage horaire
-     * a la demande de livraison courante
+     * Cree et ajoute une Livraison sans plage horaire
+     * a la Demande de livraison courante
      * 
      * @param duree
      *            Duree de la livraison a ajouter (en secondes)
