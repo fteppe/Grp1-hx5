@@ -326,7 +326,7 @@ public class Plan extends Observable {
 		    tournee.mettreAJourTournee(dureeTournee, ordreTournee, trajets,
 			    this.demandeDeLivraison.getListeLivraisons(), idSommets);
 		    setChanged();
-		    notifyObservers();
+		    notifyObservers(this.tournee);
 		} else {
 		    tsp.unlock();
 		}
