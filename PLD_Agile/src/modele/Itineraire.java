@@ -17,15 +17,15 @@ public class Itineraire extends Observable {
 	private int tpsParcours;
 
 	/**
-	 * Cree une intersection a partir d'un depart, d'une arrivee et de la liste
-	 * des troncons les reliant
+	 * Cree une intersection a partir d'un depart, d'une arrivee et de la
+	 * liste des troncons les reliant
 	 * 
 	 * @param depart
-	 *            Intersection de depart de l'itineraire
+	 *                Intersection de depart de l'itineraire
 	 * @param arrivee
-	 *            Intersection d'arrivee de l'itineraire
+	 *                Intersection d'arrivee de l'itineraire
 	 * @param troncons
-	 *            Chemin reliant le depart et l'arrivee
+	 *                Chemin reliant le depart et l'arrivee
 	 */
 	public Itineraire(Intersection depart, Intersection arrivee, List<Troncon> troncons) {
 		this.depart = depart;
@@ -63,8 +63,8 @@ public class Itineraire extends Observable {
 	}
 
 	/**
-	 * Calcule le temps de parcours de l'itineraire, et met a jour l'attribut
-	 * correspondant
+	 * Calcule le temps de parcours de l'itineraire, et met a jour
+	 * l'attribut correspondant
 	 */
 	private void calculTpsParcours() {
 		int tpsParcours = 0;
@@ -113,8 +113,8 @@ public class Itineraire extends Observable {
 	}
 
 	/**
-	 * @return Retourne la string formatée pour l'affichage sur la feuille de
-	 *         route
+	 * @return Retourne la string formatée pour l'affichage sur la feuille
+	 *         de route
 	 */
 	protected String afficherFeuilleRoute() {
 		String itineraire = "";
@@ -132,8 +132,9 @@ public class Itineraire extends Observable {
 				duree = duree / 60;
 				if (sec > 30)
 					duree++;
-				itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
-						+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+				itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart
+						+ " et " + arrive + " pendant "
+						+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 				current = t.getNom();
 				depart = t.getOrigine().getId();
@@ -144,8 +145,8 @@ public class Itineraire extends Observable {
 		duree = duree / 60;
 		if (duree < 1)
 			duree = 1;
-		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et " + arrive
-				+ " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
+				+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
 		return itineraire;
 	}

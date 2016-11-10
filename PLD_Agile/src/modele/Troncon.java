@@ -16,16 +16,16 @@ public class Troncon extends Observable {
 	 * observee ainsi que les intersections reliees
 	 * 
 	 * @param nom
-	 *            Nom du troncon
+	 *                Nom du troncon
 	 * @param origine
-	 *            Origine du troncon
+	 *                Origine du troncon
 	 * @param destination
-	 *            Destination du troncon
+	 *                Destination du troncon
 	 * @param longueur
-	 *            Longueur (en decimetres) du troncon
+	 *                Longueur (en decimetres) du troncon
 	 * @param vitesseMoy
-	 *            Vitesse moyenne de circulation (en decimetres/seconde) du
-	 *            troncon
+	 *                Vitesse moyenne de circulation (en decimetres/seconde)
+	 *                du troncon
 	 */
 	public Troncon(String nom, Intersection origine, Intersection destination, int longueur, int vitesseMoy) {
 		this.nom = nom;
@@ -101,11 +101,11 @@ public class Troncon extends Observable {
 	}
 
 	/**
-	 * @return Retourne la string formatée pour l'affichage sur la feuille de
-	 *         route
+	 * @return Retourne la string formatée pour l'affichage sur la feuille
+	 *         de route
 	 */
 	protected String afficherFeuilleRoute() {
-		return "suivre " + nom + " de " + origine.getId() + " à " + destination.getId() + " pendant " + tpsParcours
-				+ " secondes";
+		return "suivre " + nom + " de " + origine.getId() + " à " + destination.getId() + " pendant "
+				+ tpsParcours + " secondes";
 	}
 }

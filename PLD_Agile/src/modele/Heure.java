@@ -23,7 +23,7 @@ public class Heure {
 	 * Constructeur de copie
 	 * 
 	 * @param h
-	 *            Heure a copier
+	 *                Heure a copier
 	 */
 	public Heure(Heure h) {
 		this.heure = h.heure;
@@ -53,7 +53,7 @@ public class Heure {
 	 * Cree une heure a partir d'une heure formatee
 	 * 
 	 * @param heureFormatee
-	 *            Heure au format "hh:mm:ss"
+	 *                Heure au format "hh:mm:ss"
 	 */
 	public Heure(String heureFormatee) throws IndexOutOfBoundsException {
 		String[] splits = heureFormatee.split(":");
@@ -66,7 +66,7 @@ public class Heure {
 	 * Ajoute une heure a l'heure actuelle
 	 * 
 	 * @param h
-	 *            Une heure a ajouter
+	 *                Une heure a ajouter
 	 * @return L'heure modifiee
 	 */
 	public Heure ajouterHeure(Heure h) {
@@ -89,7 +89,7 @@ public class Heure {
 	 * Ajoute des secondes a l'heure actuelle
 	 * 
 	 * @param secondes
-	 *            Nombre de secondes a ajouter
+	 *                Nombre de secondes a ajouter
 	 * @return L'heure modifiee
 	 */
 	public Heure ajouterSecondes(int secondes) {
@@ -110,8 +110,8 @@ public class Heure {
 	 * Affiche l'heure courante sous la forme "hh:mm:ss"
 	 */
 	public String toString() {
-		return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
-				+ (this.secondes >= 10 ? "" : "0") + this.secondes;
+		return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes
+				+ ":" + (this.secondes >= 10 ? "" : "0") + this.secondes;
 	}
 
 	/**
@@ -138,7 +138,8 @@ public class Heure {
 	public boolean equals(Object obj) {
 		if (obj instanceof Heure) {
 			Heure objH = (Heure) obj;
-			return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
+			return this.heure == objH.heure && this.minutes == objH.minutes
+					&& this.secondes == objH.secondes;
 		}
 		return false;
 	}

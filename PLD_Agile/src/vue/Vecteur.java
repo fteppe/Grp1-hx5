@@ -2,8 +2,8 @@ package vue;
 
 public class Vecteur {
 	/*
-	 * une classe Vecteur, qui permet de réaliser les opérations basiques d'un
-	 * vecteur 2D
+	 * une classe Vecteur, qui permet de réaliser les opérations basiques
+	 * d'un vecteur 2D
 	 * 
 	 */
 	protected double x;

@@ -12,6 +12,11 @@ import javax.swing.SwingWorker;
 
 import controleur.Controleur;
 
+/**Barre de menu en haut de l'application.
+ * 
+ * @author florent
+ *
+ */
 public class Menu extends JMenuBar {
 
 	private JMenu fichiers;
@@ -25,10 +30,9 @@ public class Menu extends JMenuBar {
 	private JMenuItem generationFeuilleRoute;
 	private Fenetre fenetre;
 
-	/*
-	 * Constructeur Création des différents menu et ajout des elements dans le
-	 * menu ajouts des ecouteurs d'action utilisateurs qui sont mappés sur des
-	 * actions du controleur
+	/**constructeur
+	 * 
+	 * @param fenetre la fenetre dans laquelle va s'insérer le menu
 	 */
 	public Menu(Fenetre fenetre) {
 		fichiers = new JMenu("Fichier");

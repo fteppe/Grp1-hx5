@@ -84,8 +84,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	private void genererInformationLivraison(List<Livraison> livraisons) {
 		if (livraisons != null) {
 			ajouterZoneInformation("Feuille de route de la tournée", 0);
-			ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-					+ plan.afficherHeureDepart(), plan.getEntrepot().getId());
+			ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId()
+					+ " prévu à " + plan.afficherHeureDepart(), plan.getEntrepot().getId());
 			for (Livraison livraison : livraisons) {
 				contraintes.gridy = listeInformation.size();
 				String plage = "";
@@ -97,7 +97,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 					plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().afficherHoraire();
 					if (livraison.possedePlage()) {
 						if (livraison.getTpsAttente().toSeconds() != 0) {
-							plage += "\nTemps d'attente : " + livraison.getTpsAttente().afficherHoraire();
+							plage += "\nTemps d'attente : "
+									+ livraison.getTpsAttente().afficherHoraire();
 						}
 					}
 					plage += "\nHeure de départ : " + livraison.getHeureDepart().afficherHoraire();
@@ -105,8 +106,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 				ajouterDescLivraison("Livraison à l'adresse " + livraison.getAdresse().getId() + plage,
 						livraison.getAdresse().getId(), livraison.getRespectePlage());
 			}
-			ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-					+ plan.afficherHeureRetour(), plan.getEntrepot().getId());
+			ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId()
+					+ " prévu à " + plan.afficherHeureRetour(), plan.getEntrepot().getId());
 		} else {
 			ajouterZoneInformation("", 0);
 		}

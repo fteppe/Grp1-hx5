@@ -17,17 +17,17 @@ public class Livraison extends ObjetGraphique {
 	private boolean respectePlage;
 
 	/**
-	 * Cree une livraison possedant une plage horaire a partir de sa duree et de
-	 * son adresse
+	 * Cree une livraison possedant une plage horaire a partir de sa duree
+	 * et de son adresse
 	 * 
 	 * @param duree
-	 *            Duree (en secondes) de la livraison
+	 *                Duree (en secondes) de la livraison
 	 * @param adresse
-	 *            Intersection correspondant a la livraison
+	 *                Intersection correspondant a la livraison
 	 * @param debutPlage
-	 *            Heure de debut de la plage horaire
+	 *                Heure de debut de la plage horaire
 	 * @param finPlage
-	 *            Heure de fin de la plage horaire
+	 *                Heure de fin de la plage horaire
 	 */
 	public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) throws ModeleException {
 		this.duree = duree;
@@ -41,13 +41,13 @@ public class Livraison extends ObjetGraphique {
 	}
 
 	/**
-	 * Cree une livraison ne possedant pas de plage horaire a partir de sa duree
-	 * et de son adresse
+	 * Cree une livraison ne possedant pas de plage horaire a partir de sa
+	 * duree et de son adresse
 	 * 
 	 * @param duree
-	 *            Duree (en secondes) de la livraison
+	 *                Duree (en secondes) de la livraison
 	 * @param adresse
-	 *            Intersection correspondant a la livraison
+	 *                Intersection correspondant a la livraison
 	 */
 	public Livraison(int duree, Intersection adresse) {
 		this.duree = duree;
@@ -113,11 +113,11 @@ public class Livraison extends ObjetGraphique {
 	}
 
 	/**
-	 * Met a jour l'heure d'arrivee de la livraison courante suivant l'heure de
-	 * depart indiquee
+	 * Met a jour l'heure d'arrivee de la livraison courante suivant l'heure
+	 * de depart indiquee
 	 * 
 	 * @param heureArrivee
-	 *            Heure d'arrivee du livreur sur le point de livraison
+	 *                Heure d'arrivee du livreur sur le point de livraison
 	 * @return Heure de depart prevue du livreur
 	 */
 	public Heure setHeureArrivee(Heure heureArrivee) {
@@ -125,7 +125,8 @@ public class Livraison extends ObjetGraphique {
 		if (this.plage != null) {
 			if (heureArrivee.toSeconds() < this.plage.getHeureDebut().toSeconds()) {
 				this.heureDepart = new Heure(this.plage.getHeureDebut().toSeconds() + this.duree);
-				tpsAttente = new Heure(this.plage.getHeureDebut().toSeconds() - heureArrivee.toSeconds());
+				tpsAttente = new Heure(
+						this.plage.getHeureDebut().toSeconds() - heureArrivee.toSeconds());
 			} else {
 				this.heureDepart = new Heure(heureArrivee.toSeconds() + this.duree);
 				tpsAttente = new Heure(0);
@@ -156,14 +157,15 @@ public class Livraison extends ObjetGraphique {
 	}
 
 	/**
-	 * @return Retourne la string formatée pour l'affichage sur la feuille de
-	 *         route.
+	 * @return Retourne la string formatée pour l'affichage sur la feuille
+	 *         de route.
 	 */
 	protected String afficherFeuilleRoute() {
 		String affichage = "Arrivé en " + adresse.getId() + " à " + heureArrivee.afficherHoraire() + ".";
 		if (this.possedePlage()) {
 			if (tpsAttente != null && !tpsAttente.equals(new Heure(0))) {
-				affichage += "Attendre " + tpsAttente.afficherHoraire() + " pour effectuer la livraison à "
+				affichage += "Attendre " + tpsAttente.afficherHoraire()
+						+ " pour effectuer la livraison à "
 						+ plage.getHeureDebut().afficherHoraire() + ".";
 			}
 		}

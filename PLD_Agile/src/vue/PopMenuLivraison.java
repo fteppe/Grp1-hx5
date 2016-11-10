@@ -12,6 +12,11 @@ public class PopMenuLivraison extends PopMenu {
 	protected int idLivraison;
 	protected Fenetre fenetre;
 
+	/**
+	 * 
+	 * @param id
+	 * @param fenetre
+	 */
 	public PopMenuLivraison(int id, Fenetre fenetre) {
 		super();
 		this.fenetre = fenetre;

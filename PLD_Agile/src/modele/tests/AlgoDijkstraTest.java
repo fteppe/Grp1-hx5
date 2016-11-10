@@ -198,34 +198,38 @@ public class AlgoDijkstraTest {
 			}
 		}
 		/*
-		 * Object[] objectResult = plan.methodeTest2(listeSommets); int[][]
-		 * couts = (int[][]) objectResult[0]; Itineraire[][] itineraires =
-		 * (Itineraire[][]) objectResult[1]; for (int i = 0; i <
-		 * couts[0].length; i++) { for (int j = 0; j < couts[0].length; j++) {
-		 * System.out.println(listeSommets.get(i) + " - " + listeSommets.get(j)
-		 * + " : " + couts[i][j]); } } for (int i = 0; i <
-		 * itineraires[0].length; i++) { for (int j = 0; j <
+		 * Object[] objectResult = plan.methodeTest2(listeSommets);
+		 * int[][] couts = (int[][]) objectResult[0]; Itineraire[][]
+		 * itineraires = (Itineraire[][]) objectResult[1]; for (int i =
+		 * 0; i < couts[0].length; i++) { for (int j = 0; j <
+		 * couts[0].length; j++) {
+		 * System.out.println(listeSommets.get(i) + " - " +
+		 * listeSommets.get(j) + " : " + couts[i][j]); } } for (int i =
+		 * 0; i < itineraires[0].length; i++) { for (int j = 0; j <
 		 * itineraires[0].length; j++) { System.out.println(
 		 * "----------------------------------------------------");
-		 * System.out.println(itineraires[i][j].getDepart().getId() + "-" +
-		 * itineraires[i][j].getArrivee().getId()); for (Troncon t :
-		 * itineraires[i][j].getTroncons()) {
+		 * System.out.println(itineraires[i][j].getDepart().getId() +
+		 * "-" + itineraires[i][j].getArrivee().getId()); for (Troncon t
+		 * : itineraires[i][j].getTroncons()) {
 		 * System.out.println(t.getOrigine().getId() + " - " +
 		 * t.getDestination().getId()); } } }
 		 * 
 		 * Object[] resultTournee = plan.methodeTest3(100);
 		 * System.out.println("Cout : " + (int) resultTournee[0]); for
-		 * (Itineraire itineraire : (ArrayList<Itineraire>) resultTournee[1]) {
+		 * (Itineraire itineraire : (ArrayList<Itineraire>)
+		 * resultTournee[1]) {
 		 * System.out.println(itineraire.getDepart().getId() + "-" +
 		 * itineraire.getArrivee().getId()); for (Troncon t :
-		 * itineraire.getTroncons()) { System.out.println(t.getOrigine().getId()
-		 * + " - " + t.getDestination().getId()); } }
+		 * itineraire.getTroncons()) {
+		 * System.out.println(t.getOrigine().getId() + " - " +
+		 * t.getDestination().getId()); } }
 		 */
 	}
 
 	@Test
 	public void testCalculerDijkstraLivraisonNonAtteignable() {
-		// Plan avec l'intersection 10 qui n'est pas atteignable à partir des
+		// Plan avec l'intersection 10 qui n'est pas atteignable à
+		// partir des
 		// autres interserctions
 		Plan plan = new Plan();
 		// Creation et Ajout des intersections au plan
@@ -301,7 +305,8 @@ public class AlgoDijkstraTest {
 		assertFalse(trajetsUnit[3].getTroncons().isEmpty());
 		assertTrue(trajetsUnit[4].getTroncons().isEmpty());
 		// Dijkstra à partir de i10 vers tous les autres intersections
-		// verifier que tous les couts à partir de i10 sont infinis et qu'il n'y
+		// verifier que tous les couts à partir de i10 sont infinis et
+		// qu'il n'y
 		// a pas d'itinéraire possible
 
 		resultDijkstra = algoDijkstra.calculerDijkstra(10, listeSommets);
@@ -344,14 +349,15 @@ public class AlgoDijkstraTest {
 	}
 
 	/*
-	 * Livraison livraison_addresse_2 = p.getListeLivraisons().get(2); Livraison
-	 * livraison_addresse_3 = p.getListeLivraisons().get(3); List<Troncon>
-	 * troncons_e_2 = new ArrayList<Troncon>();
+	 * Livraison livraison_addresse_2 = p.getListeLivraisons().get(2);
+	 * Livraison livraison_addresse_3 = p.getListeLivraisons().get(3);
+	 * List<Troncon> troncons_e_2 = new ArrayList<Troncon>();
 	 * troncons_e_2.add(p.getListeTroncons().get(0).get(0));
 	 * troncons_e_2.add(p.getListeTroncons().get(1).get(1)); Itineraire
 	 * i_e_vers_2 = new
-	 * Itineraire(p.getEntrepot(),livraison_addresse_2.getAdresse(),troncons_e_2
-	 * ); List<Troncon> troncons_2_3 = new ArrayList<Troncon>();
+	 * Itineraire(p.getEntrepot(),livraison_addresse_2.getAdresse(),
+	 * troncons_e_2 ); List<Troncon> troncons_2_3 = new
+	 * ArrayList<Troncon>();
 	 * troncons_2_3.add(p.getListeTroncons().get(2).get(1));
 	 * troncons_2_3.add(p.getListeTroncons().get(5).get(2)); Itineraire
 	 * i_2_vers_3 = new
@@ -361,8 +367,9 @@ public class AlgoDijkstraTest {
 	 * troncons_3_e.add(p.getListeTroncons().get(3).get(0));
 	 * troncons_3_e.add(p.getListeTroncons().get(5).get(0)); Itineraire
 	 * i_3_vers_e = new
-	 * Itineraire(livraison_addresse_3.getAdresse(),p.getEntrepot(),troncons_3_e
-	 * ); boolean calculReussi = p.calculerTournee(60000); assert(calculReussi);
+	 * Itineraire(livraison_addresse_3.getAdresse(),p.getEntrepot(),
+	 * troncons_3_e ); boolean calculReussi = p.calculerTournee(60000);
+	 * assert(calculReussi);
 	 * assertTrue(p.getItineraires().get(0).equals(i_e_vers_2));
 	 * assertTrue(p.getItineraires().get(1).equals(i_2_vers_3));
 	 * assertTrue(p.getItineraires().get(2).equals(i_3_vers_e));

@@ -40,16 +40,16 @@ public abstract class TemplateTSP implements TSP {
 	 * 
 	 * @param sommetCourant
 	 * @param nonVus
-	 *            : tableau des sommets restant a visiter
+	 *                : tableau des sommets restant a visiter
 	 * @param cout
-	 *            : cout[i][j] = duree pour aller de i a j, avec 0 <= i <
-	 *            nbSommets et 0 <= j < nbSommets
+	 *                : cout[i][j] = duree pour aller de i a j, avec 0 <= i
+	 *                < nbSommets et 0 <= j < nbSommets
 	 * @param duree
-	 *            : duree[i] = duree pour visiter le sommet i, avec 0 <= i <
-	 *            nbSommets
+	 *                : duree[i] = duree pour visiter le sommet i, avec 0 <=
+	 *                i < nbSommets
 	 * @return une borne inferieure du cout des permutations commencant par
-	 *         sommetCourant, contenant chaque sommet de nonVus exactement une
-	 *         fois et terminant par le sommet 0
+	 *         sommetCourant, contenant chaque sommet de nonVus exactement
+	 *         une fois et terminant par le sommet 0
 	 */
 	protected abstract int bound(Integer sommetCourant, ArrayList<Integer> nonVus, int[][] cout, int[] duree);
 
@@ -58,41 +58,43 @@ public abstract class TemplateTSP implements TSP {
 	 * 
 	 * @param sommetCrt
 	 * @param nonVus
-	 *            : tableau des sommets restant a visiter
+	 *                : tableau des sommets restant a visiter
 	 * @param cout
-	 *            : cout[i][j] = duree pour aller de i a j, avec 0 <= i <
-	 *            nbSommets et 0 <= j < nbSommets
+	 *                : cout[i][j] = duree pour aller de i a j, avec 0 <= i
+	 *                < nbSommets et 0 <= j < nbSommets
 	 * @param duree
-	 *            : duree[i] = duree pour visiter le sommet i, avec 0 <= i <
-	 *            nbSommets
-	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
+	 *                : duree[i] = duree pour visiter le sommet i, avec 0 <=
+	 *                i < nbSommets
+	 * @return un iterateur permettant d'iterer sur tous les sommets de
+	 *         nonVus
 	 */
 	protected abstract Iterator<Integer> iterator(Integer sommetCrt, ArrayList<Integer> nonVus, int[][] cout,
 			int[] duree);
 
 	/**
-	 * Methode definissant le patron (template) d'une resolution par separation
-	 * et evaluation (branch and bound) du TSP
+	 * Methode definissant le patron (template) d'une resolution par
+	 * separation et evaluation (branch and bound) du TSP
 	 * 
 	 * @param sommetCrt
-	 *            le dernier sommet visite
+	 *                le dernier sommet visite
 	 * @param nonVus
-	 *            la liste des sommets qui n'ont pas encore ete visites
+	 *                la liste des sommets qui n'ont pas encore ete visites
 	 * @param vus
-	 *            la liste des sommets visites (y compris sommetCrt)
+	 *                la liste des sommets visites (y compris sommetCrt)
 	 * @param coutVus
-	 *            la somme des couts des arcs du chemin passant par tous les
-	 *            sommets de vus + la somme des duree des sommets de vus
+	 *                la somme des couts des arcs du chemin passant par tous
+	 *                les sommets de vus + la somme des duree des sommets de
+	 *                vus
 	 * @param cout
-	 *            : cout[i][j] = duree pour aller de i a j, avec 0 <= i <
-	 *            nbSommets et 0 <= j < nbSommets
+	 *                : cout[i][j] = duree pour aller de i a j, avec 0 <= i
+	 *                < nbSommets et 0 <= j < nbSommets
 	 * @param duree
-	 *            : duree[i] = duree pour visiter le sommet i, avec 0 <= i <
-	 *            nbSommets
+	 *                : duree[i] = duree pour visiter le sommet i, avec 0 <=
+	 *                i < nbSommets
 	 * @param tpsDebut
-	 *            : moment ou la resolution a commence
+	 *                : moment ou la resolution a commence
 	 * @param tpsLimite
-	 *            : limite de temps pour la resolution
+	 *                : limite de temps pour la resolution
 	 */
 	void branchAndBound(int sommetCrt, ArrayList<Integer> nonVus, ArrayList<Integer> vus, int coutVus, int[][] cout,
 			int[] duree, long tpsDebut, int tpsLimite) {
@@ -102,7 +104,8 @@ public abstract class TemplateTSP implements TSP {
 		}
 		if (nonVus.size() == 0) { // tous les sommets ont ete visites
 			coutVus += cout[sommetCrt][0];
-			if (coutVus < coutMeilleureSolution) { // on a trouve une solution
+			if (coutVus < coutMeilleureSolution) { // on a trouve
+								// une solution
 				// meilleure que
 				// meilleureSolution
 				vus.toArray(meilleureSolution);
@@ -115,8 +118,8 @@ public abstract class TemplateTSP implements TSP {
 				vus.add(prochainSommet);
 				nonVus.remove(prochainSommet);
 				branchAndBound(prochainSommet, nonVus, vus,
-						coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet], cout, duree, tpsDebut,
-						tpsLimite);
+						coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet], cout,
+						duree, tpsDebut, tpsLimite);
 				vus.remove(prochainSommet);
 				nonVus.add(prochainSommet);
 			}

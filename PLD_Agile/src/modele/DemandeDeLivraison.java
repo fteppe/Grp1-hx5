@@ -21,10 +21,10 @@ public class DemandeDeLivraison extends Observable {
 	 * entrepot
 	 * 
 	 * @param heureDepart
-	 *            Heure de depart de l'entrepot
+	 *                Heure de depart de l'entrepot
 	 * @param entrepot
-	 *            Intersection correspondant a l'entrepot de la demande de
-	 *            livraison
+	 *                Intersection correspondant a l'entrepot de la demande
+	 *                de livraison
 	 */
 	public DemandeDeLivraison(Heure heureDepart, Intersection entrepot) {
 		this.heureDepart = heureDepart;
@@ -33,17 +33,17 @@ public class DemandeDeLivraison extends Observable {
 	}
 
 	/**
-	 * Cree et ajoute une livraison possedant une plage horaire a la demande de
-	 * livraison courante
+	 * Cree et ajoute une livraison possedant une plage horaire a la demande
+	 * de livraison courante
 	 * 
 	 * @param duree
-	 *            Duree de la livraison a ajouter (en secondes)
+	 *                Duree de la livraison a ajouter (en secondes)
 	 * @param adresse
-	 *            Intersection correspondant a la livraison a ajouter
+	 *                Intersection correspondant a la livraison a ajouter
 	 * @param debutPlage
-	 *            Debut de la plage horaire de la livraison a ajouter
+	 *                Debut de la plage horaire de la livraison a ajouter
 	 * @param finPlage
-	 *            Fin de la plage horaire de la livraison a ajouter
+	 *                Fin de la plage horaire de la livraison a ajouter
 	 * @throws ModeleException
 	 */
 	protected void ajouterLivraison(int duree, Intersection adresse, String debutPlage, String finPlage)
@@ -61,13 +61,13 @@ public class DemandeDeLivraison extends Observable {
 	}
 
 	/**
-	 * Cree et ajoute une livraison sans plage horaire a la demande de livraison
-	 * courante
+	 * Cree et ajoute une livraison sans plage horaire a la demande de
+	 * livraison courante
 	 * 
 	 * @param duree
-	 *            Duree de la livraison a ajouter (en secondes)
+	 *                Duree de la livraison a ajouter (en secondes)
 	 * @param adresse
-	 *            Intersection correspondant a la livraison a ajouter
+	 *                Intersection correspondant a la livraison a ajouter
 	 */
 	public void ajouterLivraison(int duree, Intersection adresse) {
 		Livraison nouvLivraison = new Livraison(duree, adresse);
@@ -82,7 +82,7 @@ public class DemandeDeLivraison extends Observable {
 	 * Retourne la Livraison de la Demande associée à l'adresse donnée
 	 * 
 	 * @param adresse
-	 *            Adresse de la livraison
+	 *                Adresse de la livraison
 	 * @return La Livraison si elle existe, null sinon
 	 */
 	protected Livraison getLivraison(int adresse) {

@@ -27,7 +27,8 @@ public class Plan extends Observable {
 	// classees selon
 	// leur
 	// identifiant
-	private HashMap<Integer, List<Troncon>> listeTroncons; // Liste des troncons
+	private HashMap<Integer, List<Troncon>> listeTroncons; // Liste des
+								// troncons
 	// du plan classes
 	// selon
 	// l'identifiant de
@@ -58,11 +59,11 @@ public class Plan extends Observable {
 	 * Cree et ajoute une intersection au plan courant
 	 * 
 	 * @param id
-	 *            Identifiant de l'intersection a ajouter
+	 *                Identifiant de l'intersection a ajouter
 	 * @param longitude
-	 *            Longitude de l'intersection a ajouter
+	 *                Longitude de l'intersection a ajouter
 	 * @param latitude
-	 *            Latitude de l'intersection a ajouter
+	 *                Latitude de l'intersection a ajouter
 	 */
 	public void creerIntersection(int id, int longitude, int latitude) throws ModeleException {
 		Intersection nouvIntersection = new Intersection(id, longitude, latitude);
@@ -72,9 +73,9 @@ public class Plan extends Observable {
 		if (!this.listeIntersections.containsKey(id)) {
 			this.listeIntersections.put(id, nouvIntersection);
 		} else {
-			throw new ModeleException("Plusieurs intersections portent l'id " + id + ", seule l'intersection x("
-					+ this.listeIntersections.get(id).getLongitude() + ") y("
-					+ this.listeIntersections.get(id).getLongitude() + ") a été créée");
+			throw new ModeleException("Plusieurs intersections portent l'id " + id
+					+ ", seule l'intersection x(" + this.listeIntersections.get(id).getLongitude()
+					+ ") y(" + this.listeIntersections.get(id).getLongitude() + ") a été créée");
 		}
 		setChanged();
 		notifyObservers();
@@ -84,22 +85,22 @@ public class Plan extends Observable {
 	 * Cree et ajoute un troncon au Plan courant
 	 * 
 	 * @param nom
-	 *            Nom du troncon a ajouter
+	 *                Nom du troncon a ajouter
 	 * @param longueur
-	 *            Longueur (en decimetres) du troncon a ajouter
+	 *                Longueur (en decimetres) du troncon a ajouter
 	 * @param vitMoyenne
-	 *            Vitesse moyenne de circulation (en decimetres/seconde) du
-	 *            troncon a ajouter
+	 *                Vitesse moyenne de circulation (en decimetres/seconde)
+	 *                du troncon a ajouter
 	 * @param origine
-	 *            Origine du troncon a ajouter
+	 *                Origine du troncon a ajouter
 	 * @param destination
-	 *            Destination du troncon a ajouter
+	 *                Destination du troncon a ajouter
 	 */
 	public void creerTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
 			throws ModeleException {
 		if (listeIntersections.get(origine) == null || listeIntersections.get(destination) == null)
-			throw new ModeleException(
-					"L'origine ou la destination du tronçon " + nom + " ne correspond pas à une intersection.");
+			throw new ModeleException("L'origine ou la destination du tronçon " + nom
+					+ " ne correspond pas à une intersection.");
 		if (vitMoyenne <= 0)
 			throw new ModeleException("La vitesse moyenne du tronçon " + nom + " est négative ou nulle.");
 		if (longueur <= 0)
@@ -125,9 +126,10 @@ public class Plan extends Observable {
 	 * Cree et ajoute une demande de livraison au plan
 	 * 
 	 * @param heureDepart
-	 *            Heure de depart de l'entrepot
+	 *                Heure de depart de l'entrepot
 	 * @param entrepot
-	 *            Identifiant de l'intersection correspondant a l'entrepot
+	 *                Identifiant de l'intersection correspondant a
+	 *                l'entrepot
 	 */
 	public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
 		if (listeIntersections.get(entrepot) == null)
@@ -141,44 +143,46 @@ public class Plan extends Observable {
 	}
 
 	/**
-	 * Cree et ajoute une livraison possedant une plage horaire a la demande de
-	 * livraison associee au Plan
+	 * Cree et ajoute une livraison possedant une plage horaire a la demande
+	 * de livraison associee au Plan
 	 * 
 	 * @param adresse
-	 *            Identifiant de l'intersection correspondant a la livraison a
-	 *            effectuer
+	 *                Identifiant de l'intersection correspondant a la
+	 *                livraison a effectuer
 	 * @param duree
-	 *            Duree de la livraison a effectuer
+	 *                Duree de la livraison a effectuer
 	 * @param debutPlage
-	 *            Debut de la plage horaire de la livraison a effectuer
+	 *                Debut de la plage horaire de la livraison a effectuer
 	 * @param finPlage
-	 *            Fin de la plage horaire de la livraison a effectuer
+	 *                Fin de la plage horaire de la livraison a effectuer
 	 */
 	public void creerLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
 			throws ModeleException {
 		if (listeIntersections.get(adresse) == null)
-			throw new ModeleException(
-					"L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+			throw new ModeleException("L'adresse " + adresse
+					+ " d'une livraison ne correspond pas à une intersection.");
 		if (duree < 0)
 			throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
-		this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage, finPlage);
+		this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse), debutPlage,
+				finPlage);
 		setChanged();
 		notifyObservers();
 	}
 
 	/**
-	 * Cree et ajoute une livraison a la demande de livraison associee au Plan
+	 * Cree et ajoute une livraison a la demande de livraison associee au
+	 * Plan
 	 * 
 	 * @param adresses
-	 *            Identifiant de l'intersection correspondant a la livraison a
-	 *            effectuer
+	 *                Identifiant de l'intersection correspondant a la
+	 *                livraison a effectuer
 	 * @param durees
-	 *            Duree de la livraison a effectuer
+	 *                Duree de la livraison a effectuer
 	 */
 	public void creerLivraisonDemande(int adresse, int duree) throws ModeleException {
 		if (listeIntersections.get(adresse) == null)
-			throw new ModeleException(
-					"L'adresse " + adresse + " d'une livraison ne correspond pas à une intersection.");
+			throw new ModeleException("L'adresse " + adresse
+					+ " d'une livraison ne correspond pas à une intersection.");
 		if (duree < 0)
 			throw new ModeleException("La durée de la livraison à l'adresse " + adresse + " est négative.");
 		this.demandeDeLivraison.ajouterLivraison(duree, this.listeIntersections.get(adresse));
@@ -190,8 +194,8 @@ public class Plan extends Observable {
 	 * Retire la livraison indiquee de la tournee
 	 * 
 	 * @param adresse
-	 *            Identifiant de l'intersection correspondante a la livraison a
-	 *            retirer
+	 *                Identifiant de l'intersection correspondante a la
+	 *                livraison a retirer
 	 * @return Livraison retiree de la tournee
 	 */
 	public Livraison retirerLivraisonTournee(int adresse) {
@@ -209,17 +213,17 @@ public class Plan extends Observable {
 	 * données
 	 * 
 	 * @param adresse
-	 *            L'adresse associée à la livraison
+	 *                L'adresse associée à la livraison
 	 * @param duree
-	 *            Durée de la livraison
+	 *                Durée de la livraison
 	 * @param debutPlage
-	 *            Heure de début de la plage
+	 *                Heure de début de la plage
 	 * @param finPlage
-	 *            Heure de fin de la plage
+	 *                Heure de fin de la plage
 	 * @param adrPrec
-	 *            Adresse précédente de la livraison à ajouter
+	 *                Adresse précédente de la livraison à ajouter
 	 * @param adrSuiv
-	 *            Adresse suivante de la livraison à ajouter
+	 *                Adresse suivante de la livraison à ajouter
 	 */
 	public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
 			int adrSuiv) {
@@ -238,10 +242,10 @@ public class Plan extends Observable {
 	 * Calcule la tournee (algo Dijkstra et TSP) si possible et la cree
 	 * 
 	 * @param tpsLimite
-	 *            Temps maximum en millisecondes pour le calcul du parcours
-	 *            optimal
-	 * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
-	 *         ete trouvee
+	 *                Temps maximum en millisecondes pour le calcul du
+	 *                parcours optimal
+	 * @return true Si une tournee a ete trouvee, false si aucune tournee
+	 *         n'a ete trouvee
 	 * @throws ExceptionTournee
 	 */
 	public boolean calculerTournee() throws ExceptionTournee {
@@ -251,10 +255,12 @@ public class Plan extends Observable {
 		// On initialise l'algo de Dijkstra
 		algo = AlgoDijkstra.getInstance();
 		algo.chargerAlgo(listeIntersections, listeTroncons);
-		// On recupere la liste des identifiants des sommets devant constituer
+		// On recupere la liste des identifiants des sommets devant
+		// constituer
 		// le graphe complet analyse par le TSP
 		idSommets = completionTableauLivraison();
-		// On constitue un graphe complet grace a l'algorithme de Dijkstra
+		// On constitue un graphe complet grace a l'algorithme de
+		// Dijkstra
 		Object[] resultDijkstra = algo.calculerDijkstra(idSommets);
 		// On initialise les variables à fournir au TSP
 		TSPPlages tsp = new TSPPlages();
@@ -270,8 +276,10 @@ public class Plan extends Observable {
 		for (int i = 1; i < idSommets.size(); i++) {
 
 			if (this.getHashMapLivraisonsDemande().get(idSommets.get(i)).possedePlage()) {
-				plageDepart[i] = this.getHashMapLivraisonsDemande().get(idSommets.get(i)).getDebutPlage().toSeconds();
-				plageFin[i] = this.getHashMapLivraisonsDemande().get(idSommets.get(i)).getFinPlage().toSeconds();
+				plageDepart[i] = this.getHashMapLivraisonsDemande().get(idSommets.get(i))
+						.getDebutPlage().toSeconds();
+				plageFin[i] = this.getHashMapLivraisonsDemande().get(idSommets.get(i)).getFinPlage()
+						.toSeconds();
 			} else {
 				plageDepart[i] = 0;
 				plageFin[i] = Integer.MAX_VALUE;
@@ -292,7 +300,8 @@ public class Plan extends Observable {
 
 		// On lance le calcul de la tournee dans un nouveau thread
 		Callable<Boolean> calculTournee = () -> {
-			// On cherche l'itineraire optimal via l'utilisation du TSP
+			// On cherche l'itineraire optimal via l'utilisation du
+			// TSP
 			tsp.chercheSolution(idSommets.size(), couts, durees, plageDepart, plageFin,
 					this.demandeDeLivraison.getHeureDepart().toSeconds());
 			return tsp.getCoutMeilleureSolution() != Integer.MAX_VALUE;
@@ -302,7 +311,8 @@ public class Plan extends Observable {
 
 		Future<Boolean> futureCalculTournee = executorCalculTournee.submit(calculTournee);
 
-		// On recupere la meilleure tournee calculee a intervalle de temps
+		// On recupere la meilleure tournee calculee a intervalle de
+		// temps
 		// regulier dans un autre thread
 		tournee = new Tournee(demandeDeLivraison.getHeureDepart());
 		Callable<Boolean> recuperationMeilleurResultat = () -> {
@@ -333,7 +343,8 @@ public class Plan extends Observable {
 				} else {
 					tsp.unlock();
 				}
-				// Si le calcul est termine, on arrête de chercher une
+				// Si le calcul est termine, on arrête de
+				// chercher une
 				// nouvelle tournee
 				if (calculTermine) {
 					System.out.println("Calcul terminé");
@@ -352,7 +363,8 @@ public class Plan extends Observable {
 			return tourneeTrouvee;
 		};
 
-		Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee.submit(recuperationMeilleurResultat);
+		Future<Boolean> futureRecuperationMeilleurResultat = executorCalculTournee
+				.submit(recuperationMeilleurResultat);
 
 		executorCalculTournee.shutdown();
 		boolean tourneeTrouvee = false;
@@ -363,9 +375,11 @@ public class Plan extends Observable {
 			System.out.println(tourneeTrouvee);
 			/*
 			 * if (this.tournee.getDuree() == Integer.MAX_VALUE &&
-			 * tpsLimiteAtteint == false) { throw new ExceptionTournee(
-			 * "Aucune tournée n'a été trouvée. " +
-			 * "Veuillez recommencer avec de nouvelles plages horaires"); }
+			 * tpsLimiteAtteint == false) { throw new
+			 * ExceptionTournee( "Aucune tournée n'a été trouvée. "
+			 * +
+			 * "Veuillez recommencer avec de nouvelles plages horaires"
+			 * ); }
 			 */
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -379,8 +393,9 @@ public class Plan extends Observable {
 	 * donnees en parametres
 	 * 
 	 * @param idSommets
-	 *            Liste des sommets dont il faut les durees
-	 * @return Tableau des durees ordonnees selon l'ordre des sommets en entree
+	 *                Liste des sommets dont il faut les durees
+	 * @return Tableau des durees ordonnees selon l'ordre des sommets en
+	 *         entree
 	 */
 	private int[] recupererDurees(List<Integer> idSommets) {
 		int[] durees = new int[idSommets.size()];
@@ -395,9 +410,9 @@ public class Plan extends Observable {
 	 * Renvoie l'ObjetGraphique positionné au coordonnées du point précisé
 	 * 
 	 * @param p
-	 *            Position de l'ObjetGraphique à rechercher
+	 *                Position de l'ObjetGraphique à rechercher
 	 * @param tolerance
-	 *            Intervalle de tolerance de la recherche
+	 *                Intervalle de tolerance de la recherche
 	 * @return ObjetGraphique aux coordonnées p si il existe, null sinon
 	 */
 	public ObjetGraphique cherche(Point p, int tolerance) {
@@ -417,11 +432,11 @@ public class Plan extends Observable {
 
 	/**
 	 * Renvoie la livraison associée à l'intersection à l'adresse donnée en
-	 * cherchant en priorité dans la tournée si elle existe ou dans la demande
-	 * de livraison sinon
+	 * cherchant en priorité dans la tournée si elle existe ou dans la
+	 * demande de livraison sinon
 	 * 
 	 * @param adresse
-	 *            Id de l'intersection adresse de la livraison
+	 *                Id de l'intersection adresse de la livraison
 	 * @return La livraison associée
 	 */
 	public Livraison getLivraisonParAdresse(int adresse) {
@@ -438,9 +453,10 @@ public class Plan extends Observable {
 	 * Retourne l'adresse de la livraison suivant la livraison donnée
 	 * 
 	 * @param adrLiv
-	 *            Adresse de la livraison dont on cherche la livraison suivante
-	 * @return Adresse de la livraison suivante ou -1 si l'adresse donnée n'a
-	 *         pas de livraison ou de livraison suivante
+	 *                Adresse de la livraison dont on cherche la livraison
+	 *                suivante
+	 * @return Adresse de la livraison suivante ou -1 si l'adresse donnée
+	 *         n'a pas de livraison ou de livraison suivante
 	 */
 	public int getAdresseLivraisonSuivante(int adrLiv) {
 		if (tournee != null) {
@@ -453,10 +469,10 @@ public class Plan extends Observable {
 	 * Retourne l'adresse de la livraison précédant la livraison donnée
 	 * 
 	 * @param adrLiv
-	 *            Adresse de la livraison dont on cherche la livraison
-	 *            précédente
-	 * @return Adresse de la livraison précédente ou -1 si l'adresse donnée n'a
-	 *         pas de livraison ou de livraison suivante
+	 *                Adresse de la livraison dont on cherche la livraison
+	 *                précédente
+	 * @return Adresse de la livraison précédente ou -1 si l'adresse donnée
+	 *         n'a pas de livraison ou de livraison suivante
 	 */
 	public int getAdresseLivraisonPrecedente(int adrLiv) {
 		if (tournee != null) {
@@ -480,9 +496,9 @@ public class Plan extends Observable {
 
 	/**
 	 * @param id
-	 *            Id de l'Intersection à retourner
-	 * @return Retourne l'Intersection correspondante à l'id donné ou null si
-	 *         aucune intersection n'existe
+	 *                Id de l'Intersection à retourner
+	 * @return Retourne l'Intersection correspondante à l'id donné ou null
+	 *         si aucune intersection n'existe
 	 */
 	public Intersection getIntersection(int id) {
 		return this.listeIntersections.get(id);
@@ -542,9 +558,9 @@ public class Plan extends Observable {
 	}
 
 	/**
-	 * @return La liste de livraisons de la tournée si celle ci existe, sinon la
-	 *         liste de livraisons de la demande. Si la demande et la tournée
-	 *         sont null, renvoie null
+	 * @return La liste de livraisons de la tournée si celle ci existe,
+	 *         sinon la liste de livraisons de la demande. Si la demande et
+	 *         la tournée sont null, renvoie null
 	 */
 	public List<Livraison> getListeLivraisons() {
 		if (tournee != null) {
@@ -577,8 +593,8 @@ public class Plan extends Observable {
 	}
 
 	/**
-	 * @return Renvoie la liste des Itineraires de la Tournee. Si la Tournee est
-	 *         null, renvoie null
+	 * @return Renvoie la liste des Itineraires de la Tournee. Si la Tournee
+	 *         est null, renvoie null
 	 */
 	public List<Itineraire> getItineraires() {
 		if (tournee != null) {
@@ -611,8 +627,8 @@ public class Plan extends Observable {
 
 	/**
 	 * Creation d'un tableau faisant correspondre l'identifiant de chaque
-	 * intersection avec sa place dans le tableau des couts et des itineraires
-	 * resultant des calculs de plus court chemin
+	 * intersection avec sa place dans le tableau des couts et des
+	 * itineraires resultant des calculs de plus court chemin
 	 * 
 	 * @return Identifiants des intersections constituant la tournee finale
 	 */
@@ -682,13 +698,13 @@ public class Plan extends Observable {
 	 * horaires spécifiées
 	 * 
 	 * @param adrLivraison
-	 *            Adresse de la livraison à modifier
+	 *                Adresse de la livraison à modifier
 	 * @param nvPlage
-	 *            True si la livraison doit avoir une plage, false sinon
+	 *                True si la livraison doit avoir une plage, false sinon
 	 * @param nvDebut
-	 *            Nouvelle heure de début de la plage
+	 *                Nouvelle heure de début de la plage
 	 * @param nvFin
-	 *            Nouvelle heure de la fin de la plage
+	 *                Nouvelle heure de la fin de la plage
 	 */
 	public void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
 		if (tournee != null) {
@@ -699,8 +715,8 @@ public class Plan extends Observable {
 	}
 
 	/**
-	 * @return String formatée représentant la feuille de route à suivre pour la
-	 *         tournée
+	 * @return String formatée représentant la feuille de route à suivre
+	 *         pour la tournée
 	 */
 	public String genererFeuilleRoute() {
 		if (tournee != null) {

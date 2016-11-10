@@ -16,11 +16,11 @@ public class Intersection extends ObjetGraphique {
 	 * Cree une intersection de coordonnees (longitude, latitude)
 	 * 
 	 * @param id
-	 *            L'identifiant de l'intersection
+	 *                L'identifiant de l'intersection
 	 * @param longitude
-	 *            Longitude de l'intersection
+	 *                Longitude de l'intersection
 	 * @param latitude
-	 *            Latitude de l'intersection
+	 *                Latitude de l'intersection
 	 */
 	public Intersection(int id, int longitude, int latitude) {
 		this.id = id;
@@ -32,10 +32,11 @@ public class Intersection extends ObjetGraphique {
 	 * Indique si l'intersection contient le point p +/- la tolerance
 	 * 
 	 * @param p
-	 *            Le point de coordonnées recherchées
+	 *                Le point de coordonnées recherchées
 	 * @param tolerance
-	 *            L'intervalle de tolérance des coordonnées
-	 * @return True si le point est assez proche de l'intersection, false sinon
+	 *                L'intervalle de tolérance des coordonnées
+	 * @return True si le point est assez proche de l'intersection, false
+	 *         sinon
 	 */
 	@Override
 	protected boolean contient(Point p, int tolerance) {
@@ -71,7 +72,8 @@ public class Intersection extends ObjetGraphique {
 
 	/**
 	 * Compare deux intersections. Renvoit true si les objets manipules
-	 * possedent le meme identifiant et les memes coordonnees, et false sinon.
+	 * possedent le meme identifiant et les memes coordonnees, et false
+	 * sinon.
 	 */
 	@Override
 	public boolean equals(Object obj) {

@@ -118,7 +118,8 @@ public class VuePlan extends JPanel implements Observer {
 	 */
 	public void paintComponent(Graphics g) {
 
-		BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 		super.paintComponent(g2d);
 		// on doit peindre le plan;
@@ -1025,7 +1026,8 @@ public class VuePlan extends JPanel implements Observer {
 	 * 
 	 * (non-Javadoc)
 	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 * @see java.util.Observer#update(java.util.Observable,
+	 * java.lang.Object)
 	 */
 	@Override
 	public void update(Observable obs, Object arg) {
@@ -1049,7 +1051,8 @@ public class VuePlan extends JPanel implements Observer {
 		g2.setColor(c);
 		g2.setStroke(new BasicStroke(2));
 		g2.draw(new Line2D.Float((int) (t.getOrigine().getLongitude() * echelle),
-				(int) (t.getOrigine().getLatitude() * echelle), (int) (t.getDestination().getLongitude() * echelle),
+				(int) (t.getOrigine().getLatitude() * echelle),
+				(int) (t.getDestination().getLongitude() * echelle),
 				(int) (t.getDestination().getLatitude() * echelle)));
 	}
 

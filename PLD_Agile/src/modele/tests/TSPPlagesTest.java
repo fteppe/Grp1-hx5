@@ -323,12 +323,12 @@ public class TSPPlagesTest {
 	}
 
 	/*
-	 * @Test public void testCalculerTourneeMauvaisNbrSommets(){ coutCompComplet
-	 * = new int[4][4]; duree = new int[4]; horaireDebut = new int[4];
-	 * horaireFin = new int[4];
+	 * @Test public void testCalculerTourneeMauvaisNbrSommets(){
+	 * coutCompComplet = new int[4][4]; duree = new int[4]; horaireDebut =
+	 * new int[4]; horaireFin = new int[4];
 	 * 
-	 * tsp.chercheSolution(8, coutCompComplet, duree, horaireDebut, horaireFin,
-	 * 0); assertEquals(0, tsp.getCoutMeilleureSolution());
+	 * tsp.chercheSolution(8, coutCompComplet, duree, horaireDebut,
+	 * horaireFin, 0); assertEquals(0, tsp.getCoutMeilleureSolution());
 	 * assertNull(tsp.getMeilleureSolution(0)); }
 	 */
 }

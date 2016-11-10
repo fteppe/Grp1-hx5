@@ -6,6 +6,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.SwingUtilities;
 
+/**
+ * Cette classe réagit à la souris et est utilisé pour décrire et effectuer les actions sur 
+ * une livraison
+ */
 public class DescriptionLivraison extends InformationTextuelle {
 
 	private static Color COUEUR_HOVER = new Color(0xA2A5F1);
@@ -58,6 +62,10 @@ public class DescriptionLivraison extends InformationTextuelle {
 		});
 	}
 
+	/**Cette methode permet définir si la case est en surbrillance ou non
+	 * 
+	 * @param surbrillance variable booleenne qui met la description en surbrillance si vrai, et normal sinon
+	 */
 	protected void setSurbrillance(boolean surbrillance) {
 		if (surbrillance) {
 
@@ -67,7 +75,7 @@ public class DescriptionLivraison extends InformationTextuelle {
 		}
 	}
 
-	protected void setFocusDescription(boolean focused) {
+	private void setFocusDescription(boolean focused) {
 		if (focused) {
 			fenetre.setLivraisonSurvol(index);
 		} else {
