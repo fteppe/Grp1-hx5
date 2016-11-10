@@ -60,8 +60,9 @@ public class EtatAjoutLivraison extends EtatDefaut {
     }
 
     @Override
-    public void annulerAjout(Controleur controleur) {
+    public void annulerAction(Controleur controleur) {
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
+	controleur.getFenetre().afficherMessage("action annulée");
     }
 
     @Override

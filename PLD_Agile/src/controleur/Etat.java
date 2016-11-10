@@ -150,14 +150,6 @@ public interface Etat {
     public void clicEchangerLivraisons(Controleur controleur, Fenetre fenetre, int idLivraison);
 
     /**
-     * Methode appelee par controleur lorsque l'utilisateur clique sur le bouton
-     * "annuler" dans l'etat ajout de livraison.
-     * 
-     * @param controleur
-     */
-    public void annulerAjout(Controleur controleur);
-
-    /**
      * Methode appelee par controleur lorsque l'utilisateur survole le plan avec
      * la souris, vérifie si le point est une intersection et si ce n'est pas
      * déjà une livraison.
@@ -209,4 +201,27 @@ public interface Etat {
      * format txt
      */
     public void genererFeuilleDeRoute(Plan plan);
+
+    /**
+     * Méthode appelée pour modifier la plage horaire de la livraison à
+     * l'adresse donnée
+     * 
+     * @param adrLiv
+     *            Adresse de la livraison à modifier
+     * @param possedePlage
+     *            True si la modification comporte une plage horaire, false
+     *            sinon
+     * @param heureDebut
+     *            Heure de début de la plage
+     * @param heureFin
+     *            Heure de fin de la plage
+     */
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin);
+    
+    /**cette fonction permet de revenir à l'état précédent dans certaines situations
+     * 
+     * @param controleur
+     */
+    public void annulerAction(Controleur controleur);
+
 }

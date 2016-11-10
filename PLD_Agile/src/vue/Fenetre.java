@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import controleur.Controleur;
+import controleur.FenetreFeuilleRoute;
 import modele.Plan;
 
 public class Fenetre extends JFrame{
@@ -33,7 +34,7 @@ public class Fenetre extends JFrame{
 	private PopMenuLivraisonAjout popupMenuLivraisonAjout;
 	private PopMenuIntersection popupMenuIntersection;
 	private MenuCreationLivraison menuCreationLivraison;
-	
+	private MenuModificationLivraison menuModifLivraison;
 	
 	protected Controleur controleur;
 	
@@ -57,8 +58,9 @@ public class Fenetre extends JFrame{
 	    this.setTitle(titreFenetre);
 	    this.setSize((int)dimensions.x,(int)dimensions.y);
 	    this.setLocationRelativeTo(null);
-
-	    //menuCreationLivraison = new MenuCreationLivraison(this, 25, true, new Point(0,0));
+	    
+	    //feuilleRoute = new FenetreFeuilleRoute(plan);
+	    
 	    console = new JTextArea(3, 10);
 	    console.setEditable(false);
 	    console.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -160,6 +162,9 @@ public class Fenetre extends JFrame{
 	
 	public void ouvrirMenuCreationLivraison(int position, boolean avant){
 		menuCreationLivraison = new MenuCreationLivraison(this, position,avant, new Point(500,300));
+	}
+	protected void ouvrirMenuModifLivraison(int position){
+		menuModifLivraison = new MenuModificationLivraison(this, position, new Point(500,300));
 	}
 	
 	protected void supprimerLivraison(int id){

@@ -131,6 +131,12 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
+	listeDeCdes.ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
+	fenetre.afficherMessage("Livraison supprimée de la tournée");
+    }
+
+    @Override
     public void genererFeuilleDeRoute(Plan plan) {
 	JFileChooser chooser = new JFileChooser();
 	String path = lireFichier("./pathFolder.txt");
@@ -146,7 +152,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	    }
 	}
     }
-    
+
     private String lireFichier(String fichier) {
 	String ligne = "";
 	try {
