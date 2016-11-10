@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Cette classe permet la creation et la gestion de la tournee calculee
+ * sur commande de l'utilisateur.
+ *
+ */
 public class Tournee extends Observable {
 
 	private int duree;
@@ -13,17 +18,22 @@ public class Tournee extends Observable {
 	private Heure hDebut;
 	private Heure hFin;
 	private boolean valide;
-
-	private List<Itineraire> itineraires;
-	private HashMap<Integer, Livraison> livraisons;
+	private List<Itineraire> itineraires; //Liste d'itineraire ordonnes
+						//selon l'ordre de passage
+	private HashMap<Integer, Livraison> livraisons; //Liste de livraisons ordonnes
+							//selon l'identifiant de leur adresse
 
 	/**
-	 * Cree une tournee à partir de sa duree
+	 * Cree une tournee a partir de son Heure de depart de l'entrepot
 	 * 
+<<<<<<< HEAD
 	 * @param duree
 	 *                Duree de la tournee (en secondes)
 	 * @param entrepot
 	 *                Intersection de depart et d'arrivee de la tournee
+=======
+	 * @param heureDepart Heure de depart de l'entrepot
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	public Tournee(Heure heureDepart) {
 		this.valide = true;
@@ -36,15 +46,22 @@ public class Tournee extends Observable {
 
 	/**
 	 * Cree la Tournee suivant la liste des livraisons, l'entrepot et les
-	 * itineraires associes
+	 * Itineraires associes
 	 * 
 	 * @param duree
 	 *                Duree totale de la tournee
 	 * @param livraisons
+<<<<<<< HEAD
 	 *                Liste ordonnee des intersections a visiter
 	 * @param itineraires
 	 *                Tableau des itineraires pour aller de la livraison i a
 	 *                la livraison j
+=======
+	 *            Liste ordonnee des Intersections a visiter
+	 * @param itineraires
+	 *            Tableau des Itineraires pour aller de la Livraison i a la
+	 *            Livraison j
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
 			HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
@@ -66,7 +83,11 @@ public class Tournee extends Observable {
 	 * Ajoute un itineraire à la liste d'itineraires de la tournee courante
 	 * 
 	 * @param itineraire
+<<<<<<< HEAD
 	 *                Itineraire a ajouter à la tournee
+=======
+	 *            Itineraire a ajouter à la Tournee
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
 		if (itineraires.size() == 0)
@@ -79,15 +100,23 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Insère une nouvelle livraison et calcule les itinéraires entre
-	 * l'intersection associée et les intersections précédentes et suivantes
+	 * Insère une nouvelle Livraison et calcule les Itinéraires entre
+	 * l'Intersection associée et les Intersections précédentes et suivantes
 	 * 
 	 * @param liv
+<<<<<<< HEAD
 	 *                La livraison à insérer dans la tournée
 	 * @param adrPrec
 	 *                L'adresse de la livraison précédente
 	 * @param adrSuiv
 	 *                L'adresse de la livraison suivante
+=======
+	 *            La Livraison à insérer dans la Tournée
+	 * @param adrPrec
+	 *            L'adresse de la Livraison précédente
+	 * @param adrSuiv
+	 *            L'adresse de la Livraison suivante
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected void insererLivraison(Livraison liv, int adrPrec, int adrSuiv) {
 		// On ajoute la livraison dans la liste
@@ -113,13 +142,19 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Supprime l'itineraire concernant la livraison a l'adresse specifiee
+	 * Supprime l'Itineraire concernant la Livraison a l'adresse specifiee
 	 * 
 	 * @param adresse
+<<<<<<< HEAD
 	 *                Identifiant de l'intersection correspondante a la
 	 *                livraison
 	 * @return Tableau compose des identifiants de depart et d'arrivee du
 	 *         nouvel Itineraire a construire
+=======
+	 *            Identifiant de l'Intersection correspondante a la Livraison
+	 * @return Tableau compose des identifiants de depart et d'arrivee du nouvel
+	 *         Itineraire a construire
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected Livraison supprimerLivraison(int adresse) {
 		// On parcourt la liste d'itineraires pour supprimer
@@ -148,8 +183,13 @@ public class Tournee extends Observable {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Insère l'itinéraire dans la liste des itinéraires de la tournée selon
 	 * les intersections de départ et d'arrivée associées
+=======
+	 * Insère l'Itinéraire dans la liste des Itinéraires de la Tournée selon les
+	 * Intersections de départ et d'arrivée associées
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 * 
 	 * @param nvItineraire
 	 *                Itineraire à insérer
@@ -171,7 +211,7 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Met à jour les horaires de la tournée et des livraisons qui lui sont
+	 * Met à jour les horaires de la Tournée et des Livraisons qui lui sont
 	 * associée
 	 * 
 	 * @param heureDepartTournee
@@ -195,12 +235,10 @@ public class Tournee extends Observable {
 			if (!liv.getRespectePlage())
 				valide = false;
 		}
-		// setChanged();
-		// notifyObservers();
 	}
 
 	/**
-	 * Réinitialise la liste des itinéraires de la tournée
+	 * Réinitialise la liste des Itinéraires de la tournée
 	 */
 	protected void viderTournee() {
 		this.itineraires.clear();
@@ -266,13 +304,19 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Retourne l'adresse de la livraison suivant la livraison donnée
+	 * Retourne l'adresse de la Livraison suivant la Livraison donnée
 	 * 
 	 * @param adrLiv
+<<<<<<< HEAD
 	 *                Adresse de la livraison dont on cherche la livraison
 	 *                suivante
 	 * @return Adresse de la livraison suivante ou -1 si l'adresse donnée
 	 *         n'a pas de livraison ou de livraison suivante
+=======
+	 *            Adresse de la Livraison dont on cherche la Livraison suivante
+	 * @return Adresse de la Livraison suivante ou -1 si l'adresse donnée n'a
+	 *         pas de Livraison ou de Livraison suivante
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected int getAdresseLivraisonSuivante(int adrLiv) {
 		for (Itineraire itin : itineraires) {
@@ -283,13 +327,20 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Retourne l'adresse de la livraison précédant la livraison donnée
+	 * Retourne l'adresse de la Livraison précédant la Livraison donnée
 	 * 
 	 * @param adrLiv
+<<<<<<< HEAD
 	 *                Adresse de la livraison dont on cherche la livraison
 	 *                précédente
 	 * @return Adresse de la livraison précédente ou -1 si l'adresse donnée
 	 *         n'a pas de livraison ou de livraison suivante
+=======
+	 *            Adresse de la Livraison dont on cherche la Livraison
+	 *            précédente
+	 * @return Adresse de la Livraison précédente ou -1 si l'adresse donnée n'a
+	 *         pas de Livraison ou de Livraison suivante
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected int getAdresseLivraisonPrecedente(int adrLiv) {
 		for (Itineraire itin : itineraires) {
@@ -300,10 +351,11 @@ public class Tournee extends Observable {
 	}
 
 	/**
-	 * Modifie la livraison à l'adresse donnée avec les plages horaires
+	 * Modifie la Livraison à l'adresse donnée avec les Plages horaires
 	 * spécifiées
 	 * 
 	 * @param adrLivraison
+<<<<<<< HEAD
 	 *                Adresse de la livraison à modifier
 	 * @param nvPlage
 	 *                True si la livraison doit avoir une plage, false sinon
@@ -311,6 +363,15 @@ public class Tournee extends Observable {
 	 *                Nouvelle heure de début de la plage
 	 * @param nvFin
 	 *                Nouvelle heure de la fin de la plage
+=======
+	 *            Adresse de la Livraison à modifier
+	 * @param nvPlage
+	 *            True si la Livraison doit avoir une plage, false sinon
+	 * @param nvDebut
+	 *            Nouvelle Heure de début de la plage
+	 * @param nvFin
+	 *            Nouvelle Heure de la fin de la plage
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
 		Livraison liv = livraisons.remove(adrLivraison);

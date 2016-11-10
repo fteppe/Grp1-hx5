@@ -17,17 +17,17 @@ public class Livraison extends ObjetGraphique {
 	private boolean respectePlage;
 
 	/**
-	 * Cree une livraison possedant une plage horaire a partir de sa duree
-	 * et de son adresse
+	 * Cree une Livraison possedant une Plage horaire a partir de sa duree et de
+	 * son adresse
 	 * 
 	 * @param duree
-	 *                Duree (en secondes) de la livraison
+	 *            Duree (en secondes) de la livraison
 	 * @param adresse
-	 *                Intersection correspondant a la livraison
+	 *            Intersection correspondant a la livraison
 	 * @param debutPlage
-	 *                Heure de debut de la plage horaire
+	 *            Heure de debut de la Plage horaire
 	 * @param finPlage
-	 *                Heure de fin de la plage horaire
+	 *            Heure de fin de la Plage horaire
 	 */
 	public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) throws ModeleException {
 		this.duree = duree;
@@ -36,11 +36,11 @@ public class Livraison extends ObjetGraphique {
 		this.tpsAttente = null;
 		if ((debutPlage != null && finPlage != null) && !(debutPlage.isEmpty() || finPlage.isEmpty()))
 			plage = new PlageHoraire(new Heure(debutPlage), new Heure(finPlage));
-
 		respectePlage = true;
 	}
-
+	
 	/**
+<<<<<<< HEAD
 	 * Cree une livraison ne possedant pas de plage horaire a partir de sa
 	 * duree et de son adresse
 	 * 
@@ -48,6 +48,15 @@ public class Livraison extends ObjetGraphique {
 	 *                Duree (en secondes) de la livraison
 	 * @param adresse
 	 *                Intersection correspondant a la livraison
+=======
+	 * Cree une Livraison ne possedant pas de Plage horaire a partir de sa duree
+	 * et de son adresse
+	 * 
+	 * @param duree
+	 *            Duree (en secondes) de la Livraison
+	 * @param adresse
+	 *            Intersection correspondant a la Livraison
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 */
 	public Livraison(int duree, Intersection adresse) {
 		this.duree = duree;
@@ -56,26 +65,40 @@ public class Livraison extends ObjetGraphique {
 	}
 
 	/**
-	 * Indique si la livraison courante possede le point indique, avec une
-	 * tolerance precisee.
+	 * Indique si la Livraison courante possede le point indique, avec une
+	 * tolerance precisee
 	 */
 	@Override
 	public boolean contient(Point p, int tolerance) {
 		return adresse.contient(p, tolerance);
 	}
-
+	
+	/**
+	 * @return Duree (en secondes) de la Livraison courante
+	 */
 	public int getDuree() {
 		return this.duree;
 	}
-
-	public Heure getHeureDepart() {
-		return this.heureDepart;
-	}
-
+	
+	/**
+	 * @return Heure d'arrivee du point de Livraison courant prevue
+	 */
 	public Heure getHeureArrivee() {
 		return this.heureArrivee;
 	}
-
+	
+	/**
+	 * @return Heure de depart du point de Livraison courant prevue
+	 */
+	public Heure getHeureDepart() {
+		return this.heureDepart;
+	}
+	
+	
+	/**
+	 * @return Heure de debut de plage horaire de la Livraison courante si elle existe,
+	 * null sinon
+	 */
 	public Heure getDebutPlage() {
 		Heure heureDebutPlage = null;
 		if (possedePlage()) {
@@ -83,11 +106,19 @@ public class Livraison extends ObjetGraphique {
 		}
 		return heureDebutPlage;
 	}
-
+	
+	/**
+	 * @return True si la Livraison courante possede une Plage horaire, false sinon
+	 */
 	public boolean possedePlage() {
 		return this.plage != null;
 	}
-
+	
+	/**
+	 * 
+	 * @return Heure de fin de la plage horaire de la Livraison courante si elle existe,
+	 * null sinon
+	 */
 	public Heure getFinPlage() {
 		Heure heureFinPlage = null;
 		if (possedePlage()) {
@@ -95,11 +126,18 @@ public class Livraison extends ObjetGraphique {
 		}
 		return heureFinPlage;
 	}
-
+	
+	/**
+	 * @return True si la Livraison est effectuee avant l'Heure de fin de sa Plage horaire
+	 * si elle existe, false sinon
+	 */
 	public boolean getRespectePlage() {
 		return this.respectePlage;
 	}
-
+	
+	/**
+	 * @return Heure renvoyant au temps d'attente du livreur sur le point de Livraison courant
+	 */
 	public Heure getTpsAttente() {
 		Heure tpsAttente = null;
 		if (possedePlage()) {
@@ -107,17 +145,28 @@ public class Livraison extends ObjetGraphique {
 		}
 		return tpsAttente;
 	}
-
+	
+	/**
+	 * @return Intersection correspondant a l'adresse de la Livraison courante
+	 */
 	public Intersection getAdresse() {
 		return this.adresse;
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Met a jour l'heure d'arrivee de la livraison courante suivant l'heure
 	 * de depart indiquee
 	 * 
 	 * @param heureArrivee
 	 *                Heure d'arrivee du livreur sur le point de livraison
+=======
+	 * Met a jour l'heure d'arrivee de la livraison courante suivant l'heure d'
+	 * arrivee indiquee
+	 * 
+	 * @param heureArrivee
+	 *            Heure d'arrivee du livreur sur le point de Livraison
+>>>>>>> 3b4f7db69ff5d6645cec21bb96e903b694d4d83d
 	 * @return Heure de depart prevue du livreur
 	 */
 	public Heure setHeureArrivee(Heure heureArrivee) {
@@ -142,15 +191,27 @@ public class Livraison extends ObjetGraphique {
 		}
 		return this.heureDepart;
 	}
-
+	
+	/**
+	 * Met a jour la duree de la Livraison courante
+	 * @param duree Duree a appliquer (en secondes)
+	 */
 	public void setDuree(int duree) {
 		this.duree = duree;
 	}
-
+	
+	/**
+	* Met à jour la Plage horaire de la Livraison courante
+	* @param plage Plage horaire a appliquer
+	*/
 	protected void setPlage(PlageHoraire plage) {
 		this.plage = plage;
 	}
 
+	/**
+	* Supprime la Plage horaire de la Livraison courante
+	* si elle existe
+	*/
 	protected void supprimerPlage() {
 		this.plage = null;
 		this.respectePlage = true;

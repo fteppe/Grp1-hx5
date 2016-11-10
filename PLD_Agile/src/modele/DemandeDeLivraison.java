@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Observable;
 
 /**
- * Classe gérant l'entrepot et les livraisons liees a meme demande de livraison
+ * Classe gerant l'entrepot et les livraisons liees a une meme demande de 
+ * livraison
  *
  */
 public class DemandeDeLivraison extends Observable {
@@ -17,7 +18,7 @@ public class DemandeDeLivraison extends Observable {
 	// adresse
 
 	/**
-	 * Cree une demande de livraison a partir d'une heure de depart et d'un
+	 * Cree une Demande de livraison a partir d'une Heure de depart et d'un
 	 * entrepot
 	 * 
 	 * @param heureDepart
@@ -33,17 +34,17 @@ public class DemandeDeLivraison extends Observable {
 	}
 
 	/**
-	 * Cree et ajoute une livraison possedant une plage horaire a la demande
-	 * de livraison courante
+	 * Cree et ajoute une livraison possedant une Plage horaire a la demande de
+	 * Livraison courante
 	 * 
 	 * @param duree
-	 *                Duree de la livraison a ajouter (en secondes)
+	 *            Duree de la livraison a ajouter (en secondes)
 	 * @param adresse
-	 *                Intersection correspondant a la livraison a ajouter
+	 *            Intersection correspondant a la Livraison a ajouter
 	 * @param debutPlage
-	 *                Debut de la plage horaire de la livraison a ajouter
+	 *            Debut de la Plage horaire de la Livraison a ajouter
 	 * @param finPlage
-	 *                Fin de la plage horaire de la livraison a ajouter
+	 *            Fin de la Plage horaire de la Livraison a ajouter
 	 * @throws ModeleException
 	 */
 	protected void ajouterLivraison(int duree, Intersection adresse, String debutPlage, String finPlage)
@@ -61,13 +62,13 @@ public class DemandeDeLivraison extends Observable {
 	}
 
 	/**
-	 * Cree et ajoute une livraison sans plage horaire a la demande de
-	 * livraison courante
+	 * Cree et ajoute une Livraison sans Plage horaire a la demande de Livraison
+	 * courante
 	 * 
 	 * @param duree
-	 *                Duree de la livraison a ajouter (en secondes)
+	 *            Duree de la Livraison a ajouter (en secondes)
 	 * @param adresse
-	 *                Intersection correspondant a la livraison a ajouter
+	 *            Intersection correspondant a la livraison a ajouter
 	 */
 	public void ajouterLivraison(int duree, Intersection adresse) {
 		Livraison nouvLivraison = new Livraison(duree, adresse);
@@ -82,7 +83,7 @@ public class DemandeDeLivraison extends Observable {
 	 * Retourne la Livraison de la Demande associée à l'adresse donnée
 	 * 
 	 * @param adresse
-	 *                Adresse de la livraison
+	 *            Adresse de la livraison
 	 * @return La Livraison si elle existe, null sinon
 	 */
 	protected Livraison getLivraison(int adresse) {
@@ -94,7 +95,7 @@ public class DemandeDeLivraison extends Observable {
 	}
 
 	/**
-	 * @return Intersection adresse de l'entrepôt
+	 * @return Intersection Adresse de l'entrepôt
 	 */
 	protected Intersection getEntrepot() {
 		return this.entrepot;
