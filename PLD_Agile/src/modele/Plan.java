@@ -244,6 +244,9 @@ public class Plan extends Observable {
     /**
      * Calcule la tournee (algo Dijkstra et TSP) si possible et la cree
      * 
+     * @param tpsLimite
+     *            Temps maximum en millisecondes pour le calcul du parcours
+     *            optimal
      * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
      *         ete trouvee
      * @throws ExceptionTournee

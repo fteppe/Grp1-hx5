@@ -1,11 +1,11 @@
 package controleur;
 
 public class EtatInitial extends EtatDefaut {
-    // Etat initial
+	// Etat initial
 
-    @Override
-    public void quitter() {
-	System.exit(0);
-    }
+	@Override
+	public void quitter() {
+		System.exit(0);
+	}
 
 }

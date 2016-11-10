@@ -35,7 +35,7 @@ public class Heure {
      * Cree une heure a partir d'un temps en secondes Precondition : Heure
      * comprise entre 00:00:00 et 23:59:59
      * 
-     * @param secondes Le temps en seconde depuis 00:00:00
+     * @param secondes
      */
     public Heure(int secondes) {
 	int reste = secondes;

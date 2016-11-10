@@ -10,9 +10,6 @@ public abstract class ObjetGraphique extends Observable {
      * 
      * @param p
      *            Point aux coordonnées recherchées
-     * @param tolerance
-     *            Intervalle de tolérance pour savoir si l'objet contient le
-     *            Point p
      * @return True si p appartient a this, false sinon
      */
     protected abstract boolean contient(Point p, int tolerance);

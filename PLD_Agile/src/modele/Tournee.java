@@ -18,9 +18,12 @@ public class Tournee extends Observable {
     private HashMap<Integer, Livraison> livraisons;
 
     /**
-     * Cree une tournee à partir de son heure de départ
+     * Cree une tournee à partir de sa duree
      * 
-     * @param heureDepart Heure de départ de la Tournee
+     * @param duree
+     *            Duree de la tournee (en secondes)
+     * @param entrepot
+     *            Intersection de depart et d'arrivee de la tournee
      */
     public Tournee(Heure heureDepart) {
 	this.valide = true;
