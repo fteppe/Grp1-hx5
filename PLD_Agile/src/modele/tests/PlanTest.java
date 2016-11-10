@@ -48,28 +48,26 @@ public class PlanTest {
     }
 
     @Test
-    public void testAjouterIntersection() {
+    public void testcreerIntersection() {
 	Plan plan = new Plan();
 	plan.addObserver(observer);
 	try {
-	    plan.ajouterIntersection(4, 245, 241);
+	    plan.creerIntersection(4, 245, 241);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	assert (updateAppele);
     }
 
     @Test
-    public void testAjouterTroncon() {
+    public void testcreerTroncon() {
 	Plan plan = new Plan();
 	plan.addObserver(observer);
 	try {
-	    plan.ajouterIntersection(1, 245, 241);
-	    plan.ajouterIntersection(2, 245, 241);
-	    plan.ajouterTroncon("Rue du Chata�gnier", 500, 50, 1, 2);
+	    plan.creerIntersection(1, 245, 241);
+	    plan.creerIntersection(2, 245, 241);
+	    plan.creerTroncon("Rue du Chata�gnier", 500, 50, 1, 2);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	assert (updateAppele);
@@ -80,12 +78,11 @@ public class PlanTest {
 	Plan plan = new Plan();
 	plan.addObserver(observer);
 	try {
-	    plan.ajouterIntersection(4, 245, 241);
-	    plan.ajouterIntersection(3, 142, 784);
-	    plan.ajouterTroncon("Rue du Chataignier", 500, 50, 3, 4);
-	    plan.ajouterTroncon("Rue des Paril", 500, 50, 4, 3);
+	    plan.creerIntersection(4, 245, 241);
+	    plan.creerIntersection(3, 142, 784);
+	    plan.creerTroncon("Rue du Chataignier", 500, 50, 3, 4);
+	    plan.creerTroncon("Rue des Paril", 500, 50, 4, 3);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	Heure heureDepart = new Heure("08:00:00");
@@ -94,12 +91,11 @@ public class PlanTest {
 	try {
 	    plan.creerDemandeDeLivraison(heureDepart, 3);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	for (int i = 0; i < adresses.length; i++) {
 	    try {
-		plan.ajouterLivraisonDemande(adresses[i], durees[i]);
+		plan.creerLivraisonDemande(adresses[i], durees[i]);
 	    } catch (ModeleException e) {
 		e.printStackTrace();
 	    }
@@ -122,11 +118,11 @@ public class PlanTest {
 	    e1.printStackTrace();
 	}
 	try {
-	    p.ajouterLivraisonDemande(1, 20);
-	    p.ajouterLivraisonDemande(2, 10);
-	    p.ajouterLivraisonDemande(5, 8);
-	    p.ajouterLivraisonDemande(6, 10);
-	    p.ajouterLivraisonDemande(7, 14);
+	    p.creerLivraisonDemande(1, 20);
+	    p.creerLivraisonDemande(2, 10);
+	    p.creerLivraisonDemande(5, 8);
+	    p.creerLivraisonDemande(6, 10);
+	    p.creerLivraisonDemande(7, 14);
 	} catch (ModeleException e1) {
 	    e1.printStackTrace();
 	}
@@ -134,7 +130,6 @@ public class PlanTest {
 	try {
 	    tourneeTrouvee = p.calculerTournee();
 	} catch (ExceptionTournee e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	int dureeTotale = p.getDureeTournee();
@@ -172,7 +167,6 @@ public class PlanTest {
 	    deserialiseur.chargerLivraisons(p);
 	} catch (ParserConfigurationException | SAXException | IOException
 		| ExceptionXML e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -200,7 +194,6 @@ public class PlanTest {
 			break;
 		    }
 		} catch (InterruptedException e) {
-		    // TODO Auto-generated catch block
 		    e.printStackTrace();
 		}
 
@@ -213,7 +206,6 @@ public class PlanTest {
 		    TimeUnit.SECONDS);
 	    tourneeTrouvee = futureCalculTournee.get();
 	} catch (InterruptedException | ExecutionException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 
@@ -244,14 +236,12 @@ public class PlanTest {
 	try {
 	    p.creerDemandeDeLivraison(heure, 4);
 	} catch (ModeleException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 	boolean calculReussi = false;
 	try {
 	    calculReussi = p.calculerTournee();
 	} catch (ExceptionTournee e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	int dureeTotale = p.getDureeTournee();
@@ -271,15 +261,14 @@ public class PlanTest {
 	Heure heure = new Heure("08:05:00");
 	try {
 	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:07:00");
-	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	    p.creerLivraisonDemande(1, 20, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(2, 10, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(5, 8, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(6, 10, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(7, 14, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(3, 20, "08:06:00", "08:07:00");
+	    p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:30");
 	} catch (ModeleException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 
@@ -288,7 +277,6 @@ public class PlanTest {
 	try {
 	    tourneeTrouvee = p.calculerTournee();
 	} catch (ExceptionTournee e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -304,50 +292,48 @@ public class PlanTest {
 	    throws ExceptionTournee {
 	Plan p = new Plan();
 	try {
-	    p.ajouterIntersection(1, 412, 574);
-	    p.ajouterIntersection(2, 217, 574);
-	    p.ajouterIntersection(3, 325, 574);
-	    p.ajouterIntersection(4, 412, 544);
-	    p.ajouterIntersection(5, 742, 574);
-	    p.ajouterIntersection(6, 451, 174);
-	    p.ajouterIntersection(7, 418, 974);
-	    p.ajouterIntersection(8, 442, 484);
-	    p.ajouterIntersection(9, 412, 574);
-	    p.ajouterIntersection(10, 217, 574);
-	    p.ajouterIntersection(11, 325, 574);
-	    p.ajouterIntersection(12, 412, 544);
-	    p.ajouterIntersection(13, 742, 574);
-	    p.ajouterIntersection(14, 451, 174);
-	    p.ajouterIntersection(15, 418, 974);
-	    p.ajouterIntersection(16, 442, 484);
-	    p.ajouterTroncon("h0", 75, 25, 1, 2);
-	    p.ajouterTroncon("h1", 50, 25, 2, 3);
-	    p.ajouterTroncon("h3", 100, 25, 4, 1);
-	    p.ajouterTroncon("h4", 150, 25, 1, 5);
-	    p.ajouterTroncon("h5", 25, 25, 5, 6);
-	    p.ajouterTroncon("h6", 200, 25, 6, 7);
-	    p.ajouterTroncon("h7", 25, 25, 6, 7);
-	    p.ajouterTroncon("h8", 50, 25, 7, 2);
-	    p.ajouterTroncon("h11", 50, 25, 2, 1);
-	    p.ajouterTroncon("h10", 50, 25, 1, 4);
-	    p.ajouterTroncon("h12", 50, 25, 3, 2);
+	    p.creerIntersection(1, 412, 574);
+	    p.creerIntersection(2, 217, 574);
+	    p.creerIntersection(3, 325, 574);
+	    p.creerIntersection(4, 412, 544);
+	    p.creerIntersection(5, 742, 574);
+	    p.creerIntersection(6, 451, 174);
+	    p.creerIntersection(7, 418, 974);
+	    p.creerIntersection(8, 442, 484);
+	    p.creerIntersection(9, 412, 574);
+	    p.creerIntersection(10, 217, 574);
+	    p.creerIntersection(11, 325, 574);
+	    p.creerIntersection(12, 412, 544);
+	    p.creerIntersection(13, 742, 574);
+	    p.creerIntersection(14, 451, 174);
+	    p.creerIntersection(15, 418, 974);
+	    p.creerIntersection(16, 442, 484);
+	    p.creerTroncon("h0", 75, 25, 1, 2);
+	    p.creerTroncon("h1", 50, 25, 2, 3);
+	    p.creerTroncon("h3", 100, 25, 4, 1);
+	    p.creerTroncon("h4", 150, 25, 1, 5);
+	    p.creerTroncon("h5", 25, 25, 5, 6);
+	    p.creerTroncon("h6", 200, 25, 6, 7);
+	    p.creerTroncon("h7", 25, 25, 6, 7);
+	    p.creerTroncon("h8", 50, 25, 7, 2);
+	    p.creerTroncon("h11", 50, 25, 2, 1);
+	    p.creerTroncon("h10", 50, 25, 1, 4);
+	    p.creerTroncon("h12", 50, 25, 3, 2);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
 	Heure heure = new Heure("08:05:00");
 	try {
 	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(5, 8, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(6, 10, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(7, 14, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(3, 20, "08:06:00", "08:08:00");
-	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:30");
+	    p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(2, 10, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(5, 8, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(6, 10, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(7, 14, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(3, 20, "08:06:00", "08:08:00");
+	    p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:30");
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -369,15 +355,14 @@ public class PlanTest {
 	Heure heure = new Heure("08:05:00");
 	try {
 	    p.creerDemandeDeLivraison(heure, 4);
-	    p.ajouterLivraisonDemande(1, 20, "08:06:00", "08:08:15");
-	    p.ajouterLivraisonDemande(2, 10, "08:06:00", "08:06:40");
-	    p.ajouterLivraisonDemande(5, 8, "08:15:00", "08:16:00");
-	    p.ajouterLivraisonDemande(6, 10, "08:30:00", "08:38:00");
-	    p.ajouterLivraisonDemande(7, 14, "08:30:00", "08:30:15");
-	    p.ajouterLivraisonDemande(3, 20, "09:06:00", "09:07:00");
-	    p.ajouterLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+	    p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+	    p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+	    p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+	    p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+	    p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+	    p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+	    p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
 	} catch (ModeleException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 
@@ -386,7 +371,6 @@ public class PlanTest {
 	try {
 	    tourneeTrouvee = p.calculerTournee();
 	} catch (ExceptionTournee e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -401,8 +385,8 @@ public class PlanTest {
 	    assertTrue(i.getArrivee()
 		    .getId() == listeSommetsTourneePoss1[position + 1]);
 	    if (i.getArrivee().getId() != 4) {
-		if (p.getLivraison(i.getArrivee().getId()).possedePlage()) {
-		    assertTrue(p.getLivraison(i.getArrivee().getId())
+		if (p.getLivraisonParAdresse(i.getArrivee().getId()).possedePlage()) {
+		    assertTrue(p.getLivraisonParAdresse(i.getArrivee().getId())
 			    .getRespectePlage());
 		}
 	    }
@@ -420,37 +404,36 @@ public class PlanTest {
      */
     private void initialisationPlan(Plan p) {
 	try {
-	    p.ajouterIntersection(1, 412, 574);
-	    p.ajouterIntersection(2, 217, 574);
-	    p.ajouterIntersection(3, 325, 574);
-	    p.ajouterIntersection(4, 412, 544);
-	    p.ajouterIntersection(5, 742, 574);
-	    p.ajouterIntersection(6, 451, 174);
-	    p.ajouterIntersection(7, 418, 974);
-	    p.ajouterIntersection(8, 442, 484);
-	    p.ajouterIntersection(9, 412, 574);
-	    p.ajouterIntersection(10, 217, 574);
-	    p.ajouterIntersection(11, 325, 574);
-	    p.ajouterIntersection(12, 412, 544);
-	    p.ajouterIntersection(13, 742, 574);
-	    p.ajouterIntersection(14, 451, 174);
-	    p.ajouterIntersection(15, 418, 974);
-	    p.ajouterIntersection(16, 442, 484);
-	    p.ajouterTroncon("h0", 75, 25, 1, 2);
-	    p.ajouterTroncon("h1", 50, 25, 2, 3);
-	    p.ajouterTroncon("h12", 50, 25, 3, 2);
-	    p.ajouterTroncon("h2", 25, 25, 8, 3);
-	    p.ajouterTroncon("h9", 25, 25, 3, 8);
-	    p.ajouterTroncon("h3", 100, 25, 4, 1);
-	    p.ajouterTroncon("h4", 150, 25, 1, 5);
-	    p.ajouterTroncon("h5", 25, 25, 5, 6);
-	    p.ajouterTroncon("h6", 200, 25, 6, 7);
-	    p.ajouterTroncon("h7", 25, 25, 6, 7);
-	    p.ajouterTroncon("h8", 50, 25, 7, 2);
-	    p.ajouterTroncon("h11", 50, 25, 2, 1);
-	    p.ajouterTroncon("h10", 50, 25, 1, 4);
+	    p.creerIntersection(1, 412, 574);
+	    p.creerIntersection(2, 217, 574);
+	    p.creerIntersection(3, 325, 574);
+	    p.creerIntersection(4, 412, 544);
+	    p.creerIntersection(5, 742, 574);
+	    p.creerIntersection(6, 451, 174);
+	    p.creerIntersection(7, 418, 974);
+	    p.creerIntersection(8, 442, 484);
+	    p.creerIntersection(9, 412, 574);
+	    p.creerIntersection(10, 217, 574);
+	    p.creerIntersection(11, 325, 574);
+	    p.creerIntersection(12, 412, 544);
+	    p.creerIntersection(13, 742, 574);
+	    p.creerIntersection(14, 451, 174);
+	    p.creerIntersection(15, 418, 974);
+	    p.creerIntersection(16, 442, 484);
+	    p.creerTroncon("h0", 75, 25, 1, 2);
+	    p.creerTroncon("h1", 50, 25, 2, 3);
+	    p.creerTroncon("h12", 50, 25, 3, 2);
+	    p.creerTroncon("h2", 25, 25, 8, 3);
+	    p.creerTroncon("h9", 25, 25, 3, 8);
+	    p.creerTroncon("h3", 100, 25, 4, 1);
+	    p.creerTroncon("h4", 150, 25, 1, 5);
+	    p.creerTroncon("h5", 25, 25, 5, 6);
+	    p.creerTroncon("h6", 200, 25, 6, 7);
+	    p.creerTroncon("h7", 25, 25, 6, 7);
+	    p.creerTroncon("h8", 50, 25, 7, 2);
+	    p.creerTroncon("h11", 50, 25, 2, 1);
+	    p.creerTroncon("h10", 50, 25, 1, 4);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }

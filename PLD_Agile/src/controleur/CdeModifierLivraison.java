@@ -19,10 +19,10 @@ public class CdeModifierLivraison implements Commande {
 	    this.nvDebut = new Heure(nvHeureDebut);
 	    this.nvFin = new Heure(nvHeureFin);
 	}
-	if (p.getLivraison(adrLiv).possedePlage()) {
-	    ancPlage = p.getLivraison(adrLiv).possedePlage();
-	    ancDebut = p.getLivraison(adrLiv).getDebutPlage();
-	    ancFin = p.getLivraison(adrLiv).getFinPlage();
+	if (p.getLivraisonParAdresse(adrLiv).possedePlage()) {
+	    ancPlage = p.getLivraisonParAdresse(adrLiv).possedePlage();
+	    ancDebut = p.getLivraisonParAdresse(adrLiv).getDebutPlage();
+	    ancFin = p.getLivraisonParAdresse(adrLiv).getFinPlage();
 	}
 	this.adrLivraison = adrLiv;
     }

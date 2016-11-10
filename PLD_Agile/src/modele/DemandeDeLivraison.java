@@ -41,7 +41,7 @@ public class DemandeDeLivraison extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a ajouter
      */
-    public void ajouterLivraison(int duree, Intersection adresse,
+    protected void ajouterLivraison(int duree, Intersection adresse,
 	    String debutPlage, String finPlage) throws ModeleException {
 	try {
 	    Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage,
@@ -73,22 +73,29 @@ public class DemandeDeLivraison extends Observable {
 	notifyObservers(nouvLivraison);
     }
 
-    public Livraison getLivraison(int adresse) {
+    /**
+     * Retourne la Livraison de la Demande associée à l'adresse donnée
+     * @param adresse Adresse de la livraison
+     * @return La Livraison si elle existe, null sinon
+     */
+    protected Livraison getLivraison(int adresse) {
 	return this.livraisons.get(adresse);
     }
 
-    public HashMap<Integer, Livraison> getListeLivraisons() {
+    protected HashMap<Integer, Livraison> getHashMapLivraisons() {
 	return this.livraisons;
     }
 
-    public Intersection getEntrepot() {
+    /**
+     * @return Intersection adresse de l'entrepôt
+     */
+    protected Intersection getEntrepot() {
 	return this.entrepot;
     }
-
-    public int getNbrLivraisons() {
-	return this.livraisons.size();
-    }
-
+    
+    /**
+     * @return Heure de départ demandée
+     */
     public Heure getHeureDepart() {
 	return this.heureDepart;
     }

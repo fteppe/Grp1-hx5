@@ -21,7 +21,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
     public void chargerDemandeLivraison() {
 	try {
 	    controleur.getListeCde().reset();
-	    plan.setTournee(null);
+	    plan.supprimerTournee();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");

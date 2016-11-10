@@ -94,7 +94,7 @@ public class DeserialiseurXML {
 		id = Integer.parseInt(eltNoeud.getAttribute("id"));
 		x = Integer.parseInt(eltNoeud.getAttribute("x"));
 		y = Integer.parseInt(eltNoeud.getAttribute("y"));
-		plan.ajouterIntersection(id, x, y);
+		plan.creerIntersection(id, x, y);
 	    } catch (NumberFormatException e) {
 		rapport += "\nCertains noeuds contiennent des attributs \"x\", \"y\" ou \"id\" non entiers.";
 	    } catch (ModeleException e) {
@@ -116,7 +116,7 @@ public class DeserialiseurXML {
 			.parseInt(eltTroncon.getAttribute("vitesse"));
 		String nomRue = eltTroncon.getAttribute("nomRue");
 
-		plan.ajouterTroncon(nomRue, longueur, vitesse, origine,
+		plan.creerTroncon(nomRue, longueur, vitesse, origine,
 			destination);
 	    } catch (NumberFormatException e) {
 		rapport += "\nCertains troncons contiennent des attributs \"destination\", \"origine\", \"longueur\" ou \"vitesse\" non entiers.";
@@ -170,10 +170,10 @@ public class DeserialiseurXML {
 			&& eltLivraison.getAttribute("debutPlage") != "") {
 		    String debutPlage = eltLivraison.getAttribute("debutPlage");
 		    String finPlage = eltLivraison.getAttribute("finPlage");
-		    plan.ajouterLivraisonDemande(adresse, duree, debutPlage,
+		    plan.creerLivraisonDemande(adresse, duree, debutPlage,
 			    finPlage);
 		} else {
-		    plan.ajouterLivraisonDemande(adresse, duree);
+		    plan.creerLivraisonDemande(adresse, duree);
 		}
 	    } catch (NumberFormatException e) {
 		rapport += "\nL'adresse ou la durée d'une livraison ne sont pas des entiers.";

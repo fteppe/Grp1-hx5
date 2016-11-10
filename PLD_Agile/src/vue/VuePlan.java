@@ -56,11 +56,11 @@ public class VuePlan extends JPanel implements Observer {
 	    @Override
 	    public void mouseClicked(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
-		    if (plan.getLivraisonAdresse(livraisonSurvol) != null) {
+		    if (plan.getLivraisonParAdresse(livraisonSurvol) != null) {
 			fenetre.clicGaucheLivraison(livraisonSurvol);
 		    }
 		} else if (SwingUtilities.isRightMouseButton(e)) {
-		    if (plan.getLivraisonAdresse(livraisonSurvol) != null) {
+		    if (plan.getLivraisonParAdresse(livraisonSurvol) != null) {
 
 			fenetre.clicDroitLivraison(livraisonSurvol);
 		    } else if (plan
@@ -134,7 +134,7 @@ public class VuePlan extends JPanel implements Observer {
 	Intersection intersectionSurvolObj = plan
 		.getIntersection(intersectionSurvol);
 	Livraison livraisonSurvolObj = plan
-		.getLivraisonAdresse(livraisonSurvol);
+		.getLivraisonParAdresse(livraisonSurvol);
 	if (entrepot != null) {
 	    dessinerIntersection(g2d, plan.getEntrepot(), COULEUR_ENTREPOT);
 	}

@@ -33,7 +33,7 @@ public class Intersection extends ObjetGraphique {
      * @return True si le point est assez proche de l'intersection, false sinon
      */
     @Override
-    public boolean contient(Point p, int tolerance) {
+    protected boolean contient(Point p, int tolerance) {
 	int x = p.x;
 	int y = p.y;
 	if (!(x - tolerance <= longitude && longitude < x + tolerance))
@@ -43,14 +43,23 @@ public class Intersection extends ObjetGraphique {
 	return true;
     }
 
+    /**
+     * @return ID de l'Intersection
+     */
     public int getId() {
 	return this.id;
     }
 
+    /**
+     * @return Longitude de l'Intersection
+     */
     public int getLongitude() {
 	return this.longitude;
     }
 
+    /**
+     * @return Latitude de l'Intersection
+     */
     public int getLatitude() {
 	return this.latitude;
     }

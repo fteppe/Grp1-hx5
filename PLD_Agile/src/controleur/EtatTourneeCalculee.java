@@ -28,7 +28,7 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	try {
 	    controleur.getListeCde().reset();
 	    String rapport = DeserialiseurXML.chargerLivraisons(plan);
-	    plan.setTournee(null);
+	    plan.supprimerTournee();
 	    if (rapport.isEmpty())
 		fenetre.afficherMessage("Demande de livraison chargée");
 	    else

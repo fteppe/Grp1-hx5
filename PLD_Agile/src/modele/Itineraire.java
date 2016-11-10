@@ -29,23 +29,31 @@ public class Itineraire extends Observable {
 	this.calculTpsParcours();
     }
 
-    public boolean comprendTroncon(Troncon tr) {
-	return troncons.contains(tr);
-    }
-
+    /**
+     * @return Intersection de départ de l'Itineraire
+     */
     public Intersection getDepart() {
 	return this.depart;
     }
 
+    /**
+     * @return Intersection d'arrivée de l'Itineraire
+     */
     public Intersection getArrivee() {
 	return this.arrivee;
     }
 
+    /**
+     * @return Liste des Troncons qui composent l'Itineraire
+     */
     public List<Troncon> getTroncons() {
 	return this.troncons;
     }
 
-    public int getTpsParcours() {
+    /**
+     * @return Temps de parcours de l'Itineraire
+     */
+    protected int getTpsParcours() {
 	return this.tpsParcours;
     }
 
@@ -66,14 +74,6 @@ public class Itineraire extends Observable {
 	    }
 	}
 	this.tpsParcours = tpsParcours;
-    }
-
-    /**
-     * Affiche textuellement l'itineraire courant
-     */
-    public String toString() {
-	return "Itinéraire entre la livraison en " + depart.getId() + " et "
-		+ arrivee.getId() + " :";
     }
 
     @Override

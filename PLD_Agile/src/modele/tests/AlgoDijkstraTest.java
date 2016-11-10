@@ -57,33 +57,33 @@ public class AlgoDijkstraTest {
 	Troncon t_2_10 = new Troncon("t_2_10", i2, i10, 1, 1);
 	Troncon t_10_2 = new Troncon("t_10_2", i10, i2, 1, 1);
 	try {
-	    plan.ajouterIntersection(1, 412, 574);
-	    plan.ajouterIntersection(2, 217, 574);
-	    plan.ajouterIntersection(3, 325, 574);
-	    plan.ajouterIntersection(4, 412, 544);
-	    plan.ajouterIntersection(5, 742, 574);
-	    plan.ajouterIntersection(6, 451, 174);
-	    plan.ajouterIntersection(10, 418, 974);
-	    plan.ajouterTroncon("t_1_2", 5, 1, 1, 2);
-	    plan.ajouterTroncon("t_2_1", 5, 1, 2, 1);
-	    plan.ajouterTroncon("t_2_4", 25, 1, 2, 4);
-	    plan.ajouterTroncon("t_4_2", 25, 1, 4, 2);
-	    plan.ajouterTroncon("t_4_5", 3, 1, 4, 5);
-	    plan.ajouterTroncon("t_5_4", 3, 1, 5, 4);
-	    plan.ajouterTroncon("t_4_3", 8, 1, 4, 3);
-	    plan.ajouterTroncon("t_3_4", 8, 1, 3, 4);
-	    plan.ajouterTroncon("t_3_5", 1, 1, 3, 5);
-	    plan.ajouterTroncon("t_5_3", 1, 1, 5, 3);
-	    plan.ajouterTroncon("t_3_6", 6, 1, 3, 6);
-	    plan.ajouterTroncon("t_6_3", 6, 1, 6, 3);
-	    plan.ajouterTroncon("t_5_6", 10, 1, 5, 6);
-	    plan.ajouterTroncon("t_6_5", 10, 1, 6, 5);
-	    plan.ajouterTroncon("t_6_10", 11, 1, 6, 10);
-	    plan.ajouterTroncon("t_10_6", 11, 1, 10, 6);
-	    plan.ajouterTroncon("t_10_1", 6, 1, 10, 1);
-	    plan.ajouterTroncon("t_1_10", 6, 1, 1, 10);
-	    plan.ajouterTroncon("t_2_10", 1, 1, 2, 10);
-	    plan.ajouterTroncon("t_10_2", 1, 1, 10, 2);
+	    plan.creerIntersection(1, 412, 574);
+	    plan.creerIntersection(2, 217, 574);
+	    plan.creerIntersection(3, 325, 574);
+	    plan.creerIntersection(4, 412, 544);
+	    plan.creerIntersection(5, 742, 574);
+	    plan.creerIntersection(6, 451, 174);
+	    plan.creerIntersection(10, 418, 974);
+	    plan.creerTroncon("t_1_2", 5, 1, 1, 2);
+	    plan.creerTroncon("t_2_1", 5, 1, 2, 1);
+	    plan.creerTroncon("t_2_4", 25, 1, 2, 4);
+	    plan.creerTroncon("t_4_2", 25, 1, 4, 2);
+	    plan.creerTroncon("t_4_5", 3, 1, 4, 5);
+	    plan.creerTroncon("t_5_4", 3, 1, 5, 4);
+	    plan.creerTroncon("t_4_3", 8, 1, 4, 3);
+	    plan.creerTroncon("t_3_4", 8, 1, 3, 4);
+	    plan.creerTroncon("t_3_5", 1, 1, 3, 5);
+	    plan.creerTroncon("t_5_3", 1, 1, 5, 3);
+	    plan.creerTroncon("t_3_6", 6, 1, 3, 6);
+	    plan.creerTroncon("t_6_3", 6, 1, 6, 3);
+	    plan.creerTroncon("t_5_6", 10, 1, 5, 6);
+	    plan.creerTroncon("t_6_5", 10, 1, 6, 5);
+	    plan.creerTroncon("t_6_10", 11, 1, 6, 10);
+	    plan.creerTroncon("t_10_6", 11, 1, 10, 6);
+	    plan.creerTroncon("t_10_1", 6, 1, 10, 1);
+	    plan.creerTroncon("t_1_10", 6, 1, 1, 10);
+	    plan.creerTroncon("t_2_10", 1, 1, 2, 10);
+	    plan.creerTroncon("t_10_2", 1, 1, 10, 2);
 	} catch (ModeleException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -260,29 +260,28 @@ public class AlgoDijkstraTest {
 	Troncon t_6_5 = new Troncon("t_6_5", i6, i5, 10, 1);
 
 	try {
-	    plan.ajouterIntersection(1, 412, 574);
-	    plan.ajouterIntersection(2, 217, 574);
-	    plan.ajouterIntersection(3, 325, 574);
-	    plan.ajouterIntersection(4, 412, 544);
-	    plan.ajouterIntersection(5, 742, 574);
-	    plan.ajouterIntersection(6, 451, 174);
-	    plan.ajouterIntersection(10, 418, 974);
-	    plan.ajouterTroncon("t_1_2", 5, 1, 1, 2);
-	    plan.ajouterTroncon("t_2_1", 5, 1, 2, 1);
-	    plan.ajouterTroncon("t_2_4", 25, 1, 2, 4);
-	    plan.ajouterTroncon("t_4_2", 25, 1, 4, 2);
-	    plan.ajouterTroncon("t_4_5", 3, 1, 4, 5);
-	    plan.ajouterTroncon("t_5_4", 3, 1, 5, 4);
-	    plan.ajouterTroncon("t_4_3", 8, 1, 4, 3);
-	    plan.ajouterTroncon("t_3_4", 8, 1, 3, 4);
-	    plan.ajouterTroncon("t_3_5", 1, 1, 3, 5);
-	    plan.ajouterTroncon("t_5_3", 1, 1, 5, 3);
-	    plan.ajouterTroncon("t_3_6", 6, 1, 3, 6);
-	    plan.ajouterTroncon("t_6_3", 6, 1, 6, 3);
-	    plan.ajouterTroncon("t_5_6", 10, 1, 5, 6);
-	    plan.ajouterTroncon("t_6_5", 10, 1, 6, 5);
+	    plan.creerIntersection(1, 412, 574);
+	    plan.creerIntersection(2, 217, 574);
+	    plan.creerIntersection(3, 325, 574);
+	    plan.creerIntersection(4, 412, 544);
+	    plan.creerIntersection(5, 742, 574);
+	    plan.creerIntersection(6, 451, 174);
+	    plan.creerIntersection(10, 418, 974);
+	    plan.creerTroncon("t_1_2", 5, 1, 1, 2);
+	    plan.creerTroncon("t_2_1", 5, 1, 2, 1);
+	    plan.creerTroncon("t_2_4", 25, 1, 2, 4);
+	    plan.creerTroncon("t_4_2", 25, 1, 4, 2);
+	    plan.creerTroncon("t_4_5", 3, 1, 4, 5);
+	    plan.creerTroncon("t_5_4", 3, 1, 5, 4);
+	    plan.creerTroncon("t_4_3", 8, 1, 4, 3);
+	    plan.creerTroncon("t_3_4", 8, 1, 3, 4);
+	    plan.creerTroncon("t_3_5", 1, 1, 3, 5);
+	    plan.creerTroncon("t_5_3", 1, 1, 5, 3);
+	    plan.creerTroncon("t_3_6", 6, 1, 3, 6);
+	    plan.creerTroncon("t_6_3", 6, 1, 6, 3);
+	    plan.creerTroncon("t_5_6", 10, 1, 5, 6);
+	    plan.creerTroncon("t_6_5", 10, 1, 6, 5);
 	} catch (ModeleException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 

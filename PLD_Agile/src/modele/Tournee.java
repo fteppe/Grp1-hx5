@@ -60,7 +60,7 @@ public class Tournee extends Observable {
 	this.ajouterItineraire(
 		itineraires[livraisons[livraisons.length - 1]][livraisons[0]],
 		null);
-	this.setDuree(duree);
+	this.duree = duree;
 	this.mettreAJourTempsParcours(this.hDebut);
 	// setChanged();
 	// notifyObservers();
@@ -211,6 +211,9 @@ public class Tournee extends Observable {
 	this.itineraires.clear();
     }
 
+    /**
+     * @return Retourne la liste ordonnée des Livraisons de la Tournee
+     */
     protected List<Livraison> getListeLivraisons() {
 	ArrayList<Livraison> listLivraisons = new ArrayList<Livraison>();
 	for (Itineraire itin : itineraires) {
@@ -221,41 +224,48 @@ public class Tournee extends Observable {
 	return listLivraisons;
     }
 
+    /**
+     * Retourne la Livraison à l'adresse donnée
+     * @param adresse Id de l'intersection adresse
+     * @return Livraison si elle existe à cette adresse, null sinon
+     */
     protected Livraison getLivraison(int adresse) {
 	return livraisons.get(adresse);
     }
 
+    /**
+     * @return Liste des Itineraires de la Tournee
+     */
     protected List<Itineraire> getItineraires() {
 	return itineraires;
     }
 
-    protected Heure gethDebut() {
+    /**
+     * @return Heure de début de la Tournee
+     */
+    protected Heure getHeureDebut() {
 	return hDebut;
     }
 
-    protected Heure gethFin() {
+    /**
+     * @return Heure de fin de la Tournee
+     */
+    protected Heure getHeureFin() {
 	return (hFin != null ? hFin : new Heure());
     }
 
+    /**
+     * @return True si la Tournee est possible, false sinon
+     */
     protected boolean getValidite() {
 	return valide;
     }
 
+    /**
+     * @return Duree de la Tournee
+     */
     protected int getDuree() {
 	return duree;
-    }
-
-    protected void setDuree(int duree) {
-	this.duree = duree;
-    }
-
-    protected List<Itineraire> getItineraireTroncon(Troncon tronc) {
-	List<Itineraire> lstIitin = new ArrayList<Itineraire>();
-	for (Itineraire itin : itineraires) {
-	    if (itin.comprendTroncon(tronc))
-		lstIitin.add(itin);
-	}
-	return lstIitin;
     }
 
     /**
@@ -304,7 +314,7 @@ public class Tournee extends Observable {
      * @param nvFin
      *            Nouvelle heure de la fin de la plage
      */
-    public void modifierPlageLivraison(int adrLivraison, boolean nvPlage,
+    protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage,
 	    Heure nvDebut, Heure nvFin) {
 	Livraison liv = livraisons.remove(adrLivraison);
 	if (nvPlage)
@@ -319,7 +329,7 @@ public class Tournee extends Observable {
      * @return Retourne la string formatée pour l'affichage sur la feuille de
      *         route
      */
-    public String genererFeuilleRoute() {
+    protected String genererFeuilleRoute() {
 	String route;
 	route = "Départ de l'intersection " + adrEntrepot + " à "
 		+ hDebut.afficherHoraire();
