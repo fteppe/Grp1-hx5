@@ -105,6 +105,7 @@ public class Troncon extends Observable {
      *         route
      */
     protected String afficherFeuilleRoute() {
-	return "suivre "+nom+" de "+origine.getId()+" à "+destination.getId()+" pendant "+tpsParcours+" secondes";
+	return "suivre " + nom + " de " + origine.getId() + " à " + destination.getId() + " pendant " + tpsParcours
+		+ " secondes";
     }
 }

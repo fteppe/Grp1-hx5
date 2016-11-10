@@ -216,9 +216,12 @@ public interface Etat {
      * @param heureFin
      *            Heure de fin de la plage
      */
-    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin);
-    
-    /**cette fonction permet de revenir à l'état précédent dans certaines situations
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin);
+
+    /**
+     * cette fonction permet de revenir à l'état précédent dans certaines
+     * situations
      * 
      * @param controleur
      */

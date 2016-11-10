@@ -49,30 +49,28 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	afficherInformations();
     }
 
-    
-    protected void setLivraisonSurligne(int idLivraison){
-    	if(livraisonSurligne != idLivraison && plan.getLivraisonAdresse(idLivraison)!=null){
-    		livraisonSurligne = idLivraison;
-    		for(InformationTextuelle info : listeInformation){
-    			if(info instanceof DescriptionLivraison ){
-    				info = (DescriptionLivraison)info;
-    				((DescriptionLivraison)info).setSurbrillance(info.getIndex() == idLivraison);
-    			}
-    		}
-    		//update(getGraphics());
-    	}
+    protected void setLivraisonSurligne(int idLivraison) {
+	if (livraisonSurligne != idLivraison && plan.getLivraisonAdresse(idLivraison) != null) {
+	    livraisonSurligne = idLivraison;
+	    for (InformationTextuelle info : listeInformation) {
+		if (info instanceof DescriptionLivraison) {
+		    info = (DescriptionLivraison) info;
+		    ((DescriptionLivraison) info).setSurbrillance(info.getIndex() == idLivraison);
+		}
+	    }
+	    // update(getGraphics());
+	}
     }
 
     private void ajouterZoneInformation(String information, int index) {
-    	InformationTextuelle info = new InformationTextuelle(information, index, fenetre);
-    	listeInformation.add(info);
+	InformationTextuelle info = new InformationTextuelle(information, index, fenetre);
+	listeInformation.add(info);
     }
 
     private void ajouterDescLivraison(String information, int index, boolean valide) {
 	DescriptionLivraison description = new DescriptionLivraison(information, index, fenetre, valide);
 	listeInformation.add(description);
     }
-
 
     private InformationTextuelle getTitre() {
 	return texte;
@@ -85,7 +83,7 @@ public class ZoneDeTexte extends JPanel implements Observer {
      */
     private void genererInformationLivraison(List<Livraison> livraisons) {
 	if (livraisons != null) {
-		ajouterZoneInformation("Feuille de route de la tournée",0);
+	    ajouterZoneInformation("Feuille de route de la tournée", 0);
 	    ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 		    + plan.getHeureDepart(), plan.getEntrepot().getId());
 	    for (Livraison livraison : livraisons) {
@@ -111,21 +109,20 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
 			+ plan.getHeureRetour(), plan.getEntrepot().getId());
 	    }
-	}
-	else{
-		ajouterZoneInformation("", 0);
+	} else {
+	    ajouterZoneInformation("", 0);
 	}
     }
 
     @Override
     public void update(Observable arg0, Object arg1) {
-	    	viderListeInfos();
-			genererInformationLivraison(plan.getListeLivraisons());
-		    afficherInformations();
+	viderListeInfos();
+	genererInformationLivraison(plan.getListeLivraisons());
+	afficherInformations();
     }
-    
+
     private void viderListeInfos() {
-    	listeInformation.clear();
+	listeInformation.clear();
     }
 
     private void afficherInformations() {

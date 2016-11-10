@@ -131,7 +131,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
     }
 
     @Override
-    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
+    public void modifierLivraison(Plan plan, Fenetre fenetre, ListeDeCdes listeDeCdes, int adrLiv, boolean possedePlage,
+	    String heureDebut, String heureFin) {
 	listeDeCdes.ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
 	fenetre.afficherMessage("Livraison supprimée de la tournée");
     }

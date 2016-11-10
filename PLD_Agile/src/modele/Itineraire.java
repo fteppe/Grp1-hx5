@@ -111,34 +111,31 @@ public class Itineraire extends Observable {
 	int depart = troncons.get(0).getOrigine().getId();
 	int arrive = troncons.get(0).getDestination().getId();
 	int duree = troncons.get(0).getTpsParcours();
-	for (int i = 0 ; i < troncons.size() ; i++) {
-		Troncon t = troncons.get(i);
-		if(t.getNom().equals(current)){
-			arrive = t.getDestination().getId();
-			duree += t.getTpsParcours();
-		}
-		else{
-			int sec = duree %60;
-			duree = duree / 60;
-			if(sec>30)
-				duree++;
-			itineraire += "\r\n\tSuivre la route " + current +
-					" entre les intersections " + depart + " et " + arrive + 
-					" pendant " + (duree>1?(duree+" minutes"):("1 minute"));
-			
-			current = t.getNom();
-			depart = t.getOrigine().getId();
-			arrive = t.getDestination().getId();
-			duree = t.getTpsParcours();
-		}
+	for (int i = 0; i < troncons.size(); i++) {
+	    Troncon t = troncons.get(i);
+	    if (t.getNom().equals(current)) {
+		arrive = t.getDestination().getId();
+		duree += t.getTpsParcours();
+	    } else {
+		int sec = duree % 60;
+		duree = duree / 60;
+		if (sec > 30)
+		    duree++;
+		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
+			+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+
+		current = t.getNom();
+		depart = t.getOrigine().getId();
+		arrive = t.getDestination().getId();
+		duree = t.getTpsParcours();
+	    }
 	}
 	duree = duree / 60;
-	if(duree < 1)
-		duree = 1;
-	itineraire += "\r\n\tSuivre la route " + current +
-			" entre les intersections " + depart + " et " + arrive + 
-			" pendant " + (duree>1?(duree+" minutes"):("1 minute"));
-	
+	if (duree < 1)
+	    duree = 1;
+	itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et " + arrive
+		+ " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+
 	return itineraire;
     }
 

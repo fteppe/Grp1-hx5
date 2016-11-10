@@ -66,12 +66,10 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 	    if (plan.calculerTournee()) {
 		fenetre.afficherMessage("Tournée calculée");
 	    } else {
-		fenetre.afficherMessage(
-			"Aucune tournée n'a pu être calculée");
+		fenetre.afficherMessage("Aucune tournée n'a pu être calculée");
 	    }
 	} catch (ExceptionTournee e) {
-	    fenetre.afficherMessage(
-			e.getMessage());
+	    fenetre.afficherMessage(e.getMessage());
 	}
 	controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
     }

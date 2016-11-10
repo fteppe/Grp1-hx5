@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.Observable;
 
 public abstract class ObjetGraphique extends Observable {
-    
+
     /**
      * Determine si le point p est contenu dans this
      * 

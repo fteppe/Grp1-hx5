@@ -46,8 +46,8 @@ public class AlgoDijkstra {
      * l'algorithme de Dijkstra
      * 
      * @param idSommets
-     *            Identifiants des intersections depuis lesquels il faut calculer
-     *            les plus courts chemins
+     *            Identifiants des intersections depuis lesquels il faut
+     *            calculer les plus courts chemins
      * @return Deux tableaux contenant l'ensemble des couts et des itineraires
      *         optimaux resultant des calculs de plus court chemin effectues
      */
@@ -87,12 +87,13 @@ public class AlgoDijkstra {
      *         unique sommet
      */
     public Object[] calculerDijkstra(int sourceId, ArrayList<Integer> idSommets) {
-	// On réinitialise les etats, antecedents et couts des sommets pour recalculer
+	// On réinitialise les etats, antecedents et couts des sommets pour
+	// recalculer
 	reinitialiserSommets();
-	
+
 	int coutsSommets[] = new int[idSommets.size()];
 	NavigableSet<Sommet> sommetsGris = new TreeSet<>();
-	
+
 	// On initialise la liste des sommets gris en y mettant le sommet source
 	Sommet som = this.sommets.get(sourceId);
 	som.etat = Etat.GRIS;
@@ -122,7 +123,7 @@ public class AlgoDijkstra {
 	    sommetsGris.remove(premierSommet);
 	    premierSommet.setEtat(Etat.NOIR);
 	}
-	
+
 	// On recupere seulement les couts des sommets devant etre
 	// presents dans la tournee
 	int position = 0;
@@ -130,7 +131,7 @@ public class AlgoDijkstra {
 	    coutsSommets[position] = sommets.get(id).getCout();
 	    position++;
 	}
-	
+
 	// On transforme la liste des sommets avec leur antecedent en un tableau
 	// d'itineraires
 	Itineraire[] tableauPiTrie = convertirTableauItineraires(idSommets, sommets, sourceId);
@@ -169,8 +170,8 @@ public class AlgoDijkstra {
      * @return Tableau d'itineraires correpondant aux plus courts chemins entre
      *         le sommet de depart et les sommets constituant la tournee finale
      */
-    private Itineraire[] convertirTableauItineraires(ArrayList<Integer> idSommets, HashMap<Integer, Sommet> listeSommets,
-	    int sourceId) {
+    private Itineraire[] convertirTableauItineraires(ArrayList<Integer> idSommets,
+	    HashMap<Integer, Sommet> listeSommets, int sourceId) {
 	@SuppressWarnings("unchecked")
 	int nbrSommets = idSommets.size();
 	Itineraire[] trajetsUnit = new Itineraire[nbrSommets];
@@ -194,16 +195,15 @@ public class AlgoDijkstra {
 	    if (idSommetCourant != sourceId) {
 		trajet.clear();
 	    }
-	    Itineraire iti = new Itineraire(this.intersections.get(sourceId), this.intersections.get(id),
-		    trajet);
+	    Itineraire iti = new Itineraire(this.intersections.get(sourceId), this.intersections.get(id), trajet);
 	    trajetsUnit[position] = iti;
 	    position++;
 	}
 	return trajetsUnit;
     }
-    
+
     private void reinitialiserSommets() {
-	for(Sommet som : sommets.values()) {
+	for (Sommet som : sommets.values()) {
 	    som.cout = Integer.MAX_VALUE;
 	    som.antecedent = null;
 	    som.etat = Etat.BLANC;

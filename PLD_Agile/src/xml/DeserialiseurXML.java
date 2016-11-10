@@ -28,7 +28,7 @@ public class DeserialiseurXML {
      */
     public static String chargerPlan(Plan plan)
 	    throws ParserConfigurationException, SAXException, IOException, ExceptionXML {
-	String rapport ="";
+	String rapport = "";
 	File xml;
 	try {
 	    xml = OuvreurDeFichierXML.getInstance().ouvre(true);

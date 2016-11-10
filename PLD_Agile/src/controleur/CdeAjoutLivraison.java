@@ -28,7 +28,8 @@ public class CdeAjoutLivraison implements Commande {
 	this.duree = duree;
     }
 
-    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
+    public CdeAjoutLivraison(Plan p, int idIntersection, int idPrec, int idSuiv, int duree, String debutPlage,
+	    String finPlage) {
 	this.plan = p;
 	this.idIntersection = idIntersection;
 	this.debutPlage = debutPlage;
