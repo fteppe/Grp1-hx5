@@ -31,8 +31,6 @@ public class InformationTextuelle extends JPanel{
 		zoneInformation.setWrapStyleWord(true);
 		zoneInformation.setText(information);
 		add(zoneInformation);
-		
-
 	}
 	
 	
