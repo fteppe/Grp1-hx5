@@ -353,6 +353,7 @@ public class PlanTest {
 	 * Graphe dont le calcul de tournee doit s'operer
 	 * correctement, avec la presence de plages horaires
 	 */
+	@Test
 	public void testCalculerTourneeValideAvPlages() {
 		Plan p = new Plan();
 		initialisationPlan(p);
@@ -397,7 +398,8 @@ public class PlanTest {
 	}
 	
 	/**
-	 * On teste la mise en parallèle du point clique avec les entites crees
+	 * On teste la mise en parallèle d'un point sur lequel
+	 * l'utilisateur a clique avec les entites crees
 	 */
 	@Test
 	public void testCherchePoint() {
@@ -422,7 +424,7 @@ public class PlanTest {
 	}
 	
 	/**
-	 * On teste l'exception pour une creation de Demande de livraison invalide
+	 * On teste l'exception pour une creation d'une Demande de livraison invalide
 	 * @throws ModeleException 
 	 */
 	@Test (expected = ModeleException.class)
@@ -433,6 +435,208 @@ public class PlanTest {
 		Heure arrivee = new Heure("12:00:00");
 		p.creerDemandeDeLivraison(arrivee, 8);
 	}
+	
+	/**
+	 * On teste l'exception pour la creation d'Intersections a coordonnes negatives
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationIntersectionsCoordNegatives() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, -250, 270);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'Intersections de meme id
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationIntersectionsMultId() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(3, 280, 270);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'une Livraison sans Plage horaire
+	 * sur une Intersection inexistante
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationLivraisonInexSsPlageHoraire() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 3);
+		p.creerLivraisonDemande(8, 20);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'une Livraison sans Plage horaire
+	 * avec une duree negative
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationLivraisonDureeNegativeSsPlageHoraire() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 3);
+		p.creerLivraisonDemande(5, -20);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'une Livraison avec une Plage horaire
+	 * sur une Intersection inexistante
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationLivraisonInexAvPlageHoraire() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 3);
+		p.creerLivraisonDemande(8, 20, "10:15:00", "10:30:00");
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'une Livraison avec une Plage horaire
+	 * avec une duree negative
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationLivraisonDureeNegativeAvPlageHoraire() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 3);
+		p.creerLivraisonDemande(5, -20, "10:15:00", "10:30:00");
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'un Troncon reliant une ou deux
+	 * Intersections inexistantes
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationTronconInterInexistante() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		p.creerTroncon("Avenue des champs", 25, 28, 3, 9);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'un Troncon possedant une vitesse moyenne
+	 * negative ou nulle
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationTronconVitesseIncoherente() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		p.creerTroncon("Avenue des champs", 25, -28, 3, 5);
+	}
+	
+	/**
+	 * On teste l'exception pour la creation d'un Troncon possedant une longueur
+	 * negative ou nulle
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreationTronconLongueurIncoherente() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 3);
+		p.creerTroncon("Avenue des champs", -25, 28, 3, 5);
+	}
+	
+	/**
+	 * On teste l'acquisition du point le plus en bas a droite du plan affiche
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testObtentionPointBasDroite() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 260, 290);
+		Point point = p.getPointBasDroite();
+		assertEquals(point.x, 260);
+		assertEquals(point.y, 290);	
+	}
+	
+	/**
+	 * On teste l'insertion d'une Livraison a une tournee calculee
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testInsererLivraisonTournee() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+
+		boolean tourneeTrouvee = false;
+
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
+		p.insererLivraisonTournee(10, 20, "08:38:00", "08:40:00", 7, 6);
+		assertEquals(p.getAdresseLivraisonPrecedente(10), 7);
+		assertEquals(p.getAdresseLivraisonSuivante(10), 6);
+		assertTrue(!p.getLivraisonParAdresse(6).getRespectePlage());
+	}
+	
+	/**
+	 * On teste la modification de la Plage horaire d'une Livraison apres
+	 * le calcul d'une tournee
+	 * @throws ModeleException 
+	 */
+	@Test
+	public void testModifierPlageLivraison() throws ModeleException {
+		Plan p = new Plan();
+		initialisationPlan(p);
+		Heure heure = new Heure("08:05:00");
+		p.creerDemandeDeLivraison(heure, 4);
+		p.creerLivraisonDemande(1, 20, "08:06:00", "08:08:15");
+		p.creerLivraisonDemande(2, 10, "08:06:00", "08:06:40");
+		p.creerLivraisonDemande(5, 8, "08:15:00", "08:16:00");
+		p.creerLivraisonDemande(6, 10, "08:30:00", "08:38:00");
+		p.creerLivraisonDemande(7, 14, "08:30:00", "08:30:15");
+		p.creerLivraisonDemande(3, 20, "09:06:00", "09:07:00");
+		p.creerLivraisonDemande(8, 8, "08:06:00", "08:06:15");
+
+		boolean tourneeTrouvee = false;
+
+		try {
+			tourneeTrouvee = p.calculerTournee();
+		} catch (ExceptionTournee e) {
+			e.printStackTrace();
+		}
+		int[] listeSommetsTourneePoss1 = { 4, 8, 2, 1, 5, 7, 6, 3, 4 };
+		p.insererLivraisonTournee(10, 20, "08:38:00", "08:40:00", 7, 6);
+		assertEquals(p.getAdresseLivraisonPrecedente(10), 7);
+		assertEquals(p.getAdresseLivraisonSuivante(10), 6);
+		assertTrue(!p.getLivraisonParAdresse(6).getRespectePlage());
+	}
+	
 	
 	
 
