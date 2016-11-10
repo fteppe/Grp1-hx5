@@ -19,6 +19,9 @@ public class DemandeDeLivraisonTest {
 	boolean updateAppele;
 	Plan plan;
 
+	/**
+	 * Mise en place d'un Observer
+	 */
 	@Before
 	public void setUp() {
 		updateAppele = false;
@@ -29,6 +32,9 @@ public class DemandeDeLivraisonTest {
 		};
 	}
 
+	/**
+	 * On verifie que l'ajout de livraison notifie l'observer
+	 */
 	@Test
 	public void testAjouterLivraison() {
 		Intersection entrepot = new Intersection(5, 214, 584);
