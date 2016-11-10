@@ -16,7 +16,11 @@ import modele.Plan;
 public class FenetreFeuilleRoute extends JDialog {
 	private JScrollPane scroll;
 	private JTextArea feuilleRoute;
-
+	
+	/**
+	 * constructeur de la classe FenetreFeuilleRoute
+	 * @param plan
+	 */
 	public FenetreFeuilleRoute(Plan plan) {
 		super();
 		feuilleRoute = new JTextArea(40, 30);

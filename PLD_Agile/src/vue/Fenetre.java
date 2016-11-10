@@ -132,7 +132,6 @@ public class Fenetre extends JFrame {
 	 * Methode appelée lorsqu'un bouton "quitter" est cliqué
 	 */
 	protected void actionQuitter() {
-		System.out.println("menu quitter cliqué");
 		controleur.quitter();
 	}
 
