@@ -2,8 +2,20 @@ package controleur;
 
 import java.awt.Point;
 
+import modele.Plan;
+import vue.Fenetre;
+
 public interface Etat {
 
+	/**
+	 * Initialise l'état pour qu'il puisse utiliser les différentes
+	 * classe nécessaires pour le MVC
+	 * @param controleur : Le controleur du MVC
+	 * @param plan : Le plan utilisé par le modéle
+	 * @param fenetre : La fenétre gérant la vue
+	 */
+	public void init(Controleur controleur, Plan plan, Fenetre fenetre);
+	
     /**
      * Methode appelee par controleur apres un clic sur le bouton "Charger
      * demande livraison"
