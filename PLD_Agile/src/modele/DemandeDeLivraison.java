@@ -3,6 +3,11 @@ package modele;
 import java.util.HashMap;
 import java.util.Observable;
 
+/**
+ * Classe gérant l'entrepot et les livraisons liees a meme demande de 
+ * livraison
+ *
+ */
 public class DemandeDeLivraison extends Observable {
 
     private Heure heureDepart;
@@ -33,13 +38,14 @@ public class DemandeDeLivraison extends Observable {
      * livraison courante
      * 
      * @param duree
-     *            Duree de la livraison a ajouter
+     *            Duree de la livraison a ajouter (en secondes)
      * @param adresse
      *            Intersection correspondant a la livraison a ajouter
      * @param debutPlage
      *            Debut de la plage horaire de la livraison a ajouter
      * @param finPlage
      *            Fin de la plage horaire de la livraison a ajouter
+     * @throws ModeleException
      */
     public void ajouterLivraison(int duree, Intersection adresse,
 	    String debutPlage, String finPlage) throws ModeleException {
@@ -57,10 +63,11 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * Cree et ajoute une livraison a la demande de livraison courante
+     * Cree et ajoute une livraison sans plage horaire
+     * a la demande de livraison courante
      * 
      * @param duree
-     *            Duree de la livraison a ajouter
+     *            Duree de la livraison a ajouter (en secondes)
      * @param adresse
      *            Intersection correspondant a la livraison a ajouter
      */

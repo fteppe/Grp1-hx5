@@ -3,11 +3,17 @@ package modele;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Cette classe permet la creation et la gestion 
+ * des itineraires composant une tournee.
+ *
+ */
 public class Itineraire extends Observable {
 
     private Intersection depart;
     private Intersection arrivee;
-    private List<Troncon> troncons;
+    private List<Troncon> troncons; //Liste de troncons ordonnes 
+    					//selon l'ordre de passage
     private int tpsParcours;
 
     /**
@@ -19,7 +25,7 @@ public class Itineraire extends Observable {
      * @param arrivee
      *            Intersection d'arrivee de l'itineraire
      * @param troncons
-     *            Plus court chemin reliant le depart et l'arrivee
+     *            Chemin reliant le depart et l'arrivee
      */
     public Itineraire(Intersection depart, Intersection arrivee,
 	    List<Troncon> troncons) {
@@ -29,6 +35,11 @@ public class Itineraire extends Observable {
 	this.calculTpsParcours();
     }
 
+    /**
+     * Indique si l'itineraire courant possede le troncon indique.
+     * @param tr Troncon dont on veut connaitre l'appartenance.
+     * @return True si le troncon est compris dans l'itineraire, false sinon.
+     */
     public boolean comprendTroncon(Troncon tr) {
 	return troncons.contains(tr);
     }
@@ -76,6 +87,10 @@ public class Itineraire extends Observable {
 		+ arrivee.getId() + " :";
     }
 
+    /**
+     * Compare deux itineraires. Renvoit true si les objets manipules sont composes par les memes
+     * troncon dans le meme ordre, et false sinon. 
+     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj)

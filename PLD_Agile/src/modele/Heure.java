@@ -1,5 +1,10 @@
 package modele;
 
+/**
+ * Classe permettant la gestion des heures utilisees pour le
+ * calcul de tournee.
+ *
+ */
 public class Heure {
 
     private int heure;
@@ -28,8 +33,8 @@ public class Heure {
     }
 
     /**
-     * Cree une heure a partir d'un temps en secondes Precondition : Heure
-     * comprise entre 00:00:00 et 23:59:59
+     * Cree une heure a partir d'un temps en secondes 
+     * Precondition : Heure comprise entre 00:00:00 et 23:59:59
      * 
      * @param secondes
      */
@@ -63,7 +68,7 @@ public class Heure {
      * 
      * @param h
      *            Une heure a ajouter
-     * @return L'heure modifiée
+     * @return L'heure modifiee
      */
     public Heure ajouterHeure(Heure h) {
 	this.secondes += h.secondes;
@@ -112,7 +117,8 @@ public class Heure {
     }
 
     /**
-     * Affiche l'heure courante sous la forme "hh:mm"
+     * Permet l'affichage de l'heure courante 
+     * sous la forme "hh:mm"
      */
     public String afficherHoraire() {
 	int min = this.minutes;
@@ -128,6 +134,10 @@ public class Heure {
 		+ (this.minutes >= 10 ? "" : "0") + this.minutes;
     }
 
+    /**
+     * Compare deux heures. Renvoit true si elles sont egales,
+     * et false dans l'autre cas.
+     */
     @Override
     public boolean equals(Object obj) {
 	if (obj instanceof Heure) {
