@@ -12,107 +12,106 @@ import javax.swing.SwingWorker;
 import controleur.Controleur;
 
 public class BarreDesTaches extends JToolBar {
-    /*
-     * La classe barre destache comporte les différents boutons nécessaire au
-     * actions principales de l'application
-     * 
-     */
-    private JButton chargerPlan;
-    private JButton chargerDemandeLivraison;
-    private JButton calculTournee;
-    private JButton annuler;
-    private JButton restaurer;
-    private JButton stopCalcul;
+	/*
+	 * La classe barre destache comporte les différents boutons nécessaire au
+	 * actions principales de l'application
+	 * 
+	 */
+	private JButton chargerPlan;
+	private JButton chargerDemandeLivraison;
+	private JButton calculTournee;
+	private JButton annuler;
+	private JButton restaurer;
+	private JButton stopCalcul;
 
-    private Fenetre fenetre;
+	private Fenetre fenetre;
 
-    /*
-     * Constructeur, va créer le lien avec le controleur Et va ajouter les
-     * différents boutons, ainsi que leur associer des écouteurs de souris
-     */
-    public BarreDesTaches(Fenetre fenetre) {
-	this.setFloatable(false);
-	this.fenetre = fenetre;
-	chargerPlan = new JButton("Charger un plan");
-	chargerDemandeLivraison = new JButton(
-		"Charger une demande de livraison");
-	calculTournee = new JButton("Calculer une tournée");
-	annuler = new JButton("Annuler");
-	restaurer = new JButton("Restaurer");
-	stopCalcul = new JButton("Arrêter le calcul");
-	stopCalcul.setBackground(new Color(0xFF7676));
-	this.add(chargerPlan);
-	this.add(chargerDemandeLivraison);
-	addSeparator();
-	this.add(calculTournee);
-	add(stopCalcul);
-	addSeparator();
-	add(annuler);
-	add(restaurer);
-	ajouterEcouteurs();
-    }
+	/*
+	 * Constructeur, va créer le lien avec le controleur Et va ajouter les
+	 * différents boutons, ainsi que leur associer des écouteurs de souris
+	 */
+	public BarreDesTaches(Fenetre fenetre) {
+		this.setFloatable(false);
+		this.fenetre = fenetre;
+		chargerPlan = new JButton("Charger un plan");
+		chargerDemandeLivraison = new JButton("Charger une demande de livraison");
+		calculTournee = new JButton("Calculer une tournée");
+		annuler = new JButton("Annuler");
+		restaurer = new JButton("Restaurer");
+		stopCalcul = new JButton("Arrêter le calcul");
+		stopCalcul.setBackground(new Color(0xFF7676));
+		this.add(chargerPlan);
+		this.add(chargerDemandeLivraison);
+		addSeparator();
+		this.add(calculTournee);
+		add(stopCalcul);
+		addSeparator();
+		add(annuler);
+		add(restaurer);
+		ajouterEcouteurs();
+	}
 
-    /*
-     * Ajoute les écouteurs de souris nécessaires pour activer les actions
-     * associées aux boutons
-     * 
-     */
-    public void ajouterEcouteurs() {
-	chargerPlan.addActionListener(new ActionListener() {
+	/*
+	 * Ajoute les écouteurs de souris nécessaires pour activer les actions
+	 * associées aux boutons
+	 * 
+	 */
+	public void ajouterEcouteurs() {
+		chargerPlan.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent arg0) {
-		fenetre.actionChargerPlan();
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				fenetre.actionChargerPlan();
+			}
+		});
 
-	chargerDemandeLivraison.addActionListener(new ActionListener() {
+		chargerDemandeLivraison.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent arg0) {
-		fenetre.actionChargerDemandeDeLivraison();
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				fenetre.actionChargerDemandeDeLivraison();
+			}
+		});
 
-	calculTournee.addActionListener(new ActionListener() {
+		calculTournee.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent arg0) {
-		SwingWorker<Boolean, Object> worker = new SwingWorker<Boolean, Object>() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				SwingWorker<Boolean, Object> worker = new SwingWorker<Boolean, Object>() {
 
-		    @Override
-		    protected Boolean doInBackground() throws Exception {
-			return fenetre.actionCalculDeTournee();
-		    }
+					@Override
+					protected Boolean doInBackground() throws Exception {
+						return fenetre.actionCalculDeTournee();
+					}
 
-		};
-		worker.execute();
-	    }
-	});
+				};
+				worker.execute();
+			}
+		});
 
-	annuler.addActionListener(new ActionListener() {
+		annuler.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		fenetre.actionAnnuler();
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionAnnuler();
+			}
+		});
 
-	restaurer.addActionListener(new ActionListener() {
+		restaurer.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		fenetre.actionRestaurer();
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionRestaurer();
+			}
+		});
 
-	stopCalcul.addActionListener(new ActionListener() {
+		stopCalcul.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		fenetre.actionStopCalcul();
-	    }
-	});
-    }
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.actionStopCalcul();
+			}
+		});
+	}
 
 }

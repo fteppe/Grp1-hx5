@@ -20,146 +20,143 @@ import modele.Plan;
 
 public class MenuCreationLivraison extends JDialog {
 
-    protected JRadioButton horaireActif;
-    private JPanel champsEntree;
-    private JPanel boutons;
-    protected JLabel labelDuree;
-    private JLabel labelArrive;
-    private JLabel labelDepart;
-    protected JTextField duree;
-    protected SelectionHeure heureDepart;
-    protected SelectionHeure heureArrive;
-    protected JButton ok;
-    private JButton annuler;
+	protected JRadioButton horaireActif;
+	private JPanel champsEntree;
+	private JPanel boutons;
+	protected JLabel labelDuree;
+	private JLabel labelArrive;
+	private JLabel labelDepart;
+	protected JTextField duree;
+	protected SelectionHeure heureDepart;
+	protected SelectionHeure heureArrive;
+	protected JButton ok;
+	private JButton annuler;
 
-    private static int TAILLE_TEXT_FIELD = 15;
-    private boolean avant;
-    protected int idLivraison;
-    protected Fenetre fenetre;
+	private static int TAILLE_TEXT_FIELD = 15;
+	private boolean avant;
+	protected int idLivraison;
+	protected Fenetre fenetre;
 
-    public MenuCreationLivraison(Fenetre fenetre, int idLivraison,
-	    boolean avant, Point position) {
-	super(fenetre);
-	setLocation(position);
-	this.fenetre = fenetre;
-	this.idLivraison = idLivraison;
-	this.avant = avant;
-	setResizable(false);
-	champsEntree = new JPanel();
-	boutons = new JPanel();
+	public MenuCreationLivraison(Fenetre fenetre, int idLivraison, boolean avant, Point position) {
+		super(fenetre);
+		setLocation(position);
+		this.fenetre = fenetre;
+		this.idLivraison = idLivraison;
+		this.avant = avant;
+		setResizable(false);
+		champsEntree = new JPanel();
+		boutons = new JPanel();
 
-	horaireActif = new JRadioButton("Plage horaire ?");
-	horaireActif.setSelected(false);
-	labelDuree = new JLabel("Durée livraison (min)");
-	labelArrive = new JLabel("Heure d'arrivée");
-	labelDepart = new JLabel("Heure de départ");
-	duree = new JTextField(TAILLE_TEXT_FIELD);
-	heureArrive = new SelectionHeure();
-	heureDepart = new SelectionHeure();
-	heureArrive.editable(false);
-	heureDepart.editable(false);
-	;
-	ok = new JButton("Ok");
-	annuler = new JButton("Annuler");
+		horaireActif = new JRadioButton("Plage horaire ?");
+		horaireActif.setSelected(false);
+		labelDuree = new JLabel("Durée livraison (min)");
+		labelArrive = new JLabel("Heure d'arrivée");
+		labelDepart = new JLabel("Heure de départ");
+		duree = new JTextField(TAILLE_TEXT_FIELD);
+		heureArrive = new SelectionHeure();
+		heureDepart = new SelectionHeure();
+		heureArrive.editable(false);
+		heureDepart.editable(false);
+		;
+		ok = new JButton("Ok");
+		annuler = new JButton("Annuler");
 
-	horaireActif.addActionListener(new ActionListener() {
+		horaireActif.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		heureArrive.editable(horaireActif.isSelected());
-		heureDepart.editable(horaireActif.isSelected());
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				heureArrive.editable(horaireActif.isSelected());
+				heureDepart.editable(horaireActif.isSelected());
+			}
+		});
 
-	ok.addActionListener(new ActionListener() {
+		ok.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		validation();
-		setVisible(false);
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				validation();
+				setVisible(false);
+			}
+		});
 
-	annuler.addActionListener(new ActionListener() {
+		annuler.addActionListener(new ActionListener() {
 
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		setVisible(false);
-	    }
-	});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
 
-	placerComposant();
-	pack();
-	setVisible(true);
-    }
-
-    private void validation() {
-	int idAvant;
-	int idApres;
-	int dureeInt;
-
-	Plan plan = fenetre.getPlan();
-
-	if (duree.getText().isEmpty()) {
-	    dureeInt = 0;
-	} else {
-	    dureeInt = Integer.parseInt(duree.getText()) * 60;
+		placerComposant();
+		pack();
+		setVisible(true);
 	}
 
-	if (avant) {
-	    idAvant = plan.getAdresseLivraisonPrecedente(idLivraison);
-	    idApres = idLivraison;
-	} else {
-	    idAvant = idLivraison;
-	    idApres = plan.getAdresseLivraisonSuivante(idLivraison);
+	private void validation() {
+		int idAvant;
+		int idApres;
+		int dureeInt;
+
+		Plan plan = fenetre.getPlan();
+
+		if (duree.getText().isEmpty()) {
+			dureeInt = 0;
+		} else {
+			dureeInt = Integer.parseInt(duree.getText()) * 60;
+		}
+
+		if (avant) {
+			idAvant = plan.getAdresseLivraisonPrecedente(idLivraison);
+			idApres = idLivraison;
+		} else {
+			idAvant = idLivraison;
+			idApres = plan.getAdresseLivraisonSuivante(idLivraison);
+		}
+
+		if (idAvant == -1) {
+			idAvant = plan.getEntrepot().getId();
+		} else if (idApres == -1) {
+			idApres = plan.getEntrepot().getId();
+		}
+		if (horaireActif.isSelected()) {
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt,
+					heureArrive.getHeure() + ":00", heureDepart.getHeure() + ":00");
+		} else {
+			fenetre.getControleur().clicAjouterLivraisonPosition(idAvant, idApres, dureeInt);
+		}
+
 	}
 
-	if (idAvant == -1) {
-	    idAvant = plan.getEntrepot().getId();
-	} else if (idApres == -1) {
-	    idApres = plan.getEntrepot().getId();
+	private void placerComposant() {
+
+		champsEntree.setLayout(new GridBagLayout());
+		GridBagConstraints contraintes = new GridBagConstraints();
+
+		contraintes.anchor = GridBagConstraints.LINE_END;
+		contraintes.ipadx = 10;
+		contraintes.gridx = 0;
+		contraintes.gridy = 0;
+		champsEntree.add(labelDuree, contraintes);
+		contraintes.gridx++;
+		champsEntree.add(duree, contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(horaireActif, contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(labelArrive, contraintes);
+		contraintes.gridx++;
+		champsEntree.add(heureArrive, contraintes);
+		contraintes.gridx = 0;
+		contraintes.gridy++;
+		champsEntree.add(labelDepart, contraintes);
+		contraintes.gridx++;
+		champsEntree.add(heureDepart, contraintes);
+
+		setLayout(new BorderLayout());
+		boutons.add(ok);
+		boutons.add(annuler);
+		add(champsEntree, BorderLayout.CENTER);
+		add(boutons, BorderLayout.SOUTH);
 	}
-	if (horaireActif.isSelected()) {
-	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant,
-		    idApres, dureeInt, heureArrive.getHeure() + ":00",
-		    heureDepart.getHeure() + ":00");
-	} else {
-	    fenetre.getControleur().clicAjouterLivraisonPosition(idAvant,
-		    idApres, dureeInt);
-	}
-
-    }
-
-    private void placerComposant() {
-
-	champsEntree.setLayout(new GridBagLayout());
-	GridBagConstraints contraintes = new GridBagConstraints();
-
-	contraintes.anchor = GridBagConstraints.LINE_END;
-	contraintes.ipadx = 10;
-	contraintes.gridx = 0;
-	contraintes.gridy = 0;
-	champsEntree.add(labelDuree, contraintes);
-	contraintes.gridx++;
-	champsEntree.add(duree, contraintes);
-	contraintes.gridx = 0;
-	contraintes.gridy++;
-	champsEntree.add(horaireActif, contraintes);
-	contraintes.gridx = 0;
-	contraintes.gridy++;
-	champsEntree.add(labelArrive, contraintes);
-	contraintes.gridx++;
-	champsEntree.add(heureArrive, contraintes);
-	contraintes.gridx = 0;
-	contraintes.gridy++;
-	champsEntree.add(labelDepart, contraintes);
-	contraintes.gridx++;
-	champsEntree.add(heureDepart, contraintes);
-
-	setLayout(new BorderLayout());
-	boutons.add(ok);
-	boutons.add(annuler);
-	add(champsEntree, BorderLayout.CENTER);
-	add(boutons, BorderLayout.SOUTH);
-    }
 }
