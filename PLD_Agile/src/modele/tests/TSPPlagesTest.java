@@ -26,11 +26,9 @@ public class TSPPlagesTest {
 	int[] horaireDebut;
 	int[] horaireFin;
 
-	@Before
-	public void setUp() {
-
-	}
-
+	/**
+	 * Calcul d'une tournee valide sans plage horaire
+	 */
 	@Test
 	public void testCalculerTourneeValideSsPlage() {
 		Integer[] listeSommets = { 1, 3, 10, 6 };
@@ -88,6 +86,10 @@ public class TSPPlagesTest {
 		assertEquals(66, tsp.getCoutMeilleureSolution());
 	}
 
+
+	/**
+	 * Calcul d'une tournee valide avec plage horaire
+	 */
 	@Test
 	public void testCalculerTourneeValideAvPlage() {
 		Integer[] listeSommets = { 1, 3, 10, 6 };
@@ -148,6 +150,9 @@ public class TSPPlagesTest {
 		assertEquals(120 * 60 + 16, tsp.getCoutMeilleureSolution());
 	}
 
+	/**
+	 * Calcul d'une tournee si l'entrepot est isole, dont le cout doit donc etre de 0
+	 */
 	@Test
 	public void testTourneeEntrepotIsole() {
 		coutCompComplet = new int[4][4];
@@ -202,6 +207,10 @@ public class TSPPlagesTest {
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 
+	/**
+	 * Calcul d'une tournee si une livraison est inatteignable, ne devant donc renvoyer aucune
+	 * solution
+	 */
 	@Test
 	public void testTourneeLivraisonInatteignable() {
 		coutCompComplet = new int[4][4];
@@ -256,6 +265,11 @@ public class TSPPlagesTest {
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 
+	/**
+	 * Calcul d'une tournee ne devant pas s'effectuer correctement, 
+	 * des plages horaires ne pouvant etre respectees (aucune solution n'est
+	 * renvoyee)
+	 */
 	@Test
 	public void testTourneePlageIncoherente() {
 		coutCompComplet = new int[4][4];
@@ -310,6 +324,10 @@ public class TSPPlagesTest {
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 
+	/**
+	 * Calcul d'une tournee en cas de plan vide, ne devant donc pas 
+	 * s'effectuer correctement (aucune solution n'est renvoyee)
+	 */
 	@Test
 	public void testCalculerTourneePlanVide() {
 		coutCompComplet = new int[4][4];
@@ -322,13 +340,4 @@ public class TSPPlagesTest {
 		assertNull(tsp.getMeilleureSolution(0));
 	}
 
-	/*
-	 * @Test public void testCalculerTourneeMauvaisNbrSommets(){ coutCompComplet
-	 * = new int[4][4]; duree = new int[4]; horaireDebut = new int[4];
-	 * horaireFin = new int[4];
-	 * 
-	 * tsp.chercheSolution(8, coutCompComplet, duree, horaireDebut, horaireFin,
-	 * 0); assertEquals(0, tsp.getCoutMeilleureSolution());
-	 * assertNull(tsp.getMeilleureSolution(0)); }
-	 */
 }

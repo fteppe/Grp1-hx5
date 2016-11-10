@@ -10,8 +10,6 @@ public class TSPPlages {
 	private Integer[] meilleureSolution;
 	private int coutMeilleureSolution = 0;
 	private Boolean calculEnCours = true;
-	// private Boolean tempsLimiteAtteint;
-
 	private static boolean locked = false;
 
 	/**
@@ -31,43 +29,31 @@ public class TSPPlages {
 	}
 
 	/**
-	 * @return true si chercheSolution() s'est terminee parce que la limite de
-	 *         temps avait ete atteinte, avant d'avoir pu explorer tout l'espace
-	 *         de recherche
-	 */
-	/*
-	 * public Boolean getTempsLimiteAtteint(){ return tempsLimiteAtteint; }
-	 */
-
-	/**
 	 * Cherche un circuit de duree minimale passant par chaque sommet (compris
 	 * entre 0 et nbSommets-1)
 	 * 
 	 * @param nbSommets
 	 *            Nombre de sommets du graphe
 	 * @param cout
-	 *            cout[i][j] = duree pour aller de i a j, avec 0 <= i <
+	 *            cout[i][j] = Duree en secondes pour aller de i a j, avec 0 <= i <
 	 *            nbSommets et 0 <= j < nbSommets
 	 * @param duree
 	 *            duree[i] = Duree en secondes pour visiter le sommet i, * avec
 	 *            0 <= i < nbSommets
 	 * @param horaireDebut
-	 *            horaireDebut[i] = temps en seconde a partir duquel i peut être
-	 *            visité, avec 0 <= i < nbSommets , horaireDebut[i] = 0 : i n'a
-	 *            pas de limite pour être visité
+	 *            horaireDebut[i] = temps en seconde a partir duquel i peut etre
+	 *            visité, avec 0 <= i < nbSommets , horaireDebut[i] = 0 : i
+	 *            peut etre visite a partir de n'importe quelle heure
 	 * @param horaireFin
 	 *            horaireFin[i] = temps en seconde a partir duquel i doit avoir
-	 *            été visité, avec 0 <= i < nbSommets
+	 *            ete visite, avec 0 <= i < nbSommets
 	 * @param heureDepart
 	 *            Heure de depart de l'entrepot en secondes
 	 */
 	public void chercheSolution(int nbSommets, int[][] cout, int[] duree, int[] horaireDebut, int[] horaireFin,
 			int heureDepart) {
-		// tempsLimiteAtteint = false;
 		coutMeilleureSolution = Integer.MAX_VALUE;
 		meilleureSolution = new Integer[nbSommets];
-		// On initialise les tableaux presentant les sommets visites
-		// et a visiter
 		ArrayList<Integer> nonVus = new ArrayList<Integer>();
 		for (int i = 1; i < nbSommets; i++)
 			nonVus.add(i);
@@ -77,8 +63,10 @@ public class TSPPlages {
 	}
 
 	/**
-	 * @param i
-	 *            Position du sommet recherché dans la tournée optimale
+	 * Renvoit l'indice appartenant a la meilleure tournee trouvee et present
+	 * a la position indiquee
+	 * 
+	 * @param i Position du sommet recherche dans la tournée optimale
 	 * @return Le sommet visite en i-eme position dans la solution calculee par
 	 *         chercheSolution
 	 */
@@ -90,23 +78,23 @@ public class TSPPlages {
 	}
 
 	/**
-	 * Renvoit le cout de la meileur solution trouvee jusqu'a present
+	 * Renvoit le cout de la meilleure solution trouvee jusqu'a present
 	 * 
-	 * @return La duree de la solution calculee par chercheSolution
+	 * @return La duree de la solution calculee par chercheSolution (en secondes)
 	 */
 	public int getCoutMeilleureSolution() {
 		return coutMeilleureSolution;
 	}
 
 	/**
-	 * Methode devant etre redefinie par les sous-classes de TemplateTSP
+	 * Estime la cout d'une branche prete a etre exploree
 	 * 
 	 * @param sommetCourant
 	 *            Sommet sur lequel le bound est effectue
 	 * @param nonVus
 	 *            Tableau des sommets restants a visiter
 	 * @param cout
-	 *            cout[i][j] = duree pour aller de i a j, avec 0 <= i <
+	 *            cout[i][j] = Duree en secondes pour aller de i a j, avec 0 <= i <
 	 *            nbSommets et 0 <= j < nbSommets
 	 * @param duree
 	 *            duree[i] = Duree en secondes pour visiter le sommet i, avec 0
@@ -135,8 +123,6 @@ public class TSPPlages {
 				// On prend en compte seulement les sommets pour lesquels
 				// on peut respecter les plages horaires associees
 				if ((coutActuel + heureDepart + coutVers + attente) < horaireFin[i]) {
-					// Le cout prend en compte l'itineraire, la duree
-					// de la livraison et le temps d'attente si il y en a
 					if (coutVers + attente < bound) {
 						bound = coutVers + attente;
 					}
@@ -147,14 +133,15 @@ public class TSPPlages {
 	}
 
 	/**
-	 * Methode devant etre redefinie par les sous-classes de TemplateTSP
+	 * Classe les voisins du sommet explore de telle sorte a ce qu'une solution
+	 * puisse etre trouvee rapidement
 	 * 
 	 * @param sommetCrt
 	 *            Sommet sur lequel le branch va etre effectue
 	 * @param nonVus
-	 *            Tableau des sommets restant a visiter
+	 *            Tableau des sommets restants a visiter
 	 * @param cout
-	 *            cout[i][j] = duree pour aller de i a j, avec 0 <= i <
+	 *            cout[i][j] = Duree en secondes pour aller de i a j, avec 0 <= i <
 	 *            nbSommets et 0 <= j < nbSommets
 	 * @param duree
 	 *            duree[i] = Duree en secondes pour visiter le sommet i, avec 0
@@ -187,7 +174,7 @@ public class TSPPlages {
 				nonVusTri.add(pair);
 			}
 		}
-		// On classe les sommets atteignables par cout croissant
+		// On classe les sommets atteignables par cout decroissant
 		nonVusTri.sort((Integer[] num1, Integer[] num2) -> {
 			return num2[1].compareTo(num1[1]);
 		});
@@ -236,11 +223,9 @@ public class TSPPlages {
 		if (coutVus >= coutMeilleureSolution) {
 			return;
 		}
-		if (nonVus.size() == 0) { // Tous les sommets ont ete visites
+		if (nonVus.size() == 0) { 
 			coutVus += cout[sommetCrt][0];
-			if (coutVus < coutMeilleureSolution) { // On a trouve une solution
-				// meilleure que
-				// meilleureSolution
+			if (coutVus < coutMeilleureSolution) { 
 				// On protege les tableaux d'un acces concurrent
 				lock();
 				vus.toArray(meilleureSolution);
@@ -277,6 +262,10 @@ public class TSPPlages {
 		}
 	}
 
+	/**
+	 * Indique si le calcul doit s'arreter
+	 * @param calculEnCours Booleen indiquant si le calcul doit s'arreter
+	 */
 	public void setCalculEnCours(boolean calculEnCours) {
 		this.calculEnCours = calculEnCours;
 	}
