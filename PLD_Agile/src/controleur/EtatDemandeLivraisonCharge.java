@@ -59,7 +59,7 @@ public class EtatDemandeLivraisonCharge extends EtatDefaut {
 
     @Override
     public void calculerTournee(Controleur controleur, Plan plan, Fenetre fenetre, int tempsLimite) {
-	fenetre.afficherMessage("Lancement du calcul de la tournée");
+	fenetre.afficherMessage("Calcul de la tournée en cours...");
 	controleur.setEtatCourant(controleur.ETAT_CALCUL_EN_COURS);
 	// Operations effectuees dans l'etat calcul en cours
 	try {
