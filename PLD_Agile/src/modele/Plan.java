@@ -126,7 +126,6 @@ public class Plan extends Observable {
 	    }
 	}
 
-	System.out.println("Entree calcul tournée");
 	this.calculTourneeEnCours = true;
 
 	// On lance le calcul de la tournee dans un nouveau thread
@@ -156,8 +155,6 @@ public class Plan extends Observable {
 		tsp.lock();
 		int dureeTournee = tsp.getCoutMeilleureSolution();
 		if (this.tournee.getDuree() != dureeTournee) {
-		    System.out.println("Meilleur résultat");
-		    System.out.println(dureeTournee);
 		    tourneeTrouvee = true;
 		    int[] ordreTournee = new int[idSommets.size()];
 		    for (int i = 0; i < idSommets.size(); i++) {
@@ -175,7 +172,6 @@ public class Plan extends Observable {
 		// Si le calcul est termine, on arrête de chercher une
 		// nouvelle tournee
 		if (calculTermine) {
-		    System.out.println("Calcul terminé");
 		    this.calculTourneeEnCours = false;
 		    try {
 			tourneeTrouvee = futureCalculTournee.get();
@@ -184,7 +180,6 @@ public class Plan extends Observable {
 		    } catch (ExecutionException e) {
 			e.printStackTrace();
 		    }
-		    System.out.println(tourneeTrouvee);
 		}
 	    }
 	    tsp.setCalculEnCours(false);
@@ -199,7 +194,6 @@ public class Plan extends Observable {
 	try {
 	    executorCalculTournee.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
 	    tourneeTrouvee = futureRecuperationMeilleurResultat.get();
-	    System.out.println(tourneeTrouvee);
 	    /*
 	     * if (this.tournee.getDuree() == Integer.MAX_VALUE &&
 	     * tpsLimiteAtteint == false) { throw new ExceptionTournee(
