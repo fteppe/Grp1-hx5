@@ -9,6 +9,7 @@ import modele.Plan;
 public class EcouteurResize extends ComponentAdapter{
 	private Plan plan;
 	private VuePlan vuePlan;
+	private static double OCCUPATION = 0.95;
 	public EcouteurResize(Plan plan, VuePlan vuePlan){
 		super();
 		this.plan = plan;
@@ -20,7 +21,7 @@ public class EcouteurResize extends ComponentAdapter{
 		double maxPlan = Math.max(basDte.getX(),basDte.getY());
 		Point dimVuePlan =new Point(vuePlan.getWidth(),vuePlan.getHeight());
 		double minVue = Math.min(dimVuePlan.getX(), dimVuePlan.getY());
-		vuePlan.setEchelle(minVue/maxPlan);
+		vuePlan.setEchelle((minVue * OCCUPATION)/maxPlan);
 		vuePlan.repaint();
 	}
 }
