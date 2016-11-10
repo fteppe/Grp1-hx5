@@ -16,10 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import tsp.TSPPlages;
 
-/**
- * @author Thibault
- *
- */
 public class Plan extends Observable {
     private HashMap<Integer, Intersection> listeIntersections; // Liste des
 							       // intersections
@@ -63,6 +59,9 @@ public class Plan extends Observable {
      *            Longitude de l'intersection a ajouter
      * @param latitude
      *            Latitude de l'intersection a ajouter
+     * @throws ModeleException
+     *             Envoie une exception si l'Intersection ne peut pas être
+     *             ajoutée
      */
     public void creerIntersection(int id, int longitude, int latitude) throws ModeleException {
 	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
@@ -94,6 +93,8 @@ public class Plan extends Observable {
      *            Origine du troncon a ajouter
      * @param destination
      *            Destination du troncon a ajouter
+     * @throws ModeleException
+     *             Renvoie une exception si le Troncon ne peut pas être créé
      */
     public void creerTroncon(String nom, int longueur, int vitMoyenne, int origine, int destination)
 	    throws ModeleException {
@@ -128,6 +129,8 @@ public class Plan extends Observable {
      *            Heure de depart de l'entrepot
      * @param entrepot
      *            Identifiant de l'intersection correspondant a l'entrepot
+     * @throws ModeleException
+     *             Renvoie une exception si la demande ne peut pas être créée
      */
     public void creerDemandeDeLivraison(Heure heureDepart, int entrepot) throws ModeleException {
 	if (listeIntersections.get(entrepot) == null)
@@ -153,6 +156,8 @@ public class Plan extends Observable {
      *            Debut de la plage horaire de la livraison a effectuer
      * @param finPlage
      *            Fin de la plage horaire de la livraison a effectuer
+     * @throws ModeleException
+     *             Renvoie une exception si la Livraison ne peut pas être créée
      */
     public void creerLivraisonDemande(int adresse, int duree, String debutPlage, String finPlage)
 	    throws ModeleException {
@@ -169,11 +174,13 @@ public class Plan extends Observable {
     /**
      * Cree et ajoute une livraison a la demande de livraison associee au Plan
      * 
-     * @param adresses
+     * @param adresse
      *            Identifiant de l'intersection correspondant a la livraison a
      *            effectuer
-     * @param durees
+     * @param duree
      *            Duree de la livraison a effectuer
+     * @throws ModeleException
+     *             Renvoie une exception si la Livraison ne paut pas être créée
      */
     public void creerLivraisonDemande(int adresse, int duree) throws ModeleException {
 	if (listeIntersections.get(adresse) == null)
@@ -237,9 +244,6 @@ public class Plan extends Observable {
     /**
      * Calcule la tournee (algo Dijkstra et TSP) si possible et la cree
      * 
-     * @param tpsLimite
-     *            Temps maximum en millisecondes pour le calcul du parcours
-     *            optimal
      * @return true Si une tournee a ete trouvee, false si aucune tournee n'a
      *         ete trouvee
      * @throws ExceptionTournee
@@ -657,7 +661,6 @@ public class Plan extends Observable {
     public boolean getCalculTourneeEnCours() {
 	return this.calculTourneeEnCours;
     }
-    
 
     /**
      * Retourne le point contenant les coordonnées maximales du Plan
@@ -678,7 +681,6 @@ public class Plan extends Observable {
 	return new Point(maxDroite, maxBas);
     }
 
-    
     /**
      * Modifie la livraison de la tournée à l'adresse donnée avec les plages
      * horaires spécifiées
@@ -700,7 +702,6 @@ public class Plan extends Observable {
 	notifyObservers();
     }
 
-    
     /**
      * @return String formatée représentant la feuille de route à suivre pour la
      *         tournée

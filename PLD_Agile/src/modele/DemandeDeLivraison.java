@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Observable;
 
 /**
- * Classe gérant l'entrepot et les livraisons liees a meme demande de 
- * livraison
+ * Classe gérant l'entrepot et les livraisons liees a meme demande de livraison
  *
  */
 public class DemandeDeLivraison extends Observable {
@@ -46,12 +45,13 @@ public class DemandeDeLivraison extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a ajouter
      * @throws ModeleException
+     *             Renvoie une exception si l'ajout de la livraison ne peut pas
+     *             se faire
      */
-    protected void ajouterLivraison(int duree, Intersection adresse,
-	    String debutPlage, String finPlage) throws ModeleException {
+    protected void ajouterLivraison(int duree, Intersection adresse, String debutPlage, String finPlage)
+	    throws ModeleException {
 	try {
-	    Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage,
-		    finPlage);
+	    Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage, finPlage);
 	    this.livraisons.put(adresse.getId(), nouvLivraison);
 	} catch (ModeleException e) {
 	    throw e;
@@ -63,8 +63,8 @@ public class DemandeDeLivraison extends Observable {
     }
 
     /**
-     * Cree et ajoute une livraison sans plage horaire
-     * a la demande de livraison courante
+     * Cree et ajoute une livraison sans plage horaire a la demande de livraison
+     * courante
      * 
      * @param duree
      *            Duree de la livraison a ajouter (en secondes)
@@ -82,7 +82,9 @@ public class DemandeDeLivraison extends Observable {
 
     /**
      * Retourne la Livraison de la Demande associée à l'adresse donnée
-     * @param adresse Adresse de la livraison
+     * 
+     * @param adresse
+     *            Adresse de la livraison
      * @return La Livraison si elle existe, null sinon
      */
     protected Livraison getLivraison(int adresse) {
@@ -99,7 +101,7 @@ public class DemandeDeLivraison extends Observable {
     protected Intersection getEntrepot() {
 	return this.entrepot;
     }
-    
+
     /**
      * @return Heure de départ demandée
      */

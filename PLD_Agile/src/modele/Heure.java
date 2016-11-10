@@ -1,8 +1,7 @@
 package modele;
 
 /**
- * Classe permettant la gestion des heures utilisees pour le
- * calcul de tournee.
+ * Classe permettant la gestion des heures utilisees pour le calcul de tournee.
  *
  */
 public class Heure {
@@ -33,10 +32,10 @@ public class Heure {
     }
 
     /**
-     * Cree une heure a partir d'un temps en secondes 
-     * Precondition : Heure comprise entre 00:00:00 et 23:59:59
+     * Cree une heure a partir d'un temps en secondes Precondition : Heure
+     * comprise entre 00:00:00 et 23:59:59
      * 
-     * @param secondes
+     * @param secondes Le temps en seconde depuis 00:00:00
      */
     public Heure(int secondes) {
 	int reste = secondes;
@@ -99,7 +98,7 @@ public class Heure {
     }
 
     /**
-     * Affiche une version en secondes de l'heure (00:00:00 -> 0)
+     * Affiche une version en secondes de l'heure (00:00:00 donne 0)
      * 
      * @return L'heure en secondes depuis minuit
      */
@@ -111,14 +110,14 @@ public class Heure {
      * Affiche l'heure courante sous la forme "hh:mm:ss"
      */
     public String toString() {
-	return (this.heure >= 10 ? "" : "0") + this.heure + ":"
-		+ (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
+	return (this.heure >= 10 ? "" : "0") + this.heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes + ":"
 		+ (this.secondes >= 10 ? "" : "0") + this.secondes;
     }
 
     /**
-     * Permet l'affichage de l'heure courante 
-     * sous la forme "hh:mm"
+     * Permet l'affichage de l'heure courante sous la forme "hh:mm"
+     * 
+     * @return String formatée
      */
     public String afficherHoraire() {
 	int min = this.minutes;
@@ -130,20 +129,18 @@ public class Heure {
 		heure++;
 	    }
 	}
-	return (heure >= 10 ? "" : "0") + heure + ":"
-		+ (this.minutes >= 10 ? "" : "0") + this.minutes;
+	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
     }
 
     /**
-     * Compare deux heures. Renvoit true si elles sont egales,
-     * et false dans l'autre cas.
+     * Compare deux heures. Renvoit true si elles sont egales, et false dans
+     * l'autre cas.
      */
     @Override
     public boolean equals(Object obj) {
 	if (obj instanceof Heure) {
 	    Heure objH = (Heure) obj;
-	    return this.heure == objH.heure && this.minutes == objH.minutes
-		    && this.secondes == objH.secondes;
+	    return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
 	}
 	return false;
     }

@@ -32,7 +32,7 @@ public class Troncon extends Observable {
 	this.nom = nom;
 	this.longueur = longueur;
 	this.vitesseMoy = vitesseMoy;
-	this.setTpsParcours();
+	this.calculTpsParcours();
 	this.origine = origine;
 	this.destination = destination;
     }
@@ -40,22 +40,34 @@ public class Troncon extends Observable {
     /**
      * Calcule et modifie le temps de parcours moyen du troncon courant
      */
-    private void setTpsParcours() {
+    private void calculTpsParcours() {
 	this.tpsParcours = Math.round(this.longueur / this.vitesseMoy);
     }
 
-    public String getNom() {
+    /**
+     * @return Nom du Troncon
+     */
+    protected String getNom() {
 	return this.nom;
     }
 
-    public int getTpsParcours() {
+    /**
+     * @return Temps de parcours du Troncon
+     */
+    protected int getTpsParcours() {
 	return this.tpsParcours;
     }
 
+    /**
+     * @return Intersection d'origine du Troncon
+     */
     public Intersection getOrigine() {
 	return this.origine;
     }
 
+    /**
+     * @return Intersection de départ du Troncon
+     */
     public Intersection getDestination() {
 	return this.destination;
     }

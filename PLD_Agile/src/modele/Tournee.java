@@ -18,12 +18,9 @@ public class Tournee extends Observable {
     private HashMap<Integer, Livraison> livraisons;
 
     /**
-     * Cree une tournee à partir de sa duree
+     * Cree une tournee à partir de son heure de départ
      * 
-     * @param duree
-     *            Duree de la tournee (en secondes)
-     * @param entrepot
-     *            Intersection de depart et d'arrivee de la tournee
+     * @param heureDepart Heure de départ de la Tournee
      */
     public Tournee(Heure heureDepart) {
 	this.valide = true;
@@ -45,21 +42,20 @@ public class Tournee extends Observable {
      * @param itineraires
      *            Tableau des itineraires pour aller de la livraison i a la
      *            livraison j
+     * @param livDemande
+     *            Liste des Livraisons de la demande
+     * @param idSommets
+     *            Liste des ids des sommets ordonnées
      */
-    protected void mettreAJourTournee(int duree, int[] livraisons,
-	    Itineraire[][] itineraires, HashMap<Integer, Livraison> livDemande,
-	    List<Integer> idSommets) {
+    protected void mettreAJourTournee(int duree, int[] livraisons, Itineraire[][] itineraires,
+	    HashMap<Integer, Livraison> livDemande, List<Integer> idSommets) {
 	this.viderTournee();
 	for (int i = 0; i < livraisons.length - 1; i++) {
-	    Livraison prochLivr = livDemande
-		    .get(idSommets.get(livraisons[i + 1]));
-	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i
-		    + 1]];
+	    Livraison prochLivr = livDemande.get(idSommets.get(livraisons[i + 1]));
+	    Itineraire nouvItineraire = itineraires[livraisons[i]][livraisons[i + 1]];
 	    this.ajouterItineraire(nouvItineraire, prochLivr);
 	}
-	this.ajouterItineraire(
-		itineraires[livraisons[livraisons.length - 1]][livraisons[0]],
-		null);
+	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	this.duree = duree;
 	this.mettreAJourTempsParcours(this.hDebut);
 	// setChanged();
@@ -72,9 +68,9 @@ public class Tournee extends Observable {
      * 
      * @param itineraire
      *            Itineraire a ajouter à la tournee
+     * @param prochLivr Livraison de destination de l'Itineraire
      */
-    protected void ajouterItineraire(Itineraire itineraire,
-	    Livraison prochLivr) {
+    protected void ajouterItineraire(Itineraire itineraire, Livraison prochLivr) {
 	if (itineraires.size() == 0)
 	    adrEntrepot = itineraire.getDepart().getId();
 	itineraires.add(itineraire);
@@ -107,8 +103,7 @@ public class Tournee extends Observable {
 	Object[] resultAlgo = algo.calculerDijkstra(nvItineraires);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
 	for (Itineraire itin : itineraires) {
-	    if (itin.getDepart().getId() == nvItineraires.get(0)
-		    && itin.getArrivee().getId() == nvItineraires.get(2)) {
+	    if (itin.getDepart().getId() == nvItineraires.get(0) && itin.getArrivee().getId() == nvItineraires.get(2)) {
 		itineraires.remove(itin);
 		break;
 	    }
@@ -170,7 +165,6 @@ public class Tournee extends Observable {
 		    itineraires.add(++i, nvItineraire);
 		    break;
 		}
-		// TODO test sur l'intersection d'arrivée
 	    }
 	}
     }
@@ -226,7 +220,9 @@ public class Tournee extends Observable {
 
     /**
      * Retourne la Livraison à l'adresse donnée
-     * @param adresse Id de l'intersection adresse
+     * 
+     * @param adresse
+     *            Id de l'intersection adresse
      * @return Livraison si elle existe à cette adresse, null sinon
      */
     protected Livraison getLivraison(int adresse) {
@@ -314,8 +310,7 @@ public class Tournee extends Observable {
      * @param nvFin
      *            Nouvelle heure de la fin de la plage
      */
-    protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage,
-	    Heure nvDebut, Heure nvFin) {
+    protected void modifierPlageLivraison(int adrLivraison, boolean nvPlage, Heure nvDebut, Heure nvFin) {
 	Livraison liv = livraisons.remove(adrLivraison);
 	if (nvPlage)
 	    liv.setPlage(new PlageHoraire(nvDebut, nvFin));
@@ -331,17 +326,14 @@ public class Tournee extends Observable {
      */
     protected String genererFeuilleRoute() {
 	String route;
-	route = "Départ de l'intersection " + adrEntrepot + " à "
-		+ hDebut.afficherHoraire();
+	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
 	route += "\r\n" + itineraires.get(0).afficherFeuilleRoute() + "\r\n";
 	for (int i = 1; i < itineraires.size(); i++) {
 	    Itineraire itin = itineraires.get(i);
-	    route += "\r\n" + livraisons.get(itin.getDepart().getId())
-		    .afficherFeuilleRoute();
+	    route += "\r\n" + livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
 	    route += "\r\n" + itin.afficherFeuilleRoute() + "\r\n";
 	}
-	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à "
-		+ hFin.afficherHoraire();
+	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
 	return route;
     }
 }
