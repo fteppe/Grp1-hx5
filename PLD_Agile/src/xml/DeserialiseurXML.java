@@ -41,7 +41,8 @@ public class DeserialiseurXML {
 		if (racine.getNodeName().equals("reseau")) {
 			rapport = construirePlanAPartirDeDOMXML(racine, plan);
 		} else
-			throw new ExceptionXML("Document non conforme : le document ne possède pas de racine \"réseau\"");
+			throw new ExceptionXML(
+					"Document non conforme : le document ne possède pas de racine \"réseau\"");
 
 		return rapport;
 	}
@@ -146,7 +147,8 @@ public class DeserialiseurXML {
 				Element eltLivraison = (Element) listeLivraisons.item(i);
 				int adresse = Integer.parseInt(eltLivraison.getAttribute("adresse"));
 				int duree = Integer.parseInt(eltLivraison.getAttribute("duree"));
-				if (eltLivraison.getAttribute("debutPlage") != null && eltLivraison.getAttribute("debutPlage") != "") {
+				if (eltLivraison.getAttribute("debutPlage") != null
+						&& eltLivraison.getAttribute("debutPlage") != "") {
 					String debutPlage = eltLivraison.getAttribute("debutPlage");
 					String finPlage = eltLivraison.getAttribute("finPlage");
 					plan.creerLivraisonDemande(adresse, duree, debutPlage, finPlage);

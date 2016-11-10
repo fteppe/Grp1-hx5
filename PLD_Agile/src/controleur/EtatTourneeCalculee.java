@@ -34,7 +34,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 			else
 				fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
 			controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML
+				| NumberFormatException e) {
 			fenetre.afficherMessage(e.getMessage());
 		}
 	}
@@ -45,7 +46,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 	}
 
 	/*
-	 * @Override public void genererFeuilleDeRoute(Plan plan, Fenetre fenetre) {
+	 * @Override public void genererFeuilleDeRoute(Plan plan, Fenetre
+	 * fenetre) {
 	 * 
 	 * }
 	 */
@@ -66,7 +68,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		fenetre.afficherMessage("Livraison supprimée de la tournée");
 	}
 
-
 	@Override
 	public void clicAjouterLivraison(int idIntersection) {
 		controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
@@ -81,13 +82,14 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		} else {
 			controleur.ETAT_AJOUT_LIVRAISON.setIdIntersection(idIntersection);
 			controleur.setEtatCourant(controleur.ETAT_AJOUT_LIVRAISON);
-			fenetre.afficherMessage("Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
+			fenetre.afficherMessage(
+					"Choisissez une livraison avant ou après laquelle placer votre nouvelle livraison");
 		}
 	}
 
 	/*
-	 * QUand on clique sur ajouter livraison on passe dans l'etat AjoutLivraison
-	 * dans lequel on choisit où insérer la livraison.
+	 * QUand on clique sur ajouter livraison on passe dans l'etat
+	 * AjoutLivraison dans lequel on choisit où insérer la livraison.
 	 * 
 	 * Si il n'y a plus de livraisons, alors cela insésère au niveau de
 	 * l'entrepot
@@ -127,7 +129,8 @@ public class EtatTourneeCalculee extends EtatDefaut {
 
 	@Override
 	public void modifierLivraison(int adrLiv, boolean possedePlage, String heureDebut, String heureFin) {
-		controleur.getListeCde().ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
+		controleur.getListeCde()
+				.ajoute(new CdeModifierLivraison(plan, adrLiv, possedePlage, heureDebut, heureFin));
 		fenetre.afficherMessage("Livraison supprimée de la tournée");
 	}
 

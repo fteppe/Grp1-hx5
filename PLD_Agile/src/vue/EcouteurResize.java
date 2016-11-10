@@ -6,6 +6,12 @@ import java.awt.event.ComponentEvent;
 
 import modele.Plan;
 
+/**Cette classe permet d'écouter les evennement de types resize sur une VuePlan
+ * et de mettre à jour l'échelle de cette vue du plan en fonction du plan et d ela nouvelle taille
+ *  
+ * @author florent
+ *
+ */
 public class EcouteurResize extends ComponentAdapter {
 	private Plan plan;
 	private VuePlan vuePlan;

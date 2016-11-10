@@ -31,7 +31,8 @@ public class EtatAjoutLivraison extends EtatDefaut {
 			else
 				fenetre.afficherMessage("Demande de livraison chargée avec des erreurs :\n" + rapport);
 			controleur.setEtatCourant(controleur.ETAT_DEMANDE_LIVRAISON_CHARGE);
-		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | NumberFormatException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | ExceptionXML
+				| NumberFormatException e) {
 			fenetre.afficherMessage(e.getMessage());
 		}
 	}
@@ -49,9 +50,10 @@ public class EtatAjoutLivraison extends EtatDefaut {
 	}
 
 	@Override
-	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage, String finPlage) {
-		controleur.getListeCde()
-				.ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree, debutPlage, finPlage));
+	public void clicAjouterLivraisonPosition(int idPrec, int idSuiv, int duree, String debutPlage,
+			String finPlage) {
+		controleur.getListeCde().ajoute(new CdeAjoutLivraison(plan, idIntersection, idPrec, idSuiv, duree,
+				debutPlage, finPlage));
 		fenetre.afficherMessage("Livraison ajoutée à la tournée");
 		controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 	}
@@ -61,7 +63,6 @@ public class EtatAjoutLivraison extends EtatDefaut {
 		controleur.setEtatCourant(controleur.ETAT_TOURNEE_CALCULEE);
 		controleur.getFenetre().afficherMessage("action annulée");
 	}
-
 
 	@Override
 	public void clicDroitLivraison(int idLivraison) {

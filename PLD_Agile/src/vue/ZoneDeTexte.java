@@ -20,6 +20,12 @@ import modele.Livraison;
 import modele.Plan;
 import modele.Troncon;
 
+/**Zone de texte où sont décrite les livraisons. Les livraisons présentent les 
+ * même interactions que dans une VuePlan.
+ * 
+ * @author florent
+ *
+ */
 public class ZoneDeTexte extends JPanel implements Observer {
 
 	private static int VALEUR_INTERSECTION_VIDE = -1;
@@ -30,7 +36,12 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	private GridBagConstraints contraintes;
 	private int livraisonSurligne;
 
-	public ZoneDeTexte(int largeur, int hauteur, Plan plan, Fenetre fenetre) {
+	/**Constructeur
+	 * 
+	 * @param plan plan dont on affichera les livraisons si elles existent, doit etre observable
+	 * @param fenetre la fenetre dans laquelle s'inscrit cette zone de texte
+	 */
+	public ZoneDeTexte(Plan plan, Fenetre fenetre) {
 		super();
 		this.fenetre = fenetre;
 		this.plan = plan;
@@ -49,6 +60,10 @@ public class ZoneDeTexte extends JPanel implements Observer {
 		afficherInformations();
 	}
 
+	/**Methode utilisé pour mettre une livraison en surbrillance
+	 * 
+	 * @param idLivraison la livraison a surligner dans la zone de texte
+	 */
 	protected void setLivraisonSurligne(int idLivraison) {
 		if (livraisonSurligne != idLivraison && plan.getLivraisonParAdresse(idLivraison) != null) {
 			livraisonSurligne = idLivraison;
@@ -84,8 +99,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 	private void genererInformationLivraison(List<Livraison> livraisons) {
 		if (livraisons != null) {
 			ajouterZoneInformation("Feuille de route de la tournée", 0);
-			ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-					+ plan.afficherHeureDepart(), plan.getEntrepot().getId());
+			ajouterZoneInformation("Départ de l'entrepôt à l'adresse " + plan.getEntrepot().getId()
+					+ " prévu à " + plan.afficherHeureDepart(), plan.getEntrepot().getId());
 			for (Livraison livraison : livraisons) {
 				contraintes.gridy = listeInformation.size();
 				String plage = "";
@@ -97,7 +112,8 @@ public class ZoneDeTexte extends JPanel implements Observer {
 					plage += "\nHeure d'arrivée : " + livraison.getHeureArrivee().afficherHoraire();
 					if (livraison.possedePlage()) {
 						if (livraison.getTpsAttente().toSeconds() != 0) {
-							plage += "\nTemps d'attente : " + livraison.getTpsAttente().afficherHoraire();
+							plage += "\nTemps d'attente : "
+									+ livraison.getTpsAttente().afficherHoraire();
 						}
 					}
 					plage += "\nHeure de départ : " + livraison.getHeureDepart().afficherHoraire();
@@ -105,13 +121,17 @@ public class ZoneDeTexte extends JPanel implements Observer {
 				ajouterDescLivraison("Livraison à l'adresse " + livraison.getAdresse().getId() + plage,
 						livraison.getAdresse().getId(), livraison.getRespectePlage());
 			}
-			ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId() + " prévu à "
-					+ plan.afficherHeureRetour(), plan.getEntrepot().getId());
+			ajouterZoneInformation("Retour à l'entrepôt à l'adresse " + plan.getEntrepot().getId()
+					+ " prévu à " + plan.afficherHeureRetour(), plan.getEntrepot().getId());
 		} else {
 			ajouterZoneInformation("", 0);
 		}
 	}
 
+	/**Methode qui met à jour l'affichage des informations
+	 * Appelé lorsque le plan notify ses observers
+	 * 
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		viderListeInfos();

@@ -5,6 +5,11 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPopupMenu;
 
+/**Menu contextuel associé à des cliques droits
+ * 
+ * @author florent
+ *
+ */
 public class PopMenu extends JPopupMenu {
 	public PopMenu() {
 		super();

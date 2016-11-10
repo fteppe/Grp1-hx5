@@ -18,6 +18,12 @@ import javax.swing.JTextField;
 
 import modele.Plan;
 
+/**Fenetre de dialogue qui s'ouvre pour la création d'une livraison.
+ * On peut y selectionner la durée de la livraison et si besoin une plage horaire
+ * Cliquer sur ok va appeler le controleur et créer la nouvelle livraison
+ * @author florent
+ *
+ */
 public class MenuCreationLivraison extends JDialog {
 
 	protected JRadioButton horaireActif;
@@ -37,6 +43,13 @@ public class MenuCreationLivraison extends JDialog {
 	protected int idLivraison;
 	protected Fenetre fenetre;
 
+	/**Constructeur
+	 * 
+	 * @param fenetre la fenetre dans laquelle le menu s'integre
+	 * @param idLivraison la livraison autour de laquelle on veut ajouter celle créée
+	 * @param avant booléen qui determine si la livraison sera ajouté avant ou eprès idLivraison
+	 * @param position la position sur l'ecran du menu
+	 */
 	public MenuCreationLivraison(Fenetre fenetre, int idLivraison, boolean avant, Point position) {
 		super(fenetre);
 		setLocation(position);
