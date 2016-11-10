@@ -3,6 +3,10 @@ package tsp;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * Cette classe permet de gerer et de consulter une liste de sommets
+ *
+ */
 public class IteratorSeq implements Iterator<Integer> {
 
 	private Integer[] candidats;

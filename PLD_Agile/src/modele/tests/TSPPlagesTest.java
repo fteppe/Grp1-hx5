@@ -201,9 +201,6 @@ public class TSPPlagesTest {
 		Heure heureDepartH = new Heure("07:25:00");
 		int heureDepart = heureDepartH.toSeconds();
 		tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
-		for (int i = 0; i < 4; i++) {
-			System.out.println(tsp.getMeilleureSolution(i));
-		}
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 
@@ -259,9 +256,6 @@ public class TSPPlagesTest {
 		Heure heureDepartH = new Heure("07:25:00");
 		int heureDepart = heureDepartH.toSeconds();
 		tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
-		for (int i = 0; i < 4; i++) {
-			System.out.println(tsp.getMeilleureSolution(i));
-		}
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 
@@ -318,9 +312,6 @@ public class TSPPlagesTest {
 		Heure heureDepartH = new Heure("07:25:00");
 		int heureDepart = heureDepartH.toSeconds();
 		tsp.chercheSolution(4, coutCompComplet, duree, horaireDebut, horaireFin, heureDepart);
-		for (int i = 0; i < 4; i++) {
-			System.out.println(tsp.getMeilleureSolution(i));
-		}
 		assertEquals(Integer.MAX_VALUE, tsp.getCoutMeilleureSolution());
 	}
 

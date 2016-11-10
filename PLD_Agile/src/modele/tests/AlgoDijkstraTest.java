@@ -24,7 +24,7 @@ import xml.DeserialiseurXML;
 public class AlgoDijkstraTest {
 
 	/**
-	 * Calcul de Dijkstra pour un ensemble de points valides
+	 * Utilisation de l'algorithme de Dijkstra pour un ensemble de points valides
 	 */
 	@Test
 	public void testCalculerDijkstraValide() {
@@ -200,7 +200,8 @@ public class AlgoDijkstraTest {
 	}
 
 	/**
-	 * Calcul de Dijkstra avec une Intersection non atteignable
+	 * Utilisation de l'algorithme de Dijkstra avec une Intersection non atteignable,
+	 * les couts associes devant etre infinis
 	 */
 	@Test
 	public void testCalculerDijkstraLivraisonNonAtteignable() {
@@ -296,7 +297,8 @@ public class AlgoDijkstraTest {
 	}
 
 	/**
-	 * Calcul de Dijkstra avec un plan vide
+	 * Utilisation de l'algorithme de Dijkstra avec un plan vide,
+	 * la solution renvoyee devant l'etre egalement
 	 */
 	@Test
 	public void testCalculerDijkstraPlanVide() {
@@ -312,7 +314,8 @@ public class AlgoDijkstraTest {
 	}
 	
 	/**
-	 * Calcul de Dijkstra pour avec Intersection inexistante
+	 * Utilisation de l'algorithme de Dijkstra avec pour depart une Intersection inexistante,
+	 * le resultat devant alors etre vide
 	 */
 	@Test
 	public void testCalculerDijkstraLivraisonInexistante() {
