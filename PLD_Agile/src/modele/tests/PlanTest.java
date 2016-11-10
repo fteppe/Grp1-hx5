@@ -2,6 +2,7 @@ package modele.tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,9 @@ import modele.ExceptionTournee;
 import modele.Heure;
 import modele.Intersection;
 import modele.Itineraire;
+import modele.Livraison;
 import modele.ModeleException;
+import modele.ObjetGraphique;
 import modele.Plan;
 import modele.Troncon;
 import xml.DeserialiseurXML;
@@ -51,7 +54,7 @@ public class PlanTest {
 	}
 
 	/**
-	 * On verifie que la creation d'intersection notifie l'observer
+	 * On verifie que la creation d'intersection notifie l'Observer
 	 */
 	@Test
 	public void testcreerIntersection() {
@@ -66,7 +69,7 @@ public class PlanTest {
 	}
 
 	/**
-	 * On verifie que la creation de troncon notifie l'observer
+	 * On verifie que la creation de troncon notifie l'Observer
 	 */
 	@Test
 	public void testcreerTroncon() {
@@ -83,7 +86,7 @@ public class PlanTest {
 	}
 
 	/**
-	 * On verifie que la creation d'une demande de livraison notifie l'observer
+	 * On verifie que la creation d'une demande de livraison notifie l'Observer
 	 */
 	@Test
 	public void testDemandeDeLivraison() {
@@ -156,7 +159,6 @@ public class PlanTest {
 			assertTrue(i.getArrivee().getId() == listeSommetsTourneePoss1[position + 1]
 					|| i.getArrivee().getId() == listeSommetsTourneePoss2[position + 1]);
 			position++;
-			System.out.println(i.getDepart().getId());
 		}
 		assertTrue(dureeTotale == 80);
 	}
@@ -250,7 +252,6 @@ public class PlanTest {
 			e.printStackTrace();
 		}
 		int dureeTotale = p.getDureeTournee();
-		System.out.println(dureeTotale);
 		assert (calculReussi == true);
 		assert (dureeTotale == 0);
 	}
@@ -391,10 +392,49 @@ public class PlanTest {
 				}
 			}
 			position++;
-			System.out.println(i.getDepart().getId());
 		}
 		assertTrue(dureeTotale == 3686);
 	}
+	
+	/**
+	 * On teste la mise en parallèle du point clique avec les entites crees
+	 */
+	@Test
+	public void testCherchePoint() {
+		Plan p = new Plan();
+		try {
+			p.creerIntersection(3, 250, 270);
+			p.creerIntersection(5, 250, 290);
+			Heure arrivee = new Heure("12:00:00");
+			p.creerDemandeDeLivraison(arrivee, 3);
+			p.creerLivraisonDemande(5, 20);
+			Point point = new Point(250, 290);
+			ObjetGraphique resultat = p.cherche(point, 10);
+			Livraison livraison = (Livraison) resultat;
+			assertEquals(livraison.getAdresse().getId(), 5);
+			Point point2 = new Point(250, 270);
+			ObjetGraphique resultat2 = p.cherche(point2, 10);
+			Intersection livraison2 = (Intersection) resultat2;
+			assertEquals(livraison2.getId(), 3);
+		} catch (ModeleException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * On teste l'exception pour une creation de Demande de livraison invalide
+	 * @throws ModeleException 
+	 */
+	@Test (expected = ModeleException.class)
+	public void testCreDemLivraisonNnValide() throws ModeleException {
+		Plan p = new Plan();
+		p.creerIntersection(3, 250, 270);
+		p.creerIntersection(5, 250, 290);
+		Heure arrivee = new Heure("12:00:00");
+		p.creerDemandeDeLivraison(arrivee, 8);
+	}
+	
+	
 
 	private void initialisationPlan(Plan p) {
 		try {
