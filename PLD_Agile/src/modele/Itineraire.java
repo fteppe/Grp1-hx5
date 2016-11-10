@@ -35,31 +35,41 @@ public class Itineraire extends Observable {
 	}
 
 	/**
-	 * @return Intersection de départ de l'Itineraire
+	 * @return Retourne la string formatée pour l'affichage sur la feuille de
+	 *         route
 	 */
-	public Intersection getDepart() {
-		return this.depart;
-	}
+	protected String afficherFeuilleRoute() {
+		String itineraire = "";
+		String current = troncons.get(0).getNom();
+		int depart = troncons.get(0).getOrigine().getId();
+		int arrive = troncons.get(0).getDestination().getId();
+		int duree = troncons.get(0).getTpsParcours();
+		for (int i = 0; i < troncons.size(); i++) {
+			Troncon t = troncons.get(i);
+			if (t.getNom().equals(current)) {
+				arrive = t.getDestination().getId();
+				duree += t.getTpsParcours();
+			} else {
+				int sec = duree % 60;
+				duree = duree / 60;
+				if (sec > 30)
+					duree++;
+				itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
+						+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
-	/**
-	 * @return Intersection d'arrivée de l'Itineraire
-	 */
-	public Intersection getArrivee() {
-		return this.arrivee;
-	}
+				current = t.getNom();
+				depart = t.getOrigine().getId();
+				arrive = t.getDestination().getId();
+				duree = t.getTpsParcours();
+			}
+		}
+		duree = duree / 60;
+		if (duree < 1)
+			duree = 1;
+		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et " + arrive
+				+ " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
 
-	/**
-	 * @return Liste des Troncons qui composent l'Itineraire
-	 */
-	public List<Troncon> getTroncons() {
-		return this.troncons;
-	}
-
-	/**
-	 * @return Temps de parcours de l'Itineraire
-	 */
-	protected int getTpsParcours() {
-		return this.tpsParcours;
+		return itineraire;
 	}
 
 	/**
@@ -113,42 +123,31 @@ public class Itineraire extends Observable {
 	}
 
 	/**
-	 * @return Retourne la string formatée pour l'affichage sur la feuille
-	 *         de route
+	 * @return Intersection d'arrivée de l'Itineraire
 	 */
-	protected String afficherFeuilleRoute() {
-		String itineraire = "";
-		String current = troncons.get(0).getNom();
-		int depart = troncons.get(0).getOrigine().getId();
-		int arrive = troncons.get(0).getDestination().getId();
-		int duree = troncons.get(0).getTpsParcours();
-		for (int i = 0; i < troncons.size(); i++) {
-			Troncon t = troncons.get(i);
-			if (t.getNom().equals(current)) {
-				arrive = t.getDestination().getId();
-				duree += t.getTpsParcours();
-			} else {
-				int sec = duree % 60;
-				duree = duree / 60;
-				if (sec > 30)
-					duree++;
-				itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart
-						+ " et " + arrive + " pendant "
-						+ (duree > 1 ? (duree + " minutes") : ("1 minute"));
+	public Intersection getArrivee() {
+		return this.arrivee;
+	}
 
-				current = t.getNom();
-				depart = t.getOrigine().getId();
-				arrive = t.getDestination().getId();
-				duree = t.getTpsParcours();
-			}
-		}
-		duree = duree / 60;
-		if (duree < 1)
-			duree = 1;
-		itineraire += "\r\n\tSuivre la route " + current + " entre les intersections " + depart + " et "
-				+ arrive + " pendant " + (duree > 1 ? (duree + " minutes") : ("1 minute"));
+	/**
+	 * @return Intersection de départ de l'Itineraire
+	 */
+	public Intersection getDepart() {
+		return this.depart;
+	}
 
-		return itineraire;
+	/**
+	 * @return Temps de parcours de l'Itineraire
+	 */
+	protected int getTpsParcours() {
+		return this.tpsParcours;
+	}
+
+	/**
+	 * @return Liste des Troncons qui composent l'Itineraire
+	 */
+	public List<Troncon> getTroncons() {
+		return this.troncons;
 	}
 
 }

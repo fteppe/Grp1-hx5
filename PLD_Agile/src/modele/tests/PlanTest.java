@@ -152,9 +152,9 @@ public class PlanTest {
 	@Ignore("Ce test est ignoré car situationnel")
 	@Test
 	/*
-	 * On teste l'arrêt de la recherche d'un plan avant que la solution
-	 * optimale ait été trouvée. Pour cela, un fichier XML nécessitant un
-	 * grand temps de calcul doit être utilisé.
+	 * On teste l'arrêt de la recherche d'un plan avant que la solution optimale
+	 * ait été trouvée. Pour cela, un fichier XML nécessitant un grand temps de
+	 * calcul doit être utilisé.
 	 */
 	public void testCalculerTourneeValideArretImmediat() {
 		Plan p = new Plan();
@@ -168,8 +168,7 @@ public class PlanTest {
 		boolean tourneeTrouvee = false;
 
 		Callable<Boolean> calculTournee = () -> {
-			// On cherche l'itineraire optimal via l'utilisation du
-			// TSP
+			// On cherche l'itineraire optimal via l'utilisation du TSP
 			boolean resultat = p.calculerTournee();
 			return resultat;
 		};
@@ -180,8 +179,7 @@ public class PlanTest {
 
 		int tpsAttente = 2;
 		executorCalculTournee.submit(() -> {
-			// On cherche l'itineraire optimal via l'utilisation du
-			// TSP
+			// On cherche l'itineraire optimal via l'utilisation du TSP
 			while (true) {
 				try {
 					TimeUnit.SECONDS.sleep(tpsAttente);
@@ -340,8 +338,8 @@ public class PlanTest {
 
 	@Test
 	/*
-	 * Graphe compose de 5 livraisons dont le calcul de tournee doit
-	 * s'operer correctement, avec la presence de plages horaires
+	 * Graphe compose de 5 livraisons dont le calcul de tournee doit s'operer
+	 * correctement, avec la presence de plages horaires
 	 */
 	public void testCalculerTourneeValideAvPlages() {
 		Plan p = new Plan();
@@ -391,7 +389,7 @@ public class PlanTest {
 	 * Initialisation d'un plan par l'ajout d'intersections et de troncons
 	 * 
 	 * @param p
-	 *                Plan a initialiser
+	 *            Plan a initialiser
 	 */
 	private void initialisationPlan(Plan p) {
 		try {
