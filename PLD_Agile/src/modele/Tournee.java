@@ -16,7 +16,7 @@ public class Tournee extends Observable {
 
     private List<Itineraire> itineraires;
     private HashMap<Integer, Livraison> livraisons;
-    
+
     /**
      * Cree une tournee à partir de sa duree
      * 
@@ -57,8 +57,8 @@ public class Tournee extends Observable {
 	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	this.setDuree(duree);
 	this.mettreAJourTempsParcours(this.hDebut);
-	//setChanged();
-	//notifyObservers();
+	// setChanged();
+	// notifyObservers();
 	System.out.println("Tournée mise à jour");
     }
 
@@ -193,8 +193,8 @@ public class Tournee extends Observable {
 	    if (!liv.getRespectePlage())
 		valide = false;
 	}
-	//setChanged();
-	//notifyObservers();
+	// setChanged();
+	// notifyObservers();
     }
 
     /**
@@ -227,7 +227,7 @@ public class Tournee extends Observable {
     }
 
     protected Heure gethFin() {
-	return (hFin != null ? hFin : new Heure("00:00:00"));
+	return (hFin != null ? hFin : new Heure());
     }
 
     protected boolean getValidite() {
@@ -314,13 +314,13 @@ public class Tournee extends Observable {
     public String genererFeuilleRoute() {
 	String route;
 	route = "Départ de l'intersection " + adrEntrepot + " à " + hDebut.afficherHoraire();
-	route += "\r\n"+itineraires.get(0).afficherFeuilleRoute()+"\r\n";
+	route += "\r\n" + itineraires.get(0).afficherFeuilleRoute() + "\r\n";
 	for (int i = 1; i < itineraires.size(); i++) {
 	    Itineraire itin = itineraires.get(i);
-	    route += "\r\n"+livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
-	    route += "\r\n"+itin.afficherFeuilleRoute()+"\r\n";
+	    route += "\r\n" + livraisons.get(itin.getDepart().getId()).afficherFeuilleRoute();
+	    route += "\r\n" + itin.afficherFeuilleRoute() + "\r\n";
 	}
-	route += "\r\n"+"Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
+	route += "\r\n" + "Arrivée à l'entrepôt à " + adrEntrepot + " à " + hFin.afficherHoraire();
 	return route;
     }
 }

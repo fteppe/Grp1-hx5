@@ -96,7 +96,11 @@ public class PlanTest {
 	    e.printStackTrace();
 	}
 	for(int i = 0; i < adresses.length; i++){
-	    plan.ajouterLivraisonDemande(adresses[i], durees[i]);
+	    try {
+		plan.ajouterLivraisonDemande(adresses[i], durees[i]);
+	    } catch (ModeleException e) {
+		e.printStackTrace();
+	    }
 	}
     	assert(updateAppele);
     }
@@ -113,14 +117,17 @@ public class PlanTest {
 	try {
 	    p.creerDemandeDeLivraison(heure, 4);
 	} catch (ModeleException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
-	p.ajouterLivraisonDemande(1, 20);
-	p.ajouterLivraisonDemande(2, 10);
-	p.ajouterLivraisonDemande(5, 8);
-	p.ajouterLivraisonDemande(6, 10);
-	p.ajouterLivraisonDemande(7, 14);
+	try {
+	    p.ajouterLivraisonDemande(1, 20);
+	    p.ajouterLivraisonDemande(2, 10);
+	    p.ajouterLivraisonDemande(5, 8);
+	    p.ajouterLivraisonDemande(6, 10);
+	    p.ajouterLivraisonDemande(7, 14);
+	} catch (ModeleException e1) {
+	    e1.printStackTrace();
+	}
 	boolean tourneeTrouvee = false;
 	try {
 	    tourneeTrouvee = p.calculerTournee();

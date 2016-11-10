@@ -41,13 +41,18 @@ public class DemandeDeLivraison extends Observable {
      * @param finPlage
      *            Fin de la plage horaire de la livraison a ajouter
      */
-    public void ajouterLivraison(int duree, Intersection adresse, String debutPlage, String finPlage) {
-	Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage, finPlage);
-	this.livraisons.put(adresse.getId(), nouvLivraison);
+    public void ajouterLivraison(int duree, Intersection adresse, String debutPlage, String finPlage)
+	    throws ModeleException {
+	try {
+	    Livraison nouvLivraison = new Livraison(duree, adresse, debutPlage, finPlage);
+	    this.livraisons.put(adresse.getId(), nouvLivraison);
+	} catch (ModeleException e) {
+	    throw e;
+	}
 	// On indique au Controleur que la demande de livraison a ete
 	// mise a jour
 	setChanged();
-	notifyObservers(nouvLivraison);
+	notifyObservers();
     }
 
     /**

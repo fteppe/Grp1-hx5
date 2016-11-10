@@ -25,13 +25,14 @@ public class Livraison extends ObjetGraphique {
      * @param finPlage
      *            Heure de fin de la plage horaire
      */
-    public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) {
+    public Livraison(int duree, Intersection adresse, String debutPlage, String finPlage) throws ModeleException {
 	this.duree = duree;
 	this.adresse = adresse;
 	this.plage = null;
 	this.tpsAttente = null;
 	if ((debutPlage != null && finPlage != null) && !(debutPlage.isEmpty() || finPlage.isEmpty()))
 	    plage = new PlageHoraire(new Heure(debutPlage), new Heure(finPlage));
+
 	respectePlage = true;
     }
 

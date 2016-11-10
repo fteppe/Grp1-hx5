@@ -23,7 +23,7 @@ public class MenuCreationLivraison extends JDialog{
 	protected JRadioButton horaireActif;
 	private JPanel champsEntree;
 	private JPanel boutons;
-	private JLabel labelDuree;
+	protected JLabel labelDuree;
 	private JLabel labelArrive;
 	private JLabel labelDepart;
 	protected JTextField duree;

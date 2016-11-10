@@ -62,6 +62,9 @@ public class Plan extends Observable {
      */
     public void ajouterIntersection(int id, int longitude, int latitude) throws ModeleException {
 	Intersection nouvIntersection = new Intersection(id, longitude, latitude);
+	if (longitude < 0 || latitude < 0) {
+	    throw new ModeleException("Une intersection possède des coordonnées négatives");
+	}
 	if (!this.listeIntersections.containsKey(id)) {
 	    this.listeIntersections.put(id, nouvIntersection);
 	} else {
@@ -224,8 +227,12 @@ public class Plan extends Observable {
     public void insererLivraisonTournee(int adresse, int duree, String debutPlage, String finPlage, int adrPrec,
 	    int adrSuiv) {
 	Intersection interAdresse = this.getIntersection(adresse);
-	Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
-	tournee.insererLivraison(liv, adrPrec, adrSuiv);
+	try {
+	    Livraison liv = new Livraison(duree, interAdresse, debutPlage, finPlage);
+	    tournee.insererLivraison(liv, adrPrec, adrSuiv);
+	} catch (Exception e) {
+	    // TODO
+	}
 	setChanged();
 	notifyObservers();
     }

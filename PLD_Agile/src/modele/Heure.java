@@ -125,13 +125,13 @@ public class Heure {
 	}
 	return (heure >= 10 ? "" : "0") + heure + ":" + (this.minutes >= 10 ? "" : "0") + this.minutes;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Heure) {
-            Heure objH = (Heure) obj;
-            return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
-        }
-        return false;
+	if (obj instanceof Heure) {
+	    Heure objH = (Heure) obj;
+	    return this.heure == objH.heure && this.minutes == objH.minutes && this.secondes == objH.secondes;
+	}
+	return false;
     }
 }

@@ -11,7 +11,7 @@ public class MenuModificationLivraison extends MenuCreationLivraison{
 	{
 		super(fenetre, idLivraison, false, position);
 		duree.setVisible(false);
-		
+		labelDuree.setVisible(false);
 		ok.removeActionListener(ok.getActionListeners()[0]);
 		ok.addActionListener(new ActionListener() {
 			

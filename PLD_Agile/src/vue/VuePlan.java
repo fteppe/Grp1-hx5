@@ -34,7 +34,7 @@ public class VuePlan extends JPanel implements Observer {
 	private int intersectionSurvol; //vaut -1 si aucune intersection n'est selectionné
 	private int livraisonSurvol;
 	private static int diametreIntersection = 10;
-	private static Color COULEUR_TRONCON = Color.DARK_GRAY;
+	private static Color COULEUR_TRONCON = Color.GRAY;
 	private static Color COULEUR_ENTREPOT = Color.red;
 	private static Color COULEUR_LIVRAISON = Color.yellow;
 	private static Color COULEUR_SURLIGNE = Color.green;
