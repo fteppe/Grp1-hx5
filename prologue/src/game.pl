@@ -2,8 +2,8 @@
 :- consult('html').
 :- consult('AffichagePlateauDeJeu').
 
-ia(1,pseudoRandomTir).
-ia(2,pseudoRandomTir).
+ia(1,random).
+ia(2,random).
 
 vaToucher(Joueur):-
 	chercherCible(Joueur,Cible),
@@ -51,8 +51,6 @@ actionsOrdonnees(Action1,Action2):-
 	
 playGame(Winner):-
 	repeat,
-%	format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]),
-%	displayBoard,
 	play(Winner),!.
 	
 play(X):-
@@ -66,12 +64,13 @@ play(none):-
 	fail.
 	
 launchTest(Winner):-
-	initialise(10,10,10,1,0,10,[],10,none),
+	initialise(10,10,10,1,0,10,0,10,none),
 	playGame(Winner),!.
 
 countTest(0,0,0,X,X).
 	
 countTest(J1,J2,Draw,TestActuel,TotalTest):-
+	cleanMemory,
 	launchTest(Result),
 	updateAndLaunch(Result,J1,J2,Draw,TestActuel,TotalTest).
 	
