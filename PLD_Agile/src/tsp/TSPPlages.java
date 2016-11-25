@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ * Cette classe permet de calculer le plus court chemin d'une liste de sommets, avec 
+ * un point de depart et d'arrive definis.
+ *
+ */
 public class TSPPlages {
 
 	private Integer[] meilleureSolution;
@@ -75,7 +80,7 @@ public class TSPPlages {
 		for (int i = 1; i < nbSommets; i++)
 			nonVus.add(i);
 		ArrayList<Integer> vus = new ArrayList<Integer>(nbSommets);
-		vus.add(0); // Le premier sommet visite est l'entrepôt
+		vus.add(0);
 		branchAndBound(0, nonVus, vus, 0, cout, duree, horaireDebut, horaireFin, heureDepart);
 	}
 
@@ -171,11 +176,11 @@ public class TSPPlages {
 	 *                horaireDebut[i] = Heure en secondes a partir de
 	 *                laquelle i peut etre livre, avec 0 <= i < nbSommets
 	 * @param horaireFin
-	 *                horaireFin[i] = Heure en secondes jusqu'a laquelle i
-	 *                peut etre livre, avec 0 <= i < nbSommets
-	 * @return Un iterateur permettant d'iterer sur tous les sommets de
-	 *         nonVus atteignables en respectant les plages horaires et
-	 *         triés par couts decroissant
+	 *            horaireFin[i] = Heure en secondes jusqu'a laquelle i peut etre
+	 *            livre, avec 0 <= i < nbSommets
+	 * @return Un iterateur permettant d'iterer sur tous les sommets de nonVus
+	 *         atteignables en respectant les plages horaires et tries par couts
+	 *         decroissant
 	 */
 	protected Iterator<Integer> iterator(Integer sommetCrt, ArrayList<Integer> nonVus, int[][] cout, int[] duree,
 			int[] heureDebut, int[] heureFin, int coutVus, int heureDepart) {
@@ -199,7 +204,6 @@ public class TSPPlages {
 		nonVusTri.sort((Integer[] num1, Integer[] num2) -> {
 			return num2[1].compareTo(num1[1]);
 		});
-
 		for (int i = 0; i < nonVusTri.size(); i++) {
 			nonVusOrdonnes.add(nonVusTri.get(i)[0]);
 		}
@@ -207,8 +211,8 @@ public class TSPPlages {
 	}
 
 	/**
-	 * Methode definissant le patron (template) d'une resolution par
-	 * separation et evaluation (branch and bound) du TSP
+	 * Mise en place du calul de plus court chemin a travers la methode de 
+	 * branch and bound pour une liste de sommets indiquee
 	 * 
 	 * @param sommetCrt
 	 *                Le dernier sommet visite
@@ -260,31 +264,27 @@ public class TSPPlages {
 			}
 		} else {
 			int nouveauCout = coutVus;
-			int bound = bound(sommetCrt, nonVus, cout, duree, coutVus, horaireDebut, horaireFin,
-					heureDepart);
+			int bound = bound(sommetCrt, nonVus, cout, duree, coutVus,
+					horaireDebut, horaireFin, heureDepart);
 			if (bound == Integer.MAX_VALUE) {
 				nouveauCout = bound;
 			} else {
 				nouveauCout += bound;
 			}
 			if (nouveauCout < coutMeilleureSolution) {
-				Iterator<Integer> it = iterator(sommetCrt, nonVus, cout, duree, horaireDebut,
-						horaireFin, coutVus, heureDepart);
+				Iterator<Integer> it = iterator(sommetCrt, nonVus, 
+						cout, duree, horaireDebut, horaireFin,
+						coutVus, heureDepart);
 				while (it.hasNext()) {
 					Integer prochainSommet = it.next();
-
 					vus.add(prochainSommet);
 					nonVus.remove(prochainSommet);
-
-					int heurePassageProchain = heureDepart + cout[sommetCrt][prochainSommet]
-							+ coutVus;
-					int coutProchain = coutVus + cout[sommetCrt][prochainSommet]
-							+ duree[prochainSommet]
-							+ Math.max(0, horaireDebut[prochainSommet]
-									- heurePassageProchain);
+					int heurePassageProchain = heureDepart 
+							+ cout[sommetCrt][prochainSommet] + coutVus;
+					int coutProchain = coutVus + cout[sommetCrt][prochainSommet] + duree[prochainSommet]
+							+ Math.max(0, horaireDebut[prochainSommet] - heurePassageProchain);
 					branchAndBound(prochainSommet, nonVus, vus, coutProchain, cout, duree,
 							horaireDebut, horaireFin, heureDepart);
-
 					vus.remove(prochainSommet);
 					nonVus.add(prochainSommet);
 				}
@@ -292,6 +292,10 @@ public class TSPPlages {
 		}
 	}
 
+	/**
+	 * Indique si le calcul de plus court chemin doit s'arreter
+	 * @param calculEnCours Booleen indiquant si le calcul de plus court chemin doit s'arreter
+	 */
 	public void setCalculEnCours(boolean calculEnCours) {
 		this.calculEnCours = calculEnCours;
 	}

@@ -33,7 +33,7 @@ public class DemandeDeLivraisonTest {
 	}
 
 	/**
-	 * On verifie que l'ajout de livraison notifie l'observer
+	 * On verifie que l'ajout de livraison notifie l'Observer
 	 */
 	@Test
 	public void testAjouterLivraison() {

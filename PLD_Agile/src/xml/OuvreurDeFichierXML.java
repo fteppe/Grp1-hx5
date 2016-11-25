@@ -12,19 +12,33 @@ import java.io.InputStreamReader;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.*;
 
+/**
+ * Cette classe permet d'ourvrir un fichier XML.
+ *
+ */
 public class OuvreurDeFichierXML extends FileFilter {// Singleton
 
 	private static OuvreurDeFichierXML instance = null;
 
 	private OuvreurDeFichierXML() {
 	}
-
+	
+	/**
+	 * Fournit l'instance du singleton.
+	 * @return OuvreurDeFichierXML courant
+	 */
 	protected static OuvreurDeFichierXML getInstance() {
 		if (instance == null)
 			instance = new OuvreurDeFichierXML();
 		return instance;
 	}
 
+	/**
+	 * Ouvre un fichier XML et memorise son chemin
+	 * @param lecture Indique si le lecture doit avoir lieu
+	 * @return Le nouveau fichier a lire
+	 * @throws ExceptionXML
+	 */
 	public File ouvre(boolean lecture) throws ExceptionXML {
 		int returnVal;
 		JFileChooser jFileChooserXML = new JFileChooser();
@@ -45,6 +59,9 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
 		return new File(path);
 	}
 
+	/**
+	 * Definit les fichiers pouvant etre ouverts
+	 */
 	@Override
 	public boolean accept(File f) {
 		if (f == null)
@@ -57,6 +74,9 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
 		return extension.contentEquals("xml");
 	}
 
+	/**
+	 * Permet l'affichage de la nature du fichier
+	 */
 	@Override
 	public String getDescription() {
 		return "Fichier XML";

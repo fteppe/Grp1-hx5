@@ -33,7 +33,6 @@ public class MenuModificationLivraison extends MenuCreationLivraison {
 	}
 
 	private void validationModif() {
-		System.out.println("ok");
 		fenetre.getControleur().modifierLivraison(idLivraison, horaireActif.isSelected(),
 				heureArrive.getHeure() + ":00", heureDepart.getHeure() + ":00");
 	}

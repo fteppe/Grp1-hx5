@@ -192,20 +192,21 @@ public class Tournee extends Observable {
      *            L'adresse de la livraison précédente
      * @param adrSuiv
      *            L'adresse de la livraison suivante
+     * @param p
+     * 		  Plan modifie
      */
-    protected void insererLivraison(Livraison liv, int adrPrec, int adrSuiv) {
+    protected void insererLivraison(Livraison liv, int adrPrec, int adrSuiv, Plan p) {
 	// On ajoute la livraison dans la liste
 	livraisons.put(liv.getAdresse().getId(), liv);
-
 	ArrayList<Integer> nvItineraires = new ArrayList<Integer>();
 	nvItineraires.add(adrPrec);
 	nvItineraires.add(liv.getAdresse().getId());
 	nvItineraires.add(adrSuiv);
-	AlgoDijkstra algo = AlgoDijkstra.getInstance();
-	Object[] resultAlgo = algo.calculerDijkstra(nvItineraires);
+	Object[] resultAlgo = p.calculerDijkstra(nvItineraires);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
 	for (Itineraire itin : itineraires) {
-	    if (itin.getDepart().getId() == nvItineraires.get(0) && itin.getArrivee().getId() == nvItineraires.get(2)) {
+	    if (itin.getDepart().getId() == nvItineraires.get(0)
+		    && itin.getArrivee().getId() == nvItineraires.get(2)) {
 		itineraires.remove(itin);
 		break;
 	    }
@@ -226,7 +227,6 @@ public class Tournee extends Observable {
 	Heure cur = heureDepartTournee;
 	for (int i = 0; i < itineraires.size() - 1; i++) {
 	    Itineraire itin = itineraires.get(i);
-	    System.out.println(itin);
 	    cur = new Heure(cur.toSeconds() + itin.getTpsParcours());
 	    int adrLiv = itin.getArrivee().getId();
 	    Livraison liv = livraisons.get(adrLiv);
@@ -240,8 +240,6 @@ public class Tournee extends Observable {
 	    if (!liv.getRespectePlage())
 		valide = false;
 	}
-	// setChanged();
-	// notifyObservers();
     }
 
     /**
@@ -271,9 +269,6 @@ public class Tournee extends Observable {
 	this.ajouterItineraire(itineraires[livraisons[livraisons.length - 1]][livraisons[0]], null);
 	this.duree = duree;
 	this.mettreAJourTempsParcours(this.hDebut);
-	// setChanged();
-	// notifyObservers();
-	System.out.println("Tournée mise à jour");
     }
 
     /**
@@ -304,10 +299,12 @@ public class Tournee extends Observable {
      * 
      * @param adresse
      *            Identifiant de l'intersection correspondante a la livraison
+     * @param p 
+     * 		  Plan modifie
      * @return Tableau compose des identifiants de depart et d'arrivee du nouvel
      *         Itineraire a construire
      */
-    protected Livraison supprimerLivraison(int adresse) {
+    protected Livraison supprimerLivraison(int adresse, Plan p) {
 	// On parcourt la liste d'itineraires pour supprimer
 	// les itineraires concernant la livraison
 	ArrayList<Integer> nvItineraire = new ArrayList<Integer>();
@@ -323,8 +320,7 @@ public class Tournee extends Observable {
 		break;
 	    }
 	}
-	AlgoDijkstra algo = AlgoDijkstra.getInstance();
-	Object[] resultAlgo = algo.calculerDijkstra(nvItineraire);
+	Object[] resultAlgo = p.calculerDijkstra(nvItineraire);
 	Itineraire[][] nvItin = (Itineraire[][]) resultAlgo[1];
 	this.insererItineraire(nvItin[0][1]);
 	Livraison liv = livraisons.remove(adresse);

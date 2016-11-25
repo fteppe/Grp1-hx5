@@ -1,0 +1,42 @@
+	THE HUNGER GAMES
+Deux IA qui s'affrontent: tire.
+plateau vide au debut.
+(Possible de rajouter obstacle/bonus).
+tout droit ou recul + rotation + passer + tirer.
+portée de coups.
+(possible health pickups)
+chaque IA a 100HP.
+plateau 50x50 (pas très important).
+condition de victoire: premier à 3
+respawn : 4 pts possibles, respawn à chaque fin de manche.
+fin de manche: un meurt.
+égalité: un point partout.
+distance de tire max: 10m.
+tire tout droit uniquement.
+tire instantanné ? A priori non.
+les deux joueurs jouent en même temps.
+1 balle = 10HP.
+limite de temps, celui qui a le plus de HP gagne.	
+
+
+a decider: si HP victoire une mort; sinon  manches.
+
+1er itération:
+*liste des mouvments.
+*generer un plateau + creer joueurs.
+*faire mvmt
+*cond victoire + affichage victoire.
+
+Notes profs:
+Terrain aléatoire.
+Prise de risque: Bonus; nouvelles armes/ armure/ heath pickup...
+passer le tour augmente dégats / défense.
+
+Bonus:
+*Premier qui le prend l'a.
+
+Données:
+liste des cases avec qqc: coordonées et contenu.
+Pas de mémoire des cases vides.
+raycast sur les tirs (ou déplacement tour par tour des balles).
+
