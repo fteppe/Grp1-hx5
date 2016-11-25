@@ -1,0 +1,46 @@
+table.dashboard {
+	border: 1px solid black;
+	min-width: 10px;
+	height: 10px;
+}
+table.dashboard tr {
+	border: 1px solid black;
+	min-width: 10px;
+	height: 10px;
+}
+
+table.dashboard tr td  {
+	border: 1px solid black;
+	min-width: 10px;
+	height: 10px;
+}
+
+table.dashboard tr th {
+	border: 1px solid black;
+	min-width: 10px;
+	height: 10px;
+}
+
+table.terrain {
+	border : 1px solid black;
+	border-collapse : collapse;
+}
+table.terrain tr {
+	/*
+	min-width: 20px;
+	min-height: 20px;
+	*/
+	width: 25px;
+	height: 25px;
+}
+
+table.terrain tr td {
+	width: 25px;
+	height: 25px;
+}
+
+table.terrain  tr th {
+	width: 25px;
+	height: 25px;
+	border : 1px solid black;
+}

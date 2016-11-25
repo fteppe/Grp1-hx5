@@ -398,13 +398,3 @@ effectuerAction(Joueur,tournerGauche):-
 	tournerGauche(Joueur).
 effectuerAction(Joueur,tirer):-
 	tirer(Joueur).
-
-% Ajout F T	
-% Test si le joueur est en vie
-enVie(Joueur) :- joueur(Joueur,_,Vie,_,_), not(Vie =< 0).
-
-%%% Test if the game is finished %%%
-gameover('Draw') :- joueur(X,_,_,_,_), not(enVie(X)), joueur(Y,_,_,_,_), X\==Y, not(enVie(Y)), !. % Draw.
-gameover(Winner) :- joueur(Winner,_,_,_,_), enVie(Winner), joueur(Y,_,_,_,_), Winner\==Y, not(enVie(Y)), !.  % There exists a winning configuration We cut!
-% =================
-
