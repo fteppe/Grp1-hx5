@@ -2,8 +2,151 @@
 :- consult('html').
 :- consult('AffichagePlateauDeJeu').
 
-ia(1,pseudoRandomTir).
-ia(2,pseudoRandomTir).
+ia(1,random).
+ia(2,random).
+
+%    ==============================	
+
+choisirAction(Joueur,tirer):-
+	ia(Joueur,AvanceVersEnnemi),
+	vaToucher(Joueur).
+
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+% ========================================
+
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+% ======================================
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not(Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+%======================================================	
 
 vaToucher(Joueur):-
 	chercherCible(Joueur,Cible),
@@ -30,15 +173,16 @@ choisirAction(Joueur,Action):-
 	random(0,Taille,Choix),
 	nth0(Choix,Liste,Action).
 
+
+gameover(draw):-
+	joueur(1,_,0,_,_),
+	joueur(2,_,0,_,_).
+	
 gameover(1):-
 	joueur(2,_,0,_,_).
 	
 gameover(2):-
 	joueur(1,_,0,_,_).
-
-gameover(draw):-
-	joueur(1,_,0,_,_),
-	joueur(2,_,0,_,_).
 	
 actionsOrdonnees(Action1,tirer):-
 	effectuerAction(2,tirer),
@@ -50,8 +194,6 @@ actionsOrdonnees(Action1,Action2):-
 	
 playGame(Winner):-
 	repeat,
-%	format('~c~s~c~s', [0x1b, "[H", 0x1b, "[2J"]),
-%	displayBoard,
 	play(Winner),!.
 	
 play(X):-
@@ -65,12 +207,13 @@ play(none):-
 	fail.
 	
 launchTest(Winner):-
-	initialise(10,10,10,1,0,10,[],10,none),
+	initialise(10,10,10,1,0,10,0,10,none),
 	playGame(Winner),!.
 
 countTest(0,0,0,X,X).
 	
 countTest(J1,J2,Draw,TestActuel,TotalTest):-
+	cleanMemory,
 	launchTest(Result),
 	updateAndLaunch(Result,J1,J2,Draw,TestActuel,TotalTest).
 	

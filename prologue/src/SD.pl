@@ -20,9 +20,9 @@ cleanCases:-
 		not(case(_,_,Type)),!.
 		
 cleanCases.
-
-cleanMemory:-
-	dimensions(_,_),
+ 
+ cleanMemory:-
+ 	dimensions(_,_),
 	retract(dimensions(_B,_)),
 	retract(portee(_C)),
 	cleanCases,
@@ -188,11 +188,11 @@ initialise(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,Nombre
 	
 initialise(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles,_):-
 	repeat,
+	cleanMemory,
 	createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles),!,
 	cleanVisites.
 	
 createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles):-
-	cleanMemory,
 	assert(dimensions(DimX,DimY)),
 	assert(case(_,-1,obstacle)),
 	assert(case(-1,_,obstacle)),
@@ -282,16 +282,24 @@ obtenirBonus(Joueur,X,Y):-
 	case(X,Y,bonus),
 	joueur(Joueur,Orientation,Vie,Degats,Defense),
 	NouvelleDefense is Defense + 1,
+	retract(case(X,Y,bonus)),
 	retract(joueur(Joueur,Orientation,Vie,Degats,Defense)),
 	assert(joueur(Joueur,Orientation,Vie,Degats,NouvelleDefense)),!.
 	
-obtenir(Joueur,X,Y):-
+obtenirBonus(Joueur,X,Y):-
 	case(X,Y,_).
 
 avancer(Joueur):-
 	case(X,Y,Joueur),
 	nouvelleCase(Joueur,X,Y,NvX,NvY),
-	obtenirBonus(Joueur,NvX,NvY),
+	obtenirBonus(Joueur,NvX,NvY),!,
+	retract(case(X,Y,Joueur)),
+	assert(case(NvX,NvY,Joueur)).
+
+
+avancer(Joueur):-
+	case(X,Y,Joueur),
+	nouvelleCase(Joueur,X,Y,NvX,NvY),
 	retract(case(X,Y,Joueur)),
 	assert(case(NvX,NvY,Joueur)).
 	
