@@ -17,7 +17,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1.
@@ -28,7 +28,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2>Y1.
@@ -39,7 +39,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2>X1.
@@ -50,7 +50,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2<X1.
@@ -63,7 +63,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2<X1.
@@ -74,7 +74,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2>X1.
@@ -85,7 +85,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1.
@@ -96,7 +96,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2>Y1.
@@ -108,7 +108,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2>X1.
@@ -119,7 +119,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2<X1.
@@ -130,7 +130,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2>Y1.
@@ -141,7 +141,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not (Joueur = AutreJoueur),
+	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1.
