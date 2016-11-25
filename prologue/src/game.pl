@@ -2,8 +2,8 @@
 :- consult('html').
 :- consult('AffichagePlateauDeJeu').
 
-ia(1,random).
-ia(2,random).
+ia(1,AvanceVersEnnemi).
+ia(2,pseudoRandomTir).
 
 %    ==============================	
 
