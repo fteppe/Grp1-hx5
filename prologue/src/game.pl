@@ -30,15 +30,16 @@ choisirAction(Joueur,Action):-
 	random(0,Taille,Choix),
 	nth0(Choix,Liste,Action).
 
+
+gameover(draw):-
+	joueur(1,_,0,_,_),
+	joueur(2,_,0,_,_).
+	
 gameover(1):-
 	joueur(2,_,0,_,_).
 	
 gameover(2):-
 	joueur(1,_,0,_,_).
-
-gameover(draw):-
-	joueur(1,_,0,_,_),
-	joueur(2,_,0,_,_).
 	
 actionsOrdonnees(Action1,tirer):-
 	effectuerAction(2,tirer),
