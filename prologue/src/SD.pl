@@ -91,7 +91,7 @@ placerMur(_,_,0,_).
 placerMur(X,Y,Taille,DirActuelle):-
 	assert(case(X,Y,obstacle)),
 	repeat,
-		random(-2,2,Direction),
+		random(-2,3,Direction),
 		not(Direction = 0),
 		not(Direction+DirActuelle = 0),!,
 	placerProchainMur(X,Y,Taille,Direction).
@@ -114,14 +114,14 @@ placerTypeObstacle(1):-
 	random(0,LimitX,PosX),
 	random(0,LimitY,PosY),
 	not(case(PosX,PosY,_)),!,
-	random(2,20,Taille),
+	random(2,21,Taille),
 	placerMur(PosX,PosY,Taille,0).
 
 placerTypeObstacle(2):-
 	placerTypeObstacle(0).
 
 placerObstacleRandom:-
-	random(0,2,Type),
+	random(0,3,Type),
 	placerTypeObstacle(Type).
 
 placerObstacles(0).
@@ -205,7 +205,7 @@ createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,Nombre
 	joueursPeuventSAtteindre.
 	
 % ====================================
-	
+
 caseDevant(Joueur,TypeCase):-
 	joueur(Joueur,nord,_,_,_),
 	case(X,Y,Joueur),
@@ -277,6 +277,7 @@ nouvelleCase(Joueur,X,Y,NvX,Y):-
 	NvX is X - 1.	
 
 % Modif T F =====================
+
 obtenirBonus(Joueur,X,Y):-
 	case(X,Y,bonus),
 	joueur(Joueur,Orientation,Vie,Degats,Defense),
@@ -295,6 +296,7 @@ avancer(Joueur):-
 	assert(case(NvX,NvY,Joueur)).
 	
 % ===============================
+
 
 distance(X,X,Y1,Y2,Distance):-
 	Y1 < Y2,
@@ -323,14 +325,14 @@ chercheCible(Joueur,nord,Type):-
 	
 chercheCible(Joueur,sud,Type):-
 	case(X,Y,Joueur),
-	YMax is Y+1,
+	YMin is Y+1,
 	dimensions(_,DimY),
 	repeat,
-	between(YMax,DimY,NvY),
+	between(YMin,DimY,NvY),
 	case(X,NvY,Type), 
 	member(Type,[1,2,obstacle]),!.	
 	
-chercheCible(Joueur,est,Type):-
+chercheCible(Joueur,ouest,Type):-
 	case(X,Y,Joueur),
 	XMax is X+1,
 	repeat,
@@ -339,7 +341,7 @@ chercheCible(Joueur,est,Type):-
 	case(NvX,Y,Type), 
 	member(Type,[1,2,obstacle]),!.
 	
-chercheCible(Joueur,ouest,Type):-
+chercheCible(Joueur,est,Type):-
 	case(X,Y,Joueur),
 	XMax is X+1,
 	dimensions(DimX,_),
@@ -348,21 +350,20 @@ chercheCible(Joueur,ouest,Type):-
 	case(NvX,Y,Type), 
 	member(Type,[1,2,obstacle]),!.
 	
+chercherCible(Joueur,Cible):-
+	joueur(Joueur,Orientation,_,_,_),
+	chercheCible(Joueur,Orientation,Cible).
+	
 calculDistance(Joueur,AutreJoueur,Distance):-
-	not(Joueur = AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	distance(X1,X2,Y1,Y2,Distance).
 	
 distanceCible(Joueur,AutreJoueur,Distance):-
-	joueur(Joueur,Orientation,_,_,_),
-	chercheCible(Joueur,Orientation,AutreJoueur),
+	not(Joueur = AutreJoueur),
+	not(AutreJoueur = obstacle),!,
 	calculDistance(Joueur,AutreJoueur,Distance).
-	
-distanceCible(Joueur,obstacle,_):-
-	joueur(Joueur,Orientation,_,_,_),
-	chercheCible(Joueur,Orientation,obstacle).
-	
+
 toucher(Joueur,AutreJoueur):-
 	joueur(Joueur,_,_,DegatsInflige,_),
 	joueur(AutreJoueur,Orientation,Vie,Degats,Defense),
@@ -377,13 +378,14 @@ toucher(Joueur,AutreJoueur):-
 	NouvelleVie is Vie - DegatsInflige,
 	retract(joueur(AutreJoueur,Orientation,Vie,Degats,Defense)),
 	assert(joueur(AutreJoueur,Orientation,NouvelleVie,Degats,Defense)),!.
-	
+		
 tirer(Joueur):-
-	distanceCible(Joueur,AutreJoueur,Distance),
+	chercherCible(Joueur,Cible),
+	not(Cible = obstacle),
+	distanceCible(Joueur,Cible,Distance),
 	portee(Portee),
 	(Distance < Portee; Distance = Portee),
-	toucher(Joueur,AutreJoueur).
-	
+	toucher(Joueur,Cible).
 	
 tirer(Joueur).
 	
@@ -405,3 +407,4 @@ enVie(Joueur) :- joueur(Joueur,_,Vie,_,_), not(Vie =< 0).
 gameover('Draw') :- joueur(X,_,_,_,_), not(enVie(X)), joueur(Y,_,_,_,_), X\==Y, not(enVie(Y)), !. % Draw.
 gameover(Winner) :- joueur(Winner,_,_,_,_), enVie(Winner), joueur(Y,_,_,_,_), Winner\==Y, not(enVie(Y)), !.  % There exists a winning configuration We cut!
 % =================
+

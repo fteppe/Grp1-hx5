@@ -17,7 +17,6 @@ addCss:-
 	format('border-collapse: collapse;'),
 	format('}~n'),
 	format('</style>~n').
-.
 
 afficherJoueurs:-
 	joueur(1,Orientation1,Vie1,Degats1,Defense1),
@@ -43,8 +42,8 @@ afficherCase(X, Y) :-
 	format('<td style="background-color: black"></td>').
 	
 afficherCase(X, Y) :- 
-case(X,Y,bonus),!,
-format('<td style="background-color: green"></td>').
+	case(X,Y,bonus),!,
+	format('<td style="background-color: green"></td>').
 	
 afficherCase(X, Y) :- 
 	case(X,Y,1),!,
