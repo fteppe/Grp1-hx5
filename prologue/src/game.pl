@@ -5,6 +5,149 @@
 ia(1,random).
 ia(2,random).
 
+%    ==============================	
+
+choisirAction(Joueur,tirer):-
+	ia(Joueur,AvanceVersEnnemi),
+	vaToucher(Joueur).
+
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, avancer):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(avancer,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+% ========================================
+
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+choisirAction(Joueur, tournerGauche):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerGauche,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+% ======================================
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,nord,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2>X1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,sud,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	X2<X1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,est,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2>Y1.
+	
+choisirAction(Joueur, tournerDroite):-
+	ia(Joueur, AvanceVersEnnemi),
+	listeCoups(Joueur,Liste),
+	member(tournerDroite,Liste),
+	joueur(Joueur,ouest,_,_,_),
+	joueur(AutreJoueur,_,_,_,_),
+	not (Joueur = AutreJoueur),
+	case(X1,Y1,Joueur),
+	case(X2,Y2,AutreJoueur),
+	Y2<Y1.
+	
+%======================================================	
+
 vaToucher(Joueur):-
 	chercherCible(Joueur,Cible),
 	not(Cible = obstacle),
