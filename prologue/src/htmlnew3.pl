@@ -107,14 +107,19 @@ server(Port) :-
 
 
 default(Request):-
-	initialise(20,20,10,1,0,1,[],20,false),
+	initialise(20,20,10,1,0,1,[],5,false),
 	format('Content-type: application/json~n~n'),
-	format('{~n"result" : "true";~n}'). .
+	format('{~n"result" : "true"~n}'). .
 
 turn(Request):-	
 	not(playTurn(Winner)),
 	format('Content-type: application/json~n~n'),
-	format('{~n"result" : "true";~n}'). 
+	format('{~n"result" : "true"~n}'). 
+	
+turn(Request):-	
+	playTurn(Winner),
+	format('Content-type: application/json~n~n'),
+	format('{~n"result" : "'),format(Winner), format('"~n}'). 
 	
 getDashboard(Request) :-
 	format('Content-type: application/json~n~n'),

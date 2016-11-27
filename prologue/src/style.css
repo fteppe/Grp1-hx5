@@ -15,6 +15,10 @@ body
 	display:inline-block;
 }
 
+#result{
+	margin-top : 10px;
+}
+
 #dashboard {
 	border: 1px solid black;
 	border-collapse : collapse;

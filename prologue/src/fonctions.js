@@ -50,7 +50,19 @@ function getGraphics()
 function playTurn()
 {
 	httpGetJson("http://localhost:8000/turn", function(response){
-		getGraphics();
+		var result;
+		if(response.result == "true") {
+			getGraphics();
+		} else {
+			result = "<div  class='panel panel-primary'><div class='panel-heading'><h3 class='panel-title'>Résultat</h3>";
+			if(response.result == "draw"){
+				result +="</div><div class='panel-body'>Egalité</div></div>";
+			} else {
+				result +="</div><div class='panel-body'>Vainqueur : " + response.result + "</div></div>";
+			}
+			document.getElementById("result").innerHTML = result;
+			eraseInterval();
+		}
 	});
 }
 
