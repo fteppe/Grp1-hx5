@@ -4,7 +4,7 @@
 
 :- use_module(library(http/http_parameters)).
 
-:- consult('SD').
+:- consult('game').
 
 
 addCss:-
@@ -21,24 +21,32 @@ addCss:-
 	format('}~n'),
 	format('</style>~n').
 
-afficherJoueurs:-
+afficherDashboard:-
 	joueur(1,Orientation1,Vie1,Degats1,Defense1),
 	joueur(2,Orientation2,Vie2,Degats2,Defense2),
-	format('<table class="dashboard">~n'),
-	format('<tr><th></th><th>Orientation</th><th>Vie</th><th>Degats</th><th>Protections</th></tr>~n'),
-	format('<tr><td>Joueur 1</td><td>'),
-	format(Orientation1),format('</td><td>'),
-	format(Vie1),format('</td><td>'),
-	format(Degats1),format('</td><td>'),
+	format('{"dashboard" : ['),
+	format('{'),
+	format('"joueur" : 1,'),
+	format('"orientation" : "'),
+	format(Orientation1),format('",'),
+	format('"vie" : '),
+	format(Vie1),format(','),
+	format('"degats" : '),
+	format(Degats1),format(','),
+	format('"defense" : '),
 	format(Defense1),
-	format('</td></tr>~n'),
-	format('<tr><td>Joueur 2</td><td>'),
-	format(Orientation2),format('</td><td>'),
-	format(Vie2),format('</td><td>'),
-	format(Degats2),format('</td><td>'),
+	format('},'),
+	format('{'),
+	format('"joueur" : 2,'),
+	format('"orientation" : "'),
+	format(Orientation2),format('",'),
+	format('"vie" : '),
+	format(Vie2),format(','),
+	format('"degats" : '),
+	format(Degats2),format(','),
+	format('"defense" : '),
 	format(Defense2),
-	format('</td></tr>~n'),
-	format('</table>~n').
+	format('}]}').
 	
 afficherCase(X, Y) :- 
 	case(X,Y,obstacle),!,
@@ -73,16 +81,14 @@ afficherLine(Y):-
 afficherTerrain:-
 	dimensions(_, Y),
 	ExtremeY is Y - 1,!,
-	format('<table class="terrain">~n'),
+	format('<table id="terrain">~n'),
 	repeat, 
 		between(0, ExtremeY, Haut),
 		afficherLine(Haut),
 		Haut is ExtremeY,!, 
 	format('</table>~n').	
 
-afficherPartie:-
-	afficherJoueurs,
-	afficherTerrain.
+
 
 server(Port) :-
         http_server(http_dispatch, [port(Port)]).
@@ -93,15 +99,30 @@ server(Port) :-
 		
 :- http_handler('/init', init, []).
 
-:- http_handler('/draw', draw, []).
+:- http_handler('/dashboard', getDashboard, []).
+
+:- http_handler('/ground', getGround, []).
+
+:- http_handler('/turn', turn, []).
+
 
 default(Request):-
 	initialise(20,20,10,1,0,1,[],20,false),
-	draw(Request).
+	format('Content-type: application/json~n~n'),
+	format('{~n"result" : "true";~n}'). .
 
-draw(Request):-
-    format('Content-type: text/html~n~n'),
-	afficherPartie.
+turn(Request):-	
+	not(playTurn(Winner)),
+	format('Content-type: application/json~n~n'),
+	format('{~n"result" : "true";~n}'). 
+	
+getDashboard(Request) :-
+	format('Content-type: application/json~n~n'),
+	afficherDashboard.
+	
+getGround(Request) :-
+	format('Content-type: text/html~n~n'),
+	afficherTerrain.
 
 init(Request) :-
 	http_parameters(Request,

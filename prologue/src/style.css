@@ -1,46 +1,58 @@
-table.dashboard {
+body
+{
+    background-color: #F9FAFA;
+}
+
+#partDashboard{
+	text-align:center;
+	vertical-align:top;
+}
+
+#partButtons{
+	vertical-align:top;
+}
+.align {
+	display:inline-block;
+}
+
+#dashboard {
 	border: 1px solid black;
+	border-collapse : collapse;
 	min-width: 10px;
 	height: 10px;
 }
-table.dashboard tr {
+#dashboard tr {
 	border: 1px solid black;
 	min-width: 10px;
 	height: 10px;
 }
 
-table.dashboard tr td  {
+#dashboard tr td  {
 	border: 1px solid black;
 	min-width: 10px;
 	height: 10px;
+	padding: 10px 10px 10px 10px;
 }
 
-table.dashboard tr th {
+#dashboard tr th {
 	border: 1px solid black;
 	min-width: 10px;
 	height: 10px;
+	padding: 10px 10px 10px 10px;
 }
 
-table.terrain {
+#terrain {
+	background-color: #C6FEBF;
 	border : 1px solid black;
 	border-collapse : collapse;
+	margin-left: auto;
+    margin-right: auto;
 }
-table.terrain tr {
-	/*
-	min-width: 20px;
-	min-height: 20px;
-	*/
-	width: 25px;
-	height: 25px;
+#terrain tr {
+
 }
 
-table.terrain tr td {
-	width: 25px;
-	height: 25px;
-}
-
-table.terrain  tr th {
-	width: 25px;
-	height: 25px;
-	border : 1px solid black;
+#terrain tr td {
+	width: 30px;
+	height: 30px;
 }

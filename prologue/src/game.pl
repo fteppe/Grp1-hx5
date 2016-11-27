@@ -1,18 +1,16 @@
 :- consult('SD').
-:- consult('html').
-:- consult('AffichagePlateauDeJeu').
 
-ia(1,random).
-ia(2,random).
+ia(1,pseudoRandomTir).
+ia(2,pseudoRandomTir).
 
 %    ==============================	
 
 choisirAction(Joueur,tirer):-
-	ia(Joueur,AvanceVersEnnemi),
+	ia(Joueur,avanceVersEnnemi),
 	vaToucher(Joueur).
 
 choisirAction(Joueur, avancer):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
 	joueur(Joueur,nord,_,_,_),
@@ -23,7 +21,7 @@ choisirAction(Joueur, avancer):-
 	Y2<Y1.
 	
 choisirAction(Joueur, avancer):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
 	joueur(Joueur,sud,_,_,_),
@@ -34,7 +32,7 @@ choisirAction(Joueur, avancer):-
 	Y2>Y1.
 	
 choisirAction(Joueur, avancer):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
 	joueur(Joueur,est,_,_,_),
@@ -45,7 +43,7 @@ choisirAction(Joueur, avancer):-
 	X2>X1.
 	
 choisirAction(Joueur, avancer):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
 	joueur(Joueur,ouest,_,_,_),
@@ -58,7 +56,7 @@ choisirAction(Joueur, avancer):-
 % ========================================
 
 choisirAction(Joueur, tournerGauche):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerGauche,Liste),
 	joueur(Joueur,nord,_,_,_),
@@ -69,7 +67,7 @@ choisirAction(Joueur, tournerGauche):-
 	X2<X1.
 	
 choisirAction(Joueur, tournerGauche):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerGauche,Liste),
 	joueur(Joueur,sud,_,_,_),
@@ -80,7 +78,7 @@ choisirAction(Joueur, tournerGauche):-
 	X2>X1.
 	
 choisirAction(Joueur, tournerGauche):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerGauche,Liste),
 	joueur(Joueur,est,_,_,_),
@@ -91,7 +89,7 @@ choisirAction(Joueur, tournerGauche):-
 	Y2<Y1.
 	
 choisirAction(Joueur, tournerGauche):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerGauche,Liste),
 	joueur(Joueur,ouest,_,_,_),
@@ -103,7 +101,7 @@ choisirAction(Joueur, tournerGauche):-
 	
 % ======================================
 choisirAction(Joueur, tournerDroite):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerDroite,Liste),
 	joueur(Joueur,nord,_,_,_),
@@ -114,7 +112,7 @@ choisirAction(Joueur, tournerDroite):-
 	X2>X1.
 	
 choisirAction(Joueur, tournerDroite):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerDroite,Liste),
 	joueur(Joueur,sud,_,_,_),
@@ -125,7 +123,7 @@ choisirAction(Joueur, tournerDroite):-
 	X2<X1.
 	
 choisirAction(Joueur, tournerDroite):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerDroite,Liste),
 	joueur(Joueur,est,_,_,_),
@@ -136,7 +134,7 @@ choisirAction(Joueur, tournerDroite):-
 	Y2>Y1.
 	
 choisirAction(Joueur, tournerDroite):-
-	ia(Joueur, AvanceVersEnnemi),
+	ia(Joueur, avanceVersEnnemi),
 	listeCoups(Joueur,Liste),
 	member(tournerDroite,Liste),
 	joueur(Joueur,ouest,_,_,_),
@@ -195,6 +193,9 @@ actionsOrdonnees(Action1,Action2):-
 playGame(Winner):-
 	repeat,
 	play(Winner),!.
+	
+playTurn(Winner):-
+	play(Winner).
 	
 play(X):-
 	gameover(X).
