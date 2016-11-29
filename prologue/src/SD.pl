@@ -4,6 +4,7 @@
 :-dynamic dimensions/2.
 :-dynamic portee/1.
 :-dynamic visites/2.
+:-dynamic turn/1.
 
 cleanVisites:-
 	visites(X,_),

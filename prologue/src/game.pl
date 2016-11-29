@@ -1,4 +1,5 @@
 :- consult('SD').
+:- consult('minimax').
 
 ia(1,avanceVersEnnemi).
 ia(2,avanceVersEnnemi).
@@ -218,8 +219,14 @@ play(X):-
 	
 play(none):-
 	dimensions(_,_),
+	/*assert(turn(1)),*/
 	choisirAction(1,Action1),
+	/*minimax(1, 2, MeilleurCoup1, MeilleurVal1),
+	retract(turn(1)),
+	assert(turn(2)),
+	minimax(2, 2, MeilleurCoup2, MeilleurVal2),*/
 	choisirAction(2,Action2),
+	/*retract(turn(2))*/,
 	actionsOrdonnees(Action1,Action2),!,
 	fail.
 	
