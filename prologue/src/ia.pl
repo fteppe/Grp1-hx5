@@ -202,11 +202,11 @@ initialiseDatas(J1,J2):-
 	createDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	createDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2).
 	
-valeurFeuille(J1,J2,1,Valeur):-
+valeurFeuille(J1,J2,1,Valeur,default):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	calculDistance(XJ1,YJ1,XJ2,YJ2,Distance),
 	Valeur is VieJ1 - VieJ2 + 100 - Distance.
 	
-valeurFeuille(J1,J2,2,Valeur):-
+valeurFeuille(J1,J2,2,Valeur,default):-
 	valeurFeuille(J2,J1,1,Valeur).
