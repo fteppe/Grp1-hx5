@@ -107,7 +107,7 @@ server(Port) :-
 
 
 default(Request):-
-	initialise(20,20,10,1,0,1,[],5,false),
+	initialise(20,20,10,1,0,1,5,5,false),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}').
 
@@ -138,6 +138,7 @@ init(Request) :-
 							damages(Damages, [integer]),
 							protections(Protections, [integer]),
 							portee(Portee, [integer]),
+							bonus(Bonus, [integer]),
 							keep(Keep,   [optional(true)])
                         ]),
 	initialise(X,Y,Life,Damages,Protections,Portee,[],Obstacles,Keep),
