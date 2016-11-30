@@ -11,3 +11,9 @@
 hs_err_pid*
 
 
+
+#metadata
+.metadata/*
+
+#recommenders
+.recommenders/*

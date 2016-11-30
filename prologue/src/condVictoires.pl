@@ -1,16 +1,21 @@
-% Valeurs de santé
-health(X, Health) :- X == 'P1', Health is -50.
-health(X, Health) :- X == 'P2', Health is 5.
+:- dynamic player/2.
+
+createPlayer(NumPlayer,Health) :- assert(player(NumPlayer,Health)).
+
+%touche(Player) :- health(Player,Health), Health(X), assert(Health(X-1)).
+touch(Player) :- player(Player, X),Y is X-1, retract(player(Player, X)), assert(player(Player,Y)).
 
 % Test si le joueur est en vie
-isAlive(Player) :- health(Player, Health), not(Health =< 0).
-
-% On change le joueur
-changePlayer('P1','P2').
-changePlayer('P2','P1').
+isAlive(Player) :- player(Player,Health), not(Health =< 0).
 
 %%%% Test if the game is finished %%%
-gameover(Winner) :- changePlayer(Winner, Other), isAlive(Winner), not(isAlive(Other)) ,!.  % There exists a winning configuration: We cut!
-gameover('Draw') :- changePlayer(Winner, Other), not(isAlive(Other)), not(isAlive(Winner)). % the Board is fully instanciated (no free variable): Draw.
+gameover('Draw') :- player(X,_), not(isAlive(X)), player(Y,_), X\==Y, not(isAlive(Y)), !. % Draw.
+gameover(Winner) :- player(Winner,_), isAlive(Winner), player(Y,_), Winner\==Y, not(isAlive(Y)), !.  % There exists a winning configuration: We cut!
+
+play():- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner).
+play():- playAll(), play().
+
+playAll() :- player(X,_), touch(X), player(X,Y), writeln(X: Y).
 
 play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner).
+init:- createPlayer(0,25),createPlayer(1,25), play().

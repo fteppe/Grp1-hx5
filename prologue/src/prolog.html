@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./style.css">
+		<title>YoloBalec</title>
+	</head>
+	<body>
+		<div class="page-header">
+		<h1>The Hunger Games</h1>
+		</div>
+		<div class="align" id="partDashboard">
+			<div class="align">
+				<table id="dashboard">
+					<tr>
+						<th> Joueur </th>
+						<th> Orientation </th>
+						<th> Vie </th>
+						<th> Degats </th>
+						<th> Defense </th>
+					</tr>
+				</table>
+				<div id="result">
+				</div>
+			</div>
+			<div class="align" id="partButtons">
+				<div class="btn-group-vertical" role="group" aria-label="...">
+					<button type = "button" class="btn btn-default" onclick='playGame(1000)'>Start</button>
+					<button type = "button" class="btn btn-default" onclick="eraseInterval()">Stop</button>
+					<button type="button" class="btn btn-default" onclick='playTurn()'>Play turn</button>
+				</div>
+			</div>
+		</div>
+		<div class="align" id =partGround>
+		</div>
+
+	</body>
+	<script src="fonctions.js"></script>
+
+</html>
