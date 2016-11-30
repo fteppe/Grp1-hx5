@@ -17,4 +17,5 @@ play():- playAll(), play().
 
 playAll() :- player(X,_), touch(X), player(X,Y), writeln(X: Y).
 
+play(_):- gameover(Winner), !, write('Game is Over. Winner: '), writeln(Winner).
 init:- createPlayer(0,25),createPlayer(1,25), play().
