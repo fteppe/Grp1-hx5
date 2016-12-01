@@ -4,6 +4,8 @@
 
 :- use_module(library(http/http_parameters)).
 
+:- use_module(library(http/http_cors)).
+
 :- consult('game').
 
 
@@ -54,6 +56,11 @@ afficherCase(X, Y) :-
 	format('<td><span class="glyphicon glyphicon-tree-deciduous" style="color: darkgreen;"></span></td>').
 	
 afficherCase(X, Y) :- 
+	case(X,Y,bonus),!,
+	%format('<td style="background-color: green"></td>').
+	format('<td><span class="glyphicon glyphicon-plus" style="color: red;"></span></td>').
+	
+afficherCase(X, Y) :- 
 	case(X,Y,1),!,
 	format('<td><span class="glyphicon glyphicon-user" style="color: blue;"></span></td>').
 	
@@ -88,13 +95,11 @@ afficherTerrain:-
 		Haut is ExtremeY,!, 
 	format('</table>~n').	
 
-
-
 server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 		
+:- set_setting(http:cors, [*]).	
 		
-
 :- http_handler(/, default, []).
 		
 :- http_handler('/init', init, []).
@@ -107,29 +112,35 @@ server(Port) :-
 
 
 default(Request):-
+	cors_enable,
 	initialise(20,20,10,1,0,1,5,5,false),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}').
 
 turn(Request):-	
+	cors_enable,
 	not(playTurn(Winner)),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}'). 
 	
 turn(Request):-	
+	cors_enable,
 	playTurn(Winner),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "'),format(Winner), format('"~n}'). 
 	
 getDashboard(Request) :-
+	cors_enable,
 	format('Content-type: application/json~n~n'),
 	afficherDashboard.
 	
 getGround(Request) :-
+	cors_enable,
 	format('Content-type: text/html~n~n'),
 	afficherTerrain.
 
 init(Request) :-
+	cors_enable,
 	http_parameters(Request,
                         [ x(X, [integer]),
 							y(Y, [integer]),
@@ -141,5 +152,5 @@ init(Request) :-
 							bonus(Bonus, [integer]),
 							keep(Keep,   [optional(true)])
                         ]),
-	initialise(X,Y,Life,Damages,Protections,Portee,[],Obstacles,Keep),
+	initialise(X,Y,Life,Damages,Protections,Portee,Bonus,Obstacles,Keep),
 	draw(Request).

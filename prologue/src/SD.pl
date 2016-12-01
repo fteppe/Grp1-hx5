@@ -202,7 +202,7 @@ createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,Nombre
 	placerObstacles(NombreObstacles),
 	creerJoueurs(2,VieJoueurs,DegatsBase,DefenseBase),
 	assert(portee(Portee)),
-	/*placerBonus(NombreBonus),*/!,
+	placerBonus(NombreBonus),!,
 	joueursPeuventSAtteindre.
 	
 % ====================================

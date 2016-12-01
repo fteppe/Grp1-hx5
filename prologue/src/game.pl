@@ -1,8 +1,8 @@
 :- consult('SD').
 :- consult('minimax').
 
-ia(1,avanceVersEnnemi).
-ia(2,avanceVersEnnemi).
+ia(1,pseudoRandomTir).
+ia(2,pseudoRandomTir).
 
 %    ==============================	
 
@@ -226,7 +226,7 @@ play(none):-
 	assert(turn(2)),
 	minimax(2, 2, MeilleurCoup2, MeilleurVal2),*/
 	choisirAction(2,Action2),
-	/*retract(turn(2))*/,
+	/*retract(turn(2)),*/
 	actionsOrdonnees(Action1,Action2),!,
 	fail.
 	
