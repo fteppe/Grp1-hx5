@@ -1,5 +1,18 @@
 :-consult('SD').
 
+initialiseBonus(Bonus):-
+	findall([X,Y],case(X,Y,bonus),Bonus).
+
+positionEstBonus(X,Y,ListeBonus):-
+	member([X,Y],ListeBonus).
+	
+utiliserBonus(Defense,DefenseF,X,Y,ListeBonusI,ListeBonusF):-
+	positionEstBonus(X,Y,ListeBonusI),!,
+	DefenseF is Defense +1,
+	delete(ListeBonusI,[X,Y],ListeBonusF).
+	
+utiliserBonus(Defense,Defense,_,_,Bonus,Bonus).
+
 calculDistance(XJ1,YJ1,XJ2,YJ2,Distance):-
 	XJ1 < XJ2,
 	YJ1 < YJ2,
@@ -122,85 +135,87 @@ mouvementPossible(X,Y,ouest,XAv,Y):-
 	XAv is X - 1,
 	not(case(XAv,Y,obstacle)).
 		
-simulationMouvement(JoueurInit,JoueurFinal):-
+simulationMouvement(JoueurInit,JoueurFinal,BonusI,BonusF):-
 	getDatasPlayer(JoueurInit,X,Y,Orient,Vie,Degats,Defense),
 	mouvementPossible(X,Y,Orient,NX,NY),!,
-	createDatasPlayer(JoueurFinal,NX,NY,Orient,Vie,Degats,Defense).
+	utiliserBonus(Defense,DefenseF,NX,NY,BonusI,BonusF),
+	createDatasPlayer(JoueurTemp,NX,NY,Orient,Vie,Degats,DefenseF).
 	
-simulationMouvement(Joueur,Joueur).
+simulationMouvement(Joueur,Joueur,Bonus,Bonus).
 	
-effectuerSimulation(J1,J2,J1N,J2,1,avancer):-
-	simulationMouvement(J1,J1N).
+effectuerSimulation(J1,J2,J1N,J2,1,avancer,BonusI,BonusF):-
+	simulationMouvement(J1,J1N,BonusI,BonusF).
 		
-effectuerSimulation(J1,J2,J1,J2N,2,avancer):-
-	simulationMouvement(J2,J2N).
+effectuerSimulation(J1,J2,J1,J2N,2,avancer,BonusI,BonusF):-
+	simulationMouvement(J2,J2N,BonusI,BonusF).
 	
-effectuerSimulation(J1,J2,J1N,J2,1,tournerDroite):-
+effectuerSimulation(J1,J2,J1N,J2,1,tournerDroite,Bonus,Bonus):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	orientationDroite(OrientJ1,OrientJ1N),
 	createDatasPlayer(J1N,XJ1,YJ1,OrientJ1N,VieJ1,DegatsJ1,DefenseJ1).
 	
-effectuerSimulation(J1,J2,J1,J2N,2,tournerDroite):-
+effectuerSimulation(J1,J2,J1,J2N,2,tournerDroite,Bonus,Bonus):-
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	orientationDroite(OrientJ2,OrientJ2N),
 	createDatasPlayer(J2N,XJ2,YJ2,OrientJ2N,VieJ2,DegatsJ2,DefenseJ2).
 	
-effectuerSimulation(J1,J2,J1N,J2,1,tournerGauche):-
+effectuerSimulation(J1,J2,J1N,J2,1,tournerGauche,Bonus,Bonus):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	orientationGauche(OrientJ1,OrientJ1N),
 	createDatasPlayer(J1N,XJ1,YJ1,OrientJ1N,VieJ1,DegatsJ1,DefenseJ1).
 	
-effectuerSimulation(J1,J2,J1,J2N,2,tournerGauche):-
+effectuerSimulation(J1,J2,J1,J2N,2,tournerGauche,Bonus,Bonus):-
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	orientationGauche(OrientJ2,OrientJ2N),
 	createDatasPlayer(J2N,XJ2,YJ2,OrientJ2N,VieJ2,DegatsJ2,DefenseJ2).
 	
-effectuerSimulation(J1,J2,J1,J2N,1,tirer):-
+effectuerSimulation(J1,J2,J1,J2N,1,tirer,Bonus,Bonus):-
 	touche(J1,J2,J2N).
 	
-effectuerSimulation(J1,J2,J1N,J2,2,tirer):-
+effectuerSimulation(J1,J2,J1N,J2,2,tirer,Bonus,Bonus):-
 	touche(J2,J1,J1N).
 	
-simulationActions(J1,J2,J1N,J2N,avancer,ActionJ2):-
-	not(ActionJ2 is avancer),
-	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
-	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+simulationActions(J1,J2,J1N,J2N,avancer,ActionJ2,BonusI,BonusF):-
+	not(ActionJ2 = avancer),
+	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,_,_,_),
+	getDatasPlayer(J2,XJ2,YJ2,_,_,_,_),
 	faceAFace(XJ1,YJ1,XJ2,YJ2,OrientJ1),!,
-	effectuerSimulation(J1,J2,J1N,J2N,2,ActionJ2).
+	effectuerSimulation(J1,J2,J1N,J2N,2,ActionJ2,BonusI,BonusF).
 	
-simulationActions(J1,J2,J1N,J2N,ActionJ1,avancer):-
-	not(ActionJ1 is avancer),
-	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
-	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+simulationActions(J1,J2,J1N,J2N,ActionJ1,avancer,BonusI,BonusF):-
+	not(ActionJ1 = avancer),
+	getDatasPlayer(J1,XJ1,YJ1,_,_,_,_),
+	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,_,_,_),
 	faceAFace(XJ2,YJ2,XJ1,YJ1,OrientJ2),!,
-	effectuerSimulation(J1,J2,J1N,J2N,1,ActionJ1).
+	effectuerSimulation(J1,J2,J1N,J2N,1,ActionJ1,BonusI,BonusF).
 	
 
-simulationActions(J1,J2,J1,J2,attendre,attendre).
+simulationActions(J1,J2,J1,J2,attendre,attendre,Bonus,Bonus).
 	
-simulationActions(J1,J2,J1N,J2N,attendre,ActionJ2):-
-	effectuerSimulation(J1,J2,J1N,J2N,2,ActionJ2).
+simulationActions(J1,J2,J1N,J2N,attendre,ActionJ2,BonusI,BonusF):-
+	effectuerSimulation(J1,J2,J1N,J2N,2,ActionJ2,BonusI,BonusF).
 	
-simulationActions(J1,J2,J1N,J2N,ActionJ1,attendre):-
-	effectuerSimulation(J1,J2,J1N,J2N,1,ActionJ1).
+simulationActions(J1,J2,J1N,J2N,ActionJ1,attendre,BonusI,BonusF):-
+	effectuerSimulation(J1,J2,J1N,J2N,1,ActionJ1,BonusI,BonusF).
 
 	
-simulationActions(J1,J2,J1N,J2N,ActionJ1,tirer):-
-	effectuerSimulation(J1,J2,J1Nt,J2Nt,2,tirer),
-	effectuerSimulation(J1Nt,J2Nt,J1N,J2N,1,ActionJ1).
+simulationActions(J1,J2,J1N,J2N,ActionJ1,tirer,BonusI,BonusF):-
+	effectuerSimulation(J1,J2,J1Nt,J2Nt,2,tirer,BonusI,BonusT),
+	effectuerSimulation(J1Nt,J2Nt,J1N,J2N,1,ActionJ1,BonusT,BonusF).
 	
-simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2):-
-	effectuerSimulation(J1,J2,J1Nt,J2Nt,1,ActionJ1),
-	effectuerSimulation(J1Nt,J2Nt,J1N,J2N,2,ActionJ2).
+simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,BonusI,BonusF):-
+	effectuerSimulation(J1,J2,J1Nt,J2Nt,1,ActionJ1,BonusI,BonusT),
+	effectuerSimulation(J1Nt,J2Nt,J1N,J2N,2,ActionJ2,BonusT,BonusF).
 	
 	
-initialiseDatas(J1,J2):-
+initialiseDatas(J1,J2,Bonus):-
 	case(XJ1,YJ1,1),
 	joueur(1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	case(XJ2,YJ2,2),
 	joueur(2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	createDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
-	createDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2).
+	createDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+	initialiseBonus(Bonus).
 	
 valeurFeuille(J1,J2,1,Valeur,default):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
