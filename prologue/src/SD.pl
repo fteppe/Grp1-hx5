@@ -396,7 +396,13 @@ toucher(Joueur,AutreJoueur):-
 	NouvelleVie is Vie - DegatsInflige,
 	retract(joueur(AutreJoueur,Orientation,Vie,Degats,Defense)),
 	assert(joueur(AutreJoueur,Orientation,NouvelleVie,Degats,Defense)),!.
-		
+
+tirer(Joueur):-
+	case(X,Y,Joueur),
+	case(X,Y,Cible),
+	not(Cible = Joueur),!,
+	toucher(Joueur,Cible).
+	
 tirer(Joueur):-
 	chercherCible(Joueur,Cible),
 	not(Cible = obstacle),

@@ -46,24 +46,24 @@ getDatasPlayer(Joueur,X,Y,Orient,Vie,Degats,Defense):-
 absenceObstacle(XC,YC,XC,YC,_).
 
 absenceObstacle(X,Y,_,_,_):-
-	case(X,Y,obstacle),
+	case(X,Y,obstacle),!,
 	fail.
 	
 absenceObstacle(XJ,YJ,XC,YC,nord):-
-	Ynext is YJ -1,
-	absenceObstalce(XJ,YNext,XC,YC,nord).
+	YNext is YJ -1,
+	absenceObstacle(XJ,YNext,XC,YC,nord).
 	
 absenceObstacle(XJ,YJ,XC,YC,sud):-
-	Ynext is YJ +1,
-	absenceObstalce(XJ,YNext,XC,YC,sud).
+	YNext is YJ +1,
+	absenceObstacle(XJ,YNext,XC,YC,sud).
 	
 absenceObstacle(XJ,YJ,XC,YC,ouest):-
-	Xnext is XJ -1,
-	absenceObstalce(XNext,YJ,XC,YC,ouest).
+	XNext is XJ -1,
+	absenceObstacle(XNext,YJ,XC,YC,ouest).
 	
 absenceObstacle(XJ,YJ,XC,YC,est):-
-	Xnext is XJ +1,
-	absenceObstalce(XNext,YJ,XC,YC,est).
+	XNext is XJ +1,
+	absenceObstacle(XNext,YJ,XC,YC,est).
 	
 	
 aPortee(Portee,Portee).
@@ -85,7 +85,7 @@ alignement(X1,Y,X2,Y,est):-
 peutToucher(Joueur,Cible):-
 	getDatasPlayer(Joueur,XJ,YJ,OrientJ,_,_,_),
 	getDatasPlayer(Cible,XC,YC,_,_,_,_),
-	alignement(XJ,YJ,XC,XY,OrientJ),
+	alignement(XJ,YJ,XC,YC,OrientJ),
 	absenceObstacle(XJ,YJ,XC,YC,OrientJ),
 	calculDistance(XJ,YJ,XC,YC,Distance),
 	portee(Portee),
@@ -119,7 +119,7 @@ faceAFace(X,Y1,X,Y2,sud):-
 faceAFace(X,Y1,X,Y2,nord):-
 	Y1 is Y2 + 1.
 	
-mouvementPossible(X,Y,sud,X,Yav):-
+mouvementPossible(X,Y,sud,X,YAv):-
 	YAv is Y + 1,
 	not(case(X,YAv,obstacle)).
 	
@@ -135,7 +135,7 @@ mouvementPossible(X,Y,ouest,XAv,Y):-
 	XAv is X - 1,
 	not(case(XAv,Y,obstacle)).
 		
-simulationMouvement(JoueurInit,JoueurFinal,BonusI,BonusF):-
+simulationMouvement(JoueurInit,JoueurTemp,BonusI,BonusF):-
 	getDatasPlayer(JoueurInit,X,Y,Orient,Vie,Degats,Defense),
 	mouvementPossible(X,Y,Orient,NX,NY),!,
 	utiliserBonus(Defense,DefenseF,NX,NY,BonusI,BonusF),
@@ -221,7 +221,7 @@ valeurFeuille(J1,J2,1,Valeur,default):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	calculDistance(XJ1,YJ1,XJ2,YJ2,Distance),
-	Valeur is VieJ1 - VieJ2 + 100 - Distance.
+	Valeur is VieJ2 * 50 + 100 - Distance.
 	
 valeurFeuille(J1,J2,2,Valeur,default):-
 	valeurFeuille(J2,J1,1,Valeur).

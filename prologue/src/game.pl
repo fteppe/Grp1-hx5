@@ -1,12 +1,26 @@
 :- consult('SD').
 :- consult('minimax').
+:- consult('minmax').
+:- consult('AffichagePlateauDeJeu').
 :-dynamic tourAct/1.
 
-ia(1,pseudoRandomTir).
-ia(2,pseudoRandomTir).
+ia(1,minmaxDefault).
+ia(2,minmaxDefault).
 
 %    ==============================	
 
+choisirAction(1,Action):-
+	ia(1,minmaxDefault),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J1,J2,Bonus,4,default,Action).
+	
+choisirAction(2,Action):-
+	ia(2,minmaxDefault),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J2,J1,Bonus,3,default,Action).
+
+% ================================
+	
 choisirAction(Joueur,tirer):-
 	ia(Joueur,avanceVersEnnemi),
 	vaToucher(Joueur).
@@ -220,30 +234,13 @@ play(X):-
 	
 play(none):-
 	dimensions(_,_),
-	/*assert(tourAct(1)),
-	minimax(1, 4, MeilleurCoup1, MeilleurVal1),
-	joueur(1,_,Vie,_,_),
-	case(X,Y,1),
-	writeln(MeilleurCoup1),
-	writeln(Vie),
-	writeln(X),
-	writeln(Y),
-	retract(tourAct(1)),
-	assert(tourAct(2)),
-	minimax(2, 4, MeilleurCoup2, MeilleurVal2),
-	joueur(1,_,Vie2,_,_),
-	case(Xa,Ya,2),
-	writeln(MeilleurCoup2),
-	writeln(Vie2),
-	writeln(Xa),
-	writeln(Ya),
-	retract(tourAct(2)),
-	actionsOrdonnees(MeilleurCoup1,MeilleurCoup2),!,*/
 	
 	choisirAction(1,Action1),
 	choisirAction(2,Action2),
 	
 	actionsOrdonnees(Action1,Action2),!,
+	displayBoard,
+	sleep(1),
 	fail.
 	
 launchTest(Winner):-
