@@ -1,39 +1,54 @@
 :- consult('ia').
 :-dynamic meilleurCout/2.
 :-dynamic meilleurCoup/2.
+:-dynamic unAlpha/2.
+:-dynamic unBeta/2.
 
-minimax(Joueur, 0, _, Val) :- tourAct(Joueur), eval(Val),!.
+minimax(Joueur, 0, _, Val, Alpha, Beta) :- tourAct(Joueur), eval(Val),!.
 
-minimax(Joueur, 0, _, Val) :- evalAdv(Val),!.
+minimax(Joueur, 0, _, Val, Alpha, Beta) :- evalAdv(Val),!.
 
-minimax(_, _, _, Val) :- gameover(_), eval(Val), !.
+minimax(_, _, _, Val, Alpha, Beta) :- gameover(_), eval(Val), !.
 
-minimax(Joueur, Profondeur, MeilleurCoupP, MeilleurVal) :- 	assert(meilleurCout(Profondeur, -inf)),
+minimax(Joueur, Profondeur, MeilleurCoupP, MeilleurVal, Alpha, Beta) :- 	
+															assert(meilleurCout(Profondeur, -inf)),
 															assert(meilleurCoup(Profondeur, avancer)),
 															listeCoups(Joueur, ListeCoups),
 															joueur(AutreJoueur, _, _, _, _), not(AutreJoueur == Joueur),
+															assert(unAlpha(Profondeur, Alpha)),
+															assert(unBeta(Profondeur, Beta)),
 															repeat, 
+															unAlpha(Profondeur, AlphaAct), unBeta(Profondeur, BetaAct), AlphaAct@<BetaAct,
 															member(Coup, ListeCoups), initialiseDatas(EtatJ1, EtatJ2),
 															effectuerAction(Joueur, Coup),
 															NouvelleProfondeur is (Profondeur - 1),
-															minimax(AutreJoueur, NouvelleProfondeur, UnMeilleurCoup, UneMeilleureVal),
-															annulerAction(Joueur, Coup, EtatJ1, EtatJ2), OppUneMeilleurVal is (-1*UneMeilleureVal),
-															meilleurCout(Profondeur, MeillCout), evaluerMax(OppUneMeilleurVal, MeillCout, Result, Profondeur, Coup), 
+															opposite(BetaAct, OppBetaAct), opposite(AlphaAct, OppAlphaAct),
+															minimax(AutreJoueur, NouvelleProfondeur, UnMeilleurCoup, UneMeilleureVal, OppBetaAct, OppAlphaAct),
+															annulerAction(Joueur, Coup, EtatJ1, EtatJ2), opposite(UneMeilleureVal, OppUneMeilleurVal),
+															meilleurCout(Profondeur, MeillCout), evaluerMax(OppUneMeilleurVal, AlphaAct, Result, Profondeur, Coup), 
 															retract(meilleurCout(Profondeur, MeillCout)), assert(meilleurCout(Profondeur, Result)),
 															last(ListeCoups, Coup), !, meilleurCout(Profondeur, MeilleurVal), meilleurCoup(Profondeur, MeilleurCoupP), 
 															retract(meilleurCout(Profondeur, _)), 
-															retract(meilleurCoup(Profondeur, _)).
+															retract(meilleurCoup(Profondeur, _)),
+															retract(unAlpha(Profondeur, _)), retract(unBeta(Profondeur, _)).
+																													
+opposite(inf, -inf) :- !.
+opposite(-inf, inf) :- !.
+opposite(Val, -Val) :- !.
 
-/*On cherche le maximum entre le nouveau et l'ancien coût*/															
-evaluerMax(A, -inf, R, Profondeur, NouveauCoup) :- R is A, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), !.
+evaluerMax(-inf, inf, R, Profondeur, NouveauCoup) :- R = inf, !.
+
+evaluerMax(inf, -inf, R, Profondeur, NouveauCoup) :- R = inf, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), retract(unAlpha(Profondeur, _)), assert(unAlpha(Profondeur, inf)), !.
+
+evaluerMax(A, -inf, R, Profondeur, NouveauCoup) :- R is A, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), retract(unAlpha(Profondeur, _)), assert(unAlpha(Profondeur, A)),!.
 
 evaluerMax(-inf, A, R, Profondeur, NouveauCoup) :- R is A, !.
 
 evaluerMax(A, inf, R, Profondeur, NouveauCoup) :- R = inf, !.
 
-evaluerMax(inf, A, R, Profondeur, NouveauCoup) :- R = inf, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), !.
+evaluerMax(inf, A, R, Profondeur, NouveauCoup) :- R = inf, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), retract(unAlpha(Profondeur, _)), assert(unAlpha(Profondeur, inf)), !.
 
-evaluerMax(A, B, R, Profondeur, NouveauCoup) :- A >= B, R is A, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), !.
+evaluerMax(A, B, R, Profondeur, NouveauCoup) :- A >= B, R is A, retract(meilleurCoup(Profondeur, _)), assert(meilleurCoup(Profondeur, NouveauCoup)), retract(unAlpha(Profondeur, _)), assert(unAlpha(Profondeur, A)), !.
 
 evaluerMax(A, B, R, Profondeur, NouveauCoup) :- B > A, R is B, !.
 
@@ -55,8 +70,6 @@ annulerAction(Joueur,avancer, _, _) :- 	effectuerAction(Joueur, tournerDroite), 
 									
 annulerAction(Joueur,attendre, _, _) :- effectuerAction(Joueur, attendre), !. 
 			
-
-/* Deux évals pour favoriser la distance, qui doit etre réduite théoriquement par l'adversaire également*/
 
 eval(Val) :- 	tourAct(Joueur),
 				case(XJ1,YJ1,Joueur),

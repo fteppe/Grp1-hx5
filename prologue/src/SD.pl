@@ -4,7 +4,6 @@
 :-dynamic dimensions/2.
 :-dynamic portee/1.
 :-dynamic visites/2.
-:-dynamic turn/1.
 
 cleanVisites:-
 	visites(X,_),
@@ -237,7 +236,7 @@ peutAvancer([_|ListeCoups],ListeCoups,Joueur):-
 peutAvancer(ListeCoups,ListeCoups,Joueur):-!.
 	
 listeCoups(Joueur,ListeCoups):- 
-	peutAvancer([avancer,tournerGauche,tournerDroite,tirer,attendre],ListeCoups,Joueur).
+	peutAvancer([avancer, attendre, tournerGauche,tournerDroite, tirer],ListeCoups,Joueur).
 	
 orientationDroite(nord,est).
 orientationDroite(est,sud).
@@ -322,6 +321,12 @@ distance(X1,X2,Y,Y,Distance):-
 distance(X1,X2,Y,Y,Distance):-
 	X2 < X1,
 	Distance is X1 - X2. 
+
+chercheCible(Joueur,_,Type):-  /*Les joueurs peuvent se tirer dessus si ils sont sur la même case*/
+	case(X,Y,Joueur),
+	case(X,Y,Type),
+	not(Type == Joueur),
+	member(Type,[1,2,obstacle]),!.
 	
 chercheCible(Joueur,nord,Type):-
 	case(X,Y,Joueur),
@@ -330,6 +335,7 @@ chercheCible(Joueur,nord,Type):-
 	between(1,YMax,Diff),
 	NvY is Y - Diff,
 	case(X,NvY,Type), 
+	not(Type == Joueur),
 	member(Type,[1,2,obstacle]),!.
 	
 chercheCible(Joueur,sud,Type):-
@@ -339,6 +345,7 @@ chercheCible(Joueur,sud,Type):-
 	repeat,
 	between(YMin,DimY,NvY),
 	case(X,NvY,Type), 
+	not(Type == Joueur),
 	member(Type,[1,2,obstacle]),!.	
 	
 chercheCible(Joueur,ouest,Type):-
@@ -347,7 +354,8 @@ chercheCible(Joueur,ouest,Type):-
 	repeat,
 	between(1,XMax,Diff),
 	NvX is X - Diff,
-	case(NvX,Y,Type), 
+	case(NvX,Y,Type),
+	not(Type == Joueur),
 	member(Type,[1,2,obstacle]),!.
 	
 chercheCible(Joueur,est,Type):-
@@ -359,6 +367,7 @@ chercheCible(Joueur,est,Type):-
 	case(NvX,Y,Type), 
 	member(Type,[1,2,obstacle]),!.
 	
+
 chercherCible(Joueur,Cible):-
 	joueur(Joueur,Orientation,_,_,_),
 	chercheCible(Joueur,Orientation,Cible).

@@ -1,17 +1,17 @@
 :-consult('SD').
 
 calculDistance(XJ1,YJ1,XJ2,YJ2,Distance):-
-	XJ1 < XJ2,
-	YJ1 < YJ2,
-	Distance is YJ2 - YJ1 + XJ2 - XJ1.
+	XJ1 =< XJ2,
+	YJ1 =< YJ2,
+	Distance is YJ2 - YJ1 + XJ2 - XJ1,!.
 	
 calculDistance(XJ1,YJ1,XJ2,YJ2,Distance):-
 	XJ1 > XJ2,
-	calculDistance(XJ2,YJ1,XJ1,YJ2,Distance).
+	calculDistance(XJ2,YJ1,XJ1,YJ2,Distance),!.
 	
 calculDistance(XJ1,YJ1,XJ2,YJ2,Distance):-
 	YJ1 > YJ2,
-	calculDistance(XJ1,YJ2,XJ2,YJ1,Distance).
+	calculDistance(XJ1,YJ2,XJ2,YJ1,Distance),!.
 
 createDatasPlayer(Joueur,X,Y,Orient,Vie,Degats,Defense):-
 	length(Joueur,6),
