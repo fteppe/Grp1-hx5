@@ -3,6 +3,10 @@ printCase(X, Y) :-
 	case(X,Y,obstacle),!,
 	write('M').
 	
+printCase(X,Y):-
+	case(X,Y,bonus),!,
+	write('B').
+	
 printCase(X, Y) :- 
 	case(X,Y,1),!,
 	write('1').
