@@ -3,22 +3,30 @@ package clustering;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**Map de double qui prendpour clé une pair de String qui sont des points dont ont connait la distance qui les sépare.
+ * 
+ * @author florent
+ *
+ */
 public class Matrice {
 	
-	private Map<Pair, Float> distance;
+	private Map<Pair, Double> distance;
 	
-	public Matrice(int n, int m){
-		distance = new HashMap();
+	
+	public Matrice(){
+		distance = new HashMap<Pair, Double>();
 	}
 	
-	public float get(String a, String b){
+
+	public Double distance(String a, String b){
 		Pair pair = new Pair(a,b);
 		return distance.get(pair);
 		
+		
+		
 	}
 	
-	public void set(String a, String b, Float valeur){
+	public void add(String a, String b, Double valeur){
 		Pair pair = new Pair(a,b);
 		distance.put(pair, valeur);
 		
