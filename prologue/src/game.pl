@@ -1,3 +1,7 @@
+/*
+	Ensemble de fonctions permettant de jouer une partie via l'utilisation des ia programmées.
+*/
+
 :- consult('SD').
 :- consult('minmax').
 :- consult('AffichagePlateauDeJeu').

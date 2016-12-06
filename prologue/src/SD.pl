@@ -1,3 +1,7 @@
+/*
+	Ensemble de fonctions permettant d'initialiser le jeu et de l'animer.
+*/
+
 :-dynamic case/3. % Propriétés des cases du terrain occupée
 :-dynamic joueur/5. % Caractéristiques des joueurs
 :-dynamic dimensions/2. % Dimensions du terrain (X, Y)
@@ -374,9 +378,10 @@ nouvelleCase(Joueur,X,Y,NvX,Y):-
 nouvelleCase(Joueur,X,Y,NvX,Y):-
 	joueur(Joueur,ouest,_,_,_),
 	NvX is X - 1.	
-	
-% Accorde un bonus de défense à Joueur si il se trouve sur une case bonus
 
+/*	
+	Accorde un bonus de défense à Joueur si il se trouve sur une case bonus
+*/ 
 obtenirBonus(Joueur,X,Y):-
 	case(X,Y,bonus),
 	joueur(Joueur,Orientation,Vie,Degats,Defense),
