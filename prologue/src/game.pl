@@ -1,14 +1,15 @@
 :- consult('SD').
-% :- consult('minimax').
 :- consult('minmax').
 :- consult('AffichagePlateauDeJeu').
-:-dynamic tourAct/1.
 
-ia(1,minmaxDefault).
-ia(2,minmaxDefense).
 
-%    ==============================	
+ia(1,pseudoRandomTir). % IA du joueur 1
+ia(2,pseudoRandomTir). % IA du joueur 2
 
+%    IA MinMax ==============================	
+/*
+	Choix d'une action pour une IA MinMax
+*/
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
@@ -29,7 +30,7 @@ choisirAction(2,Action):-
 	initialiseDatas(J1,J2,Bonus),
 	choixAction(J2,J1,Bonus,4,defense,Action).
 
-% ================================
+% IA AvanceVersEnnemi================================
 	
 choisirAction(Joueur,tirer):-
 	ia(Joueur,avanceVersEnnemi),
@@ -174,8 +175,10 @@ choisirAction(Joueur, tournerDroite):-
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1,!.
 	
-%======================================================	
-
+% IA Random======================================================	
+/*
+	Indique si Joueur peut toucher son adversaire
+*/
 vaToucher(Joueur):-
 	chercherCible(Joueur,Cible),
 	not(Cible == obstacle),
@@ -183,6 +186,9 @@ vaToucher(Joueur):-
 	portee(Portee),
 	(Distance < Portee ; Distance = Portee).
 
+/*
+	Choix d'une action pour une IA pseudoRandomTir : Si Joueur peut toucher son adversaire il tire, sinon l'action est aléatoire
+*/
 choisirAction(Joueur,tirer):-
 	ia(Joueur,pseudoRandomTir),
 	vaToucher(Joueur), !.
@@ -194,6 +200,9 @@ choisirAction(Joueur,Action):-
 	random(0,Taille,Choix),
 	nth0(Choix,Liste,Action).
 
+/*
+	Choix d'une action pour une IA random
+*/
 choisirAction(Joueur,Action):-
 	ia(Joueur,random),
 	listeCoups(Joueur,Liste),
@@ -201,7 +210,9 @@ choisirAction(Joueur,Action):-
 	random(0,Taille,Choix),
 	nth0(Choix,Liste,Action).
 
-
+/*
+	Vrai si la partie est terminée, et indique le résultat final
+*/
 gameover(draw):-
 	joueur(1,_,0,_,_),
 	joueur(2,_,0,_,_).
@@ -211,7 +222,10 @@ gameover(1):-
 	
 gameover(2):-
 	joueur(1,_,0,_,_).
-	
+
+/*
+	Gère l'ordonnancement des actions des deux joueurs : si l'un tire, il touche son adversaire avant tout mouvment de sa part
+*/	
 actionsOrdonnees(Action1,tirer):-
 	effectuerAction(2,tirer),
 	effectuerAction(1,Action1), !.
@@ -219,14 +233,20 @@ actionsOrdonnees(Action1,tirer):-
 actionsOrdonnees(Action1,Action2):-
 	effectuerAction(1,Action1),
 	effectuerAction(2,Action2).
-	
+
+/*
+	Permet de jouer une partie dans son intégralité, jusqu'à ce que Winner reporte le résultat final
+*/	
 playGame(Winner):-
 	repeat,
 	play(Winner),!.
 	
 playTurn(Winner):-
 	play(Winner).
-	
+
+/*
+	Joue un tour de jeu si la partie n'est pas terminée
+*/	
 play(X):-
 	gameover(X),!.
 	
@@ -236,16 +256,14 @@ play(none):-
 	choisirAction(2,Action2),
 	
 	actionsOrdonnees(Action1,Action2),!,
-	/*joueur(1,Orient1,_,_,_),
-	joueur(2,Orient2,_,_,_),
-	writeln(Action1),
-	writeln(Orient1),
-	writeln(Action2),
-	writeln(Orient2),
+	/*
 	displayBoard,
 	sleep(1),*/
 	fail.
 	
+/*
+	Permet le lancement de parties à la suite pour la mise en place de tests
+*/	
 launchTest(Winner):-
 	initialise(10,10,10,1,0,10,0,10,none),
 	playGame(Winner),!.
