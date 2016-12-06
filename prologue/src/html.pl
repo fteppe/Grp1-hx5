@@ -8,21 +8,9 @@
 
 :- consult('game').
 
-
-addCss:-
-	format('<style>~n'),
-	format('.dashboard, {~n'),
-	format('border: 1px solid black;'),
-	format('min-width: 10px;'),
-	format('height: 10px;'),
-	format('}~n'),
-	format('.dashboard tr td{~n'),
-	format('border: 1px solid black;'),
-	format('min-width: 10px;'),
-	format('height: 10px;'),
-	format('}~n'),
-	format('</style>~n').
-
+/*
+	
+*/
 afficherDashboard:-
 	joueur(1,Orientation1,Vie1,Degats1,Defense1),
 	joueur(2,Orientation2,Vie2,Degats2,Defense2),
@@ -126,7 +114,7 @@ turn(Request):-
 turn(Request):-	
 	playTurn(Winner),
 	format('Content-type: application/json~n~n'),
-	format('{~n"result" : '),format(Winner), format('~n}'),!. 
+	format('{~n"result" : "'),format(Winner), format('"~n}'),!. 
 	
 getDashboard(Request) :-
 	cors_enable,
