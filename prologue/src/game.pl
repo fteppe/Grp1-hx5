@@ -5,14 +5,14 @@
 :-dynamic tourAct/1.
 
 ia(1,minmaxDefault).
-ia(2,pseudoRandomTir).
+ia(2,minmaxDefault).
 
 %    ==============================	
 
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,3,default,Action).
+	choixAction(J1,J2,Bonus,4,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
