@@ -4,6 +4,8 @@ if(window.addEventListener){
     window.attachEvent('onload', initBoard("http://localhost:8000/"));
 }
 
+var stop = true;
+
 function httpGet(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
@@ -36,7 +38,7 @@ function initBoard()
 		getGraphics();
 	});
 }
-function getGraphics()
+function getGraphics(repeat)
 {	
 	httpGetJson("http://localhost:8000/dashboard", function(response){
 		buildDashboard(response);
@@ -44,15 +46,18 @@ function getGraphics()
 	
 	httpGet("http://localhost:8000/ground", function(response){
 		document.getElementById("partGround").innerHTML = response;
+		if(repeat && !stop) {
+			playTurn(true);
+		}
 	});
 }
 
-function playTurn()
+function playTurn(repeat)
 {
 	httpGetJson("http://localhost:8000/turn", function(response){
 		var result;
 		if(response.result == "true") {
-			getGraphics();
+			getGraphics(repeat);
 		} else {
 			result = "<div  class='panel panel-primary'><div class='panel-heading'><h3 class='panel-title'>Résultat</h3>";
 			if(response.result == "draw"){
@@ -61,7 +66,6 @@ function playTurn()
 				result +="</div><div class='panel-body'>Vainqueur : " + response.result + "</div></div>";
 			}
 			document.getElementById("result").innerHTML = result;
-			eraseInterval();
 		}
 	});
 }
@@ -107,16 +111,12 @@ function buildDashboard(response)
 	document.getElementById("dashboard").innerHTML = firstLine + dashboard;
 }
 
-var interval;
-function playGame(time)
+function playGame()
 {
-	if(interval == null) {
-	interval = window.setInterval(function() {playTurn();}, time);
-	}
+	stop = false;
+	playTurn(true);
 }
 
-function eraseInterval()
-{
-	window.clearInterval(interval);
-	interval = null;
+function eraseInterval() {
+	stop = true;
 }

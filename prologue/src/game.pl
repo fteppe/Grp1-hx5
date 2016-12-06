@@ -5,14 +5,14 @@
 :-dynamic tourAct/1.
 
 ia(1,minmaxDefault).
-ia(2,minmaxDefault).
+ia(2,pseudoRandomTir).
 
 %    ==============================	
 
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action).
+	choixAction(J1,J2,Bonus,3,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
@@ -239,8 +239,8 @@ play(none):-
 	choisirAction(2,Action2),
 	
 	actionsOrdonnees(Action1,Action2),!,
-	displayBoard,
-	sleep(1),
+	/*displayBoard,
+	sleep(1),*/
 	fail.
 	
 launchTest(Winner):-

@@ -113,7 +113,7 @@ server(Port) :-
 
 default(Request):-
 	cors_enable,
-	initialise(20,20,10,1,0,1,5,5,false),
+	initialise(10,10,10,1,0,5,5,3,false),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}').
 
@@ -124,10 +124,9 @@ turn(Request):-
 	format('{~n"result" : "true"~n}'),!. 
 	
 turn(Request):-	
-	cors_enable,
 	playTurn(Winner),
 	format('Content-type: application/json~n~n'),
-	format('{~n"result" : "'),format(Winner), format('"~n}'),!. 
+	format('{~n"result" : '),format(Winner), format('~n}'),!. 
 	
 getDashboard(Request) :-
 	cors_enable,

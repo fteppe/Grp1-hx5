@@ -236,7 +236,7 @@ peutAvancer([_|ListeCoups],ListeCoups,Joueur):-
 peutAvancer(ListeCoups,ListeCoups,Joueur):-!.
 	
 listeCoups(Joueur,ListeCoups):- 
-	peutAvancer([avancer, attendre, tournerGauche,tournerDroite, tirer],ListeCoups,Joueur).
+	peutAvancer([avancer, tournerGauche,tournerDroite, tirer],ListeCoups,Joueur).
 	
 orientationDroite(nord,est).
 orientationDroite(est,sud).
