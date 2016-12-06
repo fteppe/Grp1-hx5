@@ -108,7 +108,8 @@ touche(Joueur,Cible,CibleN):-
 touche(_,Cible,Cible).
 
 faceAFace(X1,Y,X2,Y,ouest):-
-	X2 is X1 + 1.
+	portee(P),
+	X2 < X1 + 1.
 	
 faceAFace(X1,Y,X2,Y,est):-
 	X1 is X2 + 1.
