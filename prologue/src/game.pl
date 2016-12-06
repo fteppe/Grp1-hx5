@@ -3,8 +3,8 @@
 :- consult('AffichagePlateauDeJeu').
 
 
-ia(1,pseudoRandomTir). % IA du joueur 1
-ia(2,pseudoRandomTir). % IA du joueur 2
+ia(1,minmaxDefault). % IA du joueur 1
+ia(2,minmaxDefault). % IA du joueur 2
 
 %    IA MinMax ==============================	
 /*
@@ -13,12 +13,12 @@ ia(2,pseudoRandomTir). % IA du joueur 2
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action).
+	choixAction(J1,J2,Bonus,4,default,Action,random).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,default,Action).
+	choixAction(J2,J1,Bonus,4,default,Action,random).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxDefense),!,
