@@ -224,4 +224,22 @@ valeurFeuille(J1,J2,1,Valeur,default):-
 	Valeur is VieJ2 * 50 + 100 - Distance.
 	
 valeurFeuille(J1,J2,2,Valeur,default):-
-	valeurFeuille(J2,J1,1,Valeur).
+	valeurFeuille(J2,J1,1,Valeur,default).
+
+valeurFeuilleBis(J1,J2,1,Valeur,default):-
+	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
+	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+	Valeur is (2*VieJ1 + DefenseJ1)-(2*VieJ2 + DefenseJ2).
+
+valeurFeuilleBis(J1,J2,1,Valeur,rush):-
+	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
+	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+	Valeur is VieJ1 - 2*VieJ2 - 3*Distance.
+
+valeurFeuilleBis(J1,J2,1,Valeur,def):-
+	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
+	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+	Valeur is (3*VieJ1 + 2*DefenseJ1)-(VieJ2 + DefenseJ2) + Distance.
+
+valeurFeuilleBis(J1,J2,2,Valeur,TypeIA):-
+	valeurFeuilleBis(J2,J1,1,Valeur,TypeIA).

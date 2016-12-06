@@ -62,6 +62,7 @@ minmax(_,_,_,J2,_,10000000,_,_,_):-
 minmax(Depth,Depth,J1,J2,Bonus,Value,ActionJ1,ActionJ2,TypePonderation):-
 	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,_),
 	valeurFeuille(J1N,J2N,1,Value,TypePonderation),!.
+	%valeurFeuilleBis(J1N,J2N,1,Value,TypePonderation),!.
 
 minmax(CurrentDepth,MaxDepth,J1,J2,Bonus,ValueR,ActionJ1,ActionJ2,TypePonderation):-
 	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,BonusF),

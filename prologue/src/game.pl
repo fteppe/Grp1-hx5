@@ -1,5 +1,5 @@
 :- consult('SD').
-:- consult('minimax').
+% :- consult('minimax').
 :- consult('minmax').
 :- consult('AffichagePlateauDeJeu').
 :-dynamic tourAct/1.
