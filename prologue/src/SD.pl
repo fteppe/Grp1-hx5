@@ -230,13 +230,19 @@ caseDevant(Joueur,TypeCase):-
 	XCase is X - 1,
 	case(XCase,Y,TypeCase).
 
-peutAvancer([_|ListeCoups],ListeCoups,Joueur):-
-	caseDevant(Joueur,obstacle),!.
-		
-peutAvancer(ListeCoups,ListeCoups,Joueur):-!.
+peutAvancer(ListeCoupsInitiale,ListeCoups,Joueur):-
+	caseDevant(Joueur,obstacle), delete(ListeCoupsInitiale, avancer, ListeCoups),!.
 	
+peutAvancer(ListeCoups,ListeCoups,Joueur):-!.
+
+peutTirer(ListeCoupsInitiale,ListeCoups,Joueur):-
+	not(vaToucher(Joueur)), delete(ListeCoupsInitiale, tirer, ListeCoups),!.
+
+peutTirer(ListeCoups,ListeCoups,Joueur):-!.
+
 listeCoups(Joueur,ListeCoups):- 
-	peutAvancer([avancer, tournerGauche,tournerDroite, tirer],ListeCoups,Joueur).
+	peutAvancer([avancer, tournerGauche,tournerDroite, tirer],ListeCoupsInt,Joueur),
+	peutTirer(ListeCoupsInt,ListeCoups,Joueur),!.
 	
 orientationDroite(nord,est).
 orientationDroite(est,sud).
@@ -378,8 +384,8 @@ calculDistance(Joueur,AutreJoueur,Distance):-
 	distance(X1,X2,Y1,Y2,Distance).
 	
 distanceCible(Joueur,AutreJoueur,Distance):-
-	not(Joueur = AutreJoueur),
-	not(AutreJoueur = obstacle),!,
+	not(Joueur == AutreJoueur),
+	not(AutreJoueur == obstacle),!,
 	calculDistance(Joueur,AutreJoueur,Distance).
 
 toucher(Joueur,AutreJoueur):-
@@ -400,12 +406,12 @@ toucher(Joueur,AutreJoueur):-
 tirer(Joueur):-
 	case(X,Y,Joueur),
 	case(X,Y,Cible),
-	not(Cible = Joueur),!,
+	not(Cible == Joueur),!,
 	toucher(Joueur,Cible).
 	
 tirer(Joueur):-
 	chercherCible(Joueur,Cible),
-	not(Cible = obstacle),
+	not(Cible == obstacle),
 	distanceCible(Joueur,Cible,Distance),
 	portee(Portee),
 	(Distance < Portee; Distance = Portee),

@@ -12,12 +12,12 @@ ia(2,pseudoRandomTir).
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,3,default,Action).
+	choixAction(J1,J2,Bonus,4,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,3,default,Action).
+	choixAction(J2,J1,Bonus,4,default,Action).
 
 % ================================
 	
@@ -29,7 +29,7 @@ choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	%not(caseDevant(Joueur,obstacle)), déja inclue dans listecoups
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
@@ -42,7 +42,7 @@ choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	%not(caseDevant(Joueur,obstacle)),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
@@ -55,7 +55,7 @@ choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	%not(caseDevant(Joueur,obstacle)),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
@@ -68,7 +68,7 @@ choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	%not(caseDevant(Joueur,obstacle)),
 	listeCoups(Joueur,Liste),
 	member(avancer,Liste),
@@ -85,7 +85,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2<X1,
@@ -97,7 +97,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2>X1,
@@ -109,7 +109,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1,
@@ -121,7 +121,7 @@ choisirAction(Joueur, tournerGauche):-
 	member(tournerGauche,Liste),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2>Y1,
@@ -134,7 +134,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,nord,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2>X1,
@@ -146,7 +146,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,sud,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	X2<X1,
@@ -158,7 +158,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,est,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2>Y1,
@@ -170,7 +170,7 @@ choisirAction(Joueur, tournerDroite):-
 	member(tournerDroite,Liste),
 	joueur(Joueur,ouest,_,_,_),
 	joueur(AutreJoueur,_,_,_,_),
-	not(Joueur = AutreJoueur),
+	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
 	Y2<Y1,
@@ -180,14 +180,14 @@ choisirAction(Joueur, tournerDroite):-
 
 vaToucher(Joueur):-
 	chercherCible(Joueur,Cible),
-	not(Cible = obstacle),
+	not(Cible == obstacle),
 	distanceCible(Joueur,Cible,Distance),
 	portee(Portee),
 	(Distance < Portee ; Distance = Portee).
 
 choisirAction(Joueur,tirer):-
 	ia(Joueur,pseudoRandomTir),
-	vaToucher(Joueur).
+	vaToucher(Joueur), !.
 
 choisirAction(Joueur,Action):-
 	ia(Joueur,pseudoRandomTir),
@@ -216,7 +216,7 @@ gameover(2):-
 	
 actionsOrdonnees(Action1,tirer):-
 	effectuerAction(2,tirer),
-	effectuerAction(1,Action1).
+	effectuerAction(1,Action1), !.
 	
 actionsOrdonnees(Action1,Action2):-
 	effectuerAction(1,Action1),
@@ -234,12 +234,17 @@ play(X):-
 	
 play(none):-
 	dimensions(_,_),
-	
 	choisirAction(1,Action1),
 	choisirAction(2,Action2),
 	
 	actionsOrdonnees(Action1,Action2),!,
-	/*displayBoard,
+	/*joueur(1,Orient1,_,_,_),
+	joueur(2,Orient2,_,_,_),
+	writeln(Action1),
+	writeln(Orient1),
+	writeln(Action2),
+	writeln(Orient2),
+	displayBoard,
 	sleep(1),*/
 	fail.
 	
