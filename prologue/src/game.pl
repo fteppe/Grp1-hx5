@@ -5,7 +5,7 @@
 :-dynamic tourAct/1.
 
 ia(1,minmaxDefault).
-ia(2,minmaxDefault).
+ia(2,minmaxDefense).
 
 %    ==============================	
 
@@ -18,6 +18,16 @@ choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
 	choixAction(J2,J1,Bonus,4,default,Action).
+	
+choisirAction(1,Action):-
+	ia(1,minmaxDefense),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J1,J2,Bonus,4,defense,Action).
+	
+choisirAction(2,Action):-
+	ia(2,minmaxDefense),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J2,J1,Bonus,4,defense,Action).
 
 % ================================
 	
@@ -35,8 +45,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2<Y1,
-	effectuerAction(Joueur,avancer),!.
+	Y2<Y1,!.
 	
 choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
@@ -48,8 +57,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2>Y1,
-	effectuerAction(Joueur,avancer),!.
+	Y2>Y1,!.
 	
 choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
@@ -61,8 +69,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2>X1,
-	effectuerAction(Joueur,avancer),!.
+	X2>X1,!.
 	
 choisirAction(Joueur, avancer):-
 	ia(Joueur, avanceVersEnnemi),
@@ -74,8 +81,7 @@ choisirAction(Joueur, avancer):-
 	member(avancer,Liste),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2<X1,
-	effectuerAction(Joueur,avancer),!.
+	X2<X1,!.
 	
 % ========================================
 
@@ -88,8 +94,7 @@ choisirAction(Joueur, tournerGauche):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2<X1,
-	effectuerAction(Joueur,tournerGauche),!.
+	X2<X1,!.
 	
 choisirAction(Joueur, tournerGauche):-
 	ia(Joueur, avanceVersEnnemi),
@@ -100,8 +105,7 @@ choisirAction(Joueur, tournerGauche):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2>X1,
-	effectuerAction(Joueur,tournerGauche),!.
+	X2>X1,!.
 	
 choisirAction(Joueur, tournerGauche):-
 	ia(Joueur, avanceVersEnnemi),
@@ -112,8 +116,7 @@ choisirAction(Joueur, tournerGauche):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2<Y1,
-	effectuerAction(Joueur,tournerGauche),!.
+	Y2<Y1,!.
 	
 choisirAction(Joueur, tournerGauche):-
 	ia(Joueur, avanceVersEnnemi),
@@ -124,8 +127,7 @@ choisirAction(Joueur, tournerGauche):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2>Y1,
-	effectuerAction(Joueur,tournerGauche),!.
+	Y2>Y1,!.
 	
 % ======================================
 choisirAction(Joueur, tournerDroite):-
@@ -137,8 +139,7 @@ choisirAction(Joueur, tournerDroite):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2>X1,
-	effectuerAction(Joueur,tournerDroite),!.
+	X2>X1,!.
 	
 choisirAction(Joueur, tournerDroite):-
 	ia(Joueur, avanceVersEnnemi),
@@ -149,8 +150,7 @@ choisirAction(Joueur, tournerDroite):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	X2<X1,
-	effectuerAction(Joueur,tournerDroite),!.
+	X2<X1,!.
 	
 choisirAction(Joueur, tournerDroite):-
 	ia(Joueur, avanceVersEnnemi),
@@ -161,8 +161,7 @@ choisirAction(Joueur, tournerDroite):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2>Y1,
-	effectuerAction(Joueur,tournerDroite),!.
+	Y2>Y1,!.
 	
 choisirAction(Joueur, tournerDroite):-
 	ia(Joueur, avanceVersEnnemi),
@@ -173,8 +172,7 @@ choisirAction(Joueur, tournerDroite):-
 	not(Joueur == AutreJoueur),
 	case(X1,Y1,Joueur),
 	case(X2,Y2,AutreJoueur),
-	Y2<Y1,
-	effectuerAction(Joueur,tournerDroite),!.
+	Y2<Y1,!.
 	
 %======================================================	
 
