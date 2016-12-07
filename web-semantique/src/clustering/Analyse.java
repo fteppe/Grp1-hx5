@@ -25,7 +25,7 @@ public class Analyse {
 		matriceProximite = mat;
 	}
 	
-	public Cluster removeCluster(Cluster cluster){
+	public Cluster popCluster(Cluster cluster){
 		for(Cluster i : listeCluster){
 			if(i.equals(cluster)){
 				listeCluster.remove(i);
@@ -35,18 +35,27 @@ public class Analyse {
 		return null;
 	}
 	
+	
+	
 	public void fusionClusterProche(){
 		double distanceMin = Double.MAX_VALUE;
 		double distanceCourante;
+		Cluster cluster1 = null;
+		Cluster cluster2 = null;
 		for(Cluster c1 : listeCluster){
 			for(Cluster c2 : listeCluster){
 				distanceCourante = c1.distance(c2, matriceProximite);
 				if( distanceCourante < distanceMin && distanceCourante > 0)
 				{
 					distanceMin = distanceCourante;
+					cluster1 = c1;
+					cluster2 = c2;
 				}
 			}
 		}
+		popCluster(cluster1);
+		popCluster(cluster2);
+		addCluster(new Cluster(cluster1, cluster2));
 	}
 	
 	public void remplissageMatriceProx(){
@@ -58,6 +67,12 @@ public class Analyse {
 		matriceProximite.add("a", "lol", (double) 25);
 	}
 	
+	/**la distance entre deux clusters est la distance minimale entre deux clusters
+	 * 
+	 * @param cluster1
+	 * @param cluster2
+	 * @return la distance entre deux clusters
+	 */
 	protected Double distanceCluster(Cluster cluster1, Cluster cluster2){
 		
 		Double min = Double.MAX_VALUE;

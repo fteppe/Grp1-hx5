@@ -287,6 +287,13 @@ valeurFeuille(J1,J2,2,Valeur,default):-
 /*
 	Mesure la valeur de la feuille 'par défaut', prenant en compte le différentiel de vie et de défense et la distance séparant les deux protagonistes
 */	
+
+valeurFeuilleBis(J1,J2,1,Valeur,default):-
+	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
+	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
+	peutToucher(J1,J2),
+	Valeur is ((2*VieJ1 + DefenseJ1)-(2*VieJ2 + DefenseJ2))*2.
+
 valeurFeuilleBis(J1,J2,1,Valeur,default):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
@@ -308,6 +315,7 @@ valeurFeuilleBis(J1,J2,1,Valeur,defense):-
 	getDatasPlayer(J1,XJ1,YJ1,OrientJ1,VieJ1,DegatsJ1,DefenseJ1),
 	getDatasPlayer(J2,XJ2,YJ2,OrientJ2,VieJ2,DegatsJ2,DefenseJ2),
 	VieJ1 > 4,
+	
 	Valeur is (2*VieJ1 + DefenseJ1)-(2*VieJ2 + DefenseJ2).
 	
 valeurFeuilleBis(J1,J2,1,Valeur,defense):-
