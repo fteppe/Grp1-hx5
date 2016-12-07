@@ -54,6 +54,7 @@ import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.renderers.BasicRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
+import static spark.Spark.*;
 
 public class Sportif {
 		
@@ -62,14 +63,13 @@ public class Sportif {
 	private static VisualizationViewer mVizViewer;
 	
 	public static void main(String[] args) throws Exception {
-							
-		String requeteUtilisateur = "lyon";		
+		/*String requeteUtilisateur = "lyon";		
 		List<String> listeURL = googleCustomSearch(requeteUtilisateur);        
-        String texteExtrait = alchemyAPI(listeURL);    
-        Model model = dbpediaSpotlight(texteExtrait);
-        creationGraphe(model);
-    
-	}
+		String texteExtrait = alchemyAPI(listeURL);    
+		Model model = dbpediaSpotlight(texteExtrait);
+		creationGraphe(model);*/
+	        get("/hello", (req, res) -> "Hello World");
+	    }
 	
 	
 	// Google custom Search
