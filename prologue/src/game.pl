@@ -6,9 +6,9 @@
 :- consult('minmax').
 :- consult('AffichagePlateauDeJeu').
 
-:-dynamic ia/2. % Permet de régler les ia.
-ia(1, minmaxDefault).
-ia(2,minmaxDefault).
+%:-dynamic ia/2.  Permet de régler les ia.
+ia(1,minmaxDefault).
+ia(2,minmaxRandom).
 
 %    IA MinMax ==============================	
 /*
@@ -274,9 +274,9 @@ playTurn(Winner):-
 /*
 	Joue un tour de jeu si la partie n'est pas terminée
 */	
-play(draw,TimeLimit):-
+/*play(draw,TimeLimit):-
 	get_time(TimeStamp),
-	TimeStamp > TimeLimit.
+	TimeStamp > TimeLimit.*/
 
 play(X,_):-
 	gameover(X),!.

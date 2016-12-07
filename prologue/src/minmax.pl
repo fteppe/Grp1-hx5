@@ -197,15 +197,14 @@ choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action,Randomisation):-
 		minmax(1,MaxDepth,J1,J2,Bonus,Value,Action1,Action2,TypePonderation)),
 		Resultats),!,
 	choixResultats(Resultats,Action,Randomisation).
-
-choixResultats(Resultats,Action,random):-
-	totalValeurs(Resultats,Total),
-	random_between(0,Total,Rand),
-	choixRandom(Rand,Action).
 	
 /*
 	Analyse des résultats de l'algorithme et sélection du meilleur coup
 */
+choixResultats(Resultats,Action,random):-
+	random(ValueRand),
+	choixRandom(Resultats, Action, ValueRand).
+
 choixResultats([[Value,ActionTmp]|Resultats],Action,_):-
 	parcoursResultats(Value,ActionTmp,Resultats,Action).
 
@@ -221,17 +220,14 @@ parcoursResultats(ActualValue,_,[[Value,ActionTmp]|Resultats],Action):-
 parcoursResultats(ActualValue,ActualAction,[[_,_]|Resultats],Action):-
 	parcoursResultats(ActualValue,ActualAction,Resultats,Action),!.
 
-/*
-	Calcul et choix des actions avec alea
-*/
-
-totalValeurs(Resultats,Total):-
-	findall(Value,(member([Value,_],Resultats),ListeValues),
-	sum_list(ListeValues,Total).
+choixRandom(Resultats,Action,ValueRand):-
+	ValueRand < 0.75,
+	choixResultats(Resultats,Action,nonrandom).
 	
-choixRandom([[Value,Action]|_],Rand,Action):-
-	not(Value < Rand),!.
+choixRandom(Resultats,Action,ValueRand):-
+	not(ValueRand < 0.75),
+	length(Resultats,Taille),
+	TailleMax is Taille - 1,
+	random(0,TailleMax,ActionRand),
+	nth0(ActionRand,Resultats,[_,Action]).
 	
-choixRandom([[Value,ActionTmp]|Resultats],Rand,Action):-
-	Value < Rand,
-	choixRandom(Resultats,Rand,Action).	
