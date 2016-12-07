@@ -6,9 +6,7 @@
 :- consult('minmax').
 :- consult('AffichagePlateauDeJeu').
 
-
-ia(1,minmaxDefault). % IA du joueur 1
-ia(2,minmaxDefault). % IA du joueur 2
+:-dynamic ia/2. % Permet de régler les ia.
 
 %    IA MinMax ==============================	
 /*
@@ -271,30 +269,34 @@ play(none):-
 /*
 	Permet le lancement de parties à la suite pour la mise en place de tests
 */	
-launchTest(Winner):-
+launchTest(Winner,IA1,IA2):-
+	assert(ia(1,IA1)), % IA du joueur 1
+	assert(ia(2,IA2)), % IA du joueur 2
 	initialise(10,10,10,1,0,10,0,10,none),
-	playGame(Winner),!.
+	playGame(Winner),!,
+	retract(ia(1,_)), % IA du joueur 1
+	retract(ia(2,_)). % IA du joueur 2
 
 countTest(0,0,0,X,X).
 	
-countTest(J1,J2,Draw,TestActuel,TotalTest):-
+countTest(J1,J2,Draw,TestActuel,TotalTest,IA1,IA2):-
 	cleanMemory,
-	launchTest(Result),
-	updateAndLaunch(Result,J1,J2,Draw,TestActuel,TotalTest).
+	launchTest(Result,IA1,IA2),
+	updateAndLaunch(Result,J1,J2,Draw,TestActuel,TotalTest,IA1,IA2).
 	
-updateAndLaunch(1,J1,J2,Draw,TestActuel,TotalTest):-
+updateAndLaunch(1,J1,J2,Draw,TestActuel,TotalTest,IA1,IA2):-
 	TestSuivant is TestActuel+1,
-	countTest(J1n,J2,Draw,TestSuivant,TotalTest),
+	countTest(J1n,J2,Draw,TestSuivant,TotalTest,IA1,IA2),
 	J1 is J1n +1.
 
-updateAndLaunch(2,J1,J2,Draw,TestActuel,TotalTest):-
+updateAndLaunch(2,J1,J2,Draw,TestActuel,TotalTest,IA1,IA2):-
 	TestSuivant is TestActuel+1,
-	countTest(J1,J2n,Draw,TestSuivant,TotalTest),
+	countTest(J1,J2n,Draw,TestSuivant,TotalTest,IA1,IA2),
 	J2 is J2n+1.
 
-updateAndLaunch(draw,J1,J2,Draw,TestActuel,TotalTest):-
+updateAndLaunch(draw,J1,J2,Draw,TestActuel,TotalTest,IA1,IA2):-
 	TestSuivant is TestActuel+1,
-	countTest(J1,J2,DrawN,TestSuivant,TotalTest),
+	countTest(J1,J2,DrawN,TestSuivant,TotalTest,IA1,IA2),
 	Draw is DrawN +1.
 
 	
