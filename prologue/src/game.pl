@@ -17,12 +17,12 @@ ia(2,minmaxDefault). % IA du joueur 2
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action,random).
+	choixAction(J1,J2,Bonus,4,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,default,Action,random).
+	choixAction(J2,J1,Bonus,4,default,Action).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxDefense),!,
@@ -35,7 +35,10 @@ choisirAction(2,Action):-
 	choixAction(J2,J1,Bonus,4,defense,Action).
 
 % IA AvanceVersEnnemi================================
-	
+/*
+	Choix d'une action pour une IA avanceVersEnnemi, 
+	qui tire lorsque cela est possible et avance vers l'adversaire le plus vite possible sinon.
+*/	
 choisirAction(Joueur,tirer):-
 	ia(Joueur,avanceVersEnnemi),
 	vaToucher(Joueur).

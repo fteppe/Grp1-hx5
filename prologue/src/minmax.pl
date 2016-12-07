@@ -1,8 +1,12 @@
+/*
+	Choix des actions via un algorithme minmax, adapté (selon la technique de Monte Carlo)
+*/
 :-consult('SD').
 :-consult('ia').
 
-:-dynamic actions/1.
-
+/*
+	Permet de savoir si un obstacle est présent devant Joueur
+*/
 caseDevantMM(Joueur,TypeCase):-
 	nth0(0,Joueur,X),
 	nth0(1,Joueur,Y),
@@ -31,7 +35,9 @@ caseDevantMM(Joueur,TypeCase):-
 	XCase is X - 1,
 	case(XCase,Y,TypeCase).
 	
-/*Les joueurs peuvent se tirer dessus si ils sont sur la même case*/
+/*
+	Permet de savoir si l'adveraire est est visible par Joueur
+*/
 chercheCibleMM(Joueur,AutreJoueur,_,Type):-  
 	nth0(0,Joueur,X),
 	nth0(1,Joueur,Y),
@@ -95,49 +101,71 @@ chercherCibleMM(Joueur,AutreJoueur,Cible):-
 	nth0(2,Joueur,Orientation),
 	chercheCibleMM(Joueur,AutreJoueur,Orientation,Cible).
 
+/*
+	Permet de savoir calculer la distance de Manhattan entre deux Joueurs (dont les craactéritiques sont regroupées sous forme de liste)
+*/
 calculDistanceMM(Joueur,AutreJoueur,Distance):-
 	nth0(0,Joueur,X1),
 	nth0(1,Joueur,Y1),
 	nth0(0,AutreJoueur,X2),
 	nth0(1,AutreJoueur,Y2),
 	distance(X1,X2,Y1,Y2,Distance).
-	
+
+/*
+	Permet de savoir si l'adveraire est à portée de Joueur
+*/
 vaToucherMM(Joueur, AutreJoueur):-
 	chercherCibleMM(Joueur,AutreJoueur,Cible),
 	Cible = joueur, !,
 	calculDistanceMM(Joueur,AutreJoueur,Distance),
 	portee(Portee),
 	(Distance < Portee ; Distance = Portee).
-	
+
+/*
+	Indique si Joueur peut avancer sans rencontrer d'obstacle
+*/	
 peutAvancerMM(ListeCoupsInitiale,ListeCoups,Joueur):-
 	caseDevantMM(Joueur,obstacle), delete(ListeCoupsInitiale, avancer, ListeCoups),!.
 	
 peutAvancerMM(ListeCoups,ListeCoups,Joueur):-!.
-	
+
+/*
+	Indique si Joueur peut tirer et toucher AutreJoueur
+*/		
 peutTirerMM(ListeCoupsInitiale,ListeCoups,Joueur, AutreJoueur):-
 	not(vaToucherMM(Joueur, AutreJoueur)), delete(ListeCoupsInitiale, tirer, ListeCoups),!.
 	
 peutTirerMM(ListeCoups,ListeCoups,Joueur, AutreJoueur):-!.
 
 
-/* On récupère la liste d'actions effectuables par chaque joueur*/	
+/* 
+	Récupération de la liste d'actions effectuables par chaque joueur
+*/	
 actionsPossibles(Joueur, AutreJoueur, ListeCoups):- 
 	peutAvancerMM([avancer, tournerGauche,tournerDroite, tirer],ListeCoupsInt,Joueur),
 	peutTirerMM(ListeCoupsInt,ListeCoups,Joueur,AutreJoueur),!.
 	
-/* On charche toutes les combinaisons d'actions possibles pour le tour actuel */	
+/* 
+	Récupération de toutes les combinaisons d'actions possibles pour le tour actuel 
+*/	
 toutesAction(Joueur, AutreJoueur, ListeCombinaisons):-
 	actionsPossibles(Joueur, AutreJoueur, Liste1),
 	actionsPossibles(AutreJoueur, Joueur, Liste2),
 	findall([X,Y],(member(X,Liste1),member(Y,Liste2)),ListeCombinaisons).
 
+/*
+	Calcul de la moyenne des valeurs de feuille obtenues sur une branche
+*/
 calculValeur(Resultats,Valeur):-
 	sumlist(Resultats,Somme),
 	length(Resultats,Taille),
 	(Taille>0 ->
 	Valeur is Somme / Taille ;
 	Valeur is 0	).
-	
+
+/*
+	Application de l'algorithme minmax
+*/	
 minmax(_,_,J1,_,_,-10000000,_,_,_):-
 	getDatasPlayer(J1,_,_,_,0,_,_),!.
 	
@@ -145,21 +173,23 @@ minmax(_,_,_,J2,_,10000000,_,_,_):-
 	getDatasPlayer(J2,_,_,_,0,_,_),!.
 	
 minmax(Depth,Depth,J1,J2,Bonus,Value,ActionJ1,ActionJ2,TypePonderation):-
-	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,_),
+	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,_), % On simule la combinaison d'action indiquée en entrée
 	%valeurFeuille(J1N,J2N,1,Value,TypePonderation),!.
-	valeurFeuilleBis(J1N,J2N,1,Value,TypePonderation),!.
+	valeurFeuilleBis(J1N,J2N,1,Value,TypePonderation),!. % On calcule la valeur de la feuille atteinte (en bout de branche)
 
 minmax(CurrentDepth,MaxDepth,J1,J2,Bonus,ValueR,ActionJ1,ActionJ2,TypePonderation):-
-	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,BonusF),
+	simulationActions(J1,J2,J1N,J2N,ActionJ1,ActionJ2,Bonus,BonusF), % On simule la combinaison d'action indiquée en entrée
 	NextDepth is CurrentDepth + 1,
-	toutesAction(J1N, J2N, ListeActions), !,
+	toutesAction(J1N, J2N, ListeActions), !, % Obtentions des combinaisons d'action possibles
 	findall(Value,(
 		member([Action1, Action2], ListeActions),
 		minmax(NextDepth,MaxDepth,J1N,J2N,BonusF,Value,Action1,Action2,TypePonderation)),
 		Resultats),!,
 	calculValeur(Resultats,ValueR).
 	
-	
+/*
+	Première itération de l'algorithme minmax (adapté selon la méthode de Monte Carlo)
+*/	
 choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
 	toutesAction(J1, J2, ListeActions),!,
 	findall([Value,Action1],(
@@ -168,9 +198,15 @@ choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
 		Resultats),!,
 	choixResultats(Resultats,Action).
 
+/*
+	Analyse des résultats de l'algorithme et sélection du meilleur coup
+*/
 choixResultats([[Value,ActionTmp]|Resultats],Action):-
 	parcoursResultats(Value,ActionTmp,Resultats,Action).
-	
+
+/*
+	Analyse des résultats de l'algorithme et sélection du meilleur coup à partir d'un maximum initial
+*/	
 parcoursResultats(_,Action,[],Action).
 	
 parcoursResultats(ActualValue,_,[[Value,ActionTmp]|Resultats],Action):-
