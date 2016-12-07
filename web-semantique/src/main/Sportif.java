@@ -105,7 +105,7 @@ public class Sportif {
         String key="AIzaSyB4Vksrz6YsFHYXzUF4fYiIZuqqWksF2AI";
         List<String> listeURL = new ArrayList<String>();
         URL url = new URL(
-                "https://www.googleapis.com/customsearch/v1?key="+key+ "&cx=013036536707430787589:_pqjad5hr1a&q="+ requeteUtilisateur + "&alt=json");
+        	"https://www.googleapis.com/customsearch/v1?key="+key+ "&cx=013036536707430787589:_pqjad5hr1a&q="+ requeteUtilisateur + "&alt=json");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");

@@ -1,10 +1,18 @@
+/*
+	Ensemble de fonctions permettant d'initialiser le jeu et de l'animer.
+*/
 
-:-dynamic case/3.
-:-dynamic joueur/5.
-:-dynamic dimensions/2.
-:-dynamic portee/1.
-:-dynamic visites/2.
+:-dynamic case/3. % Propriétés des cases du terrain occupée
+:-dynamic joueur/5. % Caractéristiques des joueurs
+:-dynamic dimensions/2. % Dimensions du terrain (X, Y)
+:-dynamic portee/1. % Portée des tirs de chaque joueur (caractéristique partagée)
+:-dynamic visites/2. % Cases visités dans le but de trouver un chemin entre deux joueurs
 
+% CREATION DU PLATEAU ====================================
+
+/*
+	Supprime le tracé du chemin permettant de montrer la validité du terrain généré des prédicats
+*/
 cleanVisites:-
 	visites(X,_),
 	repeat,
@@ -13,6 +21,9 @@ cleanVisites:-
 		
 cleanVisites.
 
+/*
+	Supprime les prédicats indiquant l'état actuel du terrain
+*/
 cleanCases:-
 	case(_,_,A),
 	repeat,
@@ -20,7 +31,10 @@ cleanCases:-
 		not(case(_,_,Type)),!.
 		
 cleanCases.
- 
+
+/*
+	Supprime les prédicats décrivant l'état actuel du jeu
+*/ 
  cleanMemory:-
  	dimensions(_,_),
 	retract(dimensions(_B,_)),
@@ -32,6 +46,9 @@ cleanCases.
 	
 cleanMemory.
 
+/*
+	Crée les joueurs et instancie leurs caractéristiques suivant les entrées reçues
+*/
 creerJoueurs(0,_,_,_):-!.
 	
 creerJoueurs(CurrentPlayer,VieJoueurs,DegatsBase,DefenseBase):-
@@ -39,6 +56,9 @@ creerJoueurs(CurrentPlayer,VieJoueurs,DegatsBase,DefenseBase):-
 	NextPlayer is CurrentPlayer - 1,
 	creerJoueurs(NextPlayer,VieJoueurs,DegatsBase,DefenseBase).
 
+/*
+	Place les joueurs sur le terrain
+*/
 placerJoueur(1,VieJoueurs,DegatsBase,DefenseBase):-
 	assert(joueur(1,sud,VieJoueurs,DegatsBase,DefenseBase)),
 	assert(case(0,0,1)),!.
@@ -52,6 +72,9 @@ placerJoueur(2,VieJoueurs,DegatsBase,DefenseBase):-
 	
 placerJoueur(N).
 
+/*
+	Place une partie d'un obstacle continu sur le terrain
+*/
 placerProchainMur(X,Y,Taille,-1):-
 	dimensions(LimX,_),
 	X < LimX , !,
@@ -86,16 +109,22 @@ placerProchainMur(X,Y,Taille,-2):-
 	
 placerProchainMur(_,_,_,-2).
 
+/*
+	Place un obstacle continu de taille et de position initiale données sur le terrain
+*/
 placerMur(_,_,0,_).
 	
 placerMur(X,Y,Taille,DirActuelle):-
 	assert(case(X,Y,obstacle)),
 	repeat,
-		random(-2,3,Direction),
+		random(-2,3,Direction), % On choisit la direction d'expansion du mur de manière aléatoire
 		not(Direction = 0),
 		not(Direction+DirActuelle = 0),!,
 	placerProchainMur(X,Y,Taille,Direction).
 
+/*
+	Place un obstacles simple (prenant une seule case) sur le terrain
+*/
 placerTypeObstacle(0):-
 	dimensions(X,Y),
 	LimitX is X,
@@ -105,25 +134,38 @@ placerTypeObstacle(0):-
 	random(0,LimitY,PosY),
 	not(case(PosX,PosY,_)),!,
 	assert(case(PosX,PosY,obstacle)).
-	
+
+/*
+	Place un obstacle continu sur le terrain
+*/	
 placerTypeObstacle(1):-
 	dimensions(X,Y),
 	LimitX is X,
 	LimitY is Y,
 	repeat,
-	random(0,LimitX,PosX),
+	random(0,LimitX,PosX), % On choisit la position initiale de l'obstacle continu aléatoirement
 	random(0,LimitY,PosY),
 	not(case(PosX,PosY,_)),!,
-	random(2,21,Taille),
+	random(2,21,Taille), % On choisit la taille de l'obstacle continu aléatoirement
 	placerMur(PosX,PosY,Taille,0).
 
+/*
+	Place un obstacles simple (prenant une seule case) sur le terrain 
+	(on accorde un poids plus fort aux obstacles simples qu'aux obstacles continus)
+*/
 placerTypeObstacle(2):-
 	placerTypeObstacle(0).
 
+/*
+	Place un obstacle aléatoire sur le terrain
+*/
 placerObstacleRandom:-
 	random(0,3,Type),
 	placerTypeObstacle(Type).
 
+/*
+	Place un nombre donné d'obstacles aléatoires sur le terrain
+*/	
 placerObstacles(0).
 placerObstacles(N):- 
 	placerObstacleRandom,
@@ -146,6 +188,9 @@ voisinHaut(X1,Y1,X2,Y2):-
 	Y3 is Y1 -1,
 	cheminExiste(X1,Y3,X2,Y2).
 	
+/*
+	Vérifie qu'un chemin libre existe entre les deux joueurs
+*/
 cheminExiste(X,Y,X,Y).
 
 cheminExiste(X1,Y1,X2,Y2):-
@@ -153,7 +198,10 @@ cheminExiste(X1,Y1,X2,Y2):-
 	not(case(X1,Y1,obstacle)),
 	assert(visites(X1,Y1)),
 	(voisinDroit(X1,Y1,X2,Y2);voisinBas(X1,Y1,X2,Y2);voisinGauche(X1,Y1,X2,Y2);voisinHaut(X1,Y1,X2,Y2)).
-	
+
+/*
+	Vérifie la validité du terrain aléatoire généré
+*/
 joueursPeuventSAtteindre:-
 	case(X1,Y1,1),!,
 	not(case(X1,Y1,obstacle)),
@@ -161,14 +209,18 @@ joueursPeuventSAtteindre:-
 	not(case(X2,Y2,obstacle)),
 	cheminExiste(X1,Y1,X2,Y2).
 
-% Ajout Modif F T ==============
-	
+/*
+	Place une suite de bonus de manière aléatoire sur le terrain
+*/	
 placerBonus(0).
 placerBonus(N):-!,
 	placerBonusRandom,
     Next is N-1 ,!,
     placerBonus(Next).
 
+/*
+	Place un bonus de manière aléatoire sur le terrain
+*/
 placerBonusRandom:-
 	placerTypeBonus(0).
 
@@ -181,17 +233,26 @@ placerTypeBonus(0):-
 	random(0,LimitY,PosY),
 	not(case(PosX,PosY,_)),!,
 	assert(case(PosX,PosY,bonus)).
-	
+
+/*
+	Initialise le plateau de jeu jusqu'à ce qu'il soit valide sans nettoyer la mémoire (réinitialisation de tout les prédicats)
+*/	
 initialise(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles,keep):-
 	repeat,
 	createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles),!.
-	
+
+/*
+	Initialise le plateau de jeu jusqu'à ce qu'il soit valide
+*/		
 initialise(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles,_):-
 	repeat,
 	cleanMemory,
 	createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles),!,
 	cleanVisites.
-	
+
+/*
+	Initialise le plateau de jeu dans son intégralité, joueurs y compris
+*/	
 createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,NombreObstacles):-
 	assert(dimensions(DimX,DimY)),
 	assert(case(_,-1,obstacle)),
@@ -204,62 +265,104 @@ createGame(DimX,DimY,VieJoueurs,DegatsBase,DefenseBase,Portee,NombreBonus,Nombre
 	placerBonus(NombreBonus),!,
 	joueursPeuventSAtteindre.
 	
-% ====================================
+% GESTION DES ACTIONS ====================================
 
+/*
+	Indique si la case située devant le joueur est de type TypeCase suivant son orientation
+*/
 caseDevant(Joueur,TypeCase):-
 	joueur(Joueur,nord,_,_,_),
 	case(X,Y,Joueur),
 	YCase is Y - 1,
 	case(X,YCase,TypeCase).
-	
+
+/*
+	Indique si la case située devant le joueur est de type TypeCase  suivant son orientation
+*/	
 caseDevant(Joueur,TypeCase):-
 	joueur(Joueur,sud,_,_,_),
 	case(X,Y,Joueur),
 	YCase is Y + 1,
 	case(X,YCase,TypeCase).
-	
+
+/*
+	Indique si la case située devant le joueur est de type TypeCase suivant son orientation
+*/	
 caseDevant(Joueur,TypeCase):-
 	joueur(Joueur,est,_,_,_),
 	case(X,Y,Joueur),
 	XCase is X + 1,
 	case(XCase,Y,TypeCase).
-	
+
+/*
+	Indique si la case située devant le joueur est de type TypeCase suivant son orientation
+*/	
 caseDevant(Joueur,TypeCase):-
 	joueur(Joueur,ouest,_,_,_),
 	case(X,Y,Joueur),
 	XCase is X - 1,
 	case(XCase,Y,TypeCase).
 
-peutAvancer([_|ListeCoups],ListeCoups,Joueur):-
-	caseDevant(Joueur,obstacle),!.
-		
+/*
+	Indique si Joueur peut avancer d'une case sans rencontrer d'obstacle
+*/
+peutAvancer(ListeCoupsInitiale,ListeCoups,Joueur):-
+	caseDevant(Joueur,obstacle), delete(ListeCoupsInitiale, avancer, ListeCoups),!.
+	
 peutAvancer(ListeCoups,ListeCoups,Joueur):-!.
-	
+
+/*
+	Indique si Joueur peut tirer et toucher son adversaire
+*/
+peutTirer(ListeCoupsInitiale,ListeCoups,Joueur):-
+	not(vaToucher(Joueur)), delete(ListeCoupsInitiale, tirer, ListeCoups),!.
+
+peutTirer(ListeCoups,ListeCoups,Joueur):-!.
+
+/*
+	Dresse la liste des coups possibles pour Joueur
+*/
 listeCoups(Joueur,ListeCoups):- 
-	peutAvancer([avancer, attendre, tournerGauche,tournerDroite, tirer],ListeCoups,Joueur).
-	
+	peutAvancer([avancer, tournerGauche,tournerDroite, tirer],ListeCoupsInt,Joueur),
+	peutTirer(ListeCoupsInt,ListeCoups,Joueur),!.
+
+/*
+	Indique la nouvelle orientation supposée d'un Joueur après qu'il ait tourné d'un quart de tour à droite
+*/	
 orientationDroite(nord,est).
 orientationDroite(est,sud).
 orientationDroite(sud,ouest).
 orientationDroite(ouest,nord).
 
+/*
+	Faire tourner Joueur d'un quart de tour à droite
+*/
 tournerDroite(Joueur):-
 	joueur(Joueur,Orientation,VieJoueurs,DegatsBase,DefenseBase),
 	retract(joueur(Joueur,Orientation,VieJoueurs,DegatsBase,DefenseBase)),
 	orientationDroite(Orientation,NouvelleOrientation),
 	assert(joueur(Joueur,NouvelleOrientation,VieJoueurs,DegatsBase,DefenseBase)).
-	
+
+/*
+	Indique la nouvelle orientation supposée d'un Joueur après qu'il ait tourné d'un quart de tour à gauche
+*/		
 orientationGauche(nord,ouest).
 orientationGauche(ouest,sud).
 orientationGauche(sud,est).
 orientationGauche(est,nord).
 
+/*
+	Faire tourner Joueur d'un quart de tour à gauche
+*/
 tournerGauche(Joueur):-
 	joueur(Joueur,Orientation,VieJoueurs,DegatsBase,DefenseBase),
 	retract(joueur(Joueur,Orientation,VieJoueurs,DegatsBase,DefenseBase)),
 	orientationGauche(Orientation,NouvelleOrientation),
 	assert(joueur(Joueur,NouvelleOrientation,VieJoueurs,DegatsBase,DefenseBase)).
 
+/*
+	Indique les coordonnées de la case sur laquelle veut avancer Joueur
+*/
 nouvelleCase(Joueur,X,Y,X,NvY):-
 	joueur(Joueur,nord,_,_,_),
 	NvY is Y - 1.
@@ -276,8 +379,9 @@ nouvelleCase(Joueur,X,Y,NvX,Y):-
 	joueur(Joueur,ouest,_,_,_),
 	NvX is X - 1.	
 
-% Modif T F =====================
-
+/*	
+	Accorde un bonus de défense à Joueur si il se trouve sur une case bonus
+*/ 
 obtenirBonus(Joueur,X,Y):-
 	case(X,Y,bonus),
 	joueur(Joueur,Orientation,Vie,Degats,Defense),
@@ -289,6 +393,9 @@ obtenirBonus(Joueur,X,Y):-
 obtenirBonus(Joueur,X,Y):-
 	case(X,Y,_).
 
+/*
+	Fait avancer Joueur d'une case vers l'avant, lui octroyant un bonus si sa nouvelle position le lui permet
+*/
 avancer(Joueur):-
 	case(X,Y,Joueur),
 	nouvelleCase(Joueur,X,Y,NvX,NvY),
@@ -303,26 +410,13 @@ avancer(Joueur):-
 	retract(case(X,Y,Joueur)),
 	assert(case(NvX,NvY,Joueur)).
 	
-% ===============================
+% OUTILS ===============================
 
 
-distance(X,X,Y1,Y2,Distance):-
-	Y1 < Y2,
-	Distance is Y2 - Y1. 
-
-distance(X,X,Y1,Y2,Distance):-
-	Y2 < Y1,
-	Distance is Y1 - Y2. 
-
-distance(X1,X2,Y,Y,Distance):-
-	X1 < X2,
-	Distance is X2 - X1. 
-
-distance(X1,X2,Y,Y,Distance):-
-	X2 < X1,
-	Distance is X1 - X2. 
-
-chercheCible(Joueur,_,Type):-  /*Les joueurs peuvent se tirer dessus si ils sont sur la même case*/
+/*
+	Cherche la première Cible atteignable par Joueur
+*/
+chercheCible(Joueur,_,Type):-  % Les joueurs peuvent se tirer dessus si ils sont sur la même case
 	case(X,Y,Joueur),
 	case(X,Y,Type),
 	not(Type == Joueur),
@@ -366,11 +460,30 @@ chercheCible(Joueur,est,Type):-
 	between(XMax,DimX,NvX),
 	case(NvX,Y,Type), 
 	member(Type,[1,2,obstacle]),!.
-	
 
 chercherCible(Joueur,Cible):-
 	joueur(Joueur,Orientation,_,_,_),
 	chercheCible(Joueur,Orientation,Cible).
+
+
+/*
+	Calcul la distance de Manhattan entre les deux joueurs
+*/
+distance(X,X,Y1,Y2,Distance):-
+	Y1 < Y2,
+	Distance is Y2 - Y1. 
+
+distance(X,X,Y1,Y2,Distance):-
+	Y2 < Y1,
+	Distance is Y1 - Y2. 
+
+distance(X1,X2,Y,Y,Distance):-
+	X1 < X2,
+	Distance is X2 - X1. 
+
+distance(X1,X2,Y,Y,Distance):-
+	X2 < X1,
+	Distance is X1 - X2. 
 	
 calculDistance(Joueur,AutreJoueur,Distance):-
 	case(X1,Y1,Joueur),
@@ -378,10 +491,13 @@ calculDistance(Joueur,AutreJoueur,Distance):-
 	distance(X1,X2,Y1,Y2,Distance).
 	
 distanceCible(Joueur,AutreJoueur,Distance):-
-	not(Joueur = AutreJoueur),
-	not(AutreJoueur = obstacle),!,
-	calculDistance(Joueur,AutreJoueur,Distance).
+not(Joueur == AutreJoueur),
+not(AutreJoueur == obstacle),!,
+calculDistance(Joueur,AutreJoueur,Distance).
 
+/*
+	Applique les conséquences du tir de Joueur du AutreJoueur sur l'état de la partie
+*/
 toucher(Joueur,AutreJoueur):-
 	joueur(Joueur,_,_,DegatsInflige,_),
 	joueur(AutreJoueur,Orientation,Vie,Degats,Defense),
@@ -397,22 +513,28 @@ toucher(Joueur,AutreJoueur):-
 	retract(joueur(AutreJoueur,Orientation,Vie,Degats,Defense)),
 	assert(joueur(AutreJoueur,Orientation,NouvelleVie,Degats,Defense)),!.
 
+/*
+	Permet à Joueur de tirer si il peut toucher sa cible (l'autre joueur). Double la vérification de la validité de l'action.
+*/
 tirer(Joueur):-
 	case(X,Y,Joueur),
 	case(X,Y,Cible),
-	not(Cible = Joueur),!,
+	not(Cible == Joueur),!,
 	toucher(Joueur,Cible).
 	
 tirer(Joueur):-
 	chercherCible(Joueur,Cible),
-	not(Cible = obstacle),
+	not(Cible == obstacle),
 	distanceCible(Joueur,Cible,Distance),
 	portee(Portee),
 	(Distance < Portee; Distance = Portee),
 	toucher(Joueur,Cible).
 	
 tirer(Joueur).
-	
+
+/*
+	Permet l'application de l'action choisie par Joueur sur la partie en cours
+*/	
 effectuerAction(Joueur,attendre).
 effectuerAction(Joueur,avancer):-
 	avancer(Joueur).

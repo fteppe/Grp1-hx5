@@ -1,4 +1,6 @@
-﻿%%%% Print the value of the board 
+﻿/*
+ Affichage d'une case du plateau de jeu
+ */
 printCase(X, Y) :- 
 	case(X,Y,obstacle),!,
 	write('M').
@@ -21,7 +23,13 @@ printCase(X, Y) :-
 	
 printCase(_, _) :- 
 	write(' ').
+/*
+	Ensemble de fonctions permettant un affichage de l'état du jeu sur le terminal
+*/
 
+/*
+ Affichage d'une ligne du plateau de jeu
+ */
 printLine(Y) :- 
 	dimensions(X,_), 
 	ExtremeX is X - 1,!,
@@ -33,6 +41,9 @@ printLine(Y) :-
 	write('|'),
 	writeln('').
 
+/*
+	Affichage d'une bordure
+*/
 printExtremeLine(X,_) :- 
 	write(' '), 
 	repeat, 
@@ -40,8 +51,9 @@ printExtremeLine(X,_) :-
 		write('-'), 
 		Long is X, !,
 	writeln('').
-
-%%%% Display the board
+/*
+	Affiche le plateau de jeu
+*/
 displayBoard:-
 	dimensions(X, Y),
 	ExtremeY is Y - 1,!,

@@ -1,3 +1,7 @@
+/*
+	Ensemble de fonctions permettant un affichage de l'état du jeu sur une page HTML
+*/
+
 :- use_module(library(http/thread_httpd)).
 
 :- use_module(library(http/http_dispatch)).
@@ -8,21 +12,9 @@
 
 :- consult('game').
 
-
-addCss:-
-	format('<style>~n'),
-	format('.dashboard, {~n'),
-	format('border: 1px solid black;'),
-	format('min-width: 10px;'),
-	format('height: 10px;'),
-	format('}~n'),
-	format('.dashboard tr td{~n'),
-	format('border: 1px solid black;'),
-	format('min-width: 10px;'),
-	format('height: 10px;'),
-	format('}~n'),
-	format('</style>~n').
-
+/*
+	Envoi des caractéristiques actuelles des joueurs au format JSON
+*/
 afficherDashboard:-
 	joueur(1,Orientation1,Vie1,Degats1,Defense1),
 	joueur(2,Orientation2,Vie2,Degats2,Defense2),
@@ -49,7 +41,10 @@ afficherDashboard:-
 	format('"defense" : '),
 	format(Defense2),
 	format('}]}').
-	
+
+/*
+	Envoi de la description d'une case en format HTML
+*/	
 afficherCase(X, Y) :- 
 	case(X,Y,obstacle),!,
 	%format('<td style="background-color: black"></td>').
@@ -74,7 +69,10 @@ afficherCase(X, Y) :-
 	
 afficherCase(_, _) :- 
 	format('<td></td>').
-	
+
+/*
+	Envoi de la description d'une ligne du plateau en format HTML
+*/		
 afficherLine(Y):-
 	dimensions(X,_), 
 	ExtremeX is X - 1,!,
@@ -84,7 +82,10 @@ afficherLine(Y):-
 		afficherCase(Long, Y),
 		Long is ExtremeX,!,
 	format('</tr>~n').
-	
+
+/*
+	Envoi de la description du plateau de jeu en format HTML
+*/		
 afficherTerrain:-
 	dimensions(_, Y),
 	ExtremeY is Y - 1,!,
@@ -95,6 +96,9 @@ afficherTerrain:-
 		Haut is ExtremeY,!, 
 	format('</table>~n').	
 
+/*
+	Mise en place d'un server sur localhost, sur le port indiqué en entrée
+*/
 server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 		
@@ -110,35 +114,48 @@ server(Port) :-
 
 :- http_handler('/turn', turn, []).
 
-
+/*
+	Intialisation du plateau et des joueurs
+*/
 default(Request):-
 	cors_enable,
-	initialise(20,20,10,1,0,1,5,5,false),
+	initialise(10,10,10,1,0,5,5,3,false),
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}').
 
+/*
+	Joue un tour de jeu
+*/
 turn(Request):-	
 	cors_enable,
-	not(playTurn(Winner)),
+	not(playTurn(Winner)), % Partie non terminée
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "true"~n}'),!. 
 	
 turn(Request):-	
-	cors_enable,
-	playTurn(Winner),
+	playTurn(Winner), % Partie terminée
 	format('Content-type: application/json~n~n'),
 	format('{~n"result" : "'),format(Winner), format('"~n}'),!. 
-	
+
+/*
+	Envoi des caractéristiques actuelles des joueurs au format JSON
+*/	
 getDashboard(Request) :-
 	cors_enable,
 	format('Content-type: application/json~n~n'),
 	afficherDashboard.
-	
+
+/*
+	Envoi de la description du plateau de jeu en format HTML
+*/	
 getGround(Request) :-
 	cors_enable,
 	format('Content-type: text/html~n~n'),
 	afficherTerrain.
 
+/*
+	Initialisation du plateau de jeu et des joueurs de manière personnalisée
+*/
 init(Request) :-
 	cors_enable,
 	http_parameters(Request,
