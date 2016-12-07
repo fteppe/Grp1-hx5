@@ -196,13 +196,16 @@ choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
 		member([Action1, Action2], ListeActions),
 		minmax(1,MaxDepth,J1,J2,Bonus,Value,Action1,Action2,TypePonderation)),
 		Resultats),!,
-	choixResultats(Resultats,Action).
-
+	choixResultats(Resultats,Action,Randomisation).
 	
 /*
 	Analyse des résultats de l'algorithme et sélection du meilleur coup
 */
-choixResultats([[Value,ActionTmp]|Resultats],Action):-
+choixResultats(Resultats,Action,random):-
+	random(ValueRand),
+	choixRandom(Resultats, Action, ValueRand).
+
+choixResultats([[Value,ActionTmp]|Resultats],Action,_):-
 	parcoursResultats(Value,ActionTmp,Resultats,Action).
 
 /*
@@ -216,3 +219,14 @@ parcoursResultats(ActualValue,_,[[Value,ActionTmp]|Resultats],Action):-
 	
 parcoursResultats(ActualValue,ActualAction,[[_,_]|Resultats],Action):-
 	parcoursResultats(ActualValue,ActualAction,Resultats,Action),!.
+
+choixRandom(Resultats,Action,ValueRand):-
+	ValueRand < 0.75,
+	choixResultats(Resultats,Action,nonrandom).
+	
+choixRandom(Resultats,Action,ValueRand):-
+	not(ValueRand < 0.75),
+	length(Resultats,Taille),
+	TailleMax is Taille - 1,
+	random(0,TailleMax,ActionRand),
+	nth0(ActionRand,Resultats,[_,Action]).
