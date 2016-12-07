@@ -121,7 +121,18 @@ updateTouche(Vie,DefI,_,Vie,DefF):-
 	DefF is DefI - 1.
 
 /*
-	Permet de simuler la réception d'un tir par Cible
+	Permet de savoir si un Joueur peut toucher sa Cible.
+*/
+peutToucher(Joueur,Cible):-
+	getDatasPlayer(Joueur,XJ,YJ,OrientJ,_,_,_),
+	getDatasPlayer(Cible,XC,YC,_,_,_,_),
+	alignement(XJ,YJ,XC,YC,OrientJ),
+	absenceObstacle(XJ,YJ,XC,YC,OrientJ),
+	calculDistance(XJ,YJ,XC,YC,Distance),
+	portee(Portee),
+	aPortee(Distance,Portee).
+/*
+	Permet de simuler la réception d'un tir par Cible. Deuxième vérification de l'accessibilité de la cible.
 */	
 touche(Joueur,Cible,CibleN):-
 	peutToucher(Joueur,Cible),!,
