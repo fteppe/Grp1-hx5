@@ -17,42 +17,42 @@ ia(2,minmaxDefault).
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action,nonrandom).
+	choixAction(J1,J2,Bonus,4,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,default,Action,nonrandom).
+	choixAction(J2,J1,Bonus,4,default,Action).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxDefense),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,defense,Action,nonrandom).
+	choixAction(J1,J2,Bonus,4,defense,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefense),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,defense,Action,nonrandom).
+	choixAction(J2,J1,Bonus,4,defense,Action).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxRush),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,rush,Action,nonrandom).
+	choixAction(J1,J2,Bonus,4,rush,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxRush),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,rush,Action,nonrandom).
+	choixAction(J2,J1,Bonus,4,rush,Action).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxRandom),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action,random).
+	choixAction(J1,J2,Bonus,4,default,Action).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxRandom),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,default,Action,random).
+	choixAction(J2,J1,Bonus,4,default,Action).
 
 % IA AvanceVersEnnemi================================
 /*
@@ -274,9 +274,9 @@ playTurn(Winner):-
 /*
 	Joue un tour de jeu si la partie n'est pas terminée
 */	
-play(draw,TimeLimit):-
+/*play(draw,TimeLimit):-
 	get_time(TimeStamp),
-	TimeStamp > TimeLimit.
+	TimeStamp > TimeLimit.*/
 
 play(X,_):-
 	gameover(X),!.
@@ -300,7 +300,7 @@ launchTest(Winner,IA1,IA2):-
 	assert(ia(2,IA2)), % IA du joueur 2
 	initialise(10,10,10,1,0,5,3,3,none),
 	get_time(CurrentTime),
-	TimeLimit is CurrentTime + 10.0,
+	TimeLimit is CurrentTime + 40.0,
 	playGame(Winner,TimeLimit),!,
 	get_time(FinalTime),
 	Diff is CurrentTime-FinalTime,
