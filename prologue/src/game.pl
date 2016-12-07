@@ -264,20 +264,24 @@ actionsOrdonnees(Action1,Action2):-
 /*
 	Permet de jouer une partie dans son intégralité, jusqu'à ce que Winner reporte le résultat final
 */	
-playGame(Winner):-
+playGame(Winner,TimeLimit):-
 	repeat,
-	play(Winner),!.
+	play(Winner,TimeLimit),!.
 	
 playTurn(Winner):-
-	play(Winner).
+	play(Winner,_).
 
 /*
 	Joue un tour de jeu si la partie n'est pas terminée
 */	
-play(X):-
+play(draw,TimeLimit):-
+	get_time(TimeStamp),
+	TimeStamp > TimeLimit.
+
+play(X,_):-
 	gameover(X),!.
 	
-play(none):-
+play(none,_):-
 	dimensions(_,_),
 	choisirAction(1,Action1),
 	choisirAction(2,Action2),
@@ -294,12 +298,21 @@ play(none):-
 launchTest(Winner,IA1,IA2):-
 	assert(ia(1,IA1)), % IA du joueur 1
 	assert(ia(2,IA2)), % IA du joueur 2
-	initialise(10,10,10,1,0,10,0,10,none),
-	playGame(Winner),!,
+	initialise(10,10,10,1,0,5,3,3,none),
+	get_time(CurrentTime),
+	TimeLimit is CurrentTime + 10.0,
+	playGame(Winner,TimeLimit),!,
+	get_time(FinalTime),
+	Diff is CurrentTime-FinalTime,
+	writeln(''),
+	write(Winner),
+	write(' - '),
+	write(Diff),
+	writeln(''),
 	retract(ia(1,_)), % IA du joueur 1
 	retract(ia(2,_)). % IA du joueur 2
 
-countTest(0,0,0,X,X).
+countTest(0,0,0,X,X,_,_).
 	
 countTest(J1,J2,Draw,TestActuel,TotalTest,IA1,IA2):-
 	cleanMemory,

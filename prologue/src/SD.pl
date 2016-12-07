@@ -469,6 +469,8 @@ chercherCible(Joueur,Cible):-
 /*
 	Calcul la distance de Manhattan entre les deux joueurs
 */
+distance(X,X,Y,Y,0).
+
 distance(X,X,Y1,Y2,Distance):-
 	Y1 < Y2,
 	Distance is Y2 - Y1. 
