@@ -190,23 +190,19 @@ minmax(CurrentDepth,MaxDepth,J1,J2,Bonus,ValueR,ActionJ1,ActionJ2,TypePonderatio
 /*
 	Première itération de l'algorithme minmax (adapté selon la méthode de Monte Carlo)
 */	
-choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action,Randomisation):-
+choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
 	toutesAction(J1, J2, ListeActions),!,
 	findall([Value,Action1],(
 		member([Action1, Action2], ListeActions),
 		minmax(1,MaxDepth,J1,J2,Bonus,Value,Action1,Action2,TypePonderation)),
 		Resultats),!,
-	choixResultats(Resultats,Action,Randomisation).
+	choixResultats(Resultats,Action).
 
-choixResultats(Resultats,Action,random):-
-	totalValeurs(Resultats,Total),
-	random_between(0,Total,Rand),
-	choixRandom(Rand,Action).
 	
 /*
 	Analyse des résultats de l'algorithme et sélection du meilleur coup
 */
-choixResultats([[Value,ActionTmp]|Resultats],Action,_):-
+choixResultats([[Value,ActionTmp]|Resultats],Action):-
 	parcoursResultats(Value,ActionTmp,Resultats,Action).
 
 /*
@@ -220,18 +216,3 @@ parcoursResultats(ActualValue,_,[[Value,ActionTmp]|Resultats],Action):-
 	
 parcoursResultats(ActualValue,ActualAction,[[_,_]|Resultats],Action):-
 	parcoursResultats(ActualValue,ActualAction,Resultats,Action),!.
-
-/*
-	Calcul et choix des actions avec alea
-*/
-
-totalValeurs(Resultats,Total):-
-	findall(Value,(member([Value,_],Resultats),ListeValues),
-	sum_list(ListeValues,Total).
-	
-choixRandom([[Value,Action]|_],Rand,Action):-
-	not(Value < Rand),!.
-	
-choixRandom([[Value,ActionTmp]|Resultats],Rand,Action):-
-	Value < Rand,
-	choixRandom(Resultats,Rand,Action).	
