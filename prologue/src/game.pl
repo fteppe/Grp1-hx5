@@ -7,7 +7,7 @@
 :- consult('AffichagePlateauDeJeu').
 
 :-dynamic ia/2. % Permet de régler les ia.
-ia(1, minmaxDefault).
+ia(1,minmaxDefault).
 ia(2,minmaxDefault).
 
 %    IA MinMax ==============================	
