@@ -17,22 +17,42 @@ ia(2,minmaxDefault). % IA du joueur 2
 choisirAction(1,Action):-
 	ia(1,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,default,Action,random).
+	choixAction(J1,J2,Bonus,4,default,Action,nonrandom).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefault),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,default,Action,random).
+	choixAction(J2,J1,Bonus,4,default,Action,nonrandom).
 	
 choisirAction(1,Action):-
 	ia(1,minmaxDefense),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J1,J2,Bonus,4,defense,Action).
+	choixAction(J1,J2,Bonus,4,defense,Action,nonrandom).
 	
 choisirAction(2,Action):-
 	ia(2,minmaxDefense),!,
 	initialiseDatas(J1,J2,Bonus),
-	choixAction(J2,J1,Bonus,4,defense,Action).
+	choixAction(J2,J1,Bonus,4,defense,Action,nonrandom).
+	
+choisirAction(1,Action):-
+	ia(1,minmaxRush),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J1,J2,Bonus,4,rush,Action,nonrandom).
+	
+choisirAction(2,Action):-
+	ia(2,minmaxRush),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J2,J1,Bonus,4,rush,Action,nonrandom).
+	
+choisirAction(1,Action):-
+	ia(1,minmaxRandom),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J1,J2,Bonus,4,default,Action,random).
+	
+choisirAction(2,Action):-
+	ia(2,minmaxRandom),!,
+	initialiseDatas(J1,J2,Bonus),
+	choixAction(J2,J1,Bonus,4,default,Action,random).
 
 % IA AvanceVersEnnemi================================
 	
