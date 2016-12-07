@@ -160,15 +160,20 @@ minmax(CurrentDepth,MaxDepth,J1,J2,Bonus,ValueR,ActionJ1,ActionJ2,TypePonderatio
 	calculValeur(Resultats,ValueR).
 	
 	
-choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
+choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action,Randomisation):-
 	toutesAction(J1, J2, ListeActions),!,
 	findall([Value,Action1],(
 		member([Action1, Action2], ListeActions),
 		minmax(1,MaxDepth,J1,J2,Bonus,Value,Action1,Action2,TypePonderation)),
 		Resultats),!,
-	choixResultats(Resultats,Action).
+	choixResultats(Resultats,Action,Randomisation).
 
-choixResultats([[Value,ActionTmp]|Resultats],Action):-
+choixResultats(Resultats,Action,random):-
+	totalValeurs(Resultats,Total),
+	random_between(0,Total,Rand),
+	choixRandom(Rand,Action).
+	
+choixResultats([[Value,ActionTmp]|Resultats],Action,_):-
 	parcoursResultats(Value,ActionTmp,Resultats,Action).
 	
 parcoursResultats(_,Action,[],Action).
@@ -179,4 +184,14 @@ parcoursResultats(ActualValue,_,[[Value,ActionTmp]|Resultats],Action):-
 	
 parcoursResultats(ActualValue,ActualAction,[[_,_]|Resultats],Action):-
 	parcoursResultats(ActualValue,ActualAction,Resultats,Action),!.
+
+totalValeurs(Resultats,Total):-
+	findall(Value,(member([Value,_],Resultats),ListeValues),
+	sum_list(ListeValues,Total).
 	
+choixRandom([[Value,Action]|_],Rand,Action):-
+	not(Value < Rand),!.
+	
+choixRandom([[Value,ActionTmp]|Resultats],Rand,Action):-
+	Value < Rand,
+	choixRandom(Resultats,Rand,Action).	
