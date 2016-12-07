@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
+import org.apache.jena.query.Dataset;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -20,15 +21,20 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.tdb.TDB;
+import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.util.FileManager;
+
 
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentSentiment;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentText;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
 import com.ibm.watson.developer_cloud.alchemy.v1.util.AlchemyEndPoints.AlchemyAPI;
 
 import edu.uci.ics.jung.algorithms.layout.BalloonLayout;
@@ -62,14 +68,36 @@ public class Sportif {
 	private static Layout mVisualizer;
 	private static VisualizationViewer mVizViewer;
 	
+	// TODO : mémoire cache, enregistrez une requete avec ses resultats dans un fichier, (hashmap)
 	public static void main(String[] args) throws Exception {
-		/*String requeteUtilisateur = "lyon";		
-		List<String> listeURL = googleCustomSearch(requeteUtilisateur);        
-		String texteExtrait = alchemyAPI(listeURL);    
-		Model model = dbpediaSpotlight(texteExtrait);
-		creationGraphe(model);*/
-	        get("/hello", (req, res) -> "Hello World");
-	    }
+        
+		String requeteUtilisateur = "Laura";
+		List<String> listeTxtExtrait = new ArrayList<String>();
+		List<Model> listeModels = new ArrayList<Model>();
+		
+		// Gestion des espaces
+		requeteUtilisateur += " sport";
+		requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
+		
+		List<String> listeURL = googleCustomSearch(requeteUtilisateur);
+		
+		for(String url : listeURL )
+		{
+			String texteExtrait = alchemyAPI(url);
+			listeTxtExtrait.add(texteExtrait);
+		}
+        
+		for(String texteExtrait : listeTxtExtrait)
+		{
+	        Model model = dbpediaSpotlight(texteExtrait);
+	        listeModels.add(model);
+	        System.out.println("une page de faite");
+		}
+		
+		//Model intersection = listeModels.get(0).intersection(listeModels.get(1));
+		
+        creationGraphe(listeModels.get(0));
+	}
 	
 	
 	// Google custom Search
@@ -86,7 +114,6 @@ public class Sportif {
                 (conn.getInputStream())));
 
         String output;
-        System.out.println("Output from Server .... \n");
         while ((output = br.readLine()) != null) {
 
             if(output.contains("\"link\": \"")){                
@@ -101,18 +128,22 @@ public class Sportif {
 	
 	
     // Alchemy API
-	public static String alchemyAPI(List<String> listeURL)throws Exception {
+	public static String alchemyAPI(String url)throws Exception {
 
 	    AlchemyLanguage service = new AlchemyLanguage();
 	    service.setApiKey("b377b5a0e4d914c3ec611f0dcba45e78f063d6a2");
-	    URL urlAlchemy = new URL(
-	            listeURL.get(0));
+	    
 	    Map<String,Object> params = new HashMap<String, Object>();
+	    
+	    URL urlAlchemy = new URL(
+	            url);
 	    params.put(AlchemyLanguage.URL, urlAlchemy);
 	    DocumentText texteExtraitWeb = service.getText(params).execute();
-	    String texteExtraitWebString = texteExtraitWeb.getText().toString();
-	    System.out.println(texteExtraitWebString);
+	    String texteExtraitWebString= texteExtraitWeb.getText().toString();
+	   
+	    
 	    return texteExtraitWebString;
+	    
 	}
 
 	
@@ -120,19 +151,17 @@ public class Sportif {
 	public static Model dbpediaSpotlight(String texteExtrait)throws Exception {
 
 	    List<String> listeURI = new ArrayList<String>();
-	    List<String> listeMotsCles = new ArrayList<String>();
 	    List<String> listeUrlRdf = new ArrayList<String>();
 	    
 	    
 	    db c = new db ();  
 	    c.configiration(0.0, 0, "non", "Default", "Default", "yes");  
 	    c.evaluate(texteExtrait);
-	    listeMotsCles = c.getResu();
-	    System.out.println("resource : "+ listeMotsCles);
 	    listeURI = c.getResuFullURI();
+	    
 	    System.out.println("resource URI : "+listeURI);
 	    
-	    
+	    System.out.println(listeURI.size());
 	    // On modifie les URI afin d'obtenir le lien des fichiers RDF
 	    for(String uri : listeURI)
 	    {
@@ -143,9 +172,31 @@ public class Sportif {
 	    // On charge le modèle avec le fichier RDF
 	    FileManager fManager = FileManager.get();
 	    fManager.addLocatorURL();
-	    Model model =
-	          fManager.loadModel(listeUrlRdf.get(2));
 	    
+	    
+	    Model model =
+		          fManager.loadModel(listeUrlRdf.get(0));
+	    
+	    if(listeURI.size()>1)
+	    {
+		    Model model1 =
+			          fManager.loadModel(listeUrlRdf.get(1));
+		    
+		    
+		    // On fait l'union des modèles de chaque mots, afin d'obtenir le modele de la page.
+		    for(String urlRDF : listeUrlRdf)
+		    {
+			    model1 =
+			          fManager.loadModel(urlRDF);
+			  
+			    //model2 = model1.union(model);
+			    // Pas sûr que le truc d'aux dessus supporte model =..(model)
+			    //model = model2;
+			    model = ModelFactory.createUnion(model,model1);
+		    }
+	    }    
+	    
+	    // TODO : Ajouter des requêtes SPARQL afin de reduire le nombre de triplets.
 	    /*
 	    // On crée la requête SPARQL afin d'affiner le modèle
 	    String sparqlQuery =
@@ -185,7 +236,7 @@ public class Sportif {
 	    */
 	    
 	    
-	    model.write(System.out, "TTL") ;
+	    //model.write(System.out, "TTL") ;
 	    return model;
 	}
 	    
@@ -203,7 +254,6 @@ public class Sportif {
                 Statement stmt      = iter.nextStatement();         // get next statement
                 RDFNode subject   = stmt.getSubject();   // get the subject
                 RDFNode object    = stmt.getObject();    // get the object
-                RDFNode predicate = stmt.getPredicate();
                 
                 // On ajoute le sujet
                 g.addVertex( subject);
