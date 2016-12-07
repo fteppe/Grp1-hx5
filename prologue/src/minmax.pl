@@ -190,7 +190,7 @@ minmax(CurrentDepth,MaxDepth,J1,J2,Bonus,ValueR,ActionJ1,ActionJ2,TypePonderatio
 /*
 	Première itération de l'algorithme minmax (adapté selon la méthode de Monte Carlo)
 */	
-choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action,Randomisation):-
+choixAction(J1,J2,Bonus,MaxDepth,TypePonderation,Action):-
 	toutesAction(J1, J2, ListeActions),!,
 	findall([Value,Action1],(
 		member([Action1, Action2], ListeActions),
@@ -230,4 +230,3 @@ choixRandom(Resultats,Action,ValueRand):-
 	TailleMax is Taille - 1,
 	random(0,TailleMax,ActionRand),
 	nth0(ActionRand,Resultats,[_,Action]).
-	
