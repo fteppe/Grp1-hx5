@@ -2,22 +2,33 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Titre</title>
+        <title>Sport'if</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>	
+		<script src="./bootstrap.min.js"></script>
     </head>
 
     <body>
-	<p>Ceci est un test !</p>
-    <gcse:searchbox-only></gcse:searchbox-only>
+		<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			<a class="navbar-brand" href="#">Sport'IF Semantic Search</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+			</ul>
+		</div>
+		</nav>
+		
+		<div>
+			<gcse:searchbox> </gcse:searchbox>
+		</div>
+		<div id="themes">	
+		</div>
+		<div>
+			<gcse:searchresults> </gcse:searchresults>
+		</div>
     </body>
-	<script>
-	  (function() {
-		var cx = '013632266919387871672:pgb1ce2nwuq';
-		var gcse = document.createElement('script');
-		gcse.type = 'text/javascript';
-		gcse.async = true;
-		gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(gcse, s);
-	  })();
-	</script>
+	<script src="sport.js"></script>
 </html>
