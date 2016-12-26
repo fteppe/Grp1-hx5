@@ -25,6 +25,8 @@ $(document).on('keyup', '#gsc-i-id1', function(e) {
 
  /*Fonction permettant de récupérer les 10 premiers résultats Google Custom Search via l'utilisation de l'API, en format JSON, et de lancer leur traitement*/
 function getResults(){
+	var waitMessage = '<div class="well"><h3>Searching for new themes...</h2></div>';
+	$( "#themes" ).html( waitMessage );
 	var input = $('#gsc-i-id1').val(); 
 	$.ajax({
 		type: 'GET',
