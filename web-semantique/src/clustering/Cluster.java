@@ -12,6 +12,7 @@ public class Cluster {
 	
 	private List<Cluster> subCluster;
 	private String feuille;
+	private String medoid;
 	private boolean isLeaf;
 	
 	public Cluster(){
@@ -22,16 +23,17 @@ public class Cluster {
 	public Cluster(String feuille){
 		this();
 		isLeaf = true;
+		medoid = feuille;
 		this.feuille = feuille;
 		
 	}
 	
-	public Cluster(Cluster cluster1, Cluster cluster2){
+	public Cluster(Cluster cluster1, Cluster cluster2, Matrice matrice){
 		this();
 		isLeaf = false;
-		
 		subCluster.add(cluster1);
 		subCluster.add(cluster2);
+		findMedoid(matrice);
 	}
 	
 	public List<Cluster> getSubClusters(){
@@ -98,8 +100,25 @@ public class Cluster {
 		return distance;
 	}
 	
+	private void findMedoid(Matrice matrice){
+		double distanceMin = Double.MAX_VALUE;
+		String medoid = null;
+		ArrayList<String> sujets = getSujets();
+		for(String sujet : sujets){
+			int distance = 0;
+			for(String sujetAutre : sujets){
+				distance += matrice.distance(sujet, sujetAutre);
+			}
+			if(distance < distanceMin){
+				distanceMin = distance;
+				medoid = sujet;
+			}
+		}
+		this.medoid = medoid;
+	}
+	
 	public String toJSONstring(){
-		String retour = "{\n";
+		String retour = "{\n 'medoid':'" + medoid + "',\n";
 		if(isLeaf){
 			retour+="'sujet':'"+feuille+"'\n";
 		}
