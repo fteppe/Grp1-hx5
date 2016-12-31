@@ -5,11 +5,14 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
 
+
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.dbpedia.spotlight.exceptions.AnnotationException;
 import org.dbpedia.spotlight.model.DBpediaResource;
@@ -33,6 +36,7 @@ public abstract class AnnotationClient {
 
     public String request(HttpMethod method) throws AnnotationException {
         String response = null;
+        
         // Provide custom retry handler is necessary
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
                 new DefaultHttpMethodRetryHandler(3, false));
@@ -44,11 +48,15 @@ public abstract class AnnotationClient {
             }
 
             // Read the response body.
-            byte[] responseBody = method.getResponseBody(); //TODO Going to buffer response body of large or unknown size. Using getResponseBodyAsStream instead is recommended.
+            
+            // Partie présente à l'origine avec un WARNING, correction de celui-ci
+            // en passant par un Stream.
+            //byte[] responseBody = method.getResponseBody(); 
+            //response = new String(responseBody);
+                       
+            InputStream responseBodyStream = method.getResponseBodyAsStream();
+            response = IOUtils.toString(responseBodyStream);
 
-            // Deal with the response.
-            // Use caution: ensure correct character encoding and is not binary data
-            response = new String(responseBody);
 
         } catch (HttpException e) {
             LOG.error("Fatal protocol violation: " + e.getMessage());
