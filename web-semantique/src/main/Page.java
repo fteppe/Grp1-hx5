@@ -13,6 +13,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileManager;
 
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentText;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentTitle;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
@@ -68,6 +69,32 @@ public class Page {
 	    this.setTexteExtrait(texteExtrait);
 	}
 	
+	/**
+	 * Trouve le texte extrait de la page.
+	 */
+	public void alchemyAPITextPOO() {
+		AlchemyLanguage service = new AlchemyLanguage();
+	    service.setApiKey("b377b5a0e4d914c3ec611f0dcba45e78f063d6a2");
+	    
+	    Map<String,Object> params = new HashMap<String, Object>();
+	    String url = this.getUrl();
+	    List<String> listKeywords = new ArrayList<String>();
+	    
+		try {
+			URL urlAlchemy = new URL(url);
+		    params.put(AlchemyLanguage.URL, urlAlchemy);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+	    DocumentText texteExtraitKeyWord = service.getText(params).execute();
+	   
+	    String texteExtrait = texteExtraitKeyWord.getText();
+	    listKeywords.add(texteExtrait);
+	    this.setMotscles(listKeywords);
+	    this.setTexteExtrait(texteExtrait);
+	}
+	
 	
 	/**
 	 * Trouve le titre de la page.
@@ -110,8 +137,32 @@ public class Page {
 	    
 	    listeURI = c.getResuFullURI();
 	    
+	    
 	    // TODO : Peut etre enlever les URI qui n'apparaissent qu'une fois : supprimer les apparitions hasard
+	    
+	    List<String> listToRemove = new ArrayList<String>();	
+	    for(String URI : listeURI)
+	    {
+	    	int cptOccurence=0;
+	    	for(String URI2 : listeURI)
+		    {
+	    		if(URI.equals(URI2))
+	    		{
+	    			cptOccurence++;
+	    		}
+		    }
+	    	
+	    	if(cptOccurence==1)
+	    	{
+	    		listToRemove.add(URI);
+	    	}
+	    }
+	    
+	    listeURI.removeAll(listToRemove);
+	    
+	    
 	    // TODO : Utiliser les requetes SPARQL pour reduire le model, centre vers le sport.
+	    // L'objectif etant d'avoir des models plus petit et plus interessant
 	    
 	    // On enlève les doublons de la liste
 	    Set<String> set = new HashSet<String>() ;
@@ -119,6 +170,7 @@ public class Page {
         ArrayList<String> listeURIDistinct = new ArrayList<String>(set) ;
         
 	    System.out.println("resource URI : "+listeURIDistinct);
+	    System.out.println("resource URI : "+listeURIDistinct.size());
 	    
 	    // On modifie les URI afin d'obtenir le lien des fichiers RDF
 	    for(String uri : listeURIDistinct)

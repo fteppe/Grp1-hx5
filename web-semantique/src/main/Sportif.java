@@ -52,38 +52,10 @@ import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
 import com.ibm.watson.developer_cloud.alchemy.v1.util.AlchemyEndPoints.AlchemyAPI;
 
-import edu.uci.ics.jung.algorithms.layout.BalloonLayout;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.DAGLayout;
-import edu.uci.ics.jung.algorithms.layout.FRLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.layout.RadialTreeLayout;
-import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-import edu.uci.ics.jung.graph.DirectedGraph;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.Forest;
-//import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.EdgeType;
-import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
-import edu.uci.ics.jung.visualization.RenderContext;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
-import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ScalingControl;
-import edu.uci.ics.jung.visualization.renderers.BasicRenderer;
-import edu.uci.ics.jung.visualization.renderers.Renderer;
-import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 //import static spark.Spark.*;
 import main.Fenetre.Recherche;
 
-public class Sportif {
-	
-	// Pour visualiser les petits graphs rdf
-	private static Renderer mRenderer;
-	private static Layout mVisualizer;
-	private static VisualizationViewer mVizViewer;
+public class Sportif {	
 	
 	
 	// Deux hashmap utiliser dans la version non objet
@@ -117,7 +89,8 @@ public class Sportif {
 		for(String url : listeURL )
 		{
 			Page page = new Page(url, listeURL.indexOf(url));
-			page.alchemyAPIKeywordPOO();
+			//page.alchemyAPIKeywordPOO();
+			page.alchemyAPITextPOO();
 	        page.dbpediaSpotlightPOO();
 	        listePages.add(page);
 		}
@@ -342,7 +315,6 @@ public class Sportif {
 // **************************************************************** 
 
 	/*
-	// TODO : mémoire cache, enregistrez une requete avec ses resultats dans un fichier, (hashmap)
 	public static void main(String[] args) throws Exception {
         
 		EventQueue.invokeLater(new Runnable() {

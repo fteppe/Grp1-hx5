@@ -141,9 +141,11 @@ public class Fenetre {
 				Sportif sportif = new Sportif();
 				listClusters = sportif.execution(requete);
 				receptionResultats(listClusters);
+				panelPages.repaint();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+        	panelPages.repaint();
         }
         
         
@@ -249,6 +251,7 @@ public class Fenetre {
         		
         		listLabels.add(lblPage);
     		}
+    		panelPages.repaint();
         }
     }
 	
