@@ -55,7 +55,7 @@ public class Analyse {
 		}
 		popCluster(cluster1);
 		popCluster(cluster2);
-		addCluster(new Cluster(cluster1, cluster2));
+		addCluster(new Cluster(cluster1, cluster2, matriceProximite));
 	}
 	
 	public void remplissageMatriceProx(){

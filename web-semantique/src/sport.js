@@ -30,14 +30,14 @@ function getResults(){
 	var input = $('#gsc-i-id1').val(); 
 	$.ajax({
 		type: 'GET',
-		url: "https://www.googleapis.com/customsearch/v1?key=AIzaSyB4Vksrz6YsFHYXzUF4fYiIZuqqWksF2AI&cx=013632266919387871672:pgb1ce2nwuq&q=" + input + "&alt=json",
+		url: "https://www.googleapis.com/customsearch/v1?key=AIzaSyABrXjqXg28Np8AcFzf4_A1tALvf8pWVzs&cx=013632266919387871672:pgb1ce2nwuq&q=" + input + "&alt=json",
 		timeout: 3000,
 		success: function(data) {
 		  console.log(data);
 		  //Exemple de résultat
 		  var ephData = '{"clusters":[{"pages":[{"classement":0,"url":"http://www.ncaa.com/sports/football"}],"nom":"College Football - Home | NCAA.com "},{"pages":[{"classement":1,"url":"http://www.espn.com/college-football/"}],"nom":"NCAA College Football Teams, Scores, Stats, News, Standings, Rumors - ESPN "},{"pages":[{"classement":2,"url":"http://www.ncaa.com/sports/football/fbs"},{"classement":6,"url":"http://www.ncaa.com/"},{"classement":7,"url":"http://bleacherreport.com/college-football"}],"nom":"FBS College Football - Home | NCAA.com"},{"pages":[{"classement":3,"url":"http://www.nbcsports.com/college-football"}],"nom":"College Football "},{"pages":[{"classement":4,"url":"http://www.ncaa.com/scoreboard/football/fbs"}],"nom":"Scores - College Football FBS "},{"pages":[{"classement":5,"url":"http://www.cbssports.com/college-football/"}],"nom":"NCAA Football - College News, Scores, Stats, Standings, Rumors "},{"pages":[{"classement":8,"url":"http://www.foxsports.com/fantasy/collegefootball/pickem/"},{"classement":9,"url":"http://www.ncaa.org/"}],"nom":"FOX Sports College Football Pick\'em"}]}';
-			getResultsThemes(JSON.parse(data)); //A utiliser pour utiliser notre API(trèèès longue)
-			displayThemes(JSON.parse(data).clusters);},
+			getResultsThemes(data); //A utiliser pour utiliser notre API(trèèès longue)
+			/*displayThemes(JSON.parse(ephData).clusters);*/},
 		error: function() {
 		console.log('La requête n\'a pas abouti');}
 	  });
