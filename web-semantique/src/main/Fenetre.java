@@ -258,6 +258,8 @@ public class Fenetre {
 	
 	/**
 	 * Handler des boutons clusters
+	 * Lorsque l'on clique sur un bouton d'un cluster, on laisse apparaitre que les liens de notre cluster.
+	 * Si on clique un nouvelle fois, tous les liens reapparaissent.
 	 */
 	public class ModificationAffichage implements ActionListener
     {
