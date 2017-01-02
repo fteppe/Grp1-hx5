@@ -1,5 +1,8 @@
 package services;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +35,90 @@ public class Services {
     private HashMap<String, String> hmapUrlKeyword = new HashMap<String, String>();
     private HashMap<String, String> hmapUrlUri = new HashMap<String, String>();
     
+    /**
+     * @param requeteUtilisateur
+     * @return
+     * @throws Exception
+     */
+    public List<Cluster> execution(String requeteUtilisateur)throws Exception {	
+	List<Page> listePages = new ArrayList<Page>();
+	List<Cluster> listeClusters = new ArrayList<Cluster>();
+	int nbPageSport = 0;
+	int indexFirstPage = 1;
+	// On centre la requete d'origine vers le sport
+	requeteUtilisateur += " sport";
+	
+	// Gestion des espaces dans la requete
+	requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
+		
+	List<String> listeURL;
+		
+	// Pour chaque resultat on recupere les mots cles de la page,
+	// On en trouve les URI Dbpedia present a l'interieur, et on fait un model 
+	// de l'union de tous ces URI, on a finalement le model de la page entiere.
+	// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
+	while(nbPageSport<10) {
+	// On recupere les dix premiers resultats de Google
+	    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
+	    for(String url : listeURL ) {
+		Page page = new Page(url, nbPageSport);
+		page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
+		//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
+		page.dbpediaSpotlightPOO();
+		if(page.isSportPage()) {
+		    nbPageSport++;
+		    listePages.add(page);
+		}  
+	        if(nbPageSport==10){break;}
+	    }
+	    indexFirstPage += 10;
+	    listeURL.clear();
+	}
+	// On calcul la matrice de Jaccard qu'est l'indice de Jaccard entre chaque page.
+	// On cherche ensuite les clusters et on essai de trouver un bon nom pour ce cluster.
+	double[][] matriceJaccard = creationMatriceJaccardPOO(listePages);
+	listeClusters = creationClustersPOO(matriceJaccard,listePages);
+	listeClusters = foundNameClustersPOO(listeClusters);
+		
+	// On renvoi le resultat a la fenetre.
+	return listeClusters;
+    }
+
+    /**
+     * Google custom Search : Renvoi la liste des dix premiers resultat de la requete
+     * @param requeteUtilisateur
+     * @return
+     * @throws Exception
+     */
+    public static List<String> googleCustomSearch(String requeteUtilisateur, int start)throws Exception {
+	String key="AIzaSyABrXjqXg28Np8AcFzf4_A1tALvf8pWVzs";
+	List<String> listeURL = new ArrayList<String>();
+	String startString = Integer.toString(start);
+	URL url = new URL(
+		"https://www.googleapis.com/customsearch/v1?key="+key+ "&start="+ startString + "&cx=013632266919387871672:pgb1ce2nwuq&q="+ requeteUtilisateur + "&alt=json");
+	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	conn.setRequestMethod("GET");
+	conn.setRequestProperty("Accept", "application/json");;
+	try{
+	BufferedReader br = new BufferedReader(new InputStreamReader(
+		(conn.getInputStream())));
+
+	System.out.println("4");
+	String output;
+	while ((output = br.readLine()) != null) {
+	    if(output.contains("\"link\": \"")){                
+		String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
+		System.out.println(link);       //Will print the google search links
+		listeURL.add(link);
+	    }     	
+	}
+	} catch (Exception e){
+	    System.out.println(e);
+	}
+	conn.disconnect(); 
+	return listeURL;
+    }
+	
     /**
      * Retourne une liste de thèmes à partir d'une liste de sites web
      * @param data Données reçues à partir d'une recherche google custom search

@@ -10,7 +10,7 @@
 })();
 
 /*Fonction permettant de faire les appels au serveur lorsque l'utilisateur clique sur le bouton rechercher*/
-$(document).on('click', "input.gsc-search-button", getResults);
+$(document).on('click', "input.gsc-search-button", getResultsThemes);
 
 /*Fonction permettant de faire les appels au serveur lorsque l'utilisateur appui sur le bouton "Entrée"*/
 $(document).on('keyup', '#gsc-i-id1', function(e) {
@@ -18,7 +18,7 @@ $(document).on('keyup', '#gsc-i-id1', function(e) {
     if (e.which == 13) {
         e.preventDefault();
 		if($('#gsc-i-id1').val() != ""){
-			getResults();
+			getResultsThemes();
 		}
     }
 });
@@ -44,24 +44,28 @@ function getResults(){
 }
 
  /*Fonction permettant de récupérer la liste des clusters correspondant aux sites web renvoyés par google custom search via l'utilisation de notre serveur*/
-function getResultsThemes(data)
+function getResultsThemes()
 {
-	 $.ajax({
-       url : 'http://localhost:4567/themes',
-       type : 'POST', // Le type de la requête HTTP, ici devenu POST
-       data : JSON.stringify(data.items), // On fait passer nos variables, exactement comme en GET
-	   headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
-       dataType : 'json',
-	   success: function(data) {
-		  console.log(data);
-		  displayThemes(data.clusters);
-		  searchImages(data); //A décommenter pour obtenir les images de chaque vignette (sans utiliser displayThemes)
-		},
-		error: function() {
-		  alert('La requête n\'a pas abouti'); }
-    });
+	var input = $('#gsc-i-id1').val(); 
+	if(input.replace(/\s/g, '')!=""){
+		var waitMessage = '<div class="well" id="waiting"><h3>Searching for new themes...</h3></div>';
+		$( "#themes" ).html( waitMessage );
+		 $.ajax({
+		   url : 'http://localhost:4567/themes?request=' + input,
+		   type : 'GET', // Le type de la requête HTTP, ici devenu POST
+		   headers: {
+						'Access-Control-Allow-Origin': '*'
+					},
+		   dataType : 'json',
+		   success: function(data) {
+			  console.log(data);
+			  displayThemes(data.clusters);
+			  //searchImages(data); //A décommenter pour obtenir les images de chaque vignette (et commenter displayThemes(data.clusters); au-dessus)
+			},
+			error: function() {
+			  $( "#themes" ).html( '<h3>Clusters haven\'t been retrieved...</h3>' ); }
+		});
+	}
 }
 
 /* Fonction permettant de tronquer une chaîne de caractère*/
@@ -177,7 +181,7 @@ function getImage(clusters, indice, imageArray) {
 			repeat(imData, clusters, indice, imageArray);
 		},
 		error: function() {
-		  alert('La requête n\'a pas abouti'); }
+		  /*alert('La requête n\'a pas abouti');*/ }
 	  });
 
 }

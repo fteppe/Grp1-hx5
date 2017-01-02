@@ -76,14 +76,20 @@ public class Page {
 			e.printStackTrace();
 		}
 		
-		String texteExtraitTitre = "f";
+		String texteExtraitTitre = "Not retrieved";
 		if(texteExtraitTitle!=null){
 		texteExtraitTitre = texteExtraitTitle.getTitle().toString();
 		}
-
 		
+		List<Keyword> texteExtraitKeywordList = null ;
+		try {
 		Keywords texteExtraitKeyWord = service.getKeywords(params).execute();
-		List<Keyword> texteExtraitKeywordList = texteExtraitKeyWord.getKeywords();
+		texteExtraitKeywordList = texteExtraitKeyWord.getKeywords();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+
+		}
 
 
 		String texteExtrait = "";
