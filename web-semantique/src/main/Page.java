@@ -167,6 +167,13 @@ public class Page {
 	 */
 	public void dbpediaSpotlightPOO() {
 
+		
+		/**
+	     * ********************************************
+		 * ********* RECUPERATION DES URI *************
+		 * ********************************************
+		 */
+		
 	    List<String> listeURI = new ArrayList<String>();
 	    List<String> listeUrlRdf = new ArrayList<String>();
 	
@@ -180,6 +187,11 @@ public class Page {
 	    
 	    listeURI = c.getResuFullURI();
 	    
+	    /**
+	     * ********************************************
+		 * ********* TRAITEMENT DES URI ***************
+		 * ********************************************
+		 */
 	    
 	    // ON enleve toutes les URI qui n'apparaissent qu'une seule et unique fois
 	    // Solution peut etre trop brutale, on se retrouve avec peu d'URI, donc approximations.
@@ -240,9 +252,6 @@ public class Page {
 		    {
 		    	modelURI = fManager.loadModel(urlRDF);
 		    	
-		    	// Si modelURI est un model de sport, alors on l'ajoute sinon non
-		    	// Permet de reduire le modele, et d'avoir un modele centre sport pour chaque page
-		    	// ce serai mieux de voir si la page est une page de sport, si oui alors on regarde tout ses URI et on retri
 		    	try {
 						modelPage = modelPage.union(modelURI);
 					}catch (Exception e) {
