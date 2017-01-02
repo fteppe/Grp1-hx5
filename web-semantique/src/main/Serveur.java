@@ -30,11 +30,10 @@ public class Serveur {
 	enableCORS("*", "*", "*"); //On autorise les requêtes cross-domain
         get("/hello", (req, res) -> "Hello World"); //Chemin de test
         
-        post("/themes", (request, response) -> { //Chemin principal
-            String json = request.body();
-            json = "{\"items\":" + json + "}"; //On forme une variable json à partir des résultats reçus
-            JSONObject jsonObject = JsonTransformer.transform(json);
-            List<Cluster> listClusters = services.retrieveThemes(jsonObject); //On forme des clusters a partir des résultats reçus
+        get("/themes", (request, response) -> { //Chemin principal
+            String userRequest = request.queryParams("request");
+            System.out.println(userRequest);
+            List<Cluster> listClusters = services.execution(userRequest); //On forme des clusters a partir des résultats reçus
             JSONObject jThemes = JsonTransformer.transform(listClusters); //On transforme ces résultats pour les communiquer sous la forme d'une variable json
             System.out.println(jThemes);
             return jThemes.toString();
