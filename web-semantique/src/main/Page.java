@@ -387,7 +387,7 @@ public class Page {
 	 */
 	private List<String> addListWordsSport() {
 		List<String> listSportWord = new ArrayList<String>();
-	    String fichier = "listSports.txt";
+	    String fichier = "src/listSports.txt";
 	    try {
 	    	InputStream ips = new FileInputStream(fichier);
 	    	InputStreamReader ipsr = new InputStreamReader(ips);
