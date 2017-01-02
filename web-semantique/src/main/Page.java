@@ -17,6 +17,7 @@ import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentText;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentTitle;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.LanguageSelection;
 
 public class Page {
 	
@@ -82,17 +83,18 @@ public class Page {
 	    
 		try {
 			URL urlAlchemy = new URL(url);
+			System.out.println("URL :" + url);;
 		    params.put(AlchemyLanguage.URL, urlAlchemy);
-		} catch (MalformedURLException e) {
+		    DocumentText texteExtraitKeyWord = service.getText(params).execute();
+			   
+		    String texteExtrait = texteExtraitKeyWord.getText();
+		    listKeywords.add(texteExtrait);
+		    this.setMotscles(listKeywords);
+		    this.setTexteExtrait(texteExtrait);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	    DocumentText texteExtraitKeyWord = service.getText(params).execute();
-	   
-	    String texteExtrait = texteExtraitKeyWord.getText();
-	    listKeywords.add(texteExtrait);
-	    this.setMotscles(listKeywords);
-	    this.setTexteExtrait(texteExtrait);
+		System.out.println("Done");
 	}
 	
 	
@@ -110,10 +112,14 @@ public class Page {
 	    
 	    URL urlAlchemy = new URL(url);
 	    params.put(AlchemyLanguage.URL, urlAlchemy);
-    
-	    DocumentTitle texteExtraitTexte = service.getTitle(params).execute();
-	    String titre = texteExtraitTexte.getTitle();
-	    
+	    String titre;
+	    try {
+		DocumentTitle texteExtraitTexte = service.getTitle(params).execute();
+	    	titre = texteExtraitTexte.getTitle();
+	    } catch(Exception e) {
+		titre = "Not retrieved";
+	    }
+	    System.out.println("Done");
 	    return titre;
 	}
 	
