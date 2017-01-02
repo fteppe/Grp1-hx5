@@ -29,7 +29,6 @@ import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentText;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentTitle;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.LanguageSelection;
 
 public class Page {
 	
@@ -55,7 +54,7 @@ public class Page {
 	 */
 	public void alchemyAPIKeywordPOO() {
 		AlchemyLanguage service = new AlchemyLanguage();
-	    service.setApiKey("b377b5a0e4d914c3ec611f0dcba45e78f063d6a2");
+	    service.setApiKey("a340a4d57f3fe543684011b1f7c6c1f6ea070336");
 	    
 	    Map<String,Object> params = new HashMap<String, Object>();
 	    String url = this.getUrl();
@@ -115,7 +114,7 @@ public class Page {
 	 */
 	public void alchemyAPITextPOO() {
 		AlchemyLanguage service = new AlchemyLanguage();
-	    service.setApiKey("b377b5a0e4d914c3ec611f0dcba45e78f063d6a2");
+	    service.setApiKey("a340a4d57f3fe543684011b1f7c6c1f6ea070336");
 	    
 	    Map<String,Object> params = new HashMap<String, Object>();
 	    String url = this.getUrl();
@@ -147,7 +146,7 @@ public class Page {
 	public String alchemyAPITitrePage()throws Exception {
 
 	    AlchemyLanguage service = new AlchemyLanguage();
-	    service.setApiKey("b377b5a0e4d914c3ec611f0dcba45e78f063d6a2");
+	    service.setApiKey("a340a4d57f3fe543684011b1f7c6c1f6ea070336");
 	    
 	    Map<String,Object> params = new HashMap<String, Object>();
 	    
@@ -252,7 +251,6 @@ public class Page {
 		    	// ce serai mieux de voir si la page est une page de sport, si oui alors on regarde tout ses URI et on retri
 		    	try {
 						modelPage = modelPage.union(modelURI);
-						//modelPage.remove(modelURI);
 					}catch (Exception e) {
 					e.printStackTrace();
 				}

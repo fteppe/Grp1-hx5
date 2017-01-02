@@ -1,59 +1,14 @@
 package main;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.swing.JFrame;
-
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.compose.Intersection;
 import org.apache.jena.graph.compose.Union;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.tdb.TDB;
-import org.apache.jena.tdb.TDBFactory;
-import org.apache.jena.util.FileManager;
-
-
-import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.DisambiguatedLinks;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentSentiment;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentText;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentTitle;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Entities;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Entity;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Keyword;
-import com.ibm.watson.developer_cloud.alchemy.v1.model.Keywords;
-import com.ibm.watson.developer_cloud.alchemy.v1.util.AlchemyEndPoints.AlchemyAPI;
-
-//import static spark.Spark.*;
-import main.Fenetre.Recherche;
 
 public class Sportif {	
 	
@@ -88,15 +43,15 @@ public class Sportif {
 		// On recupere les dix premiers resultats de Google
 		    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
 		    for(String url : listeURL ) {
-			Page page = new Page(url, nbPageSport);
-			page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
-			//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
-		        page.dbpediaSpotlightPOO();
-		        if(page.isSportPage()) {
-		            nbPageSport++;
-		            listePages.add(page);
-		        }  
-	        	if(nbPageSport==10){break;}
+				Page page = new Page(url, nbPageSport);
+				page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
+				//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
+			    page.dbpediaSpotlightPOO();
+			    if(page.isSportPage()) {
+			         nbPageSport++;
+			         listePages.add(page);
+			    }  
+		        if(nbPageSport==10){break;}
 		    }
 		    indexFirstPage += 10;
 		    listeURL.clear();
@@ -119,7 +74,7 @@ public class Sportif {
 	 */
 	public static List<String> googleCustomSearch(String requeteUtilisateur, int start)throws Exception {
 
-        String key="AIzaSyB4Vksrz6YsFHYXzUF4fYiIZuqqWksF2AI";
+        String key="AIzaSyABrXjqXg28Np8AcFzf4_A1tALvf8pWVzs";
         List<String> listeURL = new ArrayList<String>();
         String startString = Integer.toString(start);
         URL url = new URL(
@@ -313,7 +268,7 @@ public class Sportif {
 
 		for(Cluster cluster : listClusters)
 		{
-			cluster.foundNameClusterPOO();
+			cluster.foundNameClusterPOOV2();
 		}
 		
 		return listClusters;
