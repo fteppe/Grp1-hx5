@@ -1,15 +1,27 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.util.FileManager;
 
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
@@ -26,6 +38,8 @@ public class Page {
 	private List<String> motscles;
 	private Cluster cluster;
 	private Model model;
+	private boolean sportPage;
+
 
 
 	public Page(String url, int classement){
@@ -36,7 +50,7 @@ public class Page {
 	
 
 	/**
-	 * Trouve les mots cles et le texte extrait de la page.
+	 * Trouve les mots cles et le titre de la page.
 	 */
 	public void alchemyAPIKeywordPOO() {
 		AlchemyLanguage service = new AlchemyLanguage();
@@ -53,24 +67,44 @@ public class Page {
 			e.printStackTrace();
 		}
 		
-	    Keywords texteExtraitKeyWord = service.getKeywords(params).execute();
-	    List<Keyword> texteExtraitKeywordList = texteExtraitKeyWord.getKeywords();
-	   
-	    String texteExtrait = "";
-    	
-	    // On fait un string de la concatenation de tous les mot cles
-	    for(Keyword motcle : texteExtraitKeywordList)
-	    {
-	    	listKeywords.add(motcle.getText());
-	    	texteExtrait += motcle.getText()+" ";
-	    }
-	    
-	    this.setMotscles(listKeywords);
-	    this.setTexteExtrait(texteExtrait);
+		
+		DocumentTitle texteExtraitTitle = null;
+		try {
+			texteExtraitTitle = service.getTitle(params).execute();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+		
+		String texteExtraitTitre = "f";
+		if(texteExtraitTitle!=null){
+		texteExtraitTitre = texteExtraitTitle.getTitle().toString();
+		}
+
+		
+		Keywords texteExtraitKeyWord = service.getKeywords(params).execute();
+		List<Keyword> texteExtraitKeywordList = texteExtraitKeyWord.getKeywords();
+
+
+		String texteExtrait = "";
+		
+		if(texteExtraitKeywordList!=null){
+		// On fait un string de la concatenation de tous les mot cles
+		for(Keyword motcle : texteExtraitKeywordList)
+		{
+			listKeywords.add(motcle.getText());
+			texteExtrait += motcle.getText()+" ";
+		}
+		}
+		texteExtrait += texteExtraitTitre;
+
+		this.setMotscles(listKeywords);
+		this.setTexteExtrait(texteExtrait);
+		    
 	}
 	
 	/**
 	 * Trouve le texte extrait de la page.
+	 * Solution trop longue et approximative.
 	 */
 	public void alchemyAPITextPOO() {
 		AlchemyLanguage service = new AlchemyLanguage();
@@ -88,7 +122,7 @@ public class Page {
 		}
 		
 	    DocumentText texteExtraitKeyWord = service.getText(params).execute();
-	   
+
 	    String texteExtrait = texteExtraitKeyWord.getText();
 	    listKeywords.add(texteExtrait);
 	    this.setMotscles(listKeywords);
@@ -119,16 +153,16 @@ public class Page {
 	
 	
 	/**
-	 * Trouve toutes les URI Dbpedia qu'il y a dans la page,
-	 * et en fait un model RDF.
+	 * Trouve toutes les URI Dbpedia qu'il y a dans la page
+	 * et en fait un model RDF, ensuite on cherche si la page est une page de sport ou non.
 	 */
 	public void dbpediaSpotlightPOO() {
 
 	    List<String> listeURI = new ArrayList<String>();
-	    List<String> listeUrlRdf = new ArrayList<String>();	    
+	    List<String> listeUrlRdf = new ArrayList<String>();
+	
 	    db c = new db ();  
 	    c.configiration(0.0, 0, "non", "Default", "Default", "yes");  
-	    
 	    try {
 			c.evaluate(this.getTexteExtrait());
 		} catch (Exception e) {
@@ -139,38 +173,37 @@ public class Page {
 	    
 	    
 	    // TODO : Peut etre enlever les URI qui n'apparaissent qu'une fois : supprimer les apparitions hasard
-	    
+	    // Solution peut etre trop brutale, on se retrouve avec peu d'URI, donc approximations.
 	    List<String> listToRemove = new ArrayList<String>();	
 	    for(String URI : listeURI)
 	    {
 	    	int cptOccurence=0;
 	    	for(String URI2 : listeURI)
-		    {
-	    		if(URI.equals(URI2))
-	    		{
+	    	{
+	    		if(URI.equals(URI2)){
 	    			cptOccurence++;
 	    		}
 		    }
 	    	
-	    	if(cptOccurence==1)
-	    	{
+	    	if(cptOccurence==1){
 	    		listToRemove.add(URI);
 	    	}
 	    }
 	    
 	    listeURI.removeAll(listToRemove);
 	    
+	    // **************************************************************************
 	    
-	    // TODO : Utiliser les requetes SPARQL pour reduire le model, centre vers le sport.
-	    // L'objectif etant d'avoir des models plus petit et plus interessant
+	    
 	    
 	    // On enlève les doublons de la liste
 	    Set<String> set = new HashSet<String>() ;
         set.addAll(listeURI) ;
         ArrayList<String> listeURIDistinct = new ArrayList<String>(set) ;
+        double sizeListURI = listeURIDistinct.size();
         
 	    System.out.println("resource URI : "+listeURIDistinct);
-	    System.out.println("resource URI : "+listeURIDistinct.size());
+	    System.out.println("resource URI : "+sizeListURI);
 	    
 	    // On modifie les URI afin d'obtenir le lien des fichiers RDF
 	    for(String uri : listeURIDistinct)
@@ -187,8 +220,7 @@ public class Page {
 	    Model model1;
 	    if(listeURIDistinct.size()>0)
 	    {
-	    	model =
-		          fManager.loadModel(listeUrlRdf.get(0)); 	
+	    	model = fManager.loadModel(listeUrlRdf.get(0)); 	
 	    }
 	    else
 	    {
@@ -197,22 +229,182 @@ public class Page {
 	    
 	    if(listeURIDistinct.size()>1)
 	    {
-		    model1 =
-			          fManager.loadModel(listeUrlRdf.get(1));
+		    model1 = fManager.loadModel(listeUrlRdf.get(1));
 		    
-
 		    // On fait l'union des modèles de chaque mots, afin d'obtenir le modele de la page.
 		    for(String urlRDF : listeUrlRdf)
 		    {
-			    model1 =
-			          fManager.loadModel(urlRDF);
-			  
+			    model1 = fManager.loadModel(urlRDF);
 			    model = model.union(model1);
-
 		    }
-	    }    
+	    }
+	    
+	    
+	    // Si le model de la page n'est pas vide on regarde si c'est une page oriente sport ou non.
+	    if(model != null) {
+	    		try {
+					this.isASportPage(sizeListURI, model);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    }
+	    
+	    System.out.println(this.isSportPage());
 	    this.setModel(model);
 	}
+	
+	
+	
+    // L'objectif etant d'avoir des models plus petit et plus interessant
+    // Peut etre sur le type "Athlete" , avec "cyclist" sous class de athlete.
+    // on voudrait connaitre toutes les URI en liens avec le sport.
+    // On crée la requête SPARQL afin d'affiner le modèle
+    
+    // En premier lieu on regarde si la page contient l'URI d'un sportif, si oui c'est une page sport
+    // Si non, on lance sur les commentaires avec la comparaison de mot en rapport avec le sport
+    // On compte le nombre d'uri sportive a l'interieur ou alors on compte le nombre de mots en lien
+    // avec le sport en faisant la concatenation de tous les commentaires.
+    
+	
+	/**
+	 * On cherche si la page est une page de sport ou non.
+	 * @param sizeListURI
+	 * @throws Exception
+	 */
+	public void isASportPage(double sizeListURI, Model model)throws Exception {
+		
+	    List<String> listSportWord = new ArrayList<String>();
+	    
+	    String sparqlQuery =
+	    		"PREFIX db-owlr: <http://dbpedia.org/resource/>\n" +
+	            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+	            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+	            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+	            "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+	            "\n" +
+	            "SELECT distinct ?athlete  WHERE {\n" +
+	            "  ?athlete rdf:type dbo:Athlete " + " .\n" +
+	            "}";
+	
+	    String resultat = new String();
+	    
+	    // Création de la requête
+	    Query query = QueryFactory.create(sparqlQuery) ;
+	    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+	    	
+	      // Lancement de la requête
+	      ResultSet results = qexec.execSelect() ;
+	      
+	      // Récupération des résultats
+	      for ( ; results.hasNext() ; )
+	      {
+	        QuerySolution soln = results.nextSolution() ;
+	        RDFNode athlete = soln.get("athlete") ;
+	        String nomAthlete = athlete.toString();
+	
+	        resultat+= "athlete : " + nomAthlete + "\n";
+	      }
+	      System.out.println(resultat);
+	    }
+	    
+	    if(!resultat.equals("")){
+	    	this.setSportPage(true);
+	    } 
+	    else {
+	    	 String sparqlQuery2 =
+	 	    		"PREFIX db-owlr: <http://dbpedia.org/resource/>\n" +
+	 	            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+	 	            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+	 	            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+	 	            "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+	 	            "\n" +
+	 	            "SELECT distinct ?uri ?comment  WHERE {\n" +
+	 	            "  ?uri rdfs:comment ?comment " +" .\n" +
+	 	            "FILTER (langMatches(lang (?comment),'EN'))" +" .\n" +
+	 	            "}";
+	 	
+	 	    String allComments = new String();
+	 	    double cptNbSportWord =0;
+	 	    
+	 	    // Création de la requête
+	 	    Query query2 = QueryFactory.create(sparqlQuery2) ;
+	 	    try (QueryExecution qexec = QueryExecutionFactory.create(query2, model)) {
+	 	    	
+	 	      // Lancement de la requête
+	 	      ResultSet results2 = qexec.execSelect() ;
+	 	      
+	 	      // Récupération des résultats
+	 	      for ( ; results2.hasNext() ; )
+	 	      {
+	 	        QuerySolution soln = results2.nextSolution() ;
+	 	        RDFNode uri = soln.get("uri") ;
+	 	        RDFNode comment = soln.get("comment") ;
+	 	        String nomComment = comment.toString();
+	 	        
+	 	        // Concatenation de tous les commentaires
+	 	        allComments+= nomComment + " ";
+	 	      }
+	 	      
+	 	     List<String> listOfWordsInComment = new ArrayList<String>(Arrays.asList(allComments.split(" ")));
+	 	    
+	 	    // On recupere les mots de sports dans la liste
+	 	    listSportWord = addListWordsSport();
+	 	    
+	 	    // On compte le nombre de mot de sport au total
+	 	    for(String wordSport : listSportWord )
+	 	    {
+	 	    	// Non Sensitive
+	 	    	// Fonctionne uniquement sous java 8
+	 	    	boolean containsWordsNonSensitive = listOfWordsInComment.stream().filter(s -> s.equalsIgnoreCase(wordSport)).findFirst().isPresent();
+	 	    	if(containsWordsNonSensitive){
+	 	    		cptNbSportWord++;
+	 	    	}
+	 	    	
+	 	    	// Sensitive
+	 	    	/*
+	 	    	if(listOfWordsInComment.contains(wordSport)){
+	 	    		cptNbSportWord++;
+	 	    	}
+	 	    	*/
+	 	    }
+	 	    
+	 	    // Si il y a plus d'un mot de sport par commentaire en moyenne, c'est une page sport
+	 	    if(cptNbSportWord/sizeListURI>1){
+	 	    	this.setSportPage(true);
+	 	    }
+	 	    else{
+	 	    	this.setSportPage(false);
+	 	    }
+   
+	 	    }
+	    }  
+	}
+	
+	
+	/**
+	 * Lit le fichier texte de mots sportifs, et les ajoutes a une liste java.
+	 * @return listSportWord Liste composee des mots de sports.
+	 */
+	private List<String> addListWordsSport() {
+		List<String> listSportWord = new ArrayList<String>();
+	    String fichier = "listSports.txt";
+	    try {
+	    	InputStream ips = new FileInputStream(fichier);
+	    	InputStreamReader ipsr = new InputStreamReader(ips);
+	    	BufferedReader br = new BufferedReader(ipsr);
+	    	String ligne;
+	    	while ((ligne = br.readLine()) != null)
+	    	{
+	    		listSportWord.add(ligne);
+	    	}
+	    	br.close();
+	    	}
+	    	catch (Exception e) {
+	    	System.out.println(e.toString());
+	    	}
+	    return listSportWord;
+	}
+	
 	
 	// ***************************
 	// ***** GETTER / SETTER ***** 
@@ -264,6 +456,15 @@ public class Page {
 	public void setModel(Model model) {
 		this.model = model;
 	}
+
+	public boolean isSportPage() {
+		return sportPage;
+	}
+
+	public void setSportPage(boolean sportPage) {
+		this.sportPage = sportPage;
+	}
+
 
 
 }
