@@ -75,42 +75,31 @@ public class Sportif {
 		// Gestion des espaces dans la requete
 		requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
 		
-		// On recupere les dix premiers resultats de Google
-		List<String> listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
+		
+		List<String> listeURL;
 		
 		// Pour chaque resultat on recupere les mots cles de la page,
 		// On en trouve les URI Dbpedia present a l'interieur, et on fait un model 
 		// de l'union de tous ces URI, on a finalement le model de la page entiere.
 		// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
-		for(String url : listeURL )
-		{
+		
+		while(nbPageSport<10) {
+
+		// On recupere les dix premiers resultats de Google
+		    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
+		    for(String url : listeURL ) {
 			Page page = new Page(url, nbPageSport);
 			page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
 			//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
-	        page.dbpediaSpotlightPOO();
-	        // On regarde le nombre de page qui sont de sport.
-	        if(page.isSportPage()) {
-	        	nbPageSport++;
-	        	listePages.add(page);
-	        }
-		}
-		
-		while(nbPageSport<10) {
-			indexFirstPage += 10;
-			listeURL.clear();
-			listeURL = googleCustomSearch(requeteUtilisateur, 10);
-			for(String url : listeURL )
-			{
-				Page page = new Page(url, nbPageSport);
-				page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
-				//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
 		        page.dbpediaSpotlightPOO();
 		        if(page.isSportPage()) {
-		        	nbPageSport++;
-		        	listePages.add(page);
+		            nbPageSport++;
+		            listePages.add(page);
 		        }  
 	        	if(nbPageSport==10){break;}
-			}
+		    }
+		    indexFirstPage += 10;
+		    listeURL.clear();
 		}
 		// On calcul la matrice de Jaccard qu'est l'indice de Jaccard entre chaque page.
 		// On cherche ensuite les clusters et on essai de trouver un bon nom pour ce cluster.
@@ -226,7 +215,7 @@ public class Sportif {
 		   
 		   for(int i=0;i<10;i++)
 		   {
-			   for(int j=0;j<10;j++)
+			   for(int j=0;j<i;j++)
 			   {
 				   if(i!=j && listePages.get(j).getModel()!=null && listePages.get(i).getModel()!=null)
 				   {
@@ -242,14 +231,17 @@ public class Sportif {
 						   indice = tailleInter/tailleUnion;
 						   //System.out.println("Indice[" + i+"]" + "["+j+"] : " + indice);
 						   matriceJaccard[i][j] = indice;
+						   matriceJaccard[j][i] = indice;
 					   }
 					   else {
 						   matriceJaccard[i][j] = 0;
+						   matriceJaccard[j][i] = 0;
 					   }
 					   
 				   }
 				   else {
 					   matriceJaccard[i][j] = 1;
+					   matriceJaccard[j][i] = 1;
 				   }
 				   
 			   }
