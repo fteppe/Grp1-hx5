@@ -34,19 +34,18 @@ public class Page {
 	
 	private final String url;
 	private final int classement;
+	private String titre;
 	private String texteExtrait;
 	private List<String> motscles;
 	private Cluster cluster;
 	private Model model;
 	private boolean sportPage;
-
-
+	
 
 	public Page(String url, int classement){
 		this.url = url;
 		this.classement = classement;
 	}
-	
 	
 
 	/**
@@ -79,6 +78,7 @@ public class Page {
 		if(texteExtraitTitle!=null){
 		texteExtraitTitre = texteExtraitTitle.getTitle().toString();
 		}
+		this.setTitre(texteExtraitTitre);
 		
 		List<Keyword> texteExtraitKeywordList = null ;
 		try {
@@ -122,7 +122,6 @@ public class Page {
 	    
 		try {
 			URL urlAlchemy = new URL(url);
-			//System.out.println("URL :" + url);;
 		    params.put(AlchemyLanguage.URL, urlAlchemy);
 		    DocumentText texteExtraitKeyWord = service.getText(params).execute();
 			   
@@ -133,7 +132,6 @@ public class Page {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//System.out.println("Done");
 
 	}
 	
@@ -159,7 +157,6 @@ public class Page {
 	    } catch(Exception e) {
 		titre = "Not retrieved";
 	    }
-	    //System.out.println("Done");
 	    return titre;
 	}
 	
@@ -184,7 +181,7 @@ public class Page {
 	    listeURI = c.getResuFullURI();
 	    
 	    
-	    // TODO : Peut etre enlever les URI qui n'apparaissent qu'une fois : supprimer les apparitions hasard
+	    // ON enleve toutes les URI qui n'apparaissent qu'une seule et unique fois
 	    // Solution peut etre trop brutale, on se retrouve avec peu d'URI, donc approximations.
 	    List<String> listToRemove = new ArrayList<String>();	
 	    for(String URI : listeURI)
@@ -213,9 +210,6 @@ public class Page {
         set.addAll(listeURI) ;
         ArrayList<String> listeURIDistinct = new ArrayList<String>(set) ;
         double sizeListURI = listeURIDistinct.size();
-        
-	    System.out.println("resource URI : "+listeURIDistinct);
-	    System.out.println("resource URI : "+sizeListURI);
 	    
 	    // On modifie les URI afin d'obtenir le lien des fichiers RDF
 	    for(String uri : listeURIDistinct)
@@ -459,6 +453,7 @@ public class Page {
 	      }
 	    }
 	    
+	    // Si il y a un athlete dedans, alors c'est une page de sport directement.
 	    if(!resultat.equals("")){
 	    	this.setSportPage(true);
 	    } 
@@ -513,6 +508,7 @@ public class Page {
 	 	    	}
 	 	    	
 	 	    	// Sensitive
+	 	    	// Si vous avez pas java 8
 	 	    	/*
 	 	    	if(listOfWordsInComment.contains(wordSport)){
 	 	    		cptNbSportWord++;
@@ -521,6 +517,7 @@ public class Page {
 	 	    }
 	 	    
 	 	    // Si il y a plus de deux mot de sport par commentaire, c'est une page sport
+	 	    // Approximatif ... 
 	 	    if(cptNbSportWord>2){
 	 	    	return true;
 	 	    }
@@ -617,6 +614,12 @@ public class Page {
 		this.sportPage = sportPage;
 	}
 
+	public String getTitre() {
+		return titre;
+	}
 
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
 
 }

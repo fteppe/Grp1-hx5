@@ -216,7 +216,7 @@ public class Fenetre {
         	
     		for(Page page : listPagesOrdre)
     		{
-    			JLabel lblPage = new JLabel(page.getUrl());
+    			JLabel lblPage = new JLabel(page.getTitre());
     			lblPage.setFont(new Font("Tahoma", Font.PLAIN, 18));
         		lblPage.setHorizontalAlignment(SwingConstants.CENTER);
         		lblPage.setBounds(10, 20, 250, 25);

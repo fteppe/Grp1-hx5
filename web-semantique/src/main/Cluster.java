@@ -5,11 +5,8 @@ import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.NsIterator;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
 
 public class Cluster {
 
@@ -25,6 +22,9 @@ public class Cluster {
 	/**
 	 * TODO : AMELIORER la recherche d'un bon nom ... 
 	 * Essai de trouver un nom representatif du cluster
+	 * On prend les titres de pages et on cherche les mots en commun entre eux
+	 * Si y a des mots en commun ça devient le nom du cluster
+	 * Sinon on prend le titre de la premiere page.
 	 */
 	public void foundNameClusterPOO(){
 		
@@ -66,8 +66,7 @@ public class Cluster {
 		}
 		
 		// Si aucun mot en commun, on prend le titre de la premier page ... 
-		if(nameCluster=="")
-		{
+		if(nameCluster==""){
 			nameCluster=listTitlePage.get(0);
 		}
 		
@@ -78,17 +77,14 @@ public class Cluster {
 	 * Essai de trouver un nom representatif du cluster
 	 * En utilisant l'intersection de toute les pages
 	 * Dans cette intersection on prend tous les labels qui existe en anglais
-	 * Et on prend les trois premiers labels... c'est pas top.
+	 * Et on prend les trois premiers labels... 
+	 * c'est pas top mais ça semble moins pire.
 	 */
 	public void foundNameClusterPOOV2(){
-		
 		List<String> listTitlePage = new ArrayList<String>();
 		List<Model> listModels = new ArrayList<Model>();
 		List<String> listResource = new ArrayList<String>();
 		String nameCluster = "";
-		String titlePage = "";
-		int compteurOccurence = 0;
-		
 		Model model = this.getPages().get(0).getModel();
 		
 		for(Page page : this.getPages())
@@ -114,11 +110,9 @@ public class Cluster {
 				{
 					if(!subject.isURIResource()){
 						listResource.add(subject.toString());
-						System.out.println(subject.toString());
 					}
 				}
 			}
-			System.out.println("\n \n \n \n");
 			
 			int sizeList = listResource.size();
 			if(sizeList>2) {
@@ -136,6 +130,8 @@ public class Cluster {
 		}
 		this.setNom(nameCluster);
 	}
+	
+	
 	
 	
 	// ***************************

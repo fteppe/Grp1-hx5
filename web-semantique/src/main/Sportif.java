@@ -34,7 +34,7 @@ public class Sportif {
 		List<String> listeURL;
 		
 		// Pour chaque resultat on recupere les mots cles de la page,
-		// On en trouve les URI Dbpedia present a l'interieur, et on fait un model 
+		// On en trouve les URI Dbpedia, et on fait un model 
 		// de l'union de tous ces URI, on a finalement le model de la page entiere.
 		// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
 		
@@ -91,7 +91,7 @@ public class Sportif {
             if(output.contains("\"link\": \"")){                
                 String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
                 
-	            System.out.println(link);       //Will print the google search links
+	            System.out.println(link); 
 	            listeURL.add(link);
             }     
         }
@@ -222,8 +222,7 @@ public class Sportif {
 	public static List<Cluster> creationClustersPOO(double[][] matriceJaccard, List<Page> listeToutesPages)throws Exception {
 		
 		List<Cluster> listeDesCluster = new ArrayList<Cluster>();
-
-		
+	
 		// Page deja dans un cluster
 		List<Page> pageClusterise = new ArrayList<Page>();
 		
@@ -242,8 +241,7 @@ public class Sportif {
 				   // On considere qu'une page ne peut etre que dans un seul et meme cluster
 				   if(matriceJaccard[pageBuff.getClassement()][pageBuff2.getClassement()]>0.1 && 
 						   pageBuff.getClassement()!=pageBuff2.getClassement() && !pageClusterise.contains(pageBuff2))
-				   {
-					   // Alors les deux pages sont similaires					   
+				   {				   
 					   listePagesCluster.add(pageBuff2);
 					   pageClusterise.add(pageBuff2);
 				   }
