@@ -12,11 +12,16 @@ public class Cluster {
 
 	private List<Page> pages = new ArrayList<Page>();
 	private String nom;
-
+	private Model modele;
 	
 	public Cluster(List<Page> pages){
 		this.pages = pages;
 		this.nom = pages.get(0).getMotscles().get(0); // le tout premier mot cle
+		Model newModele = pages.get(0).getModel();
+		for(int i=1; i<pages.size(); i++) {
+		    newModele = newModele.intersection(pages.get(i).getModel());
+		}
+		this.modele = newModele;
 	}
 	
 	/**
@@ -153,5 +158,13 @@ public class Cluster {
 
 	public void setPages(List<Page> pages) {
 		this.pages = pages;
+	}
+	
+	public void setModel(Model modele) {
+		this.modele = modele;
+	}
+	
+	public Model getModel() {
+		return this.modele;
 	}
 }

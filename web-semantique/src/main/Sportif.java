@@ -9,6 +9,9 @@ import java.util.List;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.compose.Intersection;
 import org.apache.jena.graph.compose.Union;
+import org.apache.jena.rdf.model.Model;
+
+import com.aliasi.util.Pair;
 
 public class Sportif {	
 	
@@ -38,7 +41,7 @@ public class Sportif {
 		// de l'union de tous ces URI, on a finalement le model de la page entiere.
 		// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
 		
-		while(nbPageSport<10) {
+		while(nbPageSport<4) {
 
 		// On recupere les dix premiers resultats de Google
 		    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
@@ -51,15 +54,15 @@ public class Sportif {
 			         nbPageSport++;
 			         listePages.add(page);
 			    }  
-		        if(nbPageSport==10){break;}
+		        if(nbPageSport==4){break;}
 		    }
 		    indexFirstPage += 10;
 		    listeURL.clear();
 		}
 		// On calcul la matrice de Jaccard qu'est l'indice de Jaccard entre chaque page.
 		// On cherche ensuite les clusters et on essai de trouver un bon nom pour ce cluster.
-		double[][] matriceJaccard = creationMatriceJaccardPOO(listePages);
-		listeClusters = creationClustersPOO(matriceJaccard,listePages);
+		//double[][] matriceJaccard = creationMatriceJaccardPOO(listePages);
+		listeClusters = creationClustersPOOBis(listePages);
 		listeClusters = foundNameClustersPOO(listeClusters);
 		
 		// On renvoi le resultat a la fenetre.
@@ -255,7 +258,70 @@ public class Sportif {
 		   }	
 		return listeDesCluster;
 	}
-
+	
+	/**
+	 * TODO : Ameliorer la recherche de cluster, pour l'instant on se base uniquement sur l'indice de Jaccard,
+	 * et la valeur seuil est fixe, et choisi un peu a la louche par le programmeur.
+	 * De meme on considere pour l'instant qu'une page ne peut etre que dans un seul cluster, je sais pas si c'est top.
+	 * 
+	 * Recherche des Clusters
+	 * 
+	 * @param matriceJaccard
+	 * @param listeToutesPages
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<Cluster> creationClustersPOOBis(List<Page> listeToutesPages)throws Exception {
+	    List<Cluster> listeDesCluster = new ArrayList<Cluster>();
+	    // Page deja dans un cluster
+	    List<Page> pageClusterise = new ArrayList<Page>();
+	    for(Page pageBuff : listeToutesPages){
+		 List<Page> listePagesCluster = new ArrayList<Page>();
+		 listePagesCluster.add(pageBuff);
+		 Cluster newCluster = new Cluster(listePagesCluster);
+		 listeDesCluster.add(newCluster);
+		 pageBuff.setCluster(newCluster);
+	    }
+	    double similMax=1;
+	    
+	    while(similMax >0.20){
+		similMax= 0;
+    	    	Cluster maxCluster = null;
+    	    	Cluster secMaxCluster = null;
+    
+    	    	for(int i = 0; i <listeDesCluster.size(); i++){
+    	    	    for(int j = 0; j < i; j++){
+    	    		Cluster firstClus = listeDesCluster.get(i);
+    	    		Cluster secClus = listeDesCluster.get(j);
+        		    if(firstClus.getModel()!=null && secClus.getModel()!=null){
+        			Model union = firstClus.getModel().union(secClus.getModel());
+        			Model inters = firstClus.getModel().intersection(secClus.getModel());
+        			double indice = (double)(inters.size())/(union.size());
+        			System.out.println(inters.size());
+        			System.out.println(union.size());
+        			System.out.println(indice);
+        			if(indice > similMax) {
+        			    maxCluster = firstClus;
+        			    secMaxCluster = secClus;
+        			    similMax = indice;
+        			}
+    		    }
+    		}
+    	    }
+    	    if(maxCluster != null && secMaxCluster != null && similMax >0.20){
+            	    listeDesCluster.remove(maxCluster);
+            	    listeDesCluster.remove(secMaxCluster);
+            	    List<Page> newListPages = maxCluster.getPages();
+            	    newListPages.addAll(secMaxCluster.getPages());
+            	    Cluster newCluster = new Cluster(newListPages);
+            	    listeDesCluster.add(newCluster);
+    	    }
+    	    System.out.println("Sim Max = " + similMax);
+	    }
+	    
+	    
+	    return listeDesCluster;
+	}
 
 	/**
 	 * Trouve des mots décrivant chaque cluster spécifiés.

@@ -160,7 +160,7 @@ public class Services {
 	Intersection inter;
 	Union union; 
 	for(int i=0; i < 10; i++) {
-	    for(int j=0; j < 10; j++) {
+	    for(int j=0; j < i; j++) {
 		if(i!=j && listePages.get(j).getModel() != null && listePages.get(i).getModel() != null) {
 		    graphe1 = listePages.get(i).getModel().getGraph();
 		    graphe2 = listePages.get(j).getModel().getGraph();
@@ -172,11 +172,14 @@ public class Services {
 			indice = tailleInter/tailleUnion;
 			//System.out.println("Indice[" + i+"]" + "["+j+"] : " + indice);
 			matriceJaccard[i][j] = indice;
+			matriceJaccard[j][i] = indice;
 		    } else {
 			matriceJaccard[i][j] = 0;
+			matriceJaccard[j][i] = 0;
 		    }		   
 		} else {
 		    matriceJaccard[i][j] = 1;
+		    matriceJaccard[j][i] = 1;
 		}	   
 	    }
 	}

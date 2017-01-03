@@ -183,7 +183,7 @@ public class Page {
 	    
 	    // ON enleve toutes les URI qui n'apparaissent qu'une seule et unique fois
 	    // Solution peut etre trop brutale, on se retrouve avec peu d'URI, donc approximations.
-	    List<String> listToRemove = new ArrayList<String>();	
+	    /*List<String> listToRemove = new ArrayList<String>();	
 	    for(String URI : listeURI)
 	    {
 	    	int cptOccurence=0;
@@ -199,7 +199,7 @@ public class Page {
 	    	}
 	    }
 	    
-	    listeURI.removeAll(listToRemove);
+	    listeURI.removeAll(listToRemove);*/
 	    
 	    // **************************************************************************
 	    
