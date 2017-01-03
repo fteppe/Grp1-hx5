@@ -16,7 +16,7 @@ public class Cluster {
 	
 	public Cluster(List<Page> pages){
 		this.pages = pages;
-		this.nom = pages.get(0).getMotscles().get(0); // le tout premier mot cle
+		this.nom = pages.get(0).getTitre(); // le tout premier mot cle
 		Model newModele = pages.get(0).getModel();
 		for(int i=1; i<pages.size(); i++) {
 		    newModele = newModele.intersection(pages.get(i).getModel());

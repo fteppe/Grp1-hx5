@@ -106,7 +106,6 @@ public class Services {
 	BufferedReader br = new BufferedReader(new InputStreamReader(
 		(conn.getInputStream())));
 
-	System.out.println("4");
 	String output;
 	while ((output = br.readLine()) != null) {
 	    if(output.contains("\"link\": \"")){                
