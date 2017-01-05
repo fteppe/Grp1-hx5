@@ -167,7 +167,6 @@ public class Page {
 	 */
 	public void dbpediaSpotlightPOO() {
 
-		
 		/**
 	     * ********************************************
 		 * ********* RECUPERATION DES URI *************
@@ -186,6 +185,7 @@ public class Page {
 		}
 	    
 	    listeURI = c.getResuFullURI();
+	    
 	    
 	    /**
 	     * ********************************************
@@ -231,7 +231,6 @@ public class Page {
 	    	String uriData = uri.replace("resource","data");
 	    	listeUrlRdf.add(uriData+".rdf");
 	    }
-	    
 	    // On charge le modèle avec le fichier RDF
 	    FileManager fManager = FileManager.get();
 	    fManager.addLocatorURL();
@@ -254,12 +253,12 @@ public class Page {
 		    {
 		    	modelURI = fManager.loadModel(urlRDF);
 		    	
-		    	try {
-						modelPage = modelPage.union(modelURI);
-					}catch (Exception e) {
-					e.printStackTrace();
-				}
-		    	
+			    	try {
+							modelPage = modelPage.union(modelURI);
+						}catch (Exception e) {
+						e.printStackTrace();
+					}
+			    	
 		    }
 	    }
 	    
@@ -273,7 +272,6 @@ public class Page {
 					e.printStackTrace();
 				}
 	    }
-	    
 	    System.out.println("La page parle de sport : " + this.isSportPage());
 	    this.setModel(modelFinal);
 	}
@@ -400,6 +398,7 @@ public class Page {
 	 	    if(cptNbSportWord/sizeListURI>1){
 	 	    	this.setSportPage(true);
 	 	    	
+	 	    	
 	 	    	FileManager fManager = FileManager.get();
 	 		    fManager.addLocatorURL();
 	 		    
@@ -411,7 +410,8 @@ public class Page {
 			    	if(!isASportURI(modelURI)){
 			    		model = model.remove(modelURI);
 			    	}	
-	 	    	}	 	    	
+	 	    	}
+	 	    		 	    	
 	 	    }
 	 	    else{
 	 	    	this.setSportPage(false);
