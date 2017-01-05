@@ -74,7 +74,6 @@ public class Sportif {
 	 * @throws Exception
 	 */
 	public static List<String> googleCustomSearch(String requeteUtilisateur, int start)throws Exception {
-
         String key="AIzaSyB4Vksrz6YsFHYXzUF4fYiIZuqqWksF2AI";
         List<String> listeURL = new ArrayList<String>();
         String startString = Integer.toString(start);

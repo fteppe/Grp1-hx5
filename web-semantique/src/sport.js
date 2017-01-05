@@ -47,6 +47,7 @@ function getResults(){
 function getResultsThemes()
 {
 	var input = $('#gsc-i-id1').val(); 
+	//var ephData = '{"clusters":[{"pages":[{"classement":0,"url":"http://www.ncaa.com/sports/football"}],"nom":"College Football - Home | NCAA.com "},{"pages":[{"classement":1,"url":"http://www.espn.com/college-football/"}],"nom":"NCAA College Football Teams, Scores, Stats, News, Standings, Rumors - ESPN "},{"pages":[{"classement":2,"url":"http://www.ncaa.com/sports/football/fbs"},{"classement":6,"url":"http://www.ncaa.com/"},{"classement":7,"url":"http://bleacherreport.com/college-football"}],"nom":"FBS College Football - Home | NCAA.com"},{"pages":[{"classement":3,"url":"http://www.nbcsports.com/college-football"}],"nom":"College Football "},{"pages":[{"classement":4,"url":"http://www.ncaa.com/scoreboard/football/fbs"}],"nom":"Scores - College Football FBS "},{"pages":[{"classement":5,"url":"http://www.cbssports.com/college-football/"}],"nom":"NCAA Football - College News, Scores, Stats, Standings, Rumors "},{"pages":[{"classement":8,"url":"http://www.foxsports.com/fantasy/collegefootball/pickem/"},{"classement":9,"url":"http://www.ncaa.org/"}],"nom":"FOX Sports College Football Pick\'em"}]}';
 	if(input.replace(/\s/g, '')!=""){
 		var waitMessage = '<div class="well" id="waiting"><h3>Searching for new themes...</h3></div>';
 		$( "#themes" ).html( waitMessage );
@@ -59,11 +60,11 @@ function getResultsThemes()
 		   dataType : 'json',
 		   success: function(data) {
 			  console.log(data);
-			  displayThemes(data.clusters);
-			  //searchImages(data); //A décommenter pour obtenir les images de chaque vignette (et commenter displayThemes(data.clusters); au-dessus)
+			  //displayThemes(data.clusters);
+			  searchImages(data); //A décommenter pour obtenir les images de chaque vignette (et commenter displayThemes(data.clusters); au-dessus)
 			},
 			error: function() {
-			  $( "#themes" ).html( '<h3>Clusters haven\'t been retrieved...</h3>' ); }
+			  $( "#waiting" ).html( '<h3>Clusters haven\'t been retrieved...</h3>' ); }
 		});
 	}
 }
@@ -95,9 +96,9 @@ function displayThemes(clusters, imageArray) {
 		nbLinksDisplayed = Math.min(nbMaxLinksDisplayed, nbLinks);							
 		thumbnails = thumbnails + '<div class="col-sm-2 col-md-15">' +
 						  '<a class="thumbnail" name="' + clusters[i].nom + '" href="#">' + 
-							'<img src="http://placehold.it/250x250"' /*+ imageArray[i].link*/ + '" alt="Image" style="max-width:100%;" />' +
+							'<img src="'/*http://placehold.it/250x250"'*/ + imageArray[i].link + '" alt="Image" style="max-width:100%;" />' +
 							'<div class="caption">' +
-							'<h5 class="snippet">' + clusters[i].nom.trunc(35) + '</h5></div></a>' +
+							'<h5 class="snippet">' + clusters[i].nom.trunc(55) + '</h5></div></a>' +
 							'<span class="btn ' + (lastThumb ? 'lastPopov' : 'popov') +'" rel="popover" data-content="<table class=\'table\'>';
 		/*Affichage de chaque vignette*/
 		for(j=0 ; j < nbLinksDisplayed ; j++){
@@ -175,7 +176,7 @@ function getImage(clusters, indice, imageArray) {
 	var input = clusters[indice].nom;
 	$.ajax({
 		type: 'GET',
-		url: "https://www.googleapis.com/customsearch/v1?key=AIzaSyB4Vksrz6YsFHYXzUF4fYiIZuqqWksF2AI&cx=013632266919387871672:pgb1ce2nwuq&searchType=image&q=" + input + "&alt=json",
+		url: "https://www.googleapis.com/customsearch/v1?key=AIzaSyAXNERGjTHnxRaO6lggPtnUxIAL4vBRDBk&cx=013632266919387871672:pgb1ce2nwuq&searchType=image&q=" + input + "&alt=json",
 		timeout: 3000,
 		success: function(imData) {
 			repeat(imData, clusters, indice, imageArray);
@@ -188,12 +189,17 @@ function getImage(clusters, indice, imageArray) {
 
 /* Cherche une image pour une nouvelle vignette sauf si chaque cluster a été traité, auquel cas elles sont affichées*/
 function repeat(imData, clusters, indice, imageArray) {
+	if(imData.hasOwnProperty('items')){
 	imageArray.push(imData.items[0]);
+	} else {
+		imageArray.push(JSON.parse('{"link":"http://placehold.it/250x250"}'));
+	}
 	  if(indice == clusters.length - 1) {
 		displayThemes(clusters, imageArray);
 	  } else {
 		  getImage(clusters, (indice + 1), imageArray);
 	  }
+
 }
 
 /*Active les popovers de chaque vignette*/
