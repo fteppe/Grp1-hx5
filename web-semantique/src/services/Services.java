@@ -50,25 +50,28 @@ public class Services {
 	
 	// Gestion des espaces dans la requete
 	requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
-		
+	
+	
 	List<String> listeURL;
-		
+	
 	// Pour chaque resultat on recupere les mots cles de la page,
-	// On en trouve les URI Dbpedia present a l'interieur, et on fait un model 
+	// On en trouve les URI Dbpedia, et on fait un model 
 	// de l'union de tous ces URI, on a finalement le model de la page entiere.
 	// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
+	
 	while(nbPageSport<10) {
+
 	// On recupere les dix premiers resultats de Google
 	    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
 	    for(String url : listeURL ) {
-		Page page = new Page(url, nbPageSport);
-		page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
-		//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
-		page.dbpediaSpotlightPOO();
-		if(page.isSportPage()) {
-		    nbPageSport++;
-		    listePages.add(page);
-		}  
+			Page page = new Page(url, nbPageSport);
+			page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
+			//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
+		    page.dbpediaSpotlightPOO();
+		    if(page.isSportPage()) {
+		         nbPageSport++;
+		         listePages.add(page);
+		    }  
 	        if(nbPageSport==10){break;}
 	    }
 	    indexFirstPage += 10;
@@ -76,10 +79,10 @@ public class Services {
 	}
 	// On calcul la matrice de Jaccard qu'est l'indice de Jaccard entre chaque page.
 	// On cherche ensuite les clusters et on essai de trouver un bon nom pour ce cluster.
-	double[][] matriceJaccard = creationMatriceJaccardPOO(listePages);
-	listeClusters = creationClustersPOO(matriceJaccard,listePages);
+	//double[][] matriceJaccard = creationMatriceJaccardPOO(listePages);
+	listeClusters = creationClustersPOOBis(listePages);
 	listeClusters = foundNameClustersPOO(listeClusters);
-		
+	
 	// On renvoi le resultat a la fenetre.
 	return listeClusters;
     }
@@ -103,7 +106,6 @@ public class Services {
 	BufferedReader br = new BufferedReader(new InputStreamReader(
 		(conn.getInputStream())));
 
-	System.out.println("4");
 	String output;
 	while ((output = br.readLine()) != null) {
 	    if(output.contains("\"link\": \"")){                
@@ -151,6 +153,7 @@ public class Services {
      * @throws Exception
      */
     public static double[][] creationMatriceJaccardPOO(List<Page> listePages)throws Exception {
+
 	double[][] matriceJaccard = new double[10][10];
 	double indice=0;
 	double tailleInter = 0;
@@ -158,16 +161,17 @@ public class Services {
 	Graph graphe1 = null;
 	Graph graphe2 = null;
 	Intersection inter;
-	Union union; 
-	for(int i=0; i < 10; i++) {
-	    for(int j=0; j < i; j++) {
-		if(i!=j && listePages.get(j).getModel() != null && listePages.get(i).getModel() != null) {
+	Union union;
+		    
+	for(int i=0;i<10;i++){
+	    for(int j=0;j<i;j++){
+		if(i!=j && listePages.get(j).getModel()!=null && listePages.get(i).getModel()!=null){
 		    graphe1 = listePages.get(i).getModel().getGraph();
 		    graphe2 = listePages.get(j).getModel().getGraph();
 		    inter = new Intersection(graphe1, graphe2);
 		    union = new Union(graphe1, graphe2);
-		    tailleInter = inter.size();
-		    if(tailleInter > 0) {
+		    tailleInter = inter.size();	
+		    if(tailleInter>0){
 			tailleUnion=union.size();
 			indice = tailleInter/tailleUnion;
 			//System.out.println("Indice[" + i+"]" + "["+j+"] : " + indice);
@@ -176,15 +180,15 @@ public class Services {
 		    } else {
 			matriceJaccard[i][j] = 0;
 			matriceJaccard[j][i] = 0;
-		    }		   
+		    }
 		} else {
 		    matriceJaccard[i][j] = 1;
 		    matriceJaccard[j][i] = 1;
-		}	   
+		}		   
 	    }
 	}
-	return matriceJaccard;	    	
-    }	
+	return matriceJaccard;	    
+    }
 
     /**
      * TODO : Ameliorer la recherche de cluster, pour l'instant on se base uniquement sur l'indice de Jaccard,
@@ -197,32 +201,91 @@ public class Services {
      * @param listeToutesPages
      * @return
      * @throws Exception
-     */	
+     */
     public static List<Cluster> creationClustersPOO(double[][] matriceJaccard, List<Page> listeToutesPages)throws Exception {
+	
 	List<Cluster> listeDesCluster = new ArrayList<Cluster>();
+	
 	// Page deja dans un cluster
 	List<Page> pageClusterise = new ArrayList<Page>();
-	for(Page pageBuff : listeToutesPages) {
-	    List<Page> listePagesCluster = new ArrayList<Page>(); // 1 cluster par ligne   
+	
+	for(Page pageBuff : listeToutesPages){
+	    List<Page> listePagesCluster = new ArrayList<Page>(); // 1 cluster par ligne
+	   
 	    if(!pageClusterise.contains(pageBuff)){
 		listePagesCluster.add(pageBuff);
 		pageClusterise.add(pageBuff);
-	    }	   
-	    for(Page pageBuff2 : listeToutesPages) {
+	    }
+		   
+	    for(Page pageBuff2 : listeToutesPages){
 		// Si 10% de deux pages sont similaires alors les pages sont dans le meme cluster..
 		// On considere qu'une page ne peut etre que dans un seul et meme cluster
 		if(matriceJaccard[pageBuff.getClassement()][pageBuff2.getClassement()]>0.1 && 
-			pageBuff.getClassement()!=pageBuff2.getClassement() && !pageClusterise.contains(pageBuff2)) {
-		    // Alors les deux pages sont similaires					   
+			pageBuff.getClassement()!=pageBuff2.getClassement() && !pageClusterise.contains(pageBuff2)){				   
 		    listePagesCluster.add(pageBuff2);
 		    pageClusterise.add(pageBuff2);
-		}	   
-	    }   
-	    if(!listePagesCluster.isEmpty()) {
+		}		   
+	    }
+			   
+	    if(!listePagesCluster.isEmpty()){
 		listeDesCluster.add(new Cluster(listePagesCluster));
 		pageBuff.setCluster(new Cluster(listePagesCluster));
 	    }
 	}	
+	return listeDesCluster;
+    }
+    
+    /**
+     * Recherche des Clusters, avec un indice de similarité basé sur une distance de Jaccard et prise en compte suivant un seuil fixe
+     * @param listeToutesPages
+     * @return
+     * @throws Exception
+     */
+    public static List<Cluster> creationClustersPOOBis(List<Page> listeToutesPages)throws Exception {
+	List<Cluster> listeDesCluster = new ArrayList<Cluster>();
+	// Page deja dans un cluster
+	List<Page> pageClusterise = new ArrayList<Page>();
+	for(Page pageBuff : listeToutesPages){
+	    List<Page> listePagesCluster = new ArrayList<Page>();
+	    listePagesCluster.add(pageBuff);
+	    Cluster newCluster = new Cluster(listePagesCluster);
+	    listeDesCluster.add(newCluster);
+	    pageBuff.setCluster(newCluster);
+	}
+	double similMax=1;
+	    
+	while(similMax >0.20){
+	    similMax= 0;
+	    Cluster maxCluster = null;
+	    Cluster secMaxCluster = null;
+
+	    for(int i = 0; i <listeDesCluster.size(); i++){
+		for(int j = 0; j < i; j++){
+		    Cluster firstClus = listeDesCluster.get(i);
+		    Cluster secClus = listeDesCluster.get(j);
+    		    if(firstClus.getModel()!=null && secClus.getModel()!=null){
+    			Model union = firstClus.getModel().union(secClus.getModel());
+    			Model inters = firstClus.getModel().intersection(secClus.getModel());
+    			double indice = (double)(inters.size())/(union.size());
+    			if(indice > similMax) {
+    			    maxCluster = firstClus;
+    			    secMaxCluster = secClus;
+    			    similMax = indice;
+    			}
+		    }
+		}
+	    }
+	    if(maxCluster != null && secMaxCluster != null && similMax >0.20){
+        	    listeDesCluster.remove(maxCluster);
+        	    listeDesCluster.remove(secMaxCluster);
+        	    List<Page> newListPages = maxCluster.getPages();
+        	    newListPages.addAll(secMaxCluster.getPages());
+        	    Cluster newCluster = new Cluster(newListPages);
+        	    listeDesCluster.add(newCluster);
+	    }
+	    System.out.println("Sim Max = " + similMax);
+	}    
+	    
 	return listeDesCluster;
     }
     
@@ -232,9 +295,9 @@ public class Services {
      * @return
      */
     public static List<Cluster> foundNameClustersPOO(List<Cluster> listClusters) {
-	for(Cluster cluster : listClusters) {
-	    cluster.foundNameClusterPOO();
-	}	
+	for(Cluster cluster : listClusters){
+		cluster.foundNameClusterPOOV2();
+	}
 	return listClusters;
     }
 }

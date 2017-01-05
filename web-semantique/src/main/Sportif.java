@@ -11,8 +11,6 @@ import org.apache.jena.graph.compose.Intersection;
 import org.apache.jena.graph.compose.Union;
 import org.apache.jena.rdf.model.Model;
 
-import com.aliasi.util.Pair;
-
 public class Sportif {	
 	
 	
@@ -41,7 +39,7 @@ public class Sportif {
 		// de l'union de tous ces URI, on a finalement le model de la page entiere.
 		// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
 		
-		while(nbPageSport<4) {
+		while(nbPageSport<10) {
 
 		// On recupere les dix premiers resultats de Google
 		    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
@@ -54,7 +52,7 @@ public class Sportif {
 			         nbPageSport++;
 			         listePages.add(page);
 			    }  
-		        if(nbPageSport==4){break;}
+		        if(nbPageSport==10){break;}
 		    }
 		    indexFirstPage += 10;
 		    listeURL.clear();
@@ -77,7 +75,7 @@ public class Sportif {
 	 */
 	public static List<String> googleCustomSearch(String requeteUtilisateur, int start)throws Exception {
 
-        String key="AIzaSyABrXjqXg28Np8AcFzf4_A1tALvf8pWVzs";
+        String key="AIzaSyAXNERGjTHnxRaO6lggPtnUxIAL4vBRDBk";
         List<String> listeURL = new ArrayList<String>();
         String startString = Integer.toString(start);
         URL url = new URL(

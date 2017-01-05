@@ -32,10 +32,10 @@ public class Serveur {
         
         get("/themes", (request, response) -> { //Chemin principal
             String userRequest = request.queryParams("request");
-            System.out.println(userRequest);
+            //System.out.println(userRequest);
             List<Cluster> listClusters = services.execution(userRequest); //On forme des clusters a partir des résultats reçus
             JSONObject jThemes = JsonTransformer.transform(listClusters); //On transforme ces résultats pour les communiquer sous la forme d'une variable json
-            System.out.println(jThemes);
+            //System.out.println(jThemes);
             return jThemes.toString();
         });
     }

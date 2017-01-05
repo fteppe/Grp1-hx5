@@ -222,6 +222,8 @@ public class Page {
         set.addAll(listeURI) ;
         ArrayList<String> listeURIDistinct = new ArrayList<String>(set) ;
         double sizeListURI = listeURIDistinct.size();
+        
+	    System.out.println("nb URI page : " + sizeListURI);
 	    
 	    // On modifie les URI afin d'obtenir le lien des fichiers RDF
 	    for(String uri : listeURIDistinct)
@@ -272,7 +274,7 @@ public class Page {
 				}
 	    }
 	    
-	    System.out.println(this.isSportPage());
+	    System.out.println("La page parle de sport : " + this.isSportPage());
 	    this.setModel(modelFinal);
 	}
 	
