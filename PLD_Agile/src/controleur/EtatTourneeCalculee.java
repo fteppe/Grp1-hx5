@@ -45,12 +45,6 @@ public class EtatTourneeCalculee extends EtatDefaut {
 		System.exit(0);
 	}
 
-	/*
-	 * @Override public void genererFeuilleDeRoute(Plan plan, Fenetre
-	 * fenetre) {
-	 * 
-	 * }
-	 */
 
 	@Override
 	public void undo() {

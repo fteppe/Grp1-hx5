@@ -67,7 +67,11 @@ public class EtatChoisirLivraisonEchange extends EtatDefaut {
 		}
 		fenetre.setLivraisonSurvol(id);
 	}
-
+	
+	/**
+	 * setter de l'attribut IdLivraison de la classe EtatChoisirLivraisonEchange
+	 * @param idLivraison
+	 */
 	public void setIdLivraison(int idLivraison) {
 		this.idLivraison = idLivraison;
 	}
