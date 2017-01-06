@@ -28,12 +28,11 @@ public class Cluster {
 		
 	}
 	
-	public Cluster(Cluster cluster1, Cluster cluster2, Matrice matrice){
+	public Cluster(Cluster cluster1, Cluster cluster2){
 		this();
 		isLeaf = false;
 		subCluster.add(cluster1);
 		subCluster.add(cluster2);
-		findMedoid(matrice);
 	}
 	
 	public List<Cluster> getSubClusters(){
@@ -78,7 +77,7 @@ public class Cluster {
 	 * @return
 	 */
 	public String getSujetCenter(Matrice matrice){
-		return null;
+		return medoid;
 	}
 	
 	/**
@@ -91,16 +90,21 @@ public class Cluster {
 		Double distance = Double.MAX_VALUE;
 		for(String i : getSujets()){
 			for(String j : cluster.getSujets()){
-				Double val = matrice.distance(i,j);
-				if(val < distance && val != null){
-					distance = val;
+				if( true){
+					System.out.println("distance "+i+" "+j);
+					Double val = matrice.distance(i,j);
+					System.out.print(val);
+					if(val < distance && val != null){
+						distance = val;
+					}
 				}
+
 			}
 		}
 		return distance;
 	}
 	
-	private void findMedoid(Matrice matrice){
+	public void findMedoid(Matrice matrice){
 		double distanceMin = Double.MAX_VALUE;
 		String medoid = null;
 		ArrayList<String> sujets = getSujets();
