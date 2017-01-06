@@ -44,18 +44,21 @@ public class Analyse {
 		Cluster cluster2 = null;
 		for(Cluster c1 : listeCluster){
 			for(Cluster c2 : listeCluster){
-				distanceCourante = c1.distance(c2, matriceProximite);
-				if( distanceCourante < distanceMin && distanceCourante > 0)
-				{
-					distanceMin = distanceCourante;
-					cluster1 = c1;
-					cluster2 = c2;
+				if(cluster1 != cluster2){
+					distanceCourante = c1.distance(c2, matriceProximite);
+					if( distanceCourante < distanceMin && distanceCourante > 0)
+					{
+						distanceMin = distanceCourante;
+						cluster1 = c1;
+						cluster2 = c2;
+					}
 				}
+
 			}
 		}
 		popCluster(cluster1);
 		popCluster(cluster2);
-		addCluster(new Cluster(cluster1, cluster2, matriceProximite));
+		addCluster(new Cluster(cluster1, cluster2));
 	}
 	
 	public void remplissageMatriceProx(){
@@ -85,5 +88,9 @@ public class Analyse {
 			}
 		}
 		return min;
+	}
+	
+	public ArrayList<Cluster> getListCluster(){
+		return (ArrayList<Cluster>) listeCluster;
 	}
 }
