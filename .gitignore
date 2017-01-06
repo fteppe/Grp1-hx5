@@ -17,3 +17,14 @@ hs_err_pid*
 
 #recommenders
 .recommenders/*
+IHM/RestIf/app/.idea/compiler.xml
+IHM/RestIf/app/.idea/gradle.xml
+IHM/RestIf/app/local.properties
+IHM/RestIf/app/.idea/misc.xml
+IHM/RestIf/app/.idea/copyright/profiles_settings.xml
+IHM/RestIf/app/.idea/workspace.xml
+IHM/RestIf/app/gradle/wrapper/gradle-wrapper.properties
+IHM/RestIf/app/gradlew
+IHM/RestIf/app/gradlew.bat
+IHM/RestIf/app/.idea/modules.xml
+IHM/RestIf/app/.idea/runConfigurations.xml
