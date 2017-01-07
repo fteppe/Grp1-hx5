@@ -28,3 +28,17 @@ IHM/RestIf/app/gradlew
 IHM/RestIf/app/gradlew.bat
 IHM/RestIf/app/.idea/modules.xml
 IHM/RestIf/app/.idea/runConfigurations.xml
+IHM/.idea/*
+IHM/RestIf/.idea/*
+IHM/RestIf/app/.idea/*
+web-semantique/.project
+web-semantique/.settings/org.eclipse.jdt.core.prefs
+web-semantique/.settings/org.eclipse.m2e.core.prefs
+web-semantique/src/errors.txt
+web-semantique/src/thumbnail.txt
+web-semantique/.classpath
+IHM/RestIf/.idea/compiler.xml
+prologue/src/sportif.html
+IHM/RestIf/.idea/runConfigurations.xml
+IHM/RestIf/.idea/gradle.xml
+IHM/RestIf/.idea/compiler.xml
