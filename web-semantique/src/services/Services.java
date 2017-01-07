@@ -34,6 +34,7 @@ import main.db;
 public class Services {
 
     /**
+     * Execute la requete d'un utilisateur
      * @param requeteUtilisateur
      * @return
      * @throws Exception

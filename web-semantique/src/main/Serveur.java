@@ -41,9 +41,9 @@ public class Serveur {
         boolean end = false;
         
         while(!end) {
-            Scanner reader = new Scanner(System.in);  // Reading from System.in
+            Scanner reader = new Scanner(System.in);
             System.out.println("Enter stop to end the program: ");
-            String s = reader.next(); // Scans the next token of the input as an int.
+            String s = reader.next();
             if(s.equals("stop")){
                 stop();
                 end = true;
@@ -51,7 +51,12 @@ public class Serveur {
         }
     }
     
- // Enables CORS on requests. This method is an initialization method and should be called once.
+    /**
+     * Cette méthode autorise les requêtes CORS. 
+     * @param origin
+     * @param methods
+     * @param headers
+     */
     private static void enableCORS(final String origin, final String methods, final String headers) {
 
         options("/*", (request, response) -> {
