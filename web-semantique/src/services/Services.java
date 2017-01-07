@@ -32,9 +32,7 @@ import main.db;
  *
  */
 public class Services {
-    private HashMap<String, String> hmapUrlKeyword = new HashMap<String, String>();
-    private HashMap<String, String> hmapUrlUri = new HashMap<String, String>();
-    
+
     /**
      * @param requeteUtilisateur
      * @return
@@ -43,17 +41,14 @@ public class Services {
     public List<Cluster> execution(String requeteUtilisateur)throws Exception {	
 	List<Page> listePages = new ArrayList<Page>();
 	List<Cluster> listeClusters = new ArrayList<Cluster>();
+	List<String> listeURL;
 	int nbPageSport = 0;
 	int indexFirstPage = 1;
-	// On centre la requete d'origine vers le sport
+	
+	// On centre la requete d'origine vers le sport et on gere les espaces
 	requeteUtilisateur += " sport";
-	
-	// Gestion des espaces dans la requete
 	requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
-	
-	
-	List<String> listeURL;
-	
+
 	// Pour chaque resultat on recupere les mots cles de la page,
 	// On en trouve les URI Dbpedia, et on fait un model 
 	// de l'union de tous ces URI, on a finalement le model de la page entiere.
@@ -65,8 +60,8 @@ public class Services {
 	    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
 	    for(String url : listeURL ) {
 			Page page = new Page(url, nbPageSport);
-			page.alchemyAPIKeywordPOO();  // Tres rapide mais peut etre pas tres bon
-			//page.alchemyAPITextPOO(); // Plus long mais peut etre plus representatif
+			page.alchemyAPIKeywordPOO();  // Plus rapide mais peut etre pas tres bon
+			//page.alchemyAPITextPOO(); // On recupere tous le texte --> Trop long
 		    page.dbpediaSpotlightPOO();
 		    if(page.isSportPage()) {
 		         nbPageSport++;
@@ -191,10 +186,7 @@ public class Services {
     }
 
     /**
-     * TODO : Ameliorer la recherche de cluster, pour l'instant on se base uniquement sur l'indice de Jaccard,
-     * et la valeur seuil est fixe, et choisi un peu a la louche par le programmeur.
-     * De meme on considere pour l'instant qu'une page ne peut etre que dans un seul cluster, je sais pas si c'est top.
-     * 
+     * PREMIERE VERSION : Resultats non concluants
      * Recherche des Clusters
      * 
      * @param matriceJaccard
@@ -243,8 +235,7 @@ public class Services {
      */
     public static List<Cluster> creationClustersPOOBis(List<Page> listeToutesPages)throws Exception {
 	List<Cluster> listeDesCluster = new ArrayList<Cluster>();
-	// Page deja dans un cluster
-	List<Page> pageClusterise = new ArrayList<Page>();
+	
 	for(Page pageBuff : listeToutesPages){
 	    List<Page> listePagesCluster = new ArrayList<Page>();
 	    listePagesCluster.add(pageBuff);
