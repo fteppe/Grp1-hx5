@@ -62,8 +62,9 @@ public class JsonTransformer implements ResponseTransformer {
             // Si il n'y a pas de nom, on prend le premier mot de la première page
             if(nom=="") {
         	nom = cluster.getPages().get(0).getMotscles().get(0);
+            } else {
+        	jCluster.put("nom", nom);
             }
-            jCluster.put("nom", cluster.getNom());
             JSONArray listPages = new JSONArray();
             //Pour chaque cluster, on indique les pages lui correspondant (pas d'ordre pour le moment)
             for(Page page : cluster.getPages()){

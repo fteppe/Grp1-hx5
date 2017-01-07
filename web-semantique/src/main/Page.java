@@ -186,33 +186,7 @@ public class Page {
 	    
 	    listeURI = c.getResuFullURI();
 	    
-	    
-	    /**
-	     * ********************************************
-		 * ********* TRAITEMENT DES URI ***************
-		 * ********************************************
-		 */
-	    
-	    // ON enleve toutes les URI qui n'apparaissent qu'une seule et unique fois
-	    // Solution peut etre trop brutale, on se retrouve avec peu d'URI, donc approximations.
-	    /*List<String> listToRemove = new ArrayList<String>();	
-	    for(String URI : listeURI)
-	    {
-	    	int cptOccurence=0;
-	    	for(String URI2 : listeURI)
-	    	{
-	    		if(URI.equals(URI2)){
-	    			cptOccurence++;
-	    		}
-		    }
-	    	
-	    	if(cptOccurence==1){
-	    		listToRemove.add(URI);
-	    	}
-	    }
-	    
-	    listeURI.removeAll(listToRemove);*/
-	    
+
 	    // **************************************************************************
 	    
 	    

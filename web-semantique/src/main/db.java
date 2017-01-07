@@ -39,7 +39,6 @@ public void configiration(double CONFIDENCE,int SUPPORT,
 
 }
     public List<DBpediaResource> extract(Text text) throws AnnotationException {
-        //LOG.info("Querying API.");
         String spotlightResponse;
         try {
             String Query=API_URL + "rest/annotate/?" +
@@ -50,7 +49,6 @@ public void configiration(double CONFIDENCE,int SUPPORT,
                   + "&showScores=" + showScores
                   + "&powered_by=" + powered_by
                   + "&text=" + URLEncoder.encode(text.text(), "utf-8");
-            //LOG.info(Query);
 
             GetMethod getMethod = new GetMethod(Query);
             getMethod.addRequestHeader(new Header("Accept", "application/json"));
@@ -68,7 +66,7 @@ public void configiration(double CONFIDENCE,int SUPPORT,
             entities = resultJSON.getJSONArray("Resources");
 
         } catch (JSONException e) {
-            //throw new AnnotationException("Received invalid response from DBpedia Spotlight API.");
+            
         }
 
         LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();

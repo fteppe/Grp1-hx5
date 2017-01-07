@@ -25,7 +25,6 @@ public class Cluster {
 	}
 	
 	/**
-	 * TODO : AMELIORER la recherche d'un bon nom ... 
 	 * Essai de trouver un nom representatif du cluster
 	 * On prend les titres de pages et on cherche les mots en commun entre eux
 	 * Si y a des mots en commun ça devient le nom du cluster
