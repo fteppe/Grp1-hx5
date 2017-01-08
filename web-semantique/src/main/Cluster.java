@@ -7,13 +7,21 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
-
+/**
+ * Cette classe permet la création et la gestion des Clusters constitués.
+ * @author utilisateur
+ *
+ */
 public class Cluster {
 
-	private List<Page> pages = new ArrayList<Page>();
-	private String nom;
-	private Model modele;
+	private List<Page> pages = new ArrayList<Page>(); //Pages constituant le cluster
+	private String nom; // Nom du cluster
+	private Model modele; // Modele du cluster, intersection des modeles de ses pages
 	
+	/**
+	 * Crée un cluster à partir de la liste de pages le constituant
+	 * @param pages Pages constituant le cluster
+	 */
 	public Cluster(List<Page> pages){
 		this.pages = pages;
 		this.nom = pages.get(0).getTitre(); // le tout premier mot cle
@@ -25,63 +33,9 @@ public class Cluster {
 	}
 	
 	/**
-	 * Essai de trouver un nom representatif du cluster
-	 * On prend les titres de pages et on cherche les mots en commun entre eux
-	 * Si y a des mots en commun ça devient le nom du cluster
-	 * Sinon on prend le titre de la premiere page.
-	 */
-	public void foundNameClusterPOO(){
-		
-		List<String> listTitlePage = new ArrayList<String>();
-		String nameCluster = "";
-		String titlePage = "";
-		int compteurOccurence = 0;
-		
-		
-		for(Page page : this.getPages())
-		{
-			try {
-				titlePage = page.alchemyAPITitrePage();
-			} catch (Exception e) {
-			}
-			listTitlePage.add(titlePage);
-		}
-		
-		for(String title : listTitlePage)
-		{
-			String mots[]  = title.split(" ");
-			for(String mot : mots)
-			{
-				for(String title2 : listTitlePage)
-				{
-					if(title2.contains(mot))
-					{
-						compteurOccurence++;
-					}
-				}
-				
-				if(compteurOccurence==listTitlePage.size() && !nameCluster.contains(mot))
-				{
-					nameCluster+= mot + " ";
-				}
-				compteurOccurence=0;
-			}
-		}
-		
-		// Si aucun mot en commun, on prend le titre de la premier page ... 
-		if(nameCluster==""){
-			nameCluster=listTitlePage.get(0);
-		}
-		
-		this.setNom(nameCluster);
-	}
-	
-	/**
-	 * Essai de trouver un nom representatif du cluster
-	 * En utilisant l'intersection de toute les pages
-	 * Dans cette intersection on prend tous les labels qui existe en anglais
-	 * Et on prend les trois premiers labels... 
-	 * c'est pas top mais ça semble moins pire.
+	 * Cherche un nom pour le cluster courant, en utilisant l'intersection des modeles des pages
+	 * le constituant (en prenant les trois premiers labels existant en anglais), puis le premier mot
+	 * du titre de la première page le cas échéant
 	 */
 	public void foundNameClusterPOOV2(){
 		List<String> listTitlePage = new ArrayList<String>();
@@ -128,8 +82,10 @@ public class Cluster {
 			nameCluster = nameCluster.replace("@en", "");
 		}
 		else {
-		// Si aucun mot en commun, on prend le titre de la premier page ... 
+		    // Si aucun mot en commun, on prend le titre de la premier page ... 
+		    if(!listTitlePage.isEmpty()) {
 			nameCluster=listTitlePage.get(0);
+		    }
 		}
 		this.setNom(nameCluster);
 	}

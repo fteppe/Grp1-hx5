@@ -24,22 +24,23 @@ public class Serveur {
     public static Services services = new Services();
     
     /**
-     * Méthode permettant le lancement du serveur sur l'adresse http://localhost:4567 
-     * @param args 
+     * Methode permettant le lancement du serveur sur l'adresse http://localhost:4567 
+     * @param args
      */
     public static void main(String[] args) {
-	enableCORS("*", "*", "*"); //On autorise les requêtes cross-domain
+	enableCORS("*", "*", "*"); //On autorise les requetes cross-domain
         get("/hello", (req, res) -> "Hello World"); //Chemin de test
         
         get("/themes", (request, response) -> { //Chemin principal
             String userRequest = request.queryParams("request");
-            List<Cluster> listClusters = services.execution(userRequest); //On forme des clusters a partir des résultats reçus
-            JSONObject jThemes = JsonTransformer.transform(listClusters); //On transforme ces résultats pour les communiquer sous la forme d'une variable json
+            List<Cluster> listClusters = services.execution(userRequest); //On forme des clusters a partir des resultats reçus
+            JSONObject jThemes = JsonTransformer.transform(listClusters); //On transforme ces resultats pour les communiquer sous la forme d'une variable json
             return jThemes.toString();
         });
         
         boolean end = false;
         
+        // On tape "stop" pour arreter le serveur
         while(!end) {
             Scanner reader = new Scanner(System.in);
             System.out.println("Enter stop to end the program: ");
@@ -52,10 +53,10 @@ public class Serveur {
     }
     
     /**
-     * Cette méthode autorise les requêtes CORS. 
-     * @param origin
-     * @param methods
-     * @param headers
+     * Cette methode autorise les requêtes CORS. 
+     * @param origin Origine de la requete
+     * @param methods Type de la requete
+     * @param headers Headers de la requete
      */
     private static void enableCORS(final String origin, final String methods, final String headers) {
 

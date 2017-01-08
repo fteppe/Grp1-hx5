@@ -27,7 +27,7 @@ import main.Page;
 import main.db;
 
 /**
- * Classe renfermant l'ensemble des méthodes permettant de traiter les requêtes externes.
+ * Classe renfermant l'ensemble des methodes permettant de traiter les requetes externes.
  * @author utilisateur
  *
  */
@@ -35,8 +35,8 @@ public class Services {
 
     /**
      * Execute la requete d'un utilisateur
-     * @param requeteUtilisateur
-     * @return
+     * @param requeteUtilisateur Requete de l'utilisateur pour le moteur de recherche
+     * @return Liste des clusters formés
      * @throws Exception
      */
     public List<Cluster> execution(String requeteUtilisateur)throws Exception {	
@@ -51,9 +51,9 @@ public class Services {
 	requeteUtilisateur = requeteUtilisateur.replaceAll(" ", "%20");
 
 	// Pour chaque resultat on recupere les mots cles de la page,
-	// On en trouve les URI Dbpedia, et on fait un model 
-	// de l'union de tous ces URI, on a finalement le model de la page entiere.
-	// ON ajoute a la liste uniquement les pages de sports, les autres nous interesse pas
+	// On en trouve les URI Dbpedia, et on fait un modele 
+	// de l'union de tous ces URI, on a finalement le modele de la page entiere.
+	// On ajoute a la liste uniquement les pages de sports, les autres ne nous interesse pas
 	
 	while(nbPageSport<10) {
 
@@ -62,7 +62,7 @@ public class Services {
 	    for(String url : listeURL ) {
 		System.out.println(url);
 		Page page = new Page(url, nbPageSport);
-		page.alchemyAPIKeywordPOO();  // Plus rapide mais peut etre pas tres bon
+		page.alchemyAPIKeywordPOO();
 		page.dbpediaSpotlightPOO();
 		 if(page.isSportPage() && !page.getMotscles().isEmpty()) {
 		     nbPageSport++;
@@ -74,18 +74,19 @@ public class Services {
 	    listeURL.clear();
 	}
 	// On calcul la matrice de Jaccard qu'est l'indice de Jaccard entre chaque page.
-	// On cherche ensuite les clusters et on essai de trouver un bon nom pour ce cluster.
+	// On cherche ensuite les clusters et on essaie de trouver un bon nom pour ce cluster.
 	listeClusters = creationClustersPOO(listePages);
 	listeClusters = foundNameClustersPOO(listeClusters);
 	
-	// On renvoi le resultat a la fenetre.
+	// On renvoi le resultat
 	return listeClusters;
     }
 
     /**
-     * Google custom Search : Renvoi la liste des dix premiers resultat de la requete
-     * @param requeteUtilisateur
-     * @return
+     * Google custom Search : Renvoi la liste des dix premiers resultat de la requete, par un moteur
+     * personnalise
+     * @param requeteUtilisateur Requete de l'utilisateur pour le moteur de recherche
+     * @return La liste des resultats renvoyes par Google Custom Search
      * @throws Exception
      */
     public static List<String> googleCustomSearch(String requeteUtilisateur, int start)throws Exception {
@@ -118,8 +119,8 @@ public class Services {
     
     /**
      * Recherche des Clusters, avec un indice de similarité basé sur une distance de Jaccard et prise en compte suivant un seuil fixe
-     * @param listeToutesPages
-     * @return
+     * @param listeToutesPages Liste des pages traitees
+     * @return Liste des clusters formes
      * @throws Exception
      */
     public static List<Cluster> creationClustersPOO(List<Page> listeToutesPages)throws Exception {
@@ -170,9 +171,9 @@ public class Services {
     }
     
     /**
-     * Trouve des mots décrivant chaque cluster spécifiés.
-     * @param listClusters
-     * @return
+     * Trouve des mots décrivant chaque cluster spécifié.
+     * @param listClusters Liste des clusters a nommer
+     * @return Liste des clusters nommes
      */
     public static List<Cluster> foundNameClustersPOO(List<Cluster> listClusters) {
 	for(Cluster cluster : listClusters){

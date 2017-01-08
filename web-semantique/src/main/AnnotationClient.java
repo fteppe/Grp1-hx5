@@ -1,6 +1,5 @@
 package main;
 
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +33,12 @@ public abstract class AnnotationClient {
         return RES;     
     }
 
+    /**
+     * Effectue une requete au service web de DBPedia Spotlight
+     * @param method
+     * @return
+     * @throws AnnotationException
+     */
     public String request(HttpMethod method) throws AnnotationException {
         String response = null;
         
@@ -73,10 +78,22 @@ public abstract class AnnotationClient {
 
     }
 
+    /**
+     * Insere un fichier dans une chaine de caractere unique a partir de son lien
+     * @param filePath
+     * @return
+     * @throws java.io.IOException
+     */
     protected static String readFileAsString(String filePath) throws java.io.IOException{
         return readFileAsString(new File(filePath));
     }
 
+    /**
+     * Insere un fichier dans une chaine de caractere unique
+     * @param file
+     * @return
+     * @throws IOException
+     */
     protected static String readFileAsString(File file) throws IOException {
         byte[] buffer = new byte[(int) file.length()];
         @SuppressWarnings("resource")
@@ -85,6 +102,11 @@ public abstract class AnnotationClient {
         return new String(buffer);
     }
 
+    /**
+     * Parser pour les resultats des requetes effectuees
+     * @author utilisateur
+     *
+     */
     static abstract class LineParser {
 
         public abstract String parse(String s) throws ParseException;
@@ -111,7 +133,6 @@ public abstract class AnnotationClient {
     public void saveExtractedEntitiesSet(String Question, LineParser parser, int restartFrom) throws Exception {
         String text = Question;
         int i=0;
-        //int correct =0 ; int error = 0;int sum = 0;
 
         for (String snippet: text.split("\n")) {
             String s = parser.parse(snippet);
