@@ -126,9 +126,8 @@ public abstract class AnnotationClient {
                     entities = extract(new Text(snippet.replaceAll("\\s+"," ")));
 
                 } catch (AnnotationException e) {
-                   // error++;
                     LOG.error(e);
-                    e.printStackTrace();
+                    System.out.println("Error during DBPedia extraction");
                 }
                 for (DBpediaResource e: entities) {
                     RES.add(e.uri());

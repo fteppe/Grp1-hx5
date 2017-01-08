@@ -60,14 +60,15 @@ public class Services {
 	// On recupere les dix premiers resultats de Google
 	    listeURL = googleCustomSearch(requeteUtilisateur, indexFirstPage);
 	    for(String url : listeURL ) {
-			Page page = new Page(url, nbPageSport);
-			page.alchemyAPIKeywordPOO();  // Plus rapide mais peut etre pas tres bon
-		    page.dbpediaSpotlightPOO();
-		    if(page.isSportPage() && !page.getMotscles().isEmpty()) {
-		         nbPageSport++;
-		         listePages.add(page);
-		    }  
-	        if(nbPageSport==10){break;}
+		System.out.println(url);
+		Page page = new Page(url, nbPageSport);
+		page.alchemyAPIKeywordPOO();  // Plus rapide mais peut etre pas tres bon
+		page.dbpediaSpotlightPOO();
+		 if(page.isSportPage() && !page.getMotscles().isEmpty()) {
+		     nbPageSport++;
+		     listePages.add(page);
+		 }  
+		 if(nbPageSport==10){break;}
 	    }
 	    indexFirstPage += 10;
 	    listeURL.clear();
@@ -97,19 +98,19 @@ public class Services {
 	conn.setRequestMethod("GET");
 	conn.setRequestProperty("Accept", "application/json");;
 	try{
-	BufferedReader br = new BufferedReader(new InputStreamReader(
+	    BufferedReader br = new BufferedReader(new InputStreamReader(
 		(conn.getInputStream())));
 
-	String output;
-	while ((output = br.readLine()) != null) {
-	    if(output.contains("\"link\": \"")){                
-		String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
-		System.out.println(link);       //Will print the google search links
-		listeURL.add(link);
-	    }     	
-	}
+	    String output;
+	    while ((output = br.readLine()) != null) {
+		if(output.contains("\"link\": \"")){                
+		    String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
+		    System.out.println(link);       //Will print the google search links
+		    listeURL.add(link);
+		}     	
+	    }
 	} catch (Exception e){
-	    
+	  System.out.println("Error during Google custom search's request");  
 	}
 	conn.disconnect(); 
 	return listeURL;

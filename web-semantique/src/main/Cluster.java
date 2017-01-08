@@ -43,7 +43,6 @@ public class Cluster {
 			try {
 				titlePage = page.alchemyAPITitrePage();
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 			listTitlePage.add(titlePage);
 		}

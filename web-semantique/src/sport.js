@@ -77,7 +77,7 @@ function displayThemes(clusters, imageArray) {
 						  '<a class="thumbnail" name="' + clusters[i].nom + '" href="#">' + 
 							'<img src="'+ imageArray[i].link + '" alt="Image" style="max-width:100%;" />' +
 							'<div class="caption">' +
-							'<h5 class="snippet">' + clusters[i].nom.trunc(55) + '</h5></div></a>' +
+							'<h5 class="snippet">' + clusters[i].nom.trunc(45) + '</h5></div></a>' +
 							'<span class="btn ' + (lastThumb ? 'lastPopov' : 'popov') +'" rel="popover" data-content="<table class=\'table\'>';
 		/*Affichage de chaque vignette*/
 		for(j=0 ; j < nbLinksDisplayed ; j++){

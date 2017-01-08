@@ -60,18 +60,18 @@ public class Page {
 	    List<String> listKeywords = new ArrayList<String>();
 	    
 		try {
-			URL urlAlchemy = new URL(url);
+		    URL urlAlchemy = new URL(url);
 		    params.put(AlchemyLanguage.URL, urlAlchemy);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		    System.out.println("Url marlformed");
 		}
 		
 		
 		DocumentTitle texteExtraitTitle = null;
 		try {
-			texteExtraitTitle = service.getTitle(params).execute();
+		    texteExtraitTitle = service.getTitle(params).execute();
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+		    System.out.println("Title not retrieved");
 		}
 		
 		String texteExtraitTitre = "Not retrieved";
@@ -85,7 +85,7 @@ public class Page {
 		Keywords texteExtraitKeyWord = service.getKeywords(params).execute();
 		texteExtraitKeywordList = texteExtraitKeyWord.getKeywords();
 		} catch (Exception e) {
-		    e.printStackTrace();
+		    System.out.println("Keywords not retrieved");
 		} finally {
 
 		}
@@ -94,12 +94,12 @@ public class Page {
 		String texteExtrait = "";
 		
 		if(texteExtraitKeywordList!=null){
-		// On fait un string de la concatenation de tous les mot cles
-		for(Keyword motcle : texteExtraitKeywordList)
-		{
+		    // On fait un string de la concatenation de tous les mot cles
+		    for(Keyword motcle : texteExtraitKeywordList)
+		    {
 			listKeywords.add(motcle.getText());
 			texteExtrait += motcle.getText()+" ";
-		}
+		    }
 		}
 		texteExtrait += texteExtraitTitre;
 
@@ -121,7 +121,7 @@ public class Page {
 	    List<String> listKeywords = new ArrayList<String>();
 	    
 		try {
-			URL urlAlchemy = new URL(url);
+		    URL urlAlchemy = new URL(url);
 		    params.put(AlchemyLanguage.URL, urlAlchemy);
 		    DocumentText texteExtraitKeyWord = service.getText(params).execute();
 			   
@@ -130,7 +130,7 @@ public class Page {
 		    this.setMotscles(listKeywords);
 		    this.setTexteExtrait(texteExtrait);
 		} catch (Exception e) {
-			e.printStackTrace();
+		    System.out.println("Text not retrieved");
 		}
 
 	}
@@ -155,6 +155,7 @@ public class Page {
 		DocumentTitle texteExtraitTexte = service.getTitle(params).execute();
 	    	titre = texteExtraitTexte.getTitle();
 	    } catch(Exception e) {
+		System.out.println("Title not retrieved");
 		titre = "Not retrieved";
 	    }
 	    return titre;
@@ -181,7 +182,7 @@ public class Page {
 	    try {
 			c.evaluate(this.getTexteExtrait());
 		} catch (Exception e) {
-			e.printStackTrace();
+		    	System.out.println("URI list not retrieved");
 		}
 	    
 	    listeURI = c.getResuFullURI();
@@ -218,33 +219,28 @@ public class Page {
 	    else{
 	    	modelPage = null;
 	    }
-	    
 	    if(sizeListURI>1){
 	    	modelURI = fManager.loadModel(listeUrlRdf.get(1));
-		    
 		    // On fait l'union des modèles de chaque mots, afin d'obtenir le modele de la page.
 		    for(String urlRDF : listeUrlRdf)
 		    {
-		    	modelURI = fManager.loadModel(urlRDF);
-		    	
 			    	try {
-							modelPage = modelPage.union(modelURI);
-						}catch (Exception e) {
-						e.printStackTrace();
-					}
-			    	
+			    	    modelURI = fManager.loadModel(urlRDF);
+			    	    modelPage = modelPage.union(modelURI);
+				} catch (Exception e) {
+				    System.out.println("IRI malformed");
+				}
 		    }
 	    }
-	    
 	    
 	    // Si le model de la page n'est pas vide on regarde si c'est une page oriente sport ou non.
 	    // Si c'est une page de sport on recentre le modele sur le sport. (on enleve les URI non sport)
 	    if(modelPage != null) {
 	    		try {
-					modelFinal = this.isASportPage(listeUrlRdf, modelPage);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	    		    modelFinal = this.isASportPage(listeUrlRdf, modelPage);
+			} catch (Exception e) {
+			    System.out.println("Error during the evaluation of the page");
+			}
 	    }
 	    System.out.println("La page parle de sport : " + this.isSportPage());
 	    this.setModel(modelFinal);
@@ -329,68 +325,59 @@ public class Page {
 	 	    Query query2 = QueryFactory.create(sparqlQuery2) ;
 	 	    try (QueryExecution qexec = QueryExecutionFactory.create(query2, model)) {
 	 	    	
-	 	      // Lancement de la requête
-	 	      ResultSet results2 = qexec.execSelect() ;
+	 		// Lancement de la requête
+	 		ResultSet results2 = qexec.execSelect() ;
 	 	      
-	 	      // Récupération des résultats
-	 	      for ( ; results2.hasNext() ; )
-	 	      {
-	 	        QuerySolution soln = results2.nextSolution() ;
-	 	        RDFNode uri = soln.get("uri") ;
-	 	        RDFNode comment = soln.get("comment") ;
-	 	        String nomComment = comment.toString();
+	 		// Récupération des résultats
+	 		for ( ; results2.hasNext() ; )
+	 		{
+	 		    QuerySolution soln = results2.nextSolution() ;
+	 		    RDFNode uri = soln.get("uri") ;
+	 		    RDFNode comment = soln.get("comment") ;
+	 		    String nomComment = comment.toString();
 	 	        
-	 	        // Concatenation de tous les commentaires
-	 	        allComments+= nomComment + " ";
-	 	      }
+	 		    // Concatenation de tous les commentaires
+	 		    allComments+= nomComment + " ";
+	 		}
 	 	      
-	 	     List<String> listOfWordsInComment = new ArrayList<String>(Arrays.asList(allComments.split(" ")));
+	 		List<String> listOfWordsInComment = new ArrayList<String>(Arrays.asList(allComments.split(" ")));
 	 	    
-	 	    // On recupere les mots de sports dans la liste
-	 	    listSportWord = addListWordsSport();
+	 		// On recupere les mots de sports dans la liste
+	 		listSportWord = addListWordsSport();
 	 	    
-	 	    // On compte le nombre de mot de sport au total
-	 	    for(String wordSport : listSportWord )
-	 	    {
-	 	    	// Non Sensitive
-	 	    	// Fonctionne uniquement sous java 8
-	 	    	boolean containsWordsNonSensitive = listOfWordsInComment.stream().filter(s -> s.equalsIgnoreCase(wordSport)).findFirst().isPresent();
-	 	    	if(containsWordsNonSensitive){
-	 	    		cptNbSportWord++;
-	 	    	}
-	 	    	
-	 	    	// Sensitive
-	 	    	/*
-	 	    	if(listOfWordsInComment.contains(wordSport)){
-	 	    		cptNbSportWord++;
-	 	    	}
-	 	    	*/
-	 	    }
+	 		// On compte le nombre de mot de sport au total
+	 		for(String wordSport : listSportWord )
+	 		{
+	 	    		// Non Sensitive
+	 	    		// Fonctionne uniquement sous java 8
+	 	    		boolean containsWordsNonSensitive = listOfWordsInComment.stream().filter(s -> s.equalsIgnoreCase(wordSport)).findFirst().isPresent();
+	 	    		if(containsWordsNonSensitive){
+	 	    		    cptNbSportWord++;
+	 	    		}
+	 	   
+	 		}
 	 	    
-	 	    // Si il y a plus d'un mot de sport par commentaire en moyenne, c'est une page sport
-	 	    // et on reduit le modele 
-	 	    if(cptNbSportWord/sizeListURI>1){
-	 	    	this.setSportPage(true);
+	 		// Si il y a plus d'un mot de sport par commentaire en moyenne, c'est une page sport
+	 		// et on reduit le modele 
+	 		if(cptNbSportWord/sizeListURI>1){
+	 	    		this.setSportPage(true);
 	 	    	
 	 	    	
-	 	    	FileManager fManager = FileManager.get();
-	 		    fManager.addLocatorURL();
+	 	    		FileManager fManager = FileManager.get();
+	 	    		fManager.addLocatorURL();
 	 		    
-	 	    	// Pour chaque URI de la page on regarde si l'URI est sport ou non.
-	 		    // S'il l'est pas on enleve son model du modele de la page.
-			    for(String urlRDF : listeUrlRdf)
-			    {
-			    	modelURI = fManager.loadModel(urlRDF);
-			    	if(!isASportURI(modelURI)){
+	 	    		// Pour chaque URI de la page on regarde si l'URI est sport ou non.
+	 	    		// S'il l'est pas on enleve son model du modele de la page.
+	 	    		for(String urlRDF : listeUrlRdf)
+	 	    		{
+	 	    		    modelURI = fManager.loadModel(urlRDF);
+	 	    		    if(!isASportURI(modelURI)){
 			    		model = model.remove(modelURI);
-			    	}	
-	 	    	}
-	 	    		 	    	
-	 	    }
-	 	    else{
+	 	    		    }	
+	 	    		}	 	    		 	    	
+	 	   	} else {
 	 	    	this.setSportPage(false);
-	 	    }
-   
+	 	   	}
 	 	    }
 	    }
 	    
@@ -521,7 +508,7 @@ public class Page {
 	 */
 	private List<String> addListWordsSport() {
 		List<String> listSportWord = new ArrayList<String>();
-	    String fichier = "src/listSports.txt";
+	    String fichier = "server/src/listSports.txt";
 	    try {
 	    	InputStream ips = new FileInputStream(fichier);
 	    	InputStreamReader ipsr = new InputStreamReader(ips);
@@ -532,10 +519,9 @@ public class Page {
 	    		listSportWord.add(ligne);
 	    	}
 	    	br.close();
-	    	}
-	    	catch (Exception e) {
-	    	System.out.println(e.toString());
-	    	}
+	    } catch (Exception e) {
+	    	System.out.println("Error while comparing with list's words of sport");
+	    }
 	    return listSportWord;
 	}
 	
