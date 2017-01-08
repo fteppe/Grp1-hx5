@@ -16,7 +16,7 @@ import main.Page;
 import spark.ResponseTransformer;
 
 /**
- * Classe permettant de transformer des données en objet Json.
+ * Classe permettant de transformer des donnees en objet Json.
  * @author utilisateur
  *
  */
@@ -35,8 +35,8 @@ public class JsonTransformer implements ResponseTransformer {
     }
     
     /**
-     * Transforme une chaîne de caractère en object Json
-     * @param data Chaîne à transformer
+     * Transforme une chaine de caracteres en object Json
+     * @param data Chaine à transformer
      * @return Objet Json obtenu
      * @throws JSONException
      */
@@ -48,7 +48,7 @@ public class JsonTransformer implements ResponseTransformer {
     
     /**
      * Transforme une liste de clusters en objet Json
-     * @param listClusters Liste de clusters à transformer
+     * @param listClusters Liste de clusters a transformer
      * @return Objet Json obtenu
      * @throws JSONException
      */
@@ -62,10 +62,11 @@ public class JsonTransformer implements ResponseTransformer {
             // Si il n'y a pas de nom, on prend le premier mot de la première page
             if(nom=="") {
         	nom = cluster.getPages().get(0).getMotscles().get(0);
+            } else {
+        	jCluster.put("nom", nom);
             }
-            jCluster.put("nom", cluster.getNom());
             JSONArray listPages = new JSONArray();
-            //Pour chaque cluster, on indique les pages lui correspondant (pas d'ordre pour le moment)
+            //Pour chaque cluster, on indique les pages lui correspondant
             for(Page page : cluster.getPages()){
         	JSONObject jPage = new JSONObject();
         	jPage.put("url", page.getUrl());
