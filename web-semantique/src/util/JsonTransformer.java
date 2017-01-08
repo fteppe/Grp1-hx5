@@ -66,7 +66,7 @@ public class JsonTransformer implements ResponseTransformer {
         	jCluster.put("nom", nom);
             }
             JSONArray listPages = new JSONArray();
-            //Pour chaque cluster, on indique les pages lui correspondant (sans ordre)
+            //Pour chaque cluster, on indique les pages lui correspondant
             for(Page page : cluster.getPages()){
         	JSONObject jPage = new JSONObject();
         	jPage.put("url", page.getUrl());
