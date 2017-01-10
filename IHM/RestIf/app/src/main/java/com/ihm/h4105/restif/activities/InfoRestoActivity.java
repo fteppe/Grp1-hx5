@@ -1,4 +1,4 @@
-package com.ihm.h4105.restif;
+package com.ihm.h4105.restif.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.ihm.h4105.restif.R;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
