@@ -1,8 +1,16 @@
-package com.ihm.h4105.restif.activities;
+package com.ihm.h4105.restif;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,7 +27,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.ihm.h4105.restif.R;
+import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 public class InfoRestoActivity extends AppCompatActivity {
 
@@ -57,16 +65,16 @@ public class InfoRestoActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageBitmap(textAsBitmap("J'y vais", 40, Color.WHITE));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "You will eat in this restaurant", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,10 +126,25 @@ public class InfoRestoActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_info_resto, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            View rootView = null;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    rootView = inflater.inflate(R.layout.fragment_info_resto, container, false);
+                    TextView textViewHoraires = (TextView) rootView.findViewById(R.id.horaires);
+                    textViewHoraires.setText("11h30 - 13h30");
+                    TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
+                    textViewPaiement.setText("Izzly SoldeINSA");
+                    TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
+                    textViewDate.setText("10/01/2017");
+                    return rootView;
+
+                case 2:
+                    rootView = inflater.inflate(R.layout.fragment_amis_list, container, false);
+                    return rootView;
+
+                default:
+                    return null;
+            }
         }
     }
 
@@ -158,5 +181,20 @@ public class InfoRestoActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint(ANTI_ALIAS_FLAG);
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) (baseline + paint.descent() + 0.0f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
     }
 }
