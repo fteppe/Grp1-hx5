@@ -1,9 +1,10 @@
-package com.ihm.h4105.restif;
+package com.ihm.h4105.restif.activities;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,15 +24,18 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ihm.h4105.restif.R;
+import com.ihm.h4105.restif.resources.SeekBarHint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
 
+    TextView textSeekBar;
     private GoogleMap mMap;
-
+    private SeekBarHint mSeekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 // Le premier paramètre est le nom de l'activité actuelle
                 // Le second est le nom de l'activité de destination
-                Intent secondeActivite = new Intent(MainActivity.this, InfoRestoActivity.class);;
+                Intent secondeActivite = new Intent(MainActivity.this, InfoRestoActivity.class);
+                ;
 
                 // Puis on lance l'intent !
                 startActivity(secondeActivite);
@@ -66,32 +72,46 @@ public class MainActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         //Gestion du slider pour sélectionner son horaire
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressChanged = 0;
-            int hours;
-            int minutes;
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            String time1;
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-                progressChanged = progress;
-                hours = 11 + (progress) / 12; // it will return hours.
-                minutes = (progress * 5)%60;
-                date.setHours(hours);
-                date.setMinutes(minutes);
-                time1 = sdf.format(date);;
-            }
+        mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
+        mSeekBar.setOnSeekBarChangeListener(this);
+        textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+    }
 
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+        int hours = 11 + (progress) / 12; // it will return hours.
+        int minutes = (progress * 5) % 60;
+        Date date = new Date();
+        date.setHours(hours);
+        date.setMinutes(minutes);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(date);
+        Rect thumbRect = mSeekBar.getSeekBarThumb().getBounds();
 
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(MainActivity.this,time1,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)textSeekBar.getLayoutParams();
+        //params.addRule(RelativeLayout.ABOVE, mSeekBar.getId());
+        params.setMargins(
+                thumbRect.centerX(),0, 0, 0);
+        textSeekBar.requestLayout();
+
+        /*RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        p.addRule(RelativeLayout.ABOVE, mSeekBar.getId());
+        p.setMargins(
+                thumbRect.centerX(),0, 0, 0);*/
+        //textSeekBar.setLayoutParams(p);
+        textSeekBar.setText(time);
+    }
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
+    }
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+
     }
 
     @Override

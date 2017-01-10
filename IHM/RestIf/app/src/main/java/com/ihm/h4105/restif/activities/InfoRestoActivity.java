@@ -1,4 +1,4 @@
-package com.ihm.h4105.restif;
+package com.ihm.h4105.restif.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.ihm.h4105.restif.R;
 
 public class InfoRestoActivity extends AppCompatActivity {
 

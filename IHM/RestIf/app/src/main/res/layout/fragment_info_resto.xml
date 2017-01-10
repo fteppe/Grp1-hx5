@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ihm.h4105.restif.InfoRestoActivity$PlaceholderFragment">
+    tools:context="com.ihm.h4105.restif.activities.InfoRestoActivity$PlaceholderFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
