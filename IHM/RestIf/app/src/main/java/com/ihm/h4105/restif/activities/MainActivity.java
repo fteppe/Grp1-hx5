@@ -38,6 +38,7 @@ import com.ihm.h4105.restif.resources.SeekBarHint;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
+    private HashMap<Marker, Integer> idRestos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,9 +182,11 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        idRestos = new HashMap<Marker, Integer>();
         // Add a marker in Sydney and move the camera
         LatLng ri = new LatLng(45.781084, 4.873575);
-        mMap.addMarker(new MarkerOptions().position(ri).title("Restaurant INSA"));
+        Marker markRI = mMap.addMarker(new MarkerOptions().position(ri).title("Restaurant INSA"));
+        idRestos.put(markRI,0);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ri, 16.0f));
 
@@ -189,6 +194,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent intent = new Intent(MainActivity.this, InfoRestoActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("idresto", idRestos.get(marker)); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
                 startActivity(intent);
                 return true;
             }
