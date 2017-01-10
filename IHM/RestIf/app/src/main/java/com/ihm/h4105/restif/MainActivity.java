@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -50,6 +52,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(secondeActivite);
             }
         });
+
+        String[] items = new String[] {"Amis", "Attente"};
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
