@@ -33,6 +33,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ihm.h4105.restif.InfoRestoActivity;
 import com.ihm.h4105.restif.R;
 import com.ihm.h4105.restif.resources.SeekBarHint;
 
