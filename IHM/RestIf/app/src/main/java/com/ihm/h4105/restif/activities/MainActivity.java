@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -184,9 +185,20 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.class_amis) {
+
         }
+        else if(id == R.id.class_distance){
+
+        }
+        else if(id == R.id.class_temps){
+
+        }
+        System.out.println(this.findViewById(android.R.id.content));
+
+        Snackbar.make(this.findViewById(android.R.id.content), "preferences sur "+item.getTitle(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
 
         return super.onOptionsItemSelected(item);
     }
