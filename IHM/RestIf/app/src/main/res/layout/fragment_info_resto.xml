@@ -53,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Paiements disponibles : "
+                    android:text="Moyens de paiement : "
                     android:textSize="15dp"
                     android:textStyle="bold"/>
 

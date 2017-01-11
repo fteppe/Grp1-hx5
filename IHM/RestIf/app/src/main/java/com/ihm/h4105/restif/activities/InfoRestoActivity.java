@@ -12,6 +12,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -25,9 +27,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ihm.h4105.restif.Ami;
+import com.ihm.h4105.restif.AmiAdapter;
 import com.ihm.h4105.restif.R;
+
+import java.util.ArrayList;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -54,8 +63,12 @@ public class InfoRestoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_resto);
 
+        titleRestau = getIntent().getStringExtra("restau_selected");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(titleRestau);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -77,7 +90,7 @@ public class InfoRestoActivity extends AppCompatActivity {
             }
         });
 
-        titleRestau = getIntent().getStringExtra("restau_selected");
+
     }
 
     @Override
@@ -92,14 +105,17 @@ public class InfoRestoActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_settings:
+                //noinspection SimplifiableIfStatement
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -137,31 +153,41 @@ public class InfoRestoActivity extends AppCompatActivity {
                     TextView textViewHoraires = (TextView) rootView.findViewById(R.id.horaires);
                     TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
                     TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
+                    textViewDate.setText("12/01/2017");
 
                     switch (titleRestau) {
                         case "Castor et Pollux (Le Beurk)":
                             textViewHoraires.setText("11h30 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
-                            textViewDate.setText("10/01/2017");
                         case "Le Prévert":
                             textViewHoraires.setText("11h30 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
-                            textViewDate.setText("10/01/2017");
                         case "Le Grillon":
-                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
-                            textViewDate.setText("10/01/2017");
                         case "L'Olivier":
-                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
-                            textViewDate.setText("10/01/2017");
                     }
-
 
                     return rootView;
 
                 case 2:
-                    rootView = inflater.inflate(R.layout.fragment_amis_list, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_liste_amis, container, false);
+
+                    ListView mListView = (ListView) rootView.findViewById(R.id.liste_amis);
+                    mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+                    final ArrayList<Ami> amiList = new ArrayList<Ami>();
+
+                    if(titleRestau.equals("Castor et Pollux (Le Beurk)"))
+                        amiList.add(new Ami("Delamarre","Marie","Pierre et 3 autres", "personne"));
+                    amiList.add(new Ami("Heaton","Charles","", "personne2"));
+                    amiList.add(new Ami("Lavernh","Rémi","", "personne3"));
+
+                    AmiAdapter adapter = new AmiAdapter(getActivity().getApplicationContext(), amiList);
+                    mListView.setAdapter(adapter);
+
                     return rootView;
 
                 default:

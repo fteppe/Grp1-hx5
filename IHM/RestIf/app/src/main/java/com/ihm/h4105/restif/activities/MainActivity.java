@@ -55,6 +55,7 @@ import com.ihm.h4105.restif.resources.SeekBarHint;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -306,6 +307,9 @@ public class MainActivity extends AppCompatActivity
             public void onInfoWindowClick (Marker marker) {
                 if(!marker.getTitle().equals("Ma position")) {
                     Intent intent = new Intent(MainActivity.this, InfoRestoActivity.class);
+                    //Bundle b = new Bundle();
+                    //b.putInt("idresto", idRestos.get(marker)); //Your id
+                    //intent.putExtras(b); //Put your id to your next Intent
                     intent.putExtra("restau_selected", marker.getTitle());
                     startActivity(intent);
                 }
