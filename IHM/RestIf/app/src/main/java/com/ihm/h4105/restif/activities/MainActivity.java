@@ -30,11 +30,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +85,24 @@ public class MainActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 1) {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.VISIBLE);
+                } else {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,6 +126,9 @@ public class MainActivity extends AppCompatActivity
         mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
         mSeekBar.setOnSeekBarChangeListener(this);
         textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+
+        tl.setVisibility(View.INVISIBLE);
 
         // ******************** Geolocation ************************
 
@@ -152,7 +175,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                //googleMapServices.changeColorIcon(marker, time, progress);
+                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",70,70));
             }
         }
     }
