@@ -30,11 +30,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
-
+    private static int iconSize = 200;
     private LocationManager locationManager;
     private String provider;
     private Location mCurrentLocation;
@@ -83,6 +85,24 @@ public class MainActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 1) {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.VISIBLE);
+                } else {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,6 +126,9 @@ public class MainActivity extends AppCompatActivity
         mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
         mSeekBar.setOnSeekBarChangeListener(this);
         textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+
+        tl.setVisibility(View.INVISIBLE);
 
         // ******************** Geolocation ************************
 
@@ -152,7 +175,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                //googleMapServices.changeColorIcon(marker, time, progress);
+                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",iconSize,iconSize));
             }
         }
     }
@@ -227,7 +250,7 @@ public class MainActivity extends AppCompatActivity
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
         listMarkersMap.add(mrkCastorPollux);
 
 
@@ -236,7 +259,7 @@ public class MainActivity extends AppCompatActivity
                 .position(posPrevert)
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
         listMarkersMap.add(mrkPrevert);
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
@@ -245,7 +268,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
 
-        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
         listMarkersMap.add(mrkGrillon);
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
@@ -253,7 +276,7 @@ public class MainActivity extends AppCompatActivity
                 .position(posOlivier)
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
         listMarkersMap.add(mrkOlivier);
 
 

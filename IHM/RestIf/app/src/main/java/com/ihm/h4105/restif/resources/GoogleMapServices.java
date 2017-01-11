@@ -2,7 +2,10 @@ package com.ihm.h4105.restif.resources;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.ihm.h4105.restif.R;
 
@@ -24,7 +27,7 @@ public class GoogleMapServices {
     this.context = context;
     }
 
-    public static void changeColorIcon(Marker marker, String time, int progress){
+    public static void changeColorIcon(Marker marker, String time, int progress, Bitmap icon){
         int timeMin = 5;
         int timeMedMin = 10;
         int timeMedMax = 15;
@@ -53,17 +56,22 @@ public class GoogleMapServices {
         int identifier = context.getResources().getIdentifier(restaurant, "array", context.getPackageName());
         int [] mIdsArray = context.getResources().getIntArray(identifier);
         int waitingTime = mIdsArray[progress];
-
+        int mcolor;
         if(waitingTime <timeMin) {
-
+            mcolor = Color.parseColor("#6b8728");
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
         } else if (waitingTime < timeMedMin) {
-
+            mcolor = Color.parseColor("#00ff6d");
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
         } else if (waitingTime < timeMedMax) {
-
+            mcolor = Color.parseColor("#ffec8b");
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
         } else if (waitingTime < timeMax) {
-
+            mcolor = Color.parseColor("#ff6600");
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
         } else {
-
+            mcolor = Color.parseColor("#ff7256");
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
         }
 
     }
