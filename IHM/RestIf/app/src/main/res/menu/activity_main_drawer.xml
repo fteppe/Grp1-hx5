@@ -11,14 +11,13 @@
     </group>
 
     <group android:id="@+id/MenuPrevu">
-        <item android:title="Prevu">
+        <item android:title="Prevu"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
             <menu>
                 <item
                     android:id="@+id/restaurant"
-                    android:title="Le grillon 12h45" />
-                <item
-                    android:id="@+id/with"
-                    android:title="avec Marc, Louis..." />
+                    android:title="le Grillon avec Louis, Devon..."></item>
             </menu>
         </item>
     </group>
