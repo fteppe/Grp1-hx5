@@ -147,7 +147,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                     TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
                     textViewPaiement.setText("Izzly SoldeINSA");
                     TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
-                    textViewDate.setText("10/01/2017");
+                    textViewDate.setText("12/01/2017");
                     return rootView;
 
                 case 2:

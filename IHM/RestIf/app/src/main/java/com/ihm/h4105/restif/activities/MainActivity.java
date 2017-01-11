@@ -1,15 +1,24 @@
 package com.ihm.h4105.restif.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,17 +28,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,12 +56,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener, LocationListener {
 
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
+
     private HashMap<Marker, Integer> idRestos;
+
+    private LocationManager locationManager;
+    private String provider;
+    private Location mCurrentLocation;
+    private Marker mkrCurrentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +103,23 @@ public class MainActivity extends AppCompatActivity
         mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
         mSeekBar.setOnSeekBarChangeListener(this);
         textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+
+        // ******************** Geolocation ************************
+
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return  ;
+        }
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+
     }
+
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
@@ -182,24 +216,163 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        idRestos = new HashMap<Marker, Integer>();
-        // Add a marker in Sydney and move the camera
-        LatLng ri = new LatLng(45.781084, 4.873575);
-        Marker markRI = mMap.addMarker(new MarkerOptions().position(ri).title("Restaurant INSA"));
-        idRestos.put(markRI,0);
+        LatLng posCastorPollux = new LatLng(45.781181, 4.873553);
+        Marker mrkCastorPollux = mMap.addMarker(new MarkerOptions()
+                .position(posCastorPollux)
+                .title("Castor et Pollux (Le Beurk)")
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ri, 16.0f));
+        LatLng posPrevert = new LatLng(45.781151, 4.873417);
+        Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
+                .position(posPrevert)
+                .title("Le Prévert")
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+
+        LatLng posGrillon = new LatLng(45.783926, 4.875050);
+        Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
+                .position(posGrillon)
+                .title("Le Grillon")
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+
+        LatLng posOlivier = new LatLng(45.784242, 4.874808);
+        Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
+                .position(posOlivier)
+                .title("L'Olivier")
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Intent intent = new Intent(MainActivity.this, InfoRestoActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("idresto", idRestos.get(marker)); //Your id
-                intent.putExtras(b); //Put your id to your next Intent
-                startActivity(intent);
+                marker.showInfoWindow();
                 return true;
             }
         });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick (Marker marker) {
+                if(!marker.getTitle().equals("Ma position")) {
+                    Intent intent = new Intent(MainActivity.this, InfoRestoActivity.class);
+                    //Bundle b = new Bundle();
+                    //b.putInt("idresto", idRestos.get(marker)); //Your id
+                    //intent.putExtras(b); //Put your id to your next Intent
+                    startActivity(intent);
+                }
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                LinearLayout info = new LinearLayout(getBaseContext());
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(getBaseContext());
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(getBaseContext());
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+        //  ****** GeoLocation ******
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return  ;
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+        // Initialize the location fields
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            mCurrentLocation=location;
+            LatLng currentPosition =  new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 16.0f));
+            onLocationChanged(location);
+        } else {
+
+        }
+
     }
+
+
+    /* Request updates at startup */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return  ;
+        }
+        long minTime = 400;
+        float minDistance = 1;
+        locationManager.requestLocationUpdates(provider, minTime, minDistance, this);
+    }
+
+    /* Remove the locationlistener updates when Activity is paused */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return  ;
+        }
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        float lat = (float) (location.getLatitude());
+        float lng = (float) (location.getLongitude());
+        LatLng ri = new LatLng(lat, lng);
+        // On evite que ca bouge trop
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ri, 16.0f));
+        if(mkrCurrentPosition==null) {
+            mkrCurrentPosition = mMap.addMarker(new MarkerOptions().position(ri).title("Ma position"));
+            mkrCurrentPosition.showInfoWindow();
+        }
+        else {
+            mkrCurrentPosition.setPosition(ri);
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Enabled new provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this, "Disabled provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
 }
