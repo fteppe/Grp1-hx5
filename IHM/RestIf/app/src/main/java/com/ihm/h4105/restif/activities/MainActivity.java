@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",70,70));
+                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",90,90));
             }
         }
     }
