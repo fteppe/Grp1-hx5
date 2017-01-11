@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
-    private static int iconSize = 200;
     private LocationManager locationManager;
     private String provider;
     private Location mCurrentLocation;
@@ -101,7 +100,8 @@ public class MainActivity extends AppCompatActivity
                     mSeekBar.setProgress(0);
                     if(mMap != null) {
                         for (Marker marker : listMarkersMap) {
-                            googleMapServices.changeColorIcon(marker, 0, resizeMapIcons("icon_restau",iconSize,iconSize));
+                            googleMapServices.changeColorIcon(marker, 0, BitmapFactory.decodeResource(getResources(),
+                                    R.drawable.icon_restau3));
                         }
                     }
                     tl.setVisibility(View.VISIBLE);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity
                     tl.setVisibility(View.INVISIBLE);
                     if(mMap != null) {
                         for (Marker marker : listMarkersMap) {
-                            marker.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
                         }
                     }
                 }
@@ -186,7 +186,8 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                googleMapServices.changeColorIcon(marker, progress, resizeMapIcons("icon_restau",iconSize,iconSize));
+                googleMapServices.changeColorIcon(marker, progress, BitmapFactory.decodeResource(getResources(),
+                        R.drawable.icon_restau3));
             }
         }
     }
