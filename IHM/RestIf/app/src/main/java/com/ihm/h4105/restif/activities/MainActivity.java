@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
         tl.setVisibility(View.INVISIBLE);
 
-        String[] items = new String[] {"Amis", "Attente"};
+        /*String[] items = new String[] {"Amis", "Attente"};
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                 // your code here
             }
 
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
