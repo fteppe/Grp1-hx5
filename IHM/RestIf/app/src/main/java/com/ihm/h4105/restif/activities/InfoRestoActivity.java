@@ -84,7 +84,7 @@ public class InfoRestoActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageBitmap(textAsBitmap("J'y vais", 40, Color.WHITE));
+        fab.setImageResource(R.drawable.food);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,7 +191,7 @@ public class InfoRestoActivity extends AppCompatActivity {
 
                     final ArrayList<Ami> amiList = new ArrayList<Ami>();
 
-                    if(titleRestau.equals("Castor et Pollux (Le Beurk)"))
+                    if(titleRestau.equals("Le Grillon"))
                         amiList.add(new Ami("Delamarre","Marie","Pierre et 3 autres", "personne"));
                     amiList.add(new Ami("Heaton","Charles","", "personne2"));
                     amiList.add(new Ami("Lavernh","Rémi","", "personne3"));
