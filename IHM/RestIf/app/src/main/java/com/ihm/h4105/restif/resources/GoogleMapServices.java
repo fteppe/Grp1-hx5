@@ -27,24 +27,13 @@ public class GoogleMapServices {
     this.context = context;
     }
 
-    public static void changeColorIcon(Marker marker, String time, int progress, Bitmap icon){
+    public static void changeColorIcon(Marker marker, int progress, Bitmap icon){
         int timeMin = 5;
         int timeMedMin = 10;
         int timeMedMax = 15;
         int timeMax = 20;
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 
-        try {
-            date = formatter.parse(time);
-            System.out.println(date);
-            System.out.println(formatter.format(date));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         String restaurant = marker.getTitle();
-        System.out.println(time);
         System.out.println(restaurant);
         restaurant = restaurant.replaceAll("[' ()]", "").toLowerCase();
 

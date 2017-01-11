@@ -79,6 +79,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Gestion du slider pour sélectionner son horaire
+        mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
+        mSeekBar.setOnSeekBarChangeListener(this);
+        textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+        tl.setVisibility(View.INVISIBLE);
+
         String[] items = new String[] {"Amis", "Attente"};
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -91,9 +98,21 @@ public class MainActivity extends AppCompatActivity
                 if (position == 1) {
                     RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
                     tl.setVisibility(View.VISIBLE);
+                    textSeekBar.setText("11:30");
+                    mSeekBar.setProgress(0);
+                    if(mMap != null) {
+                        for (Marker marker : listMarkersMap) {
+                            googleMapServices.changeColorIcon(marker, 0, resizeMapIcons("icon_restau",iconSize,iconSize));
+                        }
+                    }
                 } else {
                     RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
                     tl.setVisibility(View.INVISIBLE);
+                    if(mMap != null) {
+                        for (Marker marker : listMarkersMap) {
+                            marker.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
+                        }
+                    }
                 }
             }
 
@@ -121,14 +140,6 @@ public class MainActivity extends AppCompatActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //Gestion du slider pour sélectionner son horaire
-        mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
-        mSeekBar.setOnSeekBarChangeListener(this);
-        textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
-        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-
-        tl.setVisibility(View.INVISIBLE);
 
         // ******************** Geolocation ************************
 
@@ -175,7 +186,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",iconSize,iconSize));
+                googleMapServices.changeColorIcon(marker, progress, resizeMapIcons("icon_restau",iconSize,iconSize));
             }
         }
     }
