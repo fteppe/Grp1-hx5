@@ -37,6 +37,7 @@
         <item>8</item>
         <item>10</item>
         <item>16</item>
+        <item>16</item>
     </array>
     <array name="lolivier">
         <item>10</item>
@@ -75,6 +76,7 @@
         <item>4</item>
         <item>8</item>
         <item>25</item>
+        <item>16</item>
     </array>
     <array name="leprevert">
         <item>25</item>
@@ -113,6 +115,7 @@
         <item>1</item>
         <item>11</item>
         <item>8</item>
+        <item>16</item>
     </array>
     <array name="castoretpolluxlebeurk">
         <item>2</item>
@@ -151,5 +154,6 @@
         <item>11</item>
         <item>9</item>
         <item>8</item>
+        <item>16</item>
     </array>
 </resources>
