@@ -45,8 +45,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ihm.h4105.restif.InfoRestoActivity;
 import com.ihm.h4105.restif.R;
+import com.ihm.h4105.restif.resources.GoogleMapServices;
 import com.ihm.h4105.restif.resources.SeekBarHint;
 
 
@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity
     private String provider;
     private Location mCurrentLocation;
     private Marker mkrCurrentPosition;
-
+    private GoogleMapServices googleMapServices;
+    private List<Marker> listMarkersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity
         System.out.println(drawer);
         toggle.syncState();
 
+        googleMapServices = new GoogleMapServices(this.getApplicationContext());
+        listMarkersMap = new ArrayList<>();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -144,6 +147,12 @@ public class MainActivity extends AppCompatActivity
                 thumbRect.centerX(),0, 0, 0);*/
         //textSeekBar.setLayoutParams(p);
         textSeekBar.setText(time);
+
+        if(mMap != null) {
+            for (Marker marker : listMarkersMap) {
+                //googleMapServices.changeColorIcon(marker, time, progress);
+            }
+        }
     }
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -220,6 +229,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
         mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        listMarkersMap.add(mrkCastorPollux);
 
         LatLng posPrevert = new LatLng(45.781151, 4.873417);
         Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
@@ -227,6 +237,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
         mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        listMarkersMap.add(mrkPrevert);
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
         Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
@@ -234,6 +245,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
         mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        listMarkersMap.add(mrkGrillon);
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
         Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
@@ -241,6 +253,7 @@ public class MainActivity extends AppCompatActivity
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
         mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        listMarkersMap.add(mrkOlivier);
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
