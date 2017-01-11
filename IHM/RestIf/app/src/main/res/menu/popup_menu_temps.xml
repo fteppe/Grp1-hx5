@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="12h"
+        android:id="@+id/temps1" />
+    <item android:title="12h30"
+        android:id="@+id/temps2" />
+    <item android:title="13h"
+        android:id="@+id/temps3" />
+    <item android:title="13h30"
+        android:id="@+id/temps4" />
+    <item android:title="18h"
+        android:id="@+id/temps5" />
+    <item android:title="18h30"
+        android:id="@+id/temps6" />
+    <item android:title="19h"
+        android:id="@+id/temps7" />
+    <item android:title="19h30"
+        android:id="@+id/temps8" />
+</menu>
