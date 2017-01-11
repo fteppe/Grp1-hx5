@@ -27,9 +27,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ihm.h4105.restif.Ami;
+import com.ihm.h4105.restif.AmiAdapter;
 import com.ihm.h4105.restif.R;
+
+import java.util.ArrayList;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
@@ -49,18 +56,19 @@ public class InfoRestoActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private static String titleRestau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_resto);
 
+        titleRestau = getIntent().getStringExtra("restau_selected");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(titleRestau);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -81,6 +89,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
 
     }
 
@@ -142,16 +151,42 @@ public class InfoRestoActivity extends AppCompatActivity {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_info_resto, container, false);
                     TextView textViewHoraires = (TextView) rootView.findViewById(R.id.horaires);
-                    textViewHoraires.setText("11h30 - 13h30");
                     TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
-                    textViewPaiement.setText("Izzly SoldeINSA");
                     TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
                     textViewDate.setText("12/01/2017");
+
+                    switch (titleRestau) {
+                        case "Castor et Pollux (Le Beurk)":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                        case "Le Prévert":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                        case "Le Grillon":
+                            textViewHoraires.setText("11h45 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                        case "L'Olivier":
+                            textViewHoraires.setText("11h45 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                    }
+
                     return rootView;
 
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_liste_amis, container, false);
 
+                    ListView mListView = (ListView) rootView.findViewById(R.id.liste_amis);
+                    mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+                    final ArrayList<Ami> amiList = new ArrayList<Ami>();
+
+                    if(titleRestau.equals("Castor et Pollux (Le Beurk)"))
+                        amiList.add(new Ami("Delamarre","Marie","Pierre et 3 autres", "personne"));
+                    amiList.add(new Ami("Heaton","Charles","", "personne2"));
+                    amiList.add(new Ami("Lavernh","Rémi","", "personne3"));
+
+                    AmiAdapter adapter = new AmiAdapter(getActivity().getApplicationContext(), amiList);
+                    mListView.setAdapter(adapter);
 
                     return rootView;
 

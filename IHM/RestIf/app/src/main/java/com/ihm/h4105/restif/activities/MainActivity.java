@@ -3,6 +3,8 @@ package com.ihm.h4105.restif.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.content.pm.PackageManager;
@@ -61,8 +63,6 @@ public class MainActivity extends AppCompatActivity
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
-
-    private HashMap<Marker, Integer> idRestos;
 
     private LocationManager locationManager;
     private String provider;
@@ -218,28 +218,28 @@ public class MainActivity extends AppCompatActivity
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
 
         LatLng posPrevert = new LatLng(45.781151, 4.873417);
         Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
                 .position(posPrevert)
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
         Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
                 .position(posGrillon)
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
         Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
                 .position(posOlivier)
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.couvert));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity
                     //Bundle b = new Bundle();
                     //b.putInt("idresto", idRestos.get(marker)); //Your id
                     //intent.putExtras(b); //Put your id to your next Intent
+                    intent.putExtra("restau_selected", marker.getTitle());
                     startActivity(intent);
                 }
             }
@@ -312,6 +313,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
 
     /* Request updates at startup */
     @Override
