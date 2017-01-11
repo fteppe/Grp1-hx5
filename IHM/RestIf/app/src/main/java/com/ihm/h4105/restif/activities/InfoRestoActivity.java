@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
@@ -80,13 +81,23 @@ public class InfoRestoActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageBitmap(textAsBitmap("J'y vais", 40, Color.WHITE));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "You will eat in this restaurant", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                PopupMenu popup = new PopupMenu(InfoRestoActivity.this, view);
+                popup.getMenuInflater().inflate(R.menu.popup_menu_temps,popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Snackbar.make(findViewById(R.id.fab), "vous mangerez dans ce restaurant. (invitation envoyées)", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        return true;
+                    }
+                });
+                popup.show();
             }
         });
 

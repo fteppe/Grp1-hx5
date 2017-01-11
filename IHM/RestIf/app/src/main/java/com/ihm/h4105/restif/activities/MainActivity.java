@@ -1,3 +1,4 @@
+
 package com.ihm.h4105.restif.activities;
 
 import android.Manifest;
@@ -236,16 +237,19 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.notif) {
-            // Handle the camera action
-
+            Intent intent = new Intent(getApplicationContext(),NotificationsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.restaurant) {
-
+            Intent intent = new Intent(getApplicationContext(), InfoRestoActivity.class);
+            intent.putExtra("restau_selected", "Le Grillon");
+            startActivity(intent);
+        }
+        else if(id == R.id.preferences){
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
