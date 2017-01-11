@@ -18,7 +18,7 @@
             <menu>
                 <item
                     android:id="@+id/restaurant"
-                    android:title="le Grillon avec Louis, Devon..."></item>
+                    android:title="le Grillon avec Charles, Remi"></item>
             </menu>
         </item>
     </group>
