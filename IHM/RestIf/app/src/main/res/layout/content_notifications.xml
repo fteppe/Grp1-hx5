@@ -39,7 +39,7 @@
             android:textAllCaps="false"
             android:textAlignment="viewStart"
             android:textSize="18sp"
-            android:backgroundTint="@color/white" />
+            android:backgroundTint="@android:color/white" />
 
         <TextView
             android:text="\nANNULATION\n"

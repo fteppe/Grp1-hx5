@@ -1,3 +1,4 @@
+
 package com.ihm.h4105.restif.activities;
 
 import android.Manifest;
@@ -78,51 +79,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Gestion du slider pour sélectionner son horaire
-        mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
-        mSeekBar.setOnSeekBarChangeListener(this);
-        textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
-        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-        tl.setVisibility(View.INVISIBLE);
-
-        String[] items = new String[] {"Amis", "Attente"};
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 1) {
-                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-                    onProgressChanged(mSeekBar, 0, true);
-                    mSeekBar.setProgress(0);
-                    if(mMap != null) {
-                        for (Marker marker : listMarkersMap) {
-                            googleMapServices.changeColorIcon(marker, 0, BitmapFactory.decodeResource(getResources(),
-                                    R.drawable.icon_restau3));
-                        }
-                    }
-                    tl.setVisibility(View.VISIBLE);
-                } else {
-                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-                    tl.setVisibility(View.INVISIBLE);
-                    if(mMap != null) {
-                        for (Marker marker : listMarkersMap) {
-                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
+        
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -238,16 +195,19 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.notif) {
-            // Handle the camera action
-
+            Intent intent = new Intent(getApplicationContext(),NotificationsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.restaurant) {
-
+            Intent intent = new Intent(getApplicationContext(), InfoRestoActivity.class);
+            intent.putExtra("restau_selected", "Le Grillon");
+            startActivity(intent);
+        }
+        else if(id == R.id.preferences){
+            Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
