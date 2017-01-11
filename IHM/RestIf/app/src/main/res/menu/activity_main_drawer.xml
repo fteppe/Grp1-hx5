@@ -7,6 +7,7 @@
             android:id="@+id/notif"
             android:icon="@drawable/ic_email_black_24dp"
             android:title="Notifications (2)"
+            android:checkable="false"
             android:checked="true" />
     </group>
 
