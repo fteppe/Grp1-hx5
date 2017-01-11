@@ -7,6 +7,4 @@
         android:id="@+id/class_amis"
         android:orderInCategory="100"
         android:title="Amis" />
-    <item android:title="Distance"
-        android:id="@+id/class_distance" />
 </menu>

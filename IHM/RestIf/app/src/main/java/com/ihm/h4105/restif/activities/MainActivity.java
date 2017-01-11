@@ -88,43 +88,6 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
         tl.setVisibility(View.INVISIBLE);
 
-        /*String[] items = new String[] {"Amis", "Attente"};
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 1) {
-                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-                    onProgressChanged(mSeekBar, 0, true);
-                    mSeekBar.setProgress(0);
-                    if(mMap != null) {
-                        for (Marker marker : listMarkersMap) {
-                            googleMapServices.changeColorIcon(marker, 0);
-                        }
-                    }
-                    tl.setVisibility(View.VISIBLE);
-                } else {
-                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-                    tl.setVisibility(View.INVISIBLE);
-                    if(mMap != null) {
-                        for (Marker marker : listMarkersMap) {
-                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -229,17 +192,28 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.class_amis) {
-
-        }
-        else if(id == R.id.class_distance){
-
+            RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+            tl.setVisibility(View.INVISIBLE);
+            if(mMap != null) {
+                for (Marker marker : listMarkersMap) {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+                }
+            }
         }
         else if(id == R.id.class_temps){
-
+            RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+            onProgressChanged(mSeekBar, 0, true);
+            mSeekBar.setProgress(0);
+            if(mMap != null) {
+                for (Marker marker : listMarkersMap) {
+                    googleMapServices.changeColorIcon(marker, 0);
+                }
+            }
+            tl.setVisibility(View.VISIBLE);
         }
         System.out.println(this.findViewById(android.R.id.content));
 
-        Snackbar.make(this.findViewById(android.R.id.content), "preferences sur "+item.getTitle(), Snackbar.LENGTH_LONG)
+        Snackbar.make(this.findViewById(android.R.id.content), "Preferences sur "+item.getTitle(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show();
 
