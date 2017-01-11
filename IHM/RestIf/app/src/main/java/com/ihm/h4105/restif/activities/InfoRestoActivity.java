@@ -81,7 +81,7 @@ public class InfoRestoActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageBitmap(textAsBitmap("J'y vais", 40, Color.WHITE));
+        fab.setImageResource(R.drawable.food);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
