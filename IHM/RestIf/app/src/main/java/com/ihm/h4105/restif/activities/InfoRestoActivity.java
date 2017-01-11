@@ -191,7 +191,7 @@ public class InfoRestoActivity extends AppCompatActivity {
 
                     final ArrayList<Ami> amiList = new ArrayList<Ami>();
 
-                    if(titleRestau.equals("Castor et Pollux (Le Beurk)"))
+                    if(titleRestau.equals("Le Grillon"))
                         amiList.add(new Ami("Delamarre","Marie","Pierre et 3 autres", "personne"));
                     amiList.add(new Ami("Heaton","Charles","", "personne2"));
                     amiList.add(new Ami("Lavernh","Rémi","", "personne3"));
