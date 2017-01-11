@@ -30,11 +30,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ihm.h4105.restif.R;
+import com.ihm.h4105.restif.resources.GoogleMapServices;
 import com.ihm.h4105.restif.resources.SeekBarHint;
 
 
@@ -63,12 +66,13 @@ public class MainActivity extends AppCompatActivity
     TextView textSeekBar;
     private GoogleMap mMap;
     private SeekBarHint mSeekBar;
-
+    private static int iconSize = 200;
     private LocationManager locationManager;
     private String provider;
     private Location mCurrentLocation;
     private Marker mkrCurrentPosition;
-
+    private GoogleMapServices googleMapServices;
+    private List<Marker> listMarkersMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,24 @@ public class MainActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 1) {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.VISIBLE);
+                } else {
+                    RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+                    tl.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,6 +112,8 @@ public class MainActivity extends AppCompatActivity
         System.out.println(drawer);
         toggle.syncState();
 
+        googleMapServices = new GoogleMapServices(this.getApplicationContext());
+        listMarkersMap = new ArrayList<>();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -103,6 +127,9 @@ public class MainActivity extends AppCompatActivity
         mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
         mSeekBar.setOnSeekBarChangeListener(this);
         textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+
+        tl.setVisibility(View.INVISIBLE);
 
         // ******************** Geolocation ************************
 
@@ -146,6 +173,12 @@ public class MainActivity extends AppCompatActivity
                 thumbRect.centerX(),0, 0, 0);*/
         //textSeekBar.setLayoutParams(p);
         textSeekBar.setText(time);
+
+        if(mMap != null) {
+            for (Marker marker : listMarkersMap) {
+                googleMapServices.changeColorIcon(marker, time, progress, resizeMapIcons("icon_restau",iconSize,iconSize));
+            }
+        }
     }
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -218,28 +251,36 @@ public class MainActivity extends AppCompatActivity
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        //mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+        listMarkersMap.add(mrkCastorPollux);
+
 
         LatLng posPrevert = new LatLng(45.781151, 4.873417);
         Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
                 .position(posPrevert)
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+        listMarkersMap.add(mrkPrevert);
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
         Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
                 .position(posGrillon)
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+        listMarkersMap.add(mrkGrillon);
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
         Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
                 .position(posOlivier)
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+        listMarkersMap.add(mrkOlivier);
+
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
