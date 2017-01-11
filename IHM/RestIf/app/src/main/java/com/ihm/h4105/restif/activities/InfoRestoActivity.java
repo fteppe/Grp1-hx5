@@ -47,6 +47,7 @@ public class InfoRestoActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private static String titleRestau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class InfoRestoActivity extends AppCompatActivity {
             }
         });
 
+        titleRestau = getIntent().getStringExtra("restau_selected");
     }
 
     @Override
@@ -133,11 +135,29 @@ public class InfoRestoActivity extends AppCompatActivity {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_info_resto, container, false);
                     TextView textViewHoraires = (TextView) rootView.findViewById(R.id.horaires);
-                    textViewHoraires.setText("11h30 - 13h30");
                     TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
-                    textViewPaiement.setText("Izzly SoldeINSA");
                     TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
-                    textViewDate.setText("10/01/2017");
+
+                    switch (titleRestau) {
+                        case "Castor et Pollux (Le Beurk)":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewDate.setText("10/01/2017");
+                        case "Le Prévert":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewDate.setText("10/01/2017");
+                        case "Le Grillon":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewDate.setText("10/01/2017");
+                        case "L'Olivier":
+                            textViewHoraires.setText("11h30 - 13h30");
+                            textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewDate.setText("10/01/2017");
+                    }
+
+
                     return rootView;
 
                 case 2:
