@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (position == 1) {
                     RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
-                    tl.setVisibility(View.VISIBLE);
-                    textSeekBar.setText("11:30");
+                    onProgressChanged(mSeekBar, 0, true);
                     mSeekBar.setProgress(0);
                     if(mMap != null) {
                         for (Marker marker : listMarkersMap) {
                             googleMapServices.changeColorIcon(marker, 0, resizeMapIcons("icon_restau",iconSize,iconSize));
                         }
                     }
+                    tl.setVisibility(View.VISIBLE);
                 } else {
                     RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
                     tl.setVisibility(View.INVISIBLE);
