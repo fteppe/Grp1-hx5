@@ -18,7 +18,55 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
+        <TextView
+            android:text="\nINVITATIONS\n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titre_invit"
+            android:textAlignment="center" />
+
+        <Button
+            android:text="@string/invite_notif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notif_invit1"
+            android:drawableLeft="@drawable/personne"
+            android:textAllCaps="false"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:backgroundTint="@color/white" />
+
+        <TextView
+            android:text="\nANNULATION\n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titre_anul"
+            android:textAlignment="center" />
+
+        <Button
+            android:text="@string/annul_notif2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notif_annul1"
+            android:drawableLeft="@drawable/personne2"
+            android:textAllCaps="false"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:backgroundTint="@android:color/white" />
+        <Button
+            android:text="@string/annul_notif1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notif_annul2"
+            android:drawableLeft="@drawable/personne3"
+            android:textAllCaps="false"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:backgroundTint="@android:color/white" />
     </LinearLayout>
 </RelativeLayout>

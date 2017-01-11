@@ -84,6 +84,12 @@
     <string name="title_activity_notifications">NotificationsActivity</string>
 
     <string name="invite_notif">
-        lol
+        	\     Marie Delamarre \n   mange au Grillon à 13h30
+    </string>
+    <string name="annul_notif1">
+        	\     Rémi Lavernh \n   ne mange plus au Grillon à 12h15
+    </string>
+       <string name="annul_notif2">
+        	\     Charlie Heaton \n   ne mange plus au Grillon à 13h15
     </string>
 </resources>
