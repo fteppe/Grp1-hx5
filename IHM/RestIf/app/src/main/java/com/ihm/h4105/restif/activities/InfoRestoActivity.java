@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.ihm.h4105.restif.MyAmisRecyclerViewAdapter;
 import com.ihm.h4105.restif.R;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
@@ -151,7 +150,9 @@ public class InfoRestoActivity extends AppCompatActivity {
                     return rootView;
 
                 case 2:
-                    rootView = inflater.inflate(R.layout.fragment_amis_list, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_liste_amis, container, false);
+
+
                     return rootView;
 
                 default:
