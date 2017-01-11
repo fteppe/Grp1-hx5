@@ -217,28 +217,28 @@ public class MainActivity extends AppCompatActivity
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
 
         LatLng posPrevert = new LatLng(45.781151, 4.873417);
         Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
                 .position(posPrevert)
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
-        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
         Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
                 .position(posGrillon)
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
         Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
                 .position(posOlivier)
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
-        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",70,70)));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",90,90)));
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
