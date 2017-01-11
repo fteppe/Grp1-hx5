@@ -101,8 +101,7 @@ public class MainActivity extends AppCompatActivity
                     mSeekBar.setProgress(0);
                     if(mMap != null) {
                         for (Marker marker : listMarkersMap) {
-                            googleMapServices.changeColorIcon(marker, 0, BitmapFactory.decodeResource(getResources(),
-                                    R.drawable.icon_restau3));
+                            googleMapServices.changeColorIcon(marker, 0);
                         }
                     }
                     tl.setVisibility(View.VISIBLE);
@@ -187,8 +186,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                googleMapServices.changeColorIcon(marker, progress, BitmapFactory.decodeResource(getResources(),
-                        R.drawable.icon_restau3));
+                googleMapServices.changeColorIcon(marker, progress);
             }
         }
     }
