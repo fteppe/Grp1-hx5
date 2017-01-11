@@ -88,10 +88,15 @@ public class InfoRestoActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popup = new PopupMenu(InfoRestoActivity.this, view));
+                PopupMenu popup = new PopupMenu(InfoRestoActivity.this, view);
                 popup.getMenuInflater().inflate(R.menu.popup_menu_temps,popup.getMenu());
-                Snackbar.make(view, "vous mangerez dans ce restaurant. (invitation envoyées)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Snackbar.make(findViewById(R.id.fab), "vous mangerez dans ce restaurant. (invitation envoyées)", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        return true;
+                    }
+                });
                 popup.show();
             }
         });
