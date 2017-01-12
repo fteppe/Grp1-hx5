@@ -40,6 +40,7 @@ import com.ihm.h4105.restif.R;
 import java.util.ArrayList;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
+import static android.view.View.INVISIBLE;
 
 public class InfoRestoActivity extends AppCompatActivity {
 
@@ -164,21 +165,75 @@ public class InfoRestoActivity extends AppCompatActivity {
                     TextView textViewHoraires = (TextView) rootView.findViewById(R.id.horaires);
                     TextView textViewPaiement = (TextView) rootView.findViewById(R.id.moyens_paiement);
                     TextView textViewDate = (TextView) rootView.findViewById(R.id.date_menu);
+                    TextView textViewEntrees = (TextView) rootView.findViewById(R.id.entrees);
+                    TextView textViewPlats = (TextView) rootView.findViewById(R.id.plats);
+                    TextView textViewAccompagnements = (TextView) rootView.findViewById(R.id.accompagnements);
+                    TextView textViewFromages = (TextView) rootView.findViewById(R.id.fromages);
+                    TextView textViewDesserts = (TextView) rootView.findViewById(R.id.desserts);
                     textViewDate.setText("12/01/2017");
 
                     switch (titleRestau) {
                         case "Castor et Pollux (Le Beurk)":
                             textViewHoraires.setText("11h30 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewEntrees.setText("AVOCAT AU THON\n" +
+                                    "ASSIETTE DE JAMBON CRU\n" +
+                                    "CELERI REMOULADE A MA FACON\n" +
+                                    "MOUSSAKA\n" +
+                                    "SALADE COMPOSEE");
+                            textViewPlats.setText("BROCHETTE DE DINDE ORIENTALE\n" +
+                                    "CORDON BLEU DE POULET\n" +
+                                    "TILAPIA SAUCE CREME DE POIVONS\n" +
+                                    "FONDUE DE POIREAUX AUX POIS CHICHE (végétarien)");
+                            textViewAccompagnements.setText("PENNE RIGATE AU BEURRE\n" +
+                                    "PETITS POIS CAROTTES\n" +
+                                    "SOUFFLE DE COURGE");
+                            textViewFromages.setText("BLEU D’AUVERGNE\n" +
+                                    "FROMAGE BLANC FAISSELLE\n" +
+                                    "YAOURT AUX FRUITS\n" +
+                                    "YAOURT BIFIDUS");
+                            textViewDesserts.setText("OEUF A LA NEIGE\n" +
+                                    "TARTE AU CHOCOLAT\n" +
+                                    "VERRINE PANACOTTA ANANAS ET COCO\n" +
+                                    "DESSERTS LACTES\n" +
+                                    "FRUITS DE SAISON");
                         case "Le Prévert":
                             textViewHoraires.setText("11h30 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewEntrees.setText("SALADE DE TABOULE");
+                            textViewPlats.setText("SANDWICH PAVE AU POIVRE\n" +
+                                    "SANDWICH CLUB RILLETTE DE SAUMON\n" +
+                                    "SUEDOIS NICOIS \n" + "TORSADES A LA BOLOGNAISE");
+                            textViewAccompagnements.setText("CHIPS");
+                            textViewFromages.setText("YAOURT BIFIDUS");
+                            textViewDesserts.setText("DESSERTS LACTES\n" +
+                                    "FRUITS DE SAISON");
                         case "Le Grillon":
                             textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewEntrees.setText("SALADE DE TABOULE");
+                            textViewPlats.setText("BURGER AU POULET\n" +
+                                    "BURGER FISH");
+                            textViewAccompagnements.setText("CHOUX ROMANESCO VAPEUR\n" +
+                                    "FRITES STEACK HOUSE\n" +
+                                    "POIREAUX A LA CREME");
+                            textViewDesserts.setText("YAOURT AUX FRUITS");
+                            textViewFromages.setText("TARTE A LA NOIX COCO\n" +
+                                    "DESSERTS LACTES\n" +
+                                    "FRUITS DE SAISON");
                         case "L'Olivier":
                             textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
+                            textViewEntrees.setText("SALADE DE TABOULE");
+                            textViewPlats.setText("PIZZA AUX 3 FROMAGES\n" +
+                                    "PIZZA LA CHASSEUR\n" +
+                                    "PIZZA LYONNAISE\n" +
+                                    "SPAGHETTIS ET BEIGNET DE POISSON\n" +
+                                    "SAUCE A LA CREME DE POIVRONS");
+                            textViewFromages.setText("YAOURT AUX FRUITS");
+                            textViewDesserts.setText("TARTE A LA NOIX COCO\n" +
+                                    "DESSERTS LACTES\n" +
+                                    "FRUITS DE SAISON");
                     }
 
                     return rootView;
