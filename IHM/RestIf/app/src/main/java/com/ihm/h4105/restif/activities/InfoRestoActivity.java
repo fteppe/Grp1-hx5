@@ -34,6 +34,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,8 +99,9 @@ public class InfoRestoActivity extends AppCompatActivity {
                 popup.getMenuInflater().inflate(R.menu.popup_menu_temps,popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        Snackbar.make(findViewById(R.id.fab), "Vous mangerez à "+titleRestau+". (invitation envoyées)", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(R.id.fab), "Vous mangerez à "+titleRestau+". (notifications envoyées)", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
+
                         return true;
                     }
                 });
@@ -222,8 +224,8 @@ public class InfoRestoActivity extends AppCompatActivity {
                             textViewAccompagnements.setText("CHOUX ROMANESCO VAPEUR\n" +
                                     "FRITES STEACK HOUSE\n" +
                                     "POIREAUX A LA CREME");
-                            textViewDesserts.setText("YAOURT AUX FRUITS");
-                            textViewFromages.setText("TARTE A LA NOIX COCO\n" +
+                            textViewFromages.setText("YAOURT AUX FRUITS");
+                            textViewDesserts.setText("TARTE A LA NOIX COCO\n" +
                                     "DESSERTS LACTES\n" +
                                     "FRUITS DE SAISON");
                         case "L'Olivier":
