@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ihm.h4105.restif.Ami;
 import com.ihm.h4105.restif.AmiAdapter;
@@ -202,12 +203,6 @@ public class InfoRestoActivity extends AppCompatActivity {
                     mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            
-                        }
-                    });
 
                     return rootView;
 
