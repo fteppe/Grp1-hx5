@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -92,7 +93,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                 popup.getMenuInflater().inflate(R.menu.popup_menu_temps,popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        Snackbar.make(findViewById(R.id.fab), "vous mangerez dans ce restaurant. (invitation envoyées)", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(R.id.fab), "Vous mangerez à "+titleRestau+". (invitation envoyées)", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         return true;
                     }
@@ -198,6 +199,15 @@ public class InfoRestoActivity extends AppCompatActivity {
 
                     AmiAdapter adapter = new AmiAdapter(getActivity().getApplicationContext(), amiList);
                     mListView.setAdapter(adapter);
+                    mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            
+                        }
+                    });
 
                     return rootView;
 

@@ -6,8 +6,5 @@
         android:id="@+id/liste_amis"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:drawSelectorOnTop="true"
-        android:choiceMode="multipleChoiceModal"
-        android:clickable="true"/>
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
