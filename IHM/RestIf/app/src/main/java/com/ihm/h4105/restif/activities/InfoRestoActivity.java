@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -198,11 +201,27 @@ public class InfoRestoActivity extends AppCompatActivity {
                     amiList.add(new Ami("Heaton","Charles","", "personne2"));
                     amiList.add(new Ami("Lavernh","Rémi","", "personne3"));
 
+
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            System.out.println("CLICK OK");
+                            CheckBox cBox = (CheckBox) view.findViewById(R.id.checked);
+
+                            if(cBox.isChecked())
+                            {
+                                cBox.setChecked(false);
+                                view.setBackgroundColor(Color.TRANSPARENT);
+                            }
+                            else
+                            {
+                                cBox.setChecked(true);
+                                view.setBackgroundColor(Color.parseColor("#DCF5B93F"));
+                            }
+                        }
+                    });
                     AmiAdapter adapter = new AmiAdapter(getActivity().getApplicationContext(), amiList);
                     mListView.setAdapter(adapter);
-                    mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-
 
                     return rootView;
 
