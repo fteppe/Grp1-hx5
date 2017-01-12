@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Castor et Pollux (Le Beurk)")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
         //mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
-        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
+        mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau4_0amis));
         listMarkersMap.add(mrkCastorPollux);
 
 
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity
                 .position(posPrevert)
                 .title("Le Prévert")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
-        mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
+        mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau4_0amis));
         listMarkersMap.add(mrkPrevert);
 
         LatLng posGrillon = new LatLng(45.783926, 4.875050);
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity
                 .title("Le Grillon")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven" + "\n\n" + "Amis (1) : Marie Delamarre"));
 
-        mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_amis1));
+        mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau4_amis1));
         listMarkersMap.add(mrkGrillon);
 
         LatLng posOlivier = new LatLng(45.784242, 4.874808);
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                 .position(posOlivier)
                 .title("L'Olivier")
                 .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
-        mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
+        mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau4_0amis));
         listMarkersMap.add(mrkOlivier);
 
 

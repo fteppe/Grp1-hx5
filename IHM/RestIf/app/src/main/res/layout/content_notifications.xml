@@ -16,6 +16,7 @@
 
 
     <LinearLayout
+        android:id="@+id/listnotif"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,6 +59,7 @@
             android:textAlignment="viewStart"
             android:textSize="18sp"
             android:backgroundTint="@android:color/white" />
+
         <Button
             android:text="@string/annul_notif1"
             android:layout_width="match_parent"
@@ -68,5 +70,6 @@
             android:textAlignment="viewStart"
             android:textSize="18sp"
             android:backgroundTint="@android:color/white" />
+
     </LinearLayout>
 </RelativeLayout>
