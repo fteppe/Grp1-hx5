@@ -1,13 +1,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:defaultValue="-1"
+        android:defaultValue="1"
+        android:title="Choix préférence"
         android:entries="@array/list_preference_entries"
-        android:entryValues="@array/pref_example_list_values"
-        android:key="example_list"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="préférences de choix de restaurant" />
+        android:entryValues="@array/list_preference_entry_values"
+        android:key="list_preference_1" />
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="Florent Teppe"
