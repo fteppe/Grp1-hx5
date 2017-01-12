@@ -196,11 +196,16 @@ public class MainActivity extends AppCompatActivity
             tl.setVisibility(View.INVISIBLE);
             if(mMap != null) {
                 for (Marker marker : listMarkersMap) {
+                    String snippet = marker.getSnippet();
+                    snippet = snippet.substring(0, snippet.lastIndexOf('\n', snippet.length() - 1));
                     if(marker.getTitle().equals("Le Grillon")) {
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_amis1));
+                        snippet = snippet + "\n\n" + "Amis (1) : Marie Delamarre";
                     } else {
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
+                        snippet = snippet + "\n\n" + "Amis (0)";
                     }
+                    marker.setSnippet(snippet);
                 }
             }
         }
@@ -254,7 +259,7 @@ public class MainActivity extends AppCompatActivity
         Marker mrkCastorPollux = mMap.addMarker(new MarkerOptions()
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
-                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
         //mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("icon_restau",iconSize,iconSize)));
         mrkCastorPollux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
         listMarkersMap.add(mrkCastorPollux);
@@ -264,7 +269,7 @@ public class MainActivity extends AppCompatActivity
         Marker mrkPrevert = mMap.addMarker(new MarkerOptions()
                 .position(posPrevert)
                 .title("Le Prévert")
-                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven"));
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : 18h - 20h" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
         mrkPrevert.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
         listMarkersMap.add(mrkPrevert);
 
@@ -272,7 +277,7 @@ public class MainActivity extends AppCompatActivity
         Marker mrkGrillon = mMap.addMarker(new MarkerOptions()
                 .position(posGrillon)
                 .title("Le Grillon")
-                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven" + "\n\n" + "Amis (1) : Marie Delamarre"));
 
         mrkGrillon.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_amis1));
         listMarkersMap.add(mrkGrillon);
@@ -281,7 +286,7 @@ public class MainActivity extends AppCompatActivity
         Marker mrkOlivier = mMap.addMarker(new MarkerOptions()
                 .position(posOlivier)
                 .title("L'Olivier")
-                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven"));
+                .snippet("Horaires : " + "\n" +"Midi : 11h30 - 13h30" + "\n" + "Soir : Fermé" + "\n" +"Lun-Ven" + "\n\n" + "Amis (0)"));
         mrkOlivier.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_0amis));
         listMarkersMap.add(mrkOlivier);
 

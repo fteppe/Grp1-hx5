@@ -44,9 +44,14 @@ public class GoogleMapServices {
         int identifier = context.getResources().getIdentifier(restaurant, "array", context.getPackageName());
         int [] mIdsArray = context.getResources().getIntArray(identifier);
         int waitingTime = mIdsArray[progress];
+        String snippet = marker.getSnippet();
+        snippet = snippet.substring(0, snippet.lastIndexOf('\n', snippet.length() - 1));
+        snippet = snippet + "\n" + "Temps d'attente : " + waitingTime + " min";
+        marker.setSnippet(snippet);
 
         if(waitingTime <timeMin) {
             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_vert_clair));
+
         } else if (waitingTime < timeMed) {
             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_jaune));
         } else if (waitingTime < timeMax) {
