@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng posCastorPollux = new LatLng(45.781181, 4.873553);
+        LatLng posCastorPollux = new LatLng(45.781044, 4.873642);
         Marker mrkCastorPollux = mMap.addMarker(new MarkerOptions()
                 .position(posCastorPollux)
                 .title("Castor et Pollux (Le Beurk)")
