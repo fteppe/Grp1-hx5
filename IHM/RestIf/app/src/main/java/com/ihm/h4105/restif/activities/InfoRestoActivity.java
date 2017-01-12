@@ -204,6 +204,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                                     "VERRINE PANACOTTA ANANAS ET COCO\n" +
                                     "DESSERTS LACTES\n" +
                                     "FRUITS DE SAISON");
+                            break;
                         case "Le Prévert":
                             textViewHoraires.setText("11h30 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
@@ -215,6 +216,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                             textViewFromages.setText("YAOURT BIFIDUS");
                             textViewDesserts.setText("DESSERTS LACTES\n" +
                                     "FRUITS DE SAISON");
+                            break;
                         case "Le Grillon":
                             textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
@@ -228,6 +230,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                             textViewDesserts.setText("TARTE A LA NOIX COCO\n" +
                                     "DESSERTS LACTES\n" +
                                     "FRUITS DE SAISON");
+                            break;
                         case "L'Olivier":
                             textViewHoraires.setText("11h45 - 13h30");
                             textViewPaiement.setText("Izzly SoldeINSA");
@@ -241,6 +244,7 @@ public class InfoRestoActivity extends AppCompatActivity {
                             textViewDesserts.setText("TARTE A LA NOIX COCO\n" +
                                     "DESSERTS LACTES\n" +
                                     "FRUITS DE SAISON");
+                            break;
                     }
 
                     return rootView;
