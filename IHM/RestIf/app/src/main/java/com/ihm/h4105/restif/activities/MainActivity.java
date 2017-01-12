@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -79,6 +80,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Gestion du slider pour sélectionner son horaire
+        mSeekBar = (SeekBarHint) findViewById(R.id.seekBar);
+        mSeekBar.setOnSeekBarChangeListener(this);
+        textSeekBar = (TextView) findViewById(R.id.myTextLLLLLLL);
+        RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+        tl.setVisibility(View.INVISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -143,8 +151,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mMap != null) {
             for (Marker marker : listMarkersMap) {
-                googleMapServices.changeColorIcon(marker, progress, BitmapFactory.decodeResource(getResources(),
-                        R.drawable.icon_restau3));
+                googleMapServices.changeColorIcon(marker, progress);
             }
         }
     }
@@ -184,9 +191,31 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.class_amis) {
+            RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+            tl.setVisibility(View.INVISIBLE);
+            if(mMap != null) {
+                for (Marker marker : listMarkersMap) {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3));
+                }
+            }
         }
+        else if(id == R.id.class_temps){
+            RelativeLayout tl = (RelativeLayout)findViewById(R.id.layoutSeekBar);
+            onProgressChanged(mSeekBar, 0, true);
+            mSeekBar.setProgress(0);
+            if(mMap != null) {
+                for (Marker marker : listMarkersMap) {
+                    googleMapServices.changeColorIcon(marker, 0);
+                }
+            }
+            tl.setVisibility(View.VISIBLE);
+        }
+        System.out.println(this.findViewById(android.R.id.content));
+
+        Snackbar.make(this.findViewById(android.R.id.content), "Preferences sur "+item.getTitle(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
 
         return super.onOptionsItemSelected(item);
     }

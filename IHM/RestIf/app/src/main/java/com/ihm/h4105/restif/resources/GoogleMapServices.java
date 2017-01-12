@@ -27,11 +27,10 @@ public class GoogleMapServices {
     this.context = context;
     }
 
-    public static void changeColorIcon(Marker marker, int progress, Bitmap icon){
+    public static void changeColorIcon(Marker marker, int progress){
         int timeMin = 5;
-        int timeMedMin = 10;
-        int timeMedMax = 15;
-        int timeMax = 20;
+        int timeMed = 10;
+        int timeMax = 15;
 
         String restaurant = marker.getTitle();
         System.out.println(restaurant);
@@ -45,22 +44,15 @@ public class GoogleMapServices {
         int identifier = context.getResources().getIdentifier(restaurant, "array", context.getPackageName());
         int [] mIdsArray = context.getResources().getIntArray(identifier);
         int waitingTime = mIdsArray[progress];
-        int mcolor;
+
         if(waitingTime <timeMin) {
-            mcolor = Color.parseColor("#6b8728");
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
-        } else if (waitingTime < timeMedMin) {
-            mcolor = Color.parseColor("#00ff6d");
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
-        } else if (waitingTime < timeMedMax) {
-            mcolor = Color.parseColor("#ffec8b");
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_vert_clair));
+        } else if (waitingTime < timeMed) {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_jaune));
         } else if (waitingTime < timeMax) {
-            mcolor = Color.parseColor("#ff6600");
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
-        } else {
-            mcolor = Color.parseColor("#ff7256");
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(ColorIcon.changeImageColor(icon, mcolor)));
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_orange));
+        } else if (waitingTime > timeMax) {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_restau3_rouge));
         }
 
     }
