@@ -6,7 +6,7 @@
         <item
             android:id="@+id/notif"
             android:icon="@drawable/ic_email_black_24dp"
-            android:title="Notifications (2)"
+            android:title="Notifications (1)"
             android:checkable="false"
             android:checked="true" />
     </group>
@@ -18,7 +18,7 @@
             <menu>
                 <item
                     android:id="@+id/restaurant"
-                    android:title="le Grillon, seul"></item>s
+                    android:title="Le Grillon, seul à 12h45"></item>
             </menu>
         </item>
     </group>
